@@ -1,0 +1,8 @@
+<ul class="nav nav-tabs">
+	<li {if $_GPC['mdo']=="setting"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('plugin',array('mp'=>'setting','mdo'=>'setting'))}">系统设置</a>
+	</li>
+	<li {if $_GPC['mdo']=="address"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('plugin',array('mp'=>'setting','mdo'=>'address'))}">城市管理</a>
+	</li>
+</ul>

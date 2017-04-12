@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta charset="utf-8">
+<link rel="stylesheet" href="{MODULE_URL}resource/css/style.css" />
+<script type="text/javascript" src="{MODULE_URL}resource/js/jquery-2.1.4.min.js" ></script>
+{php echo register_jssdk();}
+<title>端午节赛龙舟</title>
+</head>
+<body>
+<div class="hlz">
+	<div class="info">
+		<p>您的好友【{$PlayerName}】<br>向您请求助划龙舟</p>
+		<p class="pm">已有  {$playerNum}  艘龙舟，TA排在第{$pOrder}名</p>
+	</div>
+	<div class="helpBtn" style="position: relative; z-index: 999;">
+			<a href="{php echo $this->createMobileUrl('boating')}&pid={$pid}&rid={$rid}" class="a1">{$urlName}</a><br>
+			{if $istomy==0}
+        	<a href="<?php echo $this->createMobileUrl('boating') ?>&rid={$rid}" class="btn2">我的龙舟</a>
+        	{/if}
+        	{if $istomy==1}
+        	<a href="<?php echo $this->createMobileUrl('index') ?>&rid={$rid}&ismeto=1" class="a2">我也要赛龙舟</a>
+        	{/if}
+	</div>
+	<div class="activity2" style="position: relative; z-index: 999;"><span>活动介绍</span></div>
+	<!--赛龙舟-->
+	<div class="longzhouCon active" style="top: 22rem;">
+		{if $boatIndex==1}
+		<div class="zhou zhouL zhou2"></div>
+		<div class="zhou zhouC zhou{$boatIndex}"></div>
+		<div class="zhou zhouR zhou3"></div>
+		{/if}
+		{if $boatIndex==2}
+		<div class="zhou zhouL zhou1"></div>
+		<div class="zhou zhouC zhou{$boatIndex}"></div>
+		<div class="zhou zhouR zhou3"></div>
+		{/if}
+		{if $boatIndex==3}
+		<div class="zhou zhouL zhou1"></div>
+		<div class="zhou zhouC zhou{$boatIndex}"></div>
+		<div class="zhou zhouR zhou2"></div>
+		{/if}
+	</div>
+	<!--流动波浪-->
+	<div class="bolang" style="top: 42rem;">
+		<div class="bg bg1"></div>
+		<div class="bg bg2"></div>
+	</div>
+</div>
+
+<!--活动介绍 start-->
+<div class="popup" style="display:none ;">
+	<div class="bg"></div>
+	<div class="pcontent">
+		<div class="tit f16">
+			<div class="close fr"></div>
+			<h2 class="f16">活动介绍</h2>
+		</div>
+		<div class="txtBox">
+		   <p>{$gamegzjp}</p>
+		</div>
+	</div>
+</div>
+
+<!--活动介绍 end-->	
+<script>
+	$(function(){
+		//活动规则
+		$(".activity2 span").click(function(){
+			$(".popup").show(0);
+		})
+		$(".popup .close").click(function(){
+			$(".popup").hide(0);
+		})
+	})
+	//分享
+	wx.ready(function(){
+		wx.hideOptionMenu();//显示右上角按钮
+	});
+</script>
+</body>
+</html>

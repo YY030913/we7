@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+<script type="text/javascript" src="{MODULE_URL}resource/js/jquery-2.1.4.min.js" ></script>
+{php echo register_jssdk();}
+<title>排名</title>
+</head>
+<style>
+*{ -webkit-box-sizing: border-box;box-sizing: border-box;}
+body, ol, ul, h1, h2, h3, h4, h5, h6, p, th, td, dl, dd, form { margin: 0; padding: 0; border: 0; font-size: 100%; }
+body { font: 12px microsoft yahei; color: #444; background: #fff; }
+a { color: #444; text-decoration: none; outline: none; transition: all .25s ease; }
+.normal, em, i { font-style: normal; font-weight: normal; }
+ul, ol { list-style: none }
+img { border: 0; vertical-align: middle }
+.wrap { width:100%; }
+.header { background: #024f23; text-align: center; }
+.menu { height:52px; line-height:50px; position: relative; background: rgba(255,255,255,0.6); }
+.menu li { width: 50%; float: left; box-sizing: border-box; }
+.menu li a { text-align: center; font-size: 16px; border-bottom: 2px solid #eee; position:relative; display: block; }
+.menu li:first-child { border-right: 1px solid #eee; }
+.menu li a.active { color: #009ee8; border-bottom: 2px solid #009ee8; }
+.menu li a i{ background:#999; color:#fff; line-height:100px; min-width: 100px; padding: 0 20px; height: 100px; font-size: 60px; vertical-align: bottom; border-radius:100px; position:absolute; top:5px; right:5px;-webkit-transform: scale(0.15);transform: scale(0.15); -webkit-transform-origin:right top;transform-origin:right top; white-space: nowrap;}
+.menu li a.active i{ background:#f00;}
+.list ul li{ height:70px; overflow:hidden; position:relative; padding:10px 15px; border-bottom:1px solid #eee;}
+.list ul li:hover,.list ul li:active{ background:#fafafa;}
+.list ul li img{ float:left; border-radius:50%; height: 50px; margin-right:15px;}
+.list ul li .count{ position:absolute; font-size:18px; text-align:center; color:#999; font-weight:100; font-style:italic; line-height:100%; padding-right:5px; right:20px; bottom:10px; line-height:25px;}
+.list ul li:nth-child(1) .count{ font-size:0; height:50px; width:50px; background:url({MODULE_URL}resource/images/First.png) center center no-repeat; background-size:30px auto; bottom:10px; right:3px;}
+.list ul li:nth-child(1) p.p1{ color:#e71e52;}
+.list ul li:nth-child(2) .count{ font-size:0; height:50px; width:50px; background:url({MODULE_URL}resource/images/Third.png) center center no-repeat; background-size:25px auto; bottom:10px; right:3px;}
+.list ul li:nth-child(2) p.p1{ color:#ff7200;}
+.list ul li:nth-child(3) .count{ font-size:0; height:50px; width:50px; background:url({MODULE_URL}resource/images/Second.png) center center no-repeat; background-size:20px auto; bottom:10px; right:3px;}
+.list ul li:nth-child(3) p.p1{ color:#77b93c;}
+.list ul li p{ line-height:25px;font-size:12px; color:#999; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; padding-right:20px;}
+.list ul li p.p1{ font-size:16px; color:#666;}
+.list ul li p i{ color:#ff7200; font-size:16px; padding:0 3px;}
+.list ul li.active{ background:#eee;}
+.list ul li.active img{ -webkit-animation:rotation 5s linear infinite;}
+.daojishi{padding:0 0 15px; margin-top: -10px; width:200%; white-space:nowrap; line-height:18px; color:#fff; font-size:20px; position: relative; left: 50%; -webkit-transform: translate(-50%,0) scale(0.7);transform: translate(-50%,0) scale(0.7);}
+.daojishi i{ background: #fff; border-radius: 3px; color: #024f23; padding: 0 5px; margin: 0 3px; }
+
+@-webkit-keyframes rotation { 
+0% {-webkit-transform:rotate(0)}
+100% {-webkit-transform:rotate(360deg);}
+}
+.list ul li.active p:nth-child(2){ color:#ff7200;}
+.list ul li.active:after{ content:"我在这"; background:#ff7200; width:100px; font-size:10px; height:20px; line-height:20px; text-align:center; color:#fff; position:absolute; right:-38px; top:4px; -webkit-transform:rotate(45deg);}
+}
+</style>
+<body>
+<div class="wrap">
+  <div class="header">
+     <img src="{MODULE_URL}resource/images/fengyunbang.jpg" width="100%">
+     <div class="daojishi" id="daojishi"></div>
+  </div>
+  <div class="menu">
+    <ul>
+      <li><a href="#" id="phb" class="active">总排行榜<i>第{$playerOrder}名</i></a></li>
+      <li><a href="#" id="qyt" class="">助划亲友团<i>{$helpcount}位</i></a></li>
+    </ul>
+  </div>
+  <div class="list">
+    <ul id="helpshtml" style="display:none;"> 
+      <?php 
+      		echo $helpsHtml;		
+      	?>
+    </ul>
+     <ul id="playersHtml"> 
+      <?php 
+      		echo $playersHtml;	
+      	?>
+    </ul>
+  </div>
+</div>
+<script>
+$(function(){
+	$("#qyt").click(function(){
+		$("#qyt").attr("class","active");
+		$("#phb").attr("class","");
+		$("#helpshtml").show();
+		$("#playersHtml").hide();
+	})
+	$("#phb").click(function(){
+		$("#phb").attr("class","active");
+		$("#qyt").attr("class","");
+		$("#helpshtml").hide();
+		$("#playersHtml").show();
+	})
+	//分享
+	wx.ready(function(){
+	   sharedata = {
+	       title: "{$sharetitle} ",
+	       desc: "{$sharecontent}",
+	       link: "{$sharelink}",
+	       imgUrl: "{$shareimg}"
+		}; 
+		wx.onMenuShareAppMessage(sharedata);//分享给朋友
+		wx.onMenuShareTimeline(sharedata);//分享到朋友圈
+		wx.showOptionMenu();//显示右上角按钮
+	});
+})
+</script>
+<script type="text/javascript"> 
+	var interval = 1000; 
+	var leftsecond="{$leftsecond}";
+	window.setInterval(function(){ShowCountDown('daojishi');}, interval); 
+	function ShowCountDown(divname) 
+	{ 
+		leftsecond--;
+		var day=Math.floor(leftsecond/(60*60*24)); 
+		var hour=Math.floor((leftsecond-day*24*60*60)/3600); 
+		var minute=Math.floor((leftsecond-day*24*60*60-hour*3600)/60); 
+		var second=Math.floor(leftsecond-day*24*60*60-hour*3600-minute*60); 
+		$("#"+divname).html("活动剩余时间：<i>"+day+"</i>天<i>"+hour+"</i>小时<i>"+minute+"</i>分<i>"+second+"</i>秒"); 
+	} 
+	
+</script> 
+</body>
+</html>

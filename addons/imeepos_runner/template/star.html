@@ -1,0 +1,57 @@
+{template 'common/header'}
+{template 'web/task/navs'}
+<style>
+    .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {overflow: visible !important;}
+    .dropdown-menu{min-width:4em;}
+    .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+        white-space: normal !important;
+        overflow: visible !important;
+    }
+    .dropdown{display:inline-block !important;}
+</style>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        评星记录
+    </div>
+    <div class="panel-body">
+        <table st-table="items" class="table table-striped table-condensed" style="display:auto;">
+            <thead>
+            <tr>
+                <th style="width:8em;">评价人昵称</th>
+                <th style="width:6em;">评价人头像</th>
+                <th style="width:8em;">被评价昵称</th>
+                <th style="width:6em;">被评价头像</th>
+                <th style="width:10em;">任务</th>
+                <th style="width:5em;">星星个数</th>
+                <th style="width:10em;">评价内容</th>
+                <th style="width:12em;">评价时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {loop $list['list'] $li}
+            {php $from = M('member')->getInfo($li['from_openid'])}
+            {php $to = M('member')->getInfo($li['to_openid'])}
+            <tr>
+                <td>{$from['nickname']}</td>
+                <td><img src="{php echo $from['avatar']}" style="width:4em;height:4em;" alt=""/></td>
+                <td>{$to['nickname']}</td>
+                <td><img src="{php echo $to['avatar']}" style="width:4em;height:4em;" alt=""/></td>
+                <td><a href="{php echo $this->createWebUrl('task',array('id'=>$li['taskid'],'act'=>'edit'))}">点击查看</a></td>
+                <td>{$li['star']}</td>
+                <td>{$li['content']}</td>
+                <td>
+                    <label class="label label-success">{php echo date('Y-m-d H:i',$li['create_time'])}</label>
+                </td>
+                <td>
+                    <a href="{php echo $this->createWebUrl('star',array('act'=>'edit','id'=>$li['id']))}" class="btn btn-default">编辑</a>
+                    <a href="{php echo $this->createWebUrl('star',array('act'=>'delete','id'=>$li['id']))}" class="btn btn-danger">删除</a>
+                </td>
+            </tr>
+            {/loop}
+            </tbody>
+        </table>
+        {php echo $list['pager']}
+    </div>
+</div>
+{template 'common/footer'}

@@ -1,0 +1,795 @@
+<div id="floating-icon" class="modal fade" tabindex="-1" style="z-index:99999">
+			<div class="modal-dialog" style='width: 920px;'>
+				<div class="modal-content">
+					<div class="modal-header">
+						<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+						<h3>选择图标</h3></div>
+					<div class="modal-body">
+	<style type="text/css">
+		#icons {
+		    transition: opacity .2s ease-in-out;
+		}
+		ul#icons {
+		    margin: 40px auto;
+		    padding-left: 5px;
+		    max-width: 700px;
+		    width: 100%;
+		    list-style: none;
+		    text-align: left;
+		    font-size: 1px;
+		}
+		ul#icons li {
+		    position: relative;
+		    z-index: 0;
+		    display: inline-block;
+		    padding: 22px;
+		    width: 42px;
+		    border-radius: 4px;
+		    list-style: none;
+		    text-align: center;
+		    font-weight: normal;
+		    font-size: 32px;
+		    cursor: pointer;
+		}
+	</style>
+	<ul id="icons">
+      <li ng-click="selectIcon('ion-ionic')" class="ion-ionic" data-pack="default" data-tags="badass, framework, sexy, hawt"></li>
+      <li ng-click="selectIcon('ion-arrow-up-a')" class="ion-arrow-up-a" data-pack="default" data-tags=""></li>
+      <li ng-click="selectIcon('ion-arrow-right-a')" class="ion-arrow-right-a" data-pack="default" data-tags=""></li>
+      <li ng-click="selectIcon('ion-arrow-down-a')" class="ion-arrow-down-a" data-pack="default" data-tags=""></li>
+      <li ng-click="selectIcon('ion-arrow-left-a')" class="ion-arrow-left-a" data-pack="default" data-tags=""></li>
+      <li ng-click="selectIcon('ion-arrow-up-b')" class="ion-arrow-up-b" data-pack="default" data-tags=""></li>
+      <li ng-click="selectIcon('ion-arrow-right-b')" class="ion-arrow-right-b" data-pack="default" data-tags=""></li>
+      <li ng-click="selectIcon('ion-arrow-down-b')" class="ion-arrow-down-b" data-pack="default" data-tags=""></li>
+      <li ng-click="selectIcon('ion-arrow-left-b')" class="ion-arrow-left-b" data-pack="default" data-tags=""></li>
+      <li ng-click="selectIcon('ion-arrow-up-c')" class="ion-arrow-up-c" data-pack="default" data-tags=""></li>
+      <li ng-click="selectIcon('ion-arrow-right-c')" class="ion-arrow-right-c" data-pack="default" data-tags=""></li>
+      <li ng-click="selectIcon('ion-arrow-down-c')" class="ion-arrow-down-c" data-pack="default" data-tags=""></li>
+      <li ng-click="selectIcon('ion-arrow-left-c')" class="ion-arrow-left-c" data-pack="default" data-tags=""></li>
+      <li ng-click="selectIcon('ion-arrow-return-right')" class="ion-arrow-return-right" data-pack="default" data-tags=""></li>
+      <li ng-click="selectIcon('ion-arrow-return-left')" class="ion-arrow-return-left" data-pack="default" data-tags=""></li>
+      <li ng-click="selectIcon('ion-arrow-swap')" class="ion-arrow-swap" data-pack="default" data-tags="switch, flip"></li>
+      <li ng-click="selectIcon('ion-arrow-shrink')" class="ion-arrow-shrink" data-pack="default" data-tags="pinch"></li>
+      <li ng-click="selectIcon('ion-arrow-expand')" class="ion-arrow-expand" data-pack="default" data-tags="fullscreen"></li>
+      <li ng-click="selectIcon('ion-arrow-move')" class="ion-arrow-move" data-pack="default" data-tags="drag"></li>
+      <li ng-click="selectIcon('ion-arrow-resize')" class="ion-arrow-resize" data-pack="default" data-tags="drag"></li>
+      <li ng-click="selectIcon('ion-chevron-up')" class="ion-chevron-up" data-pack="default" data-tags="arrow, up"></li>
+      <li ng-click="selectIcon('ion-chevron-right')" class="ion-chevron-right" data-pack="default" data-tags="arrow, right"></li>
+      <li ng-click="selectIcon('ion-chevron-down')" class="ion-chevron-down" data-pack="default" data-tags="arrow, down"></li>
+      <li ng-click="selectIcon('ion-chevron-left')" class="ion-chevron-left" data-pack="default" data-tags="arrow, left"></li>
+      <li ng-click="selectIcon('ion-navicon-round')" class="ion-navicon-round" data-pack="default" data-tags="menu, hamburger, slide menu"></li>
+      <li ng-click="selectIcon('ion-navicon')" class="ion-navicon" data-pack="default" data-tags="menu, hamburger, slide menu"></li>
+      <li ng-click="selectIcon('ion-drag')" class="ion-drag" data-pack="default" data-tags="reorder, move, drag"></li>
+      <li ng-click="selectIcon('ion-log-in')" class="ion-log-in" data-pack="default" data-tags="sign in, "></li>
+      <li ng-click="selectIcon('ion-log-out')" class="ion-log-out" data-pack="default" data-tags="sign out"></li>
+      <li ng-click="selectIcon('ion-checkmark-round')" class="ion-checkmark-round" data-pack="default" data-tags="complete, finished, success, on"></li>
+      <li ng-click="selectIcon('ion-checkmark')" class="ion-checkmark" data-pack="default" data-tags="complete, finished, success, on"></li>
+      <li ng-click="selectIcon('ion-checkmark-circled')" class="ion-checkmark-circled" data-pack="default" data-tags="complete, finished, success, on"></li>
+      <li ng-click="selectIcon('ion-close-round')" class="ion-close-round" data-pack="default" data-tags="delete, trash, kill, x"></li>
+      <li ng-click="selectIcon('ion-close')" class="ion-close" data-pack="default" data-tags="delete, trash, kill, x"></li>
+      <li ng-click="selectIcon('ion-close-circled')" class="ion-close-circled" data-pack="default" data-tags="delete, trash, kill, x"></li>
+      <li ng-click="selectIcon('ion-plus-round')" class="ion-plus-round" data-pack="default" data-tags="add, include, new, invite, +"></li>
+      <li ng-click="selectIcon('ion-plus')" class="ion-plus" data-pack="default" data-tags="add, include, new, invite, +"></li>
+      <li ng-click="selectIcon('ion-plus-circled')" class="ion-plus-circled" data-pack="default" data-tags="add, include, new, invite, +"></li>
+      <li ng-click="selectIcon('ion-minus-round')" class="ion-minus-round" data-pack="default" data-tags="hide, remove, minimize, -"></li>
+      <li ng-click="selectIcon('ion-minus')" class="ion-minus" data-pack="default" data-tags="hide, remove, minimize, -"></li>
+      <li ng-click="selectIcon('ion-minus-circled')" class="ion-minus-circled" data-pack="default" data-tags="hide, remove, minimize, -"></li>
+      <li ng-click="selectIcon('ion-information')" class="ion-information" data-pack="default" data-tags="help, more, tooltip"></li>
+      <li ng-click="selectIcon('ion-information-circled')" class="ion-information-circled" data-pack="default" data-tags="help, more, tooltip"></li>
+      <li ng-click="selectIcon('ion-help')" class="ion-help" data-pack="default" data-tags="question, ?"></li>
+      <li ng-click="selectIcon('ion-help-circled')" class="ion-help-circled" data-pack="default" data-tags="question, ?"></li>
+      <li ng-click="selectIcon('ion-backspace-outline')" class="ion-backspace-outline" data-pack="default" data-tags="delete, remove, back"></li>
+      <li ng-click="selectIcon('ion-backspace')" class="ion-backspace" data-pack="default" data-tags="delete, remove, back"></li>
+      <li ng-click="selectIcon('ion-help-buoy')" class="ion-help-buoy" data-pack="default" data-tags="question, ?"></li>
+      <li ng-click="selectIcon('ion-asterisk')" class="ion-asterisk" data-pack="default" data-tags="favorite, mark, star"></li>
+      <li ng-click="selectIcon('ion-alert')" class="ion-alert" data-pack="default" data-tags="attention, warning, notice, !, exclamation"></li>
+      <li ng-click="selectIcon('ion-alert-circled')" class="ion-alert-circled" data-pack="default" data-tags="attention, warning, notice, !, exclamation"></li>
+      <li ng-click="selectIcon('ion-refresh')" class="ion-refresh" data-pack="default" data-tags="reload, renew"></li>
+      <li ng-click="selectIcon('ion-loop')" class="ion-loop" data-pack="default" data-tags="refresh"></li>
+      <li ng-click="selectIcon('ion-shuffle')" class="ion-shuffle" data-pack="default" data-tags="random"></li>
+      <li ng-click="selectIcon('ion-home')" class="ion-home" data-pack="default" data-tags="house"></li>
+      <li ng-click="selectIcon('ion-search')" class="ion-search" data-pack="default" data-tags="magnifying glass"></li>
+      <li ng-click="selectIcon('ion-flag')" class="ion-flag" data-pack="default" data-tags="favorite, mark, star"></li>
+      <li ng-click="selectIcon('ion-star')" class="ion-star" data-pack="default" data-tags="favorite"></li>
+      <li ng-click="selectIcon('ion-heart')" class="ion-heart" data-pack="default" data-tags="love"></li>
+      <li ng-click="selectIcon('ion-heart-broken')" class="ion-heart-broken" data-pack="default" data-tags="love"></li>
+      <li ng-click="selectIcon('ion-gear-a')" class="ion-gear-a" data-pack="default" data-tags="settings, options, cog"></li>
+      <li ng-click="selectIcon('ion-gear-b')" class="ion-gear-b" data-pack="default" data-tags="settings, options, cog"></li>
+      <li ng-click="selectIcon('ion-toggle-filled')" class="ion-toggle-filled" data-pack="default" data-tags="settings, options, switch"></li>
+      <li ng-click="selectIcon('ion-toggle')" class="ion-toggle" data-pack="default" data-tags="settings, options, switch"></li>
+      <li ng-click="selectIcon('ion-settings')" class="ion-settings" data-pack="default" data-tags="options, tools"></li>
+      <li ng-click="selectIcon('ion-wrench')" class="ion-wrench" data-pack="default" data-tags="settings, options, tools"></li>
+      <li ng-click="selectIcon('ion-hammer')" class="ion-hammer" data-pack="default" data-tags="settings, options, tools"></li>
+      <li ng-click="selectIcon('ion-edit')" class="ion-edit" data-pack="default" data-tags="change, update, write, type, pencil"></li>
+      <li ng-click="selectIcon('ion-trash-a')" class="ion-trash-a" data-pack="default" data-tags="delete, remove, dump"></li>
+      <li ng-click="selectIcon('ion-trash-b')" class="ion-trash-b" data-pack="default" data-tags="delete, remove, dump"></li>
+      <li ng-click="selectIcon('ion-document')" class="ion-document" data-pack="default" data-tags="paper, file"></li>
+      <li ng-click="selectIcon('ion-document-text')" class="ion-document-text" data-pack="default" data-tags="paper, file"></li>
+      <li ng-click="selectIcon('ion-clipboard')" class="ion-clipboard" data-pack="default" data-tags="write"></li>
+      <li ng-click="selectIcon('ion-scissors')" class="ion-scissors" data-pack="default" data-tags="cut"></li>
+      <li ng-click="selectIcon('ion-funnel')" class="ion-funnel" data-pack="default" data-tags="sort"></li>
+      <li ng-click="selectIcon('ion-bookmark')" class="ion-bookmark" data-pack="default" data-tags="favorite, tag, save"></li>
+      <li ng-click="selectIcon('ion-email')" class="ion-email" data-pack="default" data-tags="snail, mail, inbox"></li>
+      <li ng-click="selectIcon('ion-email-unread')" class="ion-email-unread" data-pack="default" data-tags="snail, mail, inbox"></li>
+      <li ng-click="selectIcon('ion-folder')" class="ion-folder" data-pack="default" data-tags="snail, mail"></li>
+      <li ng-click="selectIcon('ion-filing')" class="ion-filing" data-pack="default" data-tags="mail"></li>
+      <li ng-click="selectIcon('ion-archive')" class="ion-archive" data-pack="default" data-tags="mail"></li>
+      <li ng-click="selectIcon('ion-reply')" class="ion-reply" data-pack="default" data-tags="mail, undo"></li>
+      <li ng-click="selectIcon('ion-reply-all')" class="ion-reply-all" data-pack="default" data-tags="mail"></li>
+      <li ng-click="selectIcon('ion-forward')" class="ion-forward" data-pack="default" data-tags="mail, redo"></li>
+      <li ng-click="selectIcon('ion-share')" class="ion-share" data-pack="default" data-tags="outbound"></li>
+      <li ng-click="selectIcon('ion-paper-airplane')" class="ion-paper-airplane" data-pack="default" data-tags="outbound, mail, letter, send"></li>
+      <li ng-click="selectIcon('ion-link')" class="ion-link" data-pack="default" data-tags="chain, anchor, href, attach"></li>
+      <li ng-click="selectIcon('ion-paperclip')" class="ion-paperclip" data-pack="default" data-tags="attach"></li>
+      <li ng-click="selectIcon('ion-compose')" class="ion-compose" data-pack="default" data-tags="write, compose, type"></li>
+      <li ng-click="selectIcon('ion-briefcase')" class="ion-briefcase" data-pack="default" data-tags="store, organize"></li>
+      <li ng-click="selectIcon('ion-medkit')" class="ion-medkit" data-pack="default" data-tags="health"></li>
+      <li ng-click="selectIcon('ion-at')" class="ion-at" data-pack="default" data-tags="@"></li>
+      <li ng-click="selectIcon('ion-pound')" class="ion-pound" data-pack="default" data-tags="hashtag, #"></li>
+      <li ng-click="selectIcon('ion-quote')" class="ion-quote" data-pack="default" data-tags="chat, quotation"></li>
+      <li ng-click="selectIcon('ion-cloud')" class="ion-cloud" data-pack="default" data-tags="storage"></li>
+      <li ng-click="selectIcon('ion-upload')" class="ion-upload" data-pack="default" data-tags="storage, cloud"></li>
+      <li ng-click="selectIcon('ion-more')" class="ion-more" data-pack="default" data-tags="circles"></li>
+      <li ng-click="selectIcon('ion-grid')" class="ion-grid" data-pack="default" data-tags="menu"></li>
+      <li ng-click="selectIcon('ion-calendar')" class="ion-calendar" data-pack="default" data-tags="date, time, month, year"></li>
+      <li ng-click="selectIcon('ion-clock')" class="ion-clock" data-pack="default" data-tags="time, watch, hours, minutes, seconds"></li>
+      <li ng-click="selectIcon('ion-compass')" class="ion-compass" data-pack="default" data-tags="location, directions, navigation"></li>
+      <li ng-click="selectIcon('ion-pinpoint')" class="ion-pinpoint" data-pack="default" data-tags="gps, navigation"></li>
+      <li ng-click="selectIcon('ion-pin')" class="ion-pin" data-pack="default" data-tags="gps, navigation"></li>
+      <li ng-click="selectIcon('ion-navigate')" class="ion-navigate" data-pack="default" data-tags="gps, location pin"></li>
+      <li ng-click="selectIcon('ion-location')" class="ion-location" data-pack="default" data-tags="gps, navigation, pin"></li>
+      <li ng-click="selectIcon('ion-map')" class="ion-map" data-pack="default" data-tags="gps, navigation, pin"></li>
+      <li ng-click="selectIcon('ion-lock-combination')" class="ion-lock-combination" data-pack="default" data-tags="padlock, security"></li>
+      <li ng-click="selectIcon('ion-locked')" class="ion-locked" data-pack="default" data-tags="padlock, security"></li>
+      <li ng-click="selectIcon('ion-unlocked')" class="ion-unlocked" data-pack="default" data-tags="padlock, security"></li>
+      <li ng-click="selectIcon('ion-key')" class="ion-key" data-pack="default" data-tags="access"></li>
+      <li ng-click="selectIcon('ion-arrow-graph-up-right')" class="ion-arrow-graph-up-right" data-pack="default" data-tags="stats"></li>
+      <li ng-click="selectIcon('ion-arrow-graph-down-right')" class="ion-arrow-graph-down-right" data-pack="default" data-tags="stats"></li>
+      <li ng-click="selectIcon('ion-arrow-graph-up-left')" class="ion-arrow-graph-up-left" data-pack="default" data-tags="stats"></li>
+      <li ng-click="selectIcon('ion-arrow-graph-down-left')" class="ion-arrow-graph-down-left" data-pack="default" data-tags="stats"></li>
+      <li ng-click="selectIcon('ion-stats-bars')" class="ion-stats-bars" data-pack="default" data-tags="data"></li>
+      <li ng-click="selectIcon('ion-connection-bars')" class="ion-connection-bars" data-pack="default" data-tags="data, stats"></li>
+      <li ng-click="selectIcon('ion-pie-graph')" class="ion-pie-graph" data-pack="default" data-tags="stats"></li>
+      <li ng-click="selectIcon('ion-chatbubble')" class="ion-chatbubble" data-pack="default" data-tags="talk"></li>
+      <li ng-click="selectIcon('ion-chatbubble-working')" class="ion-chatbubble-working" data-pack="default" data-tags="talk"></li>
+      <li ng-click="selectIcon('ion-chatbubbles')" class="ion-chatbubbles" data-pack="default" data-tags="talk"></li>
+      <li ng-click="selectIcon('ion-chatbox')" class="ion-chatbox" data-pack="default" data-tags="talk"></li>
+      <li ng-click="selectIcon('ion-chatbox-working')" class="ion-chatbox-working" data-pack="default" data-tags="talk"></li>
+      <li ng-click="selectIcon('ion-chatboxes')" class="ion-chatboxes" data-pack="default" data-tags="talk"></li>
+      <li ng-click="selectIcon('ion-person')" class="ion-person" data-pack="default" data-tags="users, staff, head, human"></li>
+      <li ng-click="selectIcon('ion-person-add')" class="ion-person-add" data-pack="default" data-tags="users, staff, head, human, member, new"></li>
+      <li ng-click="selectIcon('ion-person-stalker')" class="ion-person-stalker" data-pack="default" data-tags="people, human, users, staff"></li>
+      <li ng-click="selectIcon('ion-woman')" class="ion-woman" data-pack="default" data-tags="female, lady, girl, dudette"></li>
+      <li ng-click="selectIcon('ion-man')" class="ion-man" data-pack="default" data-tags="male, guy, boy, dude"></li>
+      <li ng-click="selectIcon('ion-female')" class="ion-female" data-pack="default" data-tags="lady, girl, dudette"></li>
+      <li ng-click="selectIcon('ion-male')" class="ion-male" data-pack="default" data-tags="male, guy, boy, dude"></li>
+      <li ng-click="selectIcon('ion-transgender')" class="ion-transgender" data-pack="default" data-tags=""></li>
+      <li ng-click="selectIcon('ion-fork')" class="ion-fork" data-pack="default" data-tags="food, drink, eat"></li>
+      <li ng-click="selectIcon('ion-knife')" class="ion-knife" data-pack="default" data-tags="food, drink, eat"></li>
+      <li ng-click="selectIcon('ion-spoon')" class="ion-spoon" data-pack="default" data-tags="food, drink, eat"></li>
+      <li ng-click="selectIcon('ion-soup-can-outline')" class="ion-soup-can-outline" data-pack="default" data-tags="food, drink, eat"></li>
+      <li ng-click="selectIcon('ion-soup-can')" class="ion-soup-can" data-pack="default" data-tags="food, drink, eat"></li>
+      <li ng-click="selectIcon('ion-beer')" class="ion-beer" data-pack="default" data-tags="food, drink, eat"></li>
+      <li ng-click="selectIcon('ion-wineglass')" class="ion-wineglass" data-pack="default" data-tags="food, drink, eat"></li>
+      <li ng-click="selectIcon('ion-coffee')" class="ion-coffee" data-pack="default" data-tags="food, drink, eat, caffeine"></li>
+      <li ng-click="selectIcon('ion-icecream')" class="ion-icecream" data-pack="default" data-tags="food, drink, eat"></li>
+      <li ng-click="selectIcon('ion-pizza')" class="ion-pizza" data-pack="default" data-tags="food, drink, eat"></li>
+      <li ng-click="selectIcon('ion-power')" class="ion-power" data-pack="default" data-tags="on, off"></li>
+      <li ng-click="selectIcon('ion-mouse')" class="ion-mouse" data-pack="default" data-tags="computer"></li>
+      <li ng-click="selectIcon('ion-battery-full')" class="ion-battery-full" data-pack="default" data-tags=""></li>
+      <li ng-click="selectIcon('ion-battery-half')" class="ion-battery-half" data-pack="default" data-tags=""></li>
+      <li ng-click="selectIcon('ion-battery-low')" class="ion-battery-low" data-pack="default" data-tags=""></li>
+      <li ng-click="selectIcon('ion-battery-empty')" class="ion-battery-empty" data-pack="default" data-tags=""></li>
+      <li ng-click="selectIcon('ion-battery-charging')" class="ion-battery-charging" data-pack="default" data-tags=""></li>
+      <li ng-click="selectIcon('ion-wifi')" class="ion-wifi" data-pack="default" data-tags="internet, connection"></li>
+      <li ng-click="selectIcon('ion-bluetooth')" class="ion-bluetooth" data-pack="default" data-tags="connection, cloud"></li>
+      <li ng-click="selectIcon('ion-calculator')" class="ion-calculator" data-pack="default" data-tags="math, arithmatic, numbers, addition, subtraction"></li>
+      <li ng-click="selectIcon('ion-camera')" class="ion-camera" data-pack="default" data-tags="photo"></li>
+      <li ng-click="selectIcon('ion-eye')" class="ion-eye" data-pack="default" data-tags="view, see, creeper"></li>
+      <li ng-click="selectIcon('ion-eye-disabled')" class="ion-eye-disabled" data-pack="default" data-tags="view, see, creeper"></li>
+      <li ng-click="selectIcon('ion-flash')" class="ion-flash" data-pack="default" data-tags="lightning, weather, whether"></li>
+      <li ng-click="selectIcon('ion-flash-off')" class="ion-flash-off" data-pack="default" data-tags=""></li>
+      <li ng-click="selectIcon('ion-qr-scanner')" class="ion-qr-scanner" data-pack="default" data-tags="reader"></li>
+      <li ng-click="selectIcon('ion-image')" class="ion-image" data-pack="default" data-tags="photo"></li>
+      <li ng-click="selectIcon('ion-images')" class="ion-images" data-pack="default" data-tags="photo"></li>
+      <li ng-click="selectIcon('ion-wand')" class="ion-wand" data-pack="default" data-tags="images, levels, light, dark, settings"></li>
+      <li ng-click="selectIcon('ion-contrast')" class="ion-contrast" data-pack="default" data-tags="images, levels, light, dark, settings"></li>
+      <li ng-click="selectIcon('ion-aperture')" class="ion-aperture" data-pack="default" data-tags="images, levels, light, dark, settings"></li>
+      <li ng-click="selectIcon('ion-crop')" class="ion-crop" data-pack="default" data-tags="images, levels, light, dark, settings"></li>
+      <li ng-click="selectIcon('ion-easel')" class="ion-easel" data-pack="default" data-tags="images, art, create, color"></li>
+      <li ng-click="selectIcon('ion-paintbrush')" class="ion-paintbrush" data-pack="default" data-tags="images, art, create, color"></li>
+      <li ng-click="selectIcon('ion-paintbucket')" class="ion-paintbucket" data-pack="default" data-tags="images, art, create, color"></li>
+      <li ng-click="selectIcon('ion-monitor')" class="ion-monitor" data-pack="default" data-tags="thunderbolt, screen"></li>
+      <li ng-click="selectIcon('ion-laptop')" class="ion-laptop" data-pack="default" data-tags="macbook, apple, osx"></li>
+      <li ng-click="selectIcon('ion-ipad')" class="ion-ipad" data-pack="default" data-tags="tablet, mobile, apple, retina, device"></li>
+      <li ng-click="selectIcon('ion-iphone')" class="ion-iphone" data-pack="default" data-tags="smartphone, mobile, apple, retina, device"></li>
+      <li ng-click="selectIcon('ion-ipod')" class="ion-ipod" data-pack="default" data-tags="music, player, apple, retina, device"></li>
+      <li ng-click="selectIcon('ion-printer')" class="ion-printer" data-pack="default" data-tags="paper"></li>
+      <li ng-click="selectIcon('ion-usb')" class="ion-usb" data-pack="default" data-tags="digital, computer"></li>
+      <li ng-click="selectIcon('ion-outlet')" class="ion-outlet" data-pack="default" data-tags="digital, computer, electricity"></li>
+      <li ng-click="selectIcon('ion-bug')" class="ion-bug" data-pack="default" data-tags="develop, program, hacker, error"></li>
+      <li ng-click="selectIcon('ion-code')" class="ion-code" data-pack="default" data-tags="develop, program, hacker"></li>
+      <li ng-click="selectIcon('ion-code-working')" class="ion-code-working" data-pack="default" data-tags="develop, program, hacker"></li>
+      <li ng-click="selectIcon('ion-code-download')" class="ion-code-download" data-pack="default" data-tags="develop, program, hacker"></li>
+      <li ng-click="selectIcon('ion-fork-repo')" class="ion-fork-repo" data-pack="default" data-tags="develop, program, hacker, github"></li>
+      <li ng-click="selectIcon('ion-network')" class="ion-network" data-pack="default" data-tags="develop, program, hacker, github"></li>
+      <li ng-click="selectIcon('ion-pull-request')" class="ion-pull-request" data-pack="default" data-tags="develop, program, hacker, github"></li>
+      <li ng-click="selectIcon('ion-merge')" class="ion-merge" data-pack="default" data-tags="develop, program, hacker, github"></li>
+      <li ng-click="selectIcon('ion-xbox')" class="ion-xbox" data-pack="default" data-tags="fun, games"></li>
+      <li ng-click="selectIcon('ion-playstation')" class="ion-playstation" data-pack="default" data-tags="fun, games"></li>
+      <li ng-click="selectIcon('ion-steam')" class="ion-steam" data-pack="default" data-tags="fun, games"></li>
+      <li ng-click="selectIcon('ion-closed-captioning')" class="ion-closed-captioning" data-pack="default" data-tags="movie, film, television"></li>
+      <li ng-click="selectIcon('ion-videocamera')" class="ion-videocamera" data-pack="default" data-tags="movie, film, television"></li>
+      <li ng-click="selectIcon('ion-film-marker')" class="ion-film-marker" data-pack="default" data-tags="film, cut, action"></li>
+      <li ng-click="selectIcon('ion-disc')" class="ion-disc" data-pack="default" data-tags="cd, vinyl"></li>
+      <li ng-click="selectIcon('ion-headphone')" class="ion-headphone" data-pack="default" data-tags="music, earbuds, beats"></li>
+      <li ng-click="selectIcon('ion-music-note')" class="ion-music-note" data-pack="default" data-tags="songs"></li>
+      <li ng-click="selectIcon('ion-radio-waves')" class="ion-radio-waves" data-pack="default" data-tags="music, sound, speaker"></li>
+      <li ng-click="selectIcon('ion-speakerphone')" class="ion-speakerphone" data-pack="default" data-tags="sound, speaker, loud, amplify"></li>
+      <li ng-click="selectIcon('ion-mic-a')" class="ion-mic-a" data-pack="default" data-tags="sound, talk, speaker"></li>
+      <li ng-click="selectIcon('ion-mic-b')" class="ion-mic-b" data-pack="default" data-tags="sound, talk, speaker"></li>
+      <li ng-click="selectIcon('ion-mic-c')" class="ion-mic-c" data-pack="default" data-tags="sound, talk, speaker"></li>
+      <li ng-click="selectIcon('ion-volume-high')" class="ion-volume-high" data-pack="default" data-tags="sound, noise"></li>
+      <li ng-click="selectIcon('ion-volume-medium')" class="ion-volume-medium" data-pack="default" data-tags="sound"></li>
+      <li ng-click="selectIcon('ion-volume-low')" class="ion-volume-low" data-pack="default" data-tags="sound"></li>
+      <li ng-click="selectIcon('ion-volume-mute')" class="ion-volume-mute" data-pack="default" data-tags="sound"></li>
+      <li ng-click="selectIcon('ion-levels')" class="ion-levels" data-pack="default" data-tags="options, toggles, sound, mixer"></li>
+      <li ng-click="selectIcon('ion-play')" class="ion-play" data-pack="default" data-tags="music, watch, arrow, right"></li>
+      <li ng-click="selectIcon('ion-pause')" class="ion-pause" data-pack="default" data-tags="music, break, hold, freeze"></li>
+      <li ng-click="selectIcon('ion-stop')" class="ion-stop" data-pack="default" data-tags="music, square, hold, freeze"></li>
+      <li ng-click="selectIcon('ion-record')" class="ion-record" data-pack="default" data-tags="music, circle"></li>
+      <li ng-click="selectIcon('ion-skip-forward')" class="ion-skip-forward" data-pack="default" data-tags="music, next"></li>
+      <li ng-click="selectIcon('ion-skip-backward')" class="ion-skip-backward" data-pack="default" data-tags="music, previous"></li>
+      <li ng-click="selectIcon('ion-eject')" class="ion-eject" data-pack="default" data-tags="music, dvd, remove"></li>
+      <li ng-click="selectIcon('ion-bag')" class="ion-bag" data-pack="default" data-tags="shopping, price, cart, money, container, $"></li>
+      <li ng-click="selectIcon('ion-card')" class="ion-card" data-pack="default" data-tags="credit, price, debit, money, shopping, cash, dollars, $"></li>
+      <li ng-click="selectIcon('ion-cash')" class="ion-cash" data-pack="default" data-tags="credit, price, debit, money, shopping, dollars, $"></li>
+      <li ng-click="selectIcon('ion-pricetag')" class="ion-pricetag" data-pack="default" data-tags="credit, debit, money, shopping, cash, dollars, $"></li>
+      <li ng-click="selectIcon('ion-pricetags')" class="ion-pricetags" data-pack="default" data-tags="credit, debit, money, shopping, cash, dollars, $"></li>
+      <li ng-click="selectIcon('ion-thumbsup')" class="ion-thumbsup" data-pack="default" data-tags="like, fun, yes"></li>
+      <li ng-click="selectIcon('ion-thumbsdown')" class="ion-thumbsdown" data-pack="default" data-tags="dislike, boring, no"></li>
+      <li ng-click="selectIcon('ion-happy-outline')" class="ion-happy-outline" data-pack="default" data-tags="good, like, fun, yes"></li>
+      <li ng-click="selectIcon('ion-happy')" class="ion-happy" data-pack="default" data-tags="good, like, fun, yes"></li>
+      <li ng-click="selectIcon('ion-sad-outline')" class="ion-sad-outline" data-pack="default" data-tags="cry, bad, no"></li>
+      <li ng-click="selectIcon('ion-sad')" class="ion-sad" data-pack="default" data-tags="cry, bad, no"></li>
+      <li ng-click="selectIcon('ion-bowtie')" class="ion-bowtie" data-pack="default" data-tags="tie, shirt, dress, clothing"></li>
+      <li ng-click="selectIcon('ion-tshirt-outline')" class="ion-tshirt-outline" data-pack="default" data-tags="tie, shirt, dress, clothing"></li>
+      <li ng-click="selectIcon('ion-tshirt')" class="ion-tshirt" data-pack="default" data-tags="tie, shirt, dress, clothing"></li>
+      <li ng-click="selectIcon('ion-trophy')" class="ion-trophy" data-pack="default" data-tags="competition, compete, win, lose, award"></li>
+      <li ng-click="selectIcon('ion-podium')" class="ion-podium" data-pack="default" data-tags="competition, compete, win, lose, award"></li>
+      <li ng-click="selectIcon('ion-ribbon-a')" class="ion-ribbon-a" data-pack="default" data-tags="competition, compete, win, lose, award, trophy"></li>
+      <li ng-click="selectIcon('ion-ribbon-b')" class="ion-ribbon-b" data-pack="default" data-tags="competition, compete, win, lose, award, trophy"></li>
+      <li ng-click="selectIcon('ion-university')" class="ion-university" data-pack="default" data-tags="graduate, education, school, tassle"></li>
+      <li ng-click="selectIcon('ion-magnet')" class="ion-magnet" data-pack="default" data-tags="sticky, attraction"></li>
+      <li ng-click="selectIcon('ion-beaker')" class="ion-beaker" data-pack="default" data-tags="mixture, potion, flask"></li>
+      <li ng-click="selectIcon('ion-erlenmeyer-flask')" class="ion-erlenmeyer-flask" data-pack="default" data-tags="mixture, potion, beaker, potion"></li>
+      <li ng-click="selectIcon('ion-egg')" class="ion-egg" data-pack="default" data-tags="birth, twitter, bird, baby"></li>
+      <li ng-click="selectIcon('ion-earth')" class="ion-earth" data-pack="default" data-tags="nature, globe, home, planet"></li>
+      <li ng-click="selectIcon('ion-planet')" class="ion-planet" data-pack="default" data-tags="nature, globe, home, planet, space"></li>
+      <li ng-click="selectIcon('ion-lightbulb')" class="ion-lightbulb" data-pack="default" data-tags="idea, new, aha!"></li>
+      <li ng-click="selectIcon('ion-cube')" class="ion-cube" data-pack="default" data-tags="box, square, container"></li>
+      <li ng-click="selectIcon('ion-leaf')" class="ion-leaf" data-pack="default" data-tags="green, recycle, plant, nature"></li>
+      <li ng-click="selectIcon('ion-waterdrop')" class="ion-waterdrop" data-pack="default" data-tags="nature, clean, recycle, fresh, wet, rain"></li>
+      <li ng-click="selectIcon('ion-flame')" class="ion-flame" data-pack="default" data-tags="fire, hot, heat"></li>
+      <li ng-click="selectIcon('ion-fireball')" class="ion-fireball" data-pack="default" data-tags="hot, heat"></li>
+      <li ng-click="selectIcon('ion-bonfire')" class="ion-bonfire" data-pack="default" data-tags="hot, heat"></li>
+      <li ng-click="selectIcon('ion-umbrella')" class="ion-umbrella" data-pack="default" data-tags="wet, rain, dry, shelter"></li>
+      <li ng-click="selectIcon('ion-nuclear')" class="ion-nuclear" data-pack="default" data-tags="danger, warning, hazard"></li>
+      <li ng-click="selectIcon('ion-no-smoking')" class="ion-no-smoking" data-pack="default" data-tags="danger, warning, cigarette, cancer"></li>
+      <li ng-click="selectIcon('ion-thermometer')" class="ion-thermometer" data-pack="default" data-tags="hot, cold, heat, temperature, mercury"></li>
+      <li ng-click="selectIcon('ion-speedometer')" class="ion-speedometer" data-pack="default" data-tags="travel, accelerate"></li>
+      <li ng-click="selectIcon('ion-model-s')" class="ion-model-s" data-pack="default" data-tags="navigation, car, drive, transportation, tesla, sexy"></li>
+      <li ng-click="selectIcon('ion-plane')" class="ion-plane" data-pack="default" data-tags="fly, jet"></li>
+      <li ng-click="selectIcon('ion-jet')" class="ion-jet" data-pack="default" data-tags="fly, plane"></li>
+      <li ng-click="selectIcon('ion-load-a')" class="ion-load-a" data-pack="default" data-tags="spinner, waiting, refresh"></li>
+      <li ng-click="selectIcon('ion-load-b')" class="ion-load-b" data-pack="default" data-tags="spinner, waiting, refresh"></li>
+      <li ng-click="selectIcon('ion-load-c')" class="ion-load-c" data-pack="default" data-tags="spinner, waiting, refresh"></li>
+      <li ng-click="selectIcon('ion-load-d')" class="ion-load-d" data-pack="default" data-tags="spinner, waiting, refresh"></li>
+
+
+      <p><!-- end default icons pack --></p>
+
+
+      <li ng-click="selectIcon('ion-ios-ionic-outline')" class="ion-ios-ionic-outline" data-pack="ios" data-tags="badass, framework, sexy"></li>
+      <li ng-click="selectIcon('ion-ios-arrow-back')" class="ion-ios-arrow-back" data-pack="ios" data-tags="chevron, left"></li>
+      <li ng-click="selectIcon('ion-ios-arrow-forward')" class="ion-ios-arrow-forward" data-pack="ios" data-tags="chevron, right"></li>
+      <li ng-click="selectIcon('ion-ios-arrow-up')" class="ion-ios-arrow-up" data-pack="ios" data-tags="chevron"></li>
+      <li ng-click="selectIcon('ion-ios-arrow-right')" class="ion-ios-arrow-right" data-pack="ios" data-tags="chevron"></li>
+      <li ng-click="selectIcon('ion-ios-arrow-down')" class="ion-ios-arrow-down" data-pack="ios" data-tags="chevron"></li>
+      <li ng-click="selectIcon('ion-ios-arrow-left')" class="ion-ios-arrow-left" data-pack="ios" data-tags="chevron"></li>
+      <li ng-click="selectIcon('ion-ios-arrow-thin-up')" class="ion-ios-arrow-thin-up" data-pack="ios" data-tags="chevron"></li>
+      <li ng-click="selectIcon('ion-ios-arrow-thin-right')" class="ion-ios-arrow-thin-right" data-pack="ios" data-tags="chevron"></li>
+      <li ng-click="selectIcon('ion-ios-arrow-thin-down')" class="ion-ios-arrow-thin-down" data-pack="ios" data-tags="chevron"></li>
+      <li ng-click="selectIcon('ion-ios-arrow-thin-left')" class="ion-ios-arrow-thin-left" data-pack="ios" data-tags="chevron"></li>
+      <li ng-click="selectIcon('ion-ios-circle-filled')" class="ion-ios-circle-filled" data-pack="ios" data-tags="checkmark, radio, dot, on, selected, button"></li>
+      <li ng-click="selectIcon('ion-ios-circle-outline')" class="ion-ios-circle-outline" data-pack="ios" data-tags="checkmark, radio, dot, off, button"></li>
+      <li ng-click="selectIcon('ion-ios-checkmark-empty')" class="ion-ios-checkmark-empty" data-pack="ios" data-tags="success, confirmed, on, finished, complete"></li>
+      <li ng-click="selectIcon('ion-ios-checkmark-outline')" class="ion-ios-checkmark-outline" data-pack="ios" data-tags="success, confirmed, on, finished, complete"></li>
+      <li ng-click="selectIcon('ion-ios-checkmark')" class="ion-ios-checkmark" data-pack="ios" data-tags="success, confirmed, on, finished, complete"></li>
+      <li ng-click="selectIcon('ion-ios-plus-empty')" class="ion-ios-plus-empty" data-pack="ios" data-tags="add, include, new, invite, +"></li>
+      <li ng-click="selectIcon('ion-ios-plus-outline')" class="ion-ios-plus-outline" data-pack="ios" data-tags="add, include, new, invite, +"></li>
+      <li ng-click="selectIcon('ion-ios-plus')" class="ion-ios-plus" data-pack="ios" data-tags="add, include, new, invite, +"></li>
+      <li ng-click="selectIcon('ion-ios-close-empty')" class="ion-ios-close-empty" data-pack="ios" data-tags="delete, remove, trash, end, stop, x"></li>
+      <li ng-click="selectIcon('ion-ios-close-outline')" class="ion-ios-close-outline" data-pack="ios" data-tags="delete, remove, trash, end, stop, x"></li>
+      <li ng-click="selectIcon('ion-ios-close')" class="ion-ios-close" data-pack="ios" data-tags="delete, remove, trash, end, stop, x"></li>
+      <li ng-click="selectIcon('ion-ios-minus-empty')" class="ion-ios-minus-empty" data-pack="ios" data-tags="hide, remove, minimize, -"></li>
+      <li ng-click="selectIcon('ion-ios-minus-outline')" class="ion-ios-minus-outline" data-pack="ios" data-tags="hide, remove, minimize, -"></li>
+      <li ng-click="selectIcon('ion-ios-minus')" class="ion-ios-minus" data-pack="ios" data-tags="hide, remove, minimize, -"></li>
+      <li ng-click="selectIcon('ion-ios-information-empty')" class="ion-ios-information-empty" data-pack="ios" data-tags="help, question"></li>
+      <li ng-click="selectIcon('ion-ios-information-outline')" class="ion-ios-information-outline" data-pack="ios" data-tags="help, question"></li>
+      <li ng-click="selectIcon('ion-ios-information')" class="ion-ios-information" data-pack="ios" data-tags="help, question"></li>
+      <li ng-click="selectIcon('ion-ios-help-empty')" class="ion-ios-help-empty" data-pack="ios" data-tags="question, information, ?"></li>
+      <li ng-click="selectIcon('ion-ios-help-outline')" class="ion-ios-help-outline" data-pack="ios" data-tags="question, information, ?"></li>
+      <li ng-click="selectIcon('ion-ios-help')" class="ion-ios-help" data-pack="ios" data-tags="question, information, ?"></li>
+      <li ng-click="selectIcon('ion-ios-search')" class="ion-ios-search" data-pack="ios" data-tags="find, seek, look, magnifying glass"></li>
+      <li ng-click="selectIcon('ion-ios-search-strong')" class="ion-ios-search-strong" data-pack="ios" data-tags="find, seek, look, magnifying glass"></li>
+      <li ng-click="selectIcon('ion-ios-star')" class="ion-ios-star" data-pack="ios" data-tags="favorite, rate"></li>
+      <li ng-click="selectIcon('ion-ios-star-half')" class="ion-ios-star-half" data-pack="ios" data-tags="favorite, rate"></li>
+      <li ng-click="selectIcon('ion-ios-star-outline')" class="ion-ios-star-outline" data-pack="ios" data-tags="favorite, rate"></li>
+      <li ng-click="selectIcon('ion-ios-heart')" class="ion-ios-heart" data-pack="ios" data-tags="love"></li>
+      <li ng-click="selectIcon('ion-ios-heart-outline')" class="ion-ios-heart-outline" data-pack="ios" data-tags="love"></li>
+      <li ng-click="selectIcon('ion-ios-more')" class="ion-ios-more" data-pack="ios" data-tags="menu"></li>
+      <li ng-click="selectIcon('ion-ios-more-outline')" class="ion-ios-more-outline" data-pack="ios" data-tags="menu"></li>
+      <li ng-click="selectIcon('ion-ios-home')" class="ion-ios-home" data-pack="ios" data-tags="house"></li>
+      <li ng-click="selectIcon('ion-ios-home-outline')" class="ion-ios-home-outline" data-pack="ios" data-tags="house"></li>
+      <li ng-click="selectIcon('ion-ios-cloud')" class="ion-ios-cloud" data-pack="ios" data-tags="storage, weather, whether"></li>
+      <li ng-click="selectIcon('ion-ios-cloud-outline')" class="ion-ios-cloud-outline" data-pack="ios" data-tags="storage, weather, whether"></li>
+      <li ng-click="selectIcon('ion-ios-cloud-upload')" class="ion-ios-cloud-upload" data-pack="ios" data-tags="storage"></li>
+      <li ng-click="selectIcon('ion-ios-cloud-upload-outline')" class="ion-ios-cloud-upload-outline" data-pack="ios" data-tags="storage"></li>
+      <li ng-click="selectIcon('ion-ios-cloud-download')" class="ion-ios-cloud-download" data-pack="ios" data-tags="storage"></li>
+      <li ng-click="selectIcon('ion-ios-cloud-download-outline')" class="ion-ios-cloud-download-outline" data-pack="ios" data-tags="storage"></li>
+      <li ng-click="selectIcon('ion-ios-upload')" class="ion-ios-upload" data-pack="ios" data-tags="share, import"></li>
+      <li ng-click="selectIcon('ion-ios-upload-outline')" class="ion-ios-upload-outline" data-pack="ios" data-tags="share, import"></li>
+      <li ng-click="selectIcon('ion-ios-download')" class="ion-ios-download" data-pack="ios" data-tags="save, export"></li>
+      <li ng-click="selectIcon('ion-ios-download-outline')" class="ion-ios-download-outline" data-pack="ios" data-tags="save, export"></li>
+      <li ng-click="selectIcon('ion-ios-refresh')" class="ion-ios-refresh" data-pack="ios" data-tags="reload, renew, reset"></li>
+      <li ng-click="selectIcon('ion-ios-refresh-outline')" class="ion-ios-refresh-outline" data-pack="ios" data-tags="reload, renew, reset"></li>
+      <li ng-click="selectIcon('ion-ios-refresh-empty')" class="ion-ios-refresh-empty" data-pack="ios" data-tags="reload, renew"></li>
+      <li ng-click="selectIcon('ion-ios-reload')" class="ion-ios-reload" data-pack="ios" data-tags="renew, reset"></li>
+      <li ng-click="selectIcon('ion-ios-loop-strong')" class="ion-ios-loop-strong" data-pack="ios" data-tags="reload, renew, reset"></li>
+      <li ng-click="selectIcon('ion-ios-loop')" class="ion-ios-loop" data-pack="ios" data-tags="reload, renew, reset"></li>
+      <li ng-click="selectIcon('ion-ios-bookmarks')" class="ion-ios-bookmarks" data-pack="ios" data-tags="favorite"></li>
+      <li ng-click="selectIcon('ion-ios-bookmarks-outline')" class="ion-ios-bookmarks-outline" data-pack="ios" data-tags="favorite"></li>
+      <li ng-click="selectIcon('ion-ios-book')" class="ion-ios-book" data-pack="ios" data-tags="favorite, read, literature"></li>
+      <li ng-click="selectIcon('ion-ios-book-outline')" class="ion-ios-book-outline" data-pack="ios" data-tags="favorite, read, literature"></li>
+      <li ng-click="selectIcon('ion-ios-flag')" class="ion-ios-flag" data-pack="ios" data-tags="marker, favorite"></li>
+      <li ng-click="selectIcon('ion-ios-flag-outline')" class="ion-ios-flag-outline" data-pack="ios" data-tags="marker, favorite"></li>
+      <li ng-click="selectIcon('ion-ios-glasses')" class="ion-ios-glasses" data-pack="ios" data-tags="steve, reading, look, see"></li>
+      <li ng-click="selectIcon('ion-ios-glasses-outline')" class="ion-ios-glasses-outline" data-pack="ios" data-tags="steve, reading, look, see"></li>
+      <li ng-click="selectIcon('ion-ios-browsers')" class="ion-ios-browsers" data-pack="ios" data-tags="square"></li>
+      <li ng-click="selectIcon('ion-ios-browsers-outline')" class="ion-ios-browsers-outline" data-pack="ios" data-tags="square"></li>
+      <li ng-click="selectIcon('ion-ios-at')" class="ion-ios-at" data-pack="ios" data-tags="@"></li>
+      <li ng-click="selectIcon('ion-ios-at-outline')" class="ion-ios-at-outline" data-pack="ios" data-tags="@"></li>
+      <li ng-click="selectIcon('ion-ios-pricetag')" class="ion-ios-pricetag" data-pack="ios" data-tags="shopping, money, items, commerce, $"></li>
+      <li ng-click="selectIcon('ion-ios-pricetag-outline')" class="ion-ios-pricetag-outline" data-pack="ios" data-tags="shopping, money, items, commerce, $"></li>
+      <li ng-click="selectIcon('ion-ios-pricetags')" class="ion-ios-pricetags" data-pack="ios" data-tags="shopping, money, items, commerce, $"></li>
+      <li ng-click="selectIcon('ion-ios-pricetags-outline')" class="ion-ios-pricetags-outline" data-pack="ios" data-tags="shopping, money, items, commerce, $"></li>
+      <li ng-click="selectIcon('ion-ios-cart')" class="ion-ios-cart" data-pack="ios" data-tags="shopping, money, items, commerce, $"></li>
+      <li ng-click="selectIcon('ion-ios-cart-outline')" class="ion-ios-cart-outline" data-pack="ios" data-tags="shopping, money, items, commerce, $"></li>
+      <li ng-click="selectIcon('ion-ios-chatboxes')" class="ion-ios-chatboxes" data-pack="ios" data-tags="talk"></li>
+      <li ng-click="selectIcon('ion-ios-chatboxes-outline')" class="ion-ios-chatboxes-outline" data-pack="ios" data-tags="talk"></li>
+      <li ng-click="selectIcon('ion-ios-chatbubble')" class="ion-ios-chatbubble" data-pack="ios" data-tags="talk"></li>
+      <li ng-click="selectIcon('ion-ios-chatbubble-outline')" class="ion-ios-chatbubble-outline" data-pack="ios" data-tags="talk"></li>
+      <li ng-click="selectIcon('ion-ios-cog')" class="ion-ios-cog" data-pack="ios" data-tags="settings, gear, options"></li>
+      <li ng-click="selectIcon('ion-ios-cog-outline')" class="ion-ios-cog-outline" data-pack="ios" data-tags="settings, gear, options"></li>
+      <li ng-click="selectIcon('ion-ios-gear')" class="ion-ios-gear" data-pack="ios" data-tags="cog, settings, options"></li>
+      <li ng-click="selectIcon('ion-ios-gear-outline')" class="ion-ios-gear-outline" data-pack="ios" data-tags="cog, settings, options"></li>
+      <li ng-click="selectIcon('ion-ios-settings')" class="ion-ios-settings" data-pack="ios" data-tags="cog, settings, options"></li>
+      <li ng-click="selectIcon('ion-ios-settings-strong')" class="ion-ios-settings-strong" data-pack="ios" data-tags="cog, settings, options"></li>
+      <li ng-click="selectIcon('ion-ios-toggle')" class="ion-ios-toggle" data-pack="ios" data-tags="settings, options, switch"></li>
+      <li ng-click="selectIcon('ion-ios-toggle-outline')" class="ion-ios-toggle-outline" data-pack="ios" data-tags="settings, options, switch"></li>
+      <li ng-click="selectIcon('ion-ios-analytics')" class="ion-ios-analytics" data-pack="ios" data-tags="metrics, track, data"></li>
+      <li ng-click="selectIcon('ion-ios-analytics-outline')" class="ion-ios-analytics-outline" data-pack="ios" data-tags="metrics, track, data"></li>
+      <li ng-click="selectIcon('ion-ios-pie')" class="ion-ios-pie" data-pack="ios" data-tags="cog, settings, options"></li>
+      <li ng-click="selectIcon('ion-ios-pie-outline')" class="ion-ios-pie-outline" data-pack="ios" data-tags="cog, settings, options"></li>
+      <li ng-click="selectIcon('ion-ios-pulse')" class="ion-ios-pulse" data-pack="ios" data-tags="live, hot, rate"></li>
+      <li ng-click="selectIcon('ion-ios-pulse-strong')" class="ion-ios-pulse-strong" data-pack="ios" data-tags="live, hot, rate"></li>
+      <li ng-click="selectIcon('ion-ios-filing')" class="ion-ios-filing" data-pack="ios" data-tags="archive"></li>
+      <li ng-click="selectIcon('ion-ios-filing-outline')" class="ion-ios-filing-outline" data-pack="ios" data-tags="archive"></li>
+      <li ng-click="selectIcon('ion-ios-box')" class="ion-ios-box" data-pack="ios" data-tags="archive"></li>
+      <li ng-click="selectIcon('ion-ios-box-outline')" class="ion-ios-box-outline" data-pack="ios" data-tags="archive"></li>
+      <li ng-click="selectIcon('ion-ios-compose')" class="ion-ios-compose" data-pack="ios" data-tags="write, type, create"></li>
+      <li ng-click="selectIcon('ion-ios-compose-outline')" class="ion-ios-compose-outline" data-pack="ios" data-tags="write, type, create"></li>
+      <li ng-click="selectIcon('ion-ios-trash')" class="ion-ios-trash" data-pack="ios" data-tags="delete, remove, dispose, waste, basket, dump, kill"></li>
+      <li ng-click="selectIcon('ion-ios-trash-outline')" class="ion-ios-trash-outline" data-pack="ios" data-tags="delete, remove, dispose, waste, basket, dump, kill"></li>
+      <li ng-click="selectIcon('ion-ios-copy')" class="ion-ios-copy" data-pack="ios" data-tags="duplicate, paper"></li>
+      <li ng-click="selectIcon('ion-ios-copy-outline')" class="ion-ios-copy-outline" data-pack="ios" data-tags="duplicate, paper"></li>
+      <li ng-click="selectIcon('ion-ios-email')" class="ion-ios-email" data-pack="ios" data-tags="snail, mail"></li>
+      <li ng-click="selectIcon('ion-ios-email-outline')" class="ion-ios-email-outline" data-pack="ios" data-tags="snail, mail"></li>
+      <li ng-click="selectIcon('ion-ios-undo')" class="ion-ios-undo" data-pack="ios" data-tags="reply"></li>
+      <li ng-click="selectIcon('ion-ios-undo-outline')" class="ion-ios-undo-outline" data-pack="ios" data-tags="reply"></li>
+      <li ng-click="selectIcon('ion-ios-redo')" class="ion-ios-redo" data-pack="ios" data-tags="forward"></li>
+      <li ng-click="selectIcon('ion-ios-redo-outline')" class="ion-ios-redo-outline" data-pack="ios" data-tags="forward"></li>
+      <li ng-click="selectIcon('ion-ios-paperplane')" class="ion-ios-paperplane" data-pack="ios" data-tags="send"></li>
+      <li ng-click="selectIcon('ion-ios-paperplane-outline')" class="ion-ios-paperplane-outline" data-pack="ios" data-tags="send"></li>
+      <li ng-click="selectIcon('ion-ios-folder')" class="ion-ios-folder" data-pack="ios" data-tags="file"></li>
+      <li ng-click="selectIcon('ion-ios-folder-outline')" class="ion-ios-folder-outline" data-pack="ios" data-tags="file"></li>
+      <li ng-click="selectIcon('ion-ios-paper')" class="ion-ios-paper" data-pack="ios" data-tags="feed, paper"></li>
+      <li ng-click="selectIcon('ion-ios-paper-outline')" class="ion-ios-paper-outline" data-pack="ios" data-tags="feed, paper"></li>
+      <li ng-click="selectIcon('ion-ios-list')" class="ion-ios-list" data-pack="ios" data-tags="todo, feed, paper"></li>
+      <li ng-click="selectIcon('ion-ios-list-outline')" class="ion-ios-list-outline" data-pack="ios" data-tags="todo, feed, paper"></li>
+      <li ng-click="selectIcon('ion-ios-world')" class="ion-ios-world" data-pack="ios" data-tags="globe, earth"></li>
+      <li ng-click="selectIcon('ion-ios-world-outline')" class="ion-ios-world-outline" data-pack="ios" data-tags="globe, earth"></li>
+      <li ng-click="selectIcon('ion-ios-alarm')" class="ion-ios-alarm" data-pack="ios" data-tags="wake, ring"></li>
+      <li ng-click="selectIcon('ion-ios-alarm-outline')" class="ion-ios-alarm-outline" data-pack="ios" data-tags="wake, ring"></li>
+      <li ng-click="selectIcon('ion-ios-speedometer')" class="ion-ios-speedometer" data-pack="ios" data-tags="speed, drive, level"></li>
+      <li ng-click="selectIcon('ion-ios-speedometer-outline')" class="ion-ios-speedometer-outline" data-pack="ios" data-tags="speed, drive, level"></li>
+      <li ng-click="selectIcon('ion-ios-stopwatch')" class="ion-ios-stopwatch" data-pack="ios" data-tags="time, speed"></li>
+      <li ng-click="selectIcon('ion-ios-stopwatch-outline')" class="ion-ios-stopwatch-outline" data-pack="ios" data-tags="time, speed"></li>
+      <li ng-click="selectIcon('ion-ios-timer')" class="ion-ios-timer" data-pack="ios" data-tags="cooking, alarm, buzz"></li>
+      <li ng-click="selectIcon('ion-ios-timer-outline')" class="ion-ios-timer-outline" data-pack="ios" data-tags="cooking, alarm, buzz"></li>
+      <li ng-click="selectIcon('ion-ios-clock')" class="ion-ios-clock" data-pack="ios" data-tags="time, date, hours, minutes, seconds, watch"></li>
+      <li ng-click="selectIcon('ion-ios-clock-outline')" class="ion-ios-clock-outline" data-pack="ios" data-tags="time, date, hours, minutes, seconds, watch"></li>
+      <li ng-click="selectIcon('ion-ios-time')" class="ion-ios-time" data-pack="ios" data-tags="clock, watch, hour, minute, second"></li>
+      <li ng-click="selectIcon('ion-ios-time-outline')" class="ion-ios-time-outline" data-pack="ios" data-tags="clock, watch, hour, minute, second"></li>
+      <li ng-click="selectIcon('ion-ios-calendar')" class="ion-ios-calendar" data-pack="ios" data-tags="date, time, month, year"></li>
+      <li ng-click="selectIcon('ion-ios-calendar-outline')" class="ion-ios-calendar-outline" data-pack="ios" data-tags="date, time, month, year"></li>
+      <li ng-click="selectIcon('ion-ios-photos')" class="ion-ios-photos" data-pack="ios" data-tags="images, stills, square"></li>
+      <li ng-click="selectIcon('ion-ios-photos-outline')" class="ion-ios-photos-outline" data-pack="ios" data-tags="images, stills, square"></li>
+      <li ng-click="selectIcon('ion-ios-albums')" class="ion-ios-albums" data-pack="ios" data-tags="square, boxes, slides"></li>
+      <li ng-click="selectIcon('ion-ios-albums-outline')" class="ion-ios-albums-outline" data-pack="ios" data-tags="square, boxes, slides"></li>
+      <li ng-click="selectIcon('ion-ios-camera')" class="ion-ios-camera" data-pack="ios" data-tags="picture"></li>
+      <li ng-click="selectIcon('ion-ios-camera-outline')" class="ion-ios-camera-outline" data-pack="ios" data-tags="picture"></li>
+      <li ng-click="selectIcon('ion-ios-reverse-camera')" class="ion-ios-reverse-camera" data-pack="ios" data-tags="picture"></li>
+      <li ng-click="selectIcon('ion-ios-reverse-camera-outline')" class="ion-ios-reverse-camera-outline" data-pack="ios" data-tags="picture"></li>
+      <li ng-click="selectIcon('ion-ios-eye')" class="ion-ios-eye" data-pack="ios" data-tags="view, see, exposed, look"></li>
+      <li ng-click="selectIcon('ion-ios-eye-outline')" class="ion-ios-eye-outline" data-pack="ios" data-tags="view, see, exposed, look"></li>
+      <li ng-click="selectIcon('ion-ios-bolt')" class="ion-ios-bolt" data-pack="ios" data-tags="flash, lightning"></li>
+      <li ng-click="selectIcon('ion-ios-bolt-outline')" class="ion-ios-bolt-outline" data-pack="ios" data-tags="flash, lightning"></li>
+      <li ng-click="selectIcon('ion-ios-color-wand')" class="ion-ios-color-wand" data-pack="ios" data-tags="camera, picture, edit, magic"></li>
+      <li ng-click="selectIcon('ion-ios-color-wand-outline')" class="ion-ios-color-wand-outline" data-pack="ios" data-tags="camera, picture, edit, magic"></li>
+      <li ng-click="selectIcon('ion-ios-color-filter')" class="ion-ios-color-filter" data-pack="ios" data-tags="camera, picture"></li>
+      <li ng-click="selectIcon('ion-ios-color-filter-outline')" class="ion-ios-color-filter-outline" data-pack="ios" data-tags="camera, picture"></li>
+      <li ng-click="selectIcon('ion-ios-grid-view')" class="ion-ios-grid-view" data-pack="ios" data-tags="camera, picture"></li>
+      <li ng-click="selectIcon('ion-ios-grid-view-outline')" class="ion-ios-grid-view-outline" data-pack="ios" data-tags="camera, picture"></li>
+      <li ng-click="selectIcon('ion-ios-crop-strong')" class="ion-ios-crop-strong" data-pack="ios" data-tags="camera, picture, edit"></li>
+      <li ng-click="selectIcon('ion-ios-crop')" class="ion-ios-crop" data-pack="ios" data-tags="camera, picture, edit"></li>
+      <li ng-click="selectIcon('ion-ios-barcode')" class="ion-ios-barcode" data-pack="ios" data-tags="reader, camera"></li>
+      <li ng-click="selectIcon('ion-ios-barcode-outline')" class="ion-ios-barcode-outline" data-pack="ios" data-tags="reader, camera"></li>
+      <li ng-click="selectIcon('ion-ios-briefcase')" class="ion-ios-briefcase" data-pack="ios" data-tags="organize, folder"></li>
+      <li ng-click="selectIcon('ion-ios-briefcase-outline')" class="ion-ios-briefcase-outline" data-pack="ios" data-tags="organize, folder"></li>
+      <li ng-click="selectIcon('ion-ios-medkit')" class="ion-ios-medkit" data-pack="ios" data-tags="health, case, first aid, sick, disease"></li>
+      <li ng-click="selectIcon('ion-ios-medkit-outline')" class="ion-ios-medkit-outline" data-pack="ios" data-tags="health, case, first aid, sick, disease"></li>
+      <li ng-click="selectIcon('ion-ios-medical')" class="ion-ios-medical" data-pack="ios" data-tags="health, case, first aid, sick, disease"></li>
+      <li ng-click="selectIcon('ion-ios-medical-outline')" class="ion-ios-medical-outline" data-pack="ios" data-tags="health, case, first aid, sick, disease"></li>
+      <li ng-click="selectIcon('ion-ios-infinite')" class="ion-ios-infinite" data-pack="ios" data-tags="forever, loop"></li>
+      <li ng-click="selectIcon('ion-ios-infinite-outline')" class="ion-ios-infinite-outline" data-pack="ios" data-tags="forever, loop"></li>
+      <li ng-click="selectIcon('ion-ios-calculator')" class="ion-ios-calculator" data-pack="ios" data-tags="math, arithmatic"></li>
+      <li ng-click="selectIcon('ion-ios-calculator-outline')" class="ion-ios-calculator-outline" data-pack="ios" data-tags="math, arithmatic"></li>
+      <li ng-click="selectIcon('ion-ios-keypad')" class="ion-ios-keypad" data-pack="ios" data-tags="type, grid, circle"></li>
+      <li ng-click="selectIcon('ion-ios-keypad-outline')" class="ion-ios-keypad-outline" data-pack="ios" data-tags="type, grid, circle"></li>
+      <li ng-click="selectIcon('ion-ios-telephone')" class="ion-ios-telephone" data-pack="ios" data-tags="oldschool, call"></li>
+      <li ng-click="selectIcon('ion-ios-telephone-outline')" class="ion-ios-telephone-outline" data-pack="ios" data-tags="oldschool, call"></li>
+      <li ng-click="selectIcon('ion-ios-drag')" class="ion-ios-drag" data-pack="ios" data-tags="reorder, move, drag"></li>
+      <li ng-click="selectIcon('ion-ios-location')" class="ion-ios-location" data-pack="ios" data-tags="navigation, map, gps, pin"></li>
+      <li ng-click="selectIcon('ion-ios-location-outline')" class="ion-ios-location-outline" data-pack="ios" data-tags="navigation, map, gps, pin"></li>
+      <li ng-click="selectIcon('ion-ios-navigate')" class="ion-ios-navigate" data-pack="ios" data-tags="location, map, gps, pin"></li>
+      <li ng-click="selectIcon('ion-ios-navigate-outline')" class="ion-ios-navigate-outline" data-pack="ios" data-tags="location, map, gps, pin"></li>
+      <li ng-click="selectIcon('ion-ios-locked')" class="ion-ios-locked" data-pack="ios" data-tags="security, padlock, safe"></li>
+      <li ng-click="selectIcon('ion-ios-locked-outline')" class="ion-ios-locked-outline" data-pack="ios" data-tags="security, padlock, safe"></li>
+      <li ng-click="selectIcon('ion-ios-unlocked')" class="ion-ios-unlocked" data-pack="ios" data-tags="security, padlock, safe"></li>
+      <li ng-click="selectIcon('ion-ios-unlocked-outline')" class="ion-ios-unlocked-outline" data-pack="ios" data-tags="security, padlock, safe"></li>
+      <li ng-click="selectIcon('ion-ios-monitor')" class="ion-ios-monitor" data-pack="ios" data-tags="thunderbolt, display, screen"></li>
+      <li ng-click="selectIcon('ion-ios-monitor-outline')" class="ion-ios-monitor-outline" data-pack="ios" data-tags="thunderbolt, display, screen"></li>
+      <li ng-click="selectIcon('ion-ios-printer')" class="ion-ios-printer" data-pack="ios" data-tags="paper"></li>
+      <li ng-click="selectIcon('ion-ios-printer-outline')" class="ion-ios-printer-outline" data-pack="ios" data-tags="paper"></li>
+      <li ng-click="selectIcon('ion-ios-game-controller-a')" class="ion-ios-game-controller-a" data-pack="ios" data-tags="gaming, nintendo, play"></li>
+      <li ng-click="selectIcon('ion-ios-game-controller-a-outline')" class="ion-ios-game-controller-a-outline" data-pack="ios" data-tags="gaming, nintendo, play"></li>
+      <li ng-click="selectIcon('ion-ios-game-controller-b')" class="ion-ios-game-controller-b" data-pack="ios" data-tags="gaming, nintendo, play"></li>
+      <li ng-click="selectIcon('ion-ios-game-controller-b-outline')" class="ion-ios-game-controller-b-outline" data-pack="ios" data-tags="gaming, nintendo, play"></li>
+      <li ng-click="selectIcon('ion-ios-americanfootball')" class="ion-ios-americanfootball" data-pack="ios" data-tags="nfl, games, sports, fun, play"></li>
+      <li ng-click="selectIcon('ion-ios-americanfootball-outline')" class="ion-ios-americanfootball-outline" data-pack="ios" data-tags="nfl, games, sports, fun, play"></li>
+      <li ng-click="selectIcon('ion-ios-baseball')" class="ion-ios-baseball" data-pack="ios" data-tags="mlb, games, sports, fun, play"></li>
+      <li ng-click="selectIcon('ion-ios-baseball-outline')" class="ion-ios-baseball-outline" data-pack="ios" data-tags="mlb, games, sports, fun, play"></li>
+      <li ng-click="selectIcon('ion-ios-basketball')" class="ion-ios-basketball" data-pack="ios" data-tags="nba, games, sports, fun, play"></li>
+      <li ng-click="selectIcon('ion-ios-basketball-outline')" class="ion-ios-basketball-outline" data-pack="ios" data-tags="nba, games, sports, fun, play"></li>
+      <li ng-click="selectIcon('ion-ios-tennisball')" class="ion-ios-tennisball" data-pack="ios" data-tags="games, sports, fun, play"></li>
+      <li ng-click="selectIcon('ion-ios-tennisball-outline')" class="ion-ios-tennisball-outline" data-pack="ios" data-tags="games, sports, fun, play"></li>
+      <li ng-click="selectIcon('ion-ios-football')" class="ion-ios-football" data-pack="ios" data-tags="mls, soccer, games, sports, fun, play"></li>
+      <li ng-click="selectIcon('ion-ios-football-outline')" class="ion-ios-football-outline" data-pack="ios" data-tags="mls, soccer, games, sports, fun, play"></li>
+      <li ng-click="selectIcon('ion-ios-body')" class="ion-ios-body" data-pack="ios" data-tags="person, users, staff, head, human"></li>
+      <li ng-click="selectIcon('ion-ios-body-outline')" class="ion-ios-body-outline" data-pack="ios" data-tags="person, users, staff, head, human"></li>
+      <li ng-click="selectIcon('ion-ios-person')" class="ion-ios-person" data-pack="ios" data-tags="users, staff, head, human"></li>
+      <li ng-click="selectIcon('ion-ios-person-outline')" class="ion-ios-person-outline" data-pack="ios" data-tags="users, staff, head, human"></li>
+      <li ng-click="selectIcon('ion-ios-personadd')" class="ion-ios-personadd" data-pack="ios" data-tags="users, staff, head, human, new, invite"></li>
+      <li ng-click="selectIcon('ion-ios-personadd-outline')" class="ion-ios-personadd-outline" data-pack="ios" data-tags="users, staff, head, human, new, invite"></li>
+      <li ng-click="selectIcon('ion-ios-people')" class="ion-ios-people" data-pack="ios" data-tags="stalker, person, users, head, human"></li>
+      <li ng-click="selectIcon('ion-ios-people-outline')" class="ion-ios-people-outline" data-pack="ios" data-tags="stalker, person, users, head, human"></li>
+      <li ng-click="selectIcon('ion-ios-musical-notes')" class="ion-ios-musical-notes" data-pack="ios" data-tags="sound, noise, listening, play"></li>
+      <li ng-click="selectIcon('ion-ios-musical-note')" class="ion-ios-musical-note" data-pack="ios" data-tags="sound, noise, listening, play"></li>
+      <li ng-click="selectIcon('ion-ios-bell')" class="ion-ios-bell" data-pack="ios" data-tags="right, noise, alarm, sound, music"></li>
+      <li ng-click="selectIcon('ion-ios-bell-outline')" class="ion-ios-bell-outline" data-pack="ios" data-tags="right, noise, alarm, sound, music"></li>
+      <li ng-click="selectIcon('ion-ios-mic')" class="ion-ios-mic" data-pack="ios" data-tags="sound, noise, speaker, talk"></li>
+      <li ng-click="selectIcon('ion-ios-mic-outline')" class="ion-ios-mic-outline" data-pack="ios" data-tags="sound, noise, speaker, talk"></li>
+      <li ng-click="selectIcon('ion-ios-mic-off')" class="ion-ios-mic-off" data-pack="ios" data-tags="sound, noise, speaker, talk"></li>
+      <li ng-click="selectIcon('ion-ios-volume-high')" class="ion-ios-volume-high" data-pack="ios" data-tags="sound, noise, listen, music"></li>
+      <li ng-click="selectIcon('ion-ios-volume-low')" class="ion-ios-volume-low" data-pack="ios" data-tags="sound, noise, listen, music"></li>
+      <li ng-click="selectIcon('ion-ios-play')" class="ion-ios-play" data-pack="ios" data-tags="music, watch, arrow, right"></li>
+      <li ng-click="selectIcon('ion-ios-play-outline')" class="ion-ios-play-outline" data-pack="ios" data-tags="music, watch, arrow, right"></li>
+      <li ng-click="selectIcon('ion-ios-pause')" class="ion-ios-pause" data-pack="ios" data-tags="music, break, hold, freeze"></li>
+      <li ng-click="selectIcon('ion-ios-pause-outline')" class="ion-ios-pause-outline" data-pack="ios" data-tags="music, break, hold, freeze"></li>
+      <li ng-click="selectIcon('ion-ios-recording')" class="ion-ios-recording" data-pack="ios" data-tags="film, tape, voicemail"></li>
+      <li ng-click="selectIcon('ion-ios-recording-outline')" class="ion-ios-recording-outline" data-pack="ios" data-tags="film, tape, voicemail"></li>
+      <li ng-click="selectIcon('ion-ios-fastforward')" class="ion-ios-fastforward" data-pack="ios" data-tags="next, skip, jump"></li>
+      <li ng-click="selectIcon('ion-ios-fastforward-outline')" class="ion-ios-fastforward-outline" data-pack="ios" data-tags="next, skip, jump"></li>
+      <li ng-click="selectIcon('ion-ios-rewind')" class="ion-ios-rewind" data-pack="ios" data-tags="music, previous, back"></li>
+      <li ng-click="selectIcon('ion-ios-rewind-outline')" class="ion-ios-rewind-outline" data-pack="ios" data-tags="music, previous, back"></li>
+      <li ng-click="selectIcon('ion-ios-skipbackward')" class="ion-ios-skipbackward" data-pack="ios" data-tags="music, previous"></li>
+      <li ng-click="selectIcon('ion-ios-skipbackward-outline')" class="ion-ios-skipbackward-outline" data-pack="ios" data-tags="music, previous"></li>
+      <li ng-click="selectIcon('ion-ios-skipforward')" class="ion-ios-skipforward" data-pack="ios" data-tags="music, next"></li>
+      <li ng-click="selectIcon('ion-ios-skipforward-outline')" class="ion-ios-skipforward-outline" data-pack="ios" data-tags="music, next"></li>
+      <li ng-click="selectIcon('ion-ios-shuffle-strong')" class="ion-ios-shuffle-strong" data-pack="ios" data-tags="music, next"></li>
+      <li ng-click="selectIcon('ion-ios-shuffle')" class="ion-ios-shuffle" data-pack="ios" data-tags="music, next"></li>
+      <li ng-click="selectIcon('ion-ios-videocam')" class="ion-ios-videocam" data-pack="ios" data-tags="film, movie, camera"></li>
+      <li ng-click="selectIcon('ion-ios-videocam-outline')" class="ion-ios-videocam-outline" data-pack="ios" data-tags="film, movie, camera"></li>
+      <li ng-click="selectIcon('ion-ios-film')" class="ion-ios-film" data-pack="ios" data-tags="film, movie, camera"></li>
+      <li ng-click="selectIcon('ion-ios-film-outline')" class="ion-ios-film-outline" data-pack="ios" data-tags="film, movie, camera"></li>
+      <li ng-click="selectIcon('ion-ios-flask')" class="ion-ios-flask" data-pack="ios" data-tags="options, mixer, liquid"></li>
+      <li ng-click="selectIcon('ion-ios-flask-outline')" class="ion-ios-flask-outline" data-pack="ios" data-tags="options, mixer, liquid"></li>
+      <li ng-click="selectIcon('ion-ios-lightbulb')" class="ion-ios-lightbulb" data-pack="ios" data-tags="idea, new, bright, aha!"></li>
+      <li ng-click="selectIcon('ion-ios-lightbulb-outline')" class="ion-ios-lightbulb-outline" data-pack="ios" data-tags="idea, new, bright, aha!"></li>
+      <li ng-click="selectIcon('ion-ios-wineglass')" class="ion-ios-wineglass" data-pack="ios" data-tags="alcohol, drink, food, glass, drunk, cheers"></li>
+      <li ng-click="selectIcon('ion-ios-wineglass-outline')" class="ion-ios-wineglass-outline" data-pack="ios" data-tags="alcohol, drink, food, glass, drunk, cheers"></li>
+      <li ng-click="selectIcon('ion-ios-pint')" class="ion-ios-pint" data-pack="ios" data-tags="alcohol, drink, food, beer, drunk, cheers"></li>
+      <li ng-click="selectIcon('ion-ios-pint-outline')" class="ion-ios-pint-outline" data-pack="ios" data-tags="alcohol, drink, food, beer, drunk, cheers"></li>
+      <li ng-click="selectIcon('ion-ios-nutrition')" class="ion-ios-nutrition" data-pack="ios" data-tags="health, carrot, food"></li>
+      <li ng-click="selectIcon('ion-ios-nutrition-outline')" class="ion-ios-nutrition-outline" data-pack="ios" data-tags="health, carrot, food"></li>
+      <li ng-click="selectIcon('ion-ios-flower')" class="ion-ios-flower" data-pack="ios" data-tags="nature, spring, leaf, garden"></li>
+      <li ng-click="selectIcon('ion-ios-flower-outline')" class="ion-ios-flower-outline" data-pack="ios" data-tags="nature, spring, leaf, garden"></li>
+      <li ng-click="selectIcon('ion-ios-rose')" class="ion-ios-rose" data-pack="ios" data-tags="nature, spring, leaf, garden, flower"></li>
+      <li ng-click="selectIcon('ion-ios-rose-outline')" class="ion-ios-rose-outline" data-pack="ios" data-tags="nature, spring, leaf, garden, flower"></li>
+      <li ng-click="selectIcon('ion-ios-paw')" class="ion-ios-paw" data-pack="ios" data-tags="nature, animal, pet, outdoor, track"></li>
+      <li ng-click="selectIcon('ion-ios-paw-outline')" class="ion-ios-paw-outline" data-pack="ios" data-tags="nature, animal, pet, outdoor, track"></li>
+      <li ng-click="selectIcon('ion-ios-flame')" class="ion-ios-flame" data-pack="ios" data-tags="fire, hot, burn"></li>
+      <li ng-click="selectIcon('ion-ios-flame-outline')" class="ion-ios-flame-outline" data-pack="ios" data-tags="fire, hot, burn"></li>
+      <li ng-click="selectIcon('ion-ios-sunny')" class="ion-ios-sunny" data-pack="ios" data-tags="weather, whether, light, sky"></li>
+      <li ng-click="selectIcon('ion-ios-sunny-outline')" class="ion-ios-sunny-outline" data-pack="ios" data-tags="weather, whether, light, sky"></li>
+      <li ng-click="selectIcon('ion-ios-partlysunny')" class="ion-ios-partlysunny" data-pack="ios" data-tags="light, weather, whether, cloudy"></li>
+      <li ng-click="selectIcon('ion-ios-partlysunny-outline')" class="ion-ios-partlysunny-outline" data-pack="ios" data-tags="light, weather, whether, cloudy"></li>
+      <li ng-click="selectIcon('ion-ios-cloudy')" class="ion-ios-cloudy" data-pack="ios" data-tags="weather, whether, overcast"></li>
+      <li ng-click="selectIcon('ion-ios-cloudy-outline')" class="ion-ios-cloudy-outline" data-pack="ios" data-tags="weather, whether, overcast"></li>
+      <li ng-click="selectIcon('ion-ios-rainy')" class="ion-ios-rainy" data-pack="ios" data-tags="whether, weather, water, cloud"></li>
+      <li ng-click="selectIcon('ion-ios-rainy-outline')" class="ion-ios-rainy-outline" data-pack="ios" data-tags="whether, weather, water, cloud"></li>
+      <li ng-click="selectIcon('ion-ios-thunderstorm')" class="ion-ios-thunderstorm" data-pack="ios" data-tags="whether, weather, sky, lightning, rain, cloudy, overcast, storm"></li>
+      <li ng-click="selectIcon('ion-ios-thunderstorm-outline')" class="ion-ios-thunderstorm-outline" data-pack="ios" data-tags="whether, weather, sky, lightning, rain, cloudy, overcast, storm"></li>
+      <li ng-click="selectIcon('ion-ios-snowy')" class="ion-ios-snowy" data-pack="ios" data-tags="cold, weather, whether, overcast"></li>
+      <li ng-click="selectIcon('ion-ios-moon')" class="ion-ios-moon" data-pack="ios" data-tags="sky, night, dark"></li>
+      <li ng-click="selectIcon('ion-ios-moon-outline')" class="ion-ios-moon-outline" data-pack="ios" data-tags="sky, night, dark"></li>
+      <li ng-click="selectIcon('ion-ios-cloudy-night')" class="ion-ios-cloudy-night" data-pack="ios" data-tags="weather, whether, overcast"></li>
+      <li ng-click="selectIcon('ion-ios-cloudy-night-outline')" class="ion-ios-cloudy-night-outline" data-pack="ios" data-tags="weather, whether, overcast"></li>
+
+
+      <p><!-- end iOS 7-style icons pack --></p>
+
+
+      <li ng-click="selectIcon('ion-android-arrow-up')" class="ion-android-arrow-up" data-pack="android" data-tags="chevron, navigation"></li>
+      <li ng-click="selectIcon('ion-android-arrow-forward')" class="ion-android-arrow-forward" data-pack="android" data-tags="chevron, navigation"></li>
+      <li ng-click="selectIcon('ion-android-arrow-down')" class="ion-android-arrow-down" data-pack="android" data-tags="chevron, navigation"></li>
+      <li ng-click="selectIcon('ion-android-arrow-back')" class="ion-android-arrow-back" data-pack="android" data-tags="chevron, navigation"></li>
+      <li ng-click="selectIcon('ion-android-arrow-dropup')" class="ion-android-arrow-dropup" data-pack="android" data-tags="chevron, navigation"></li>
+      <li ng-click="selectIcon('ion-android-arrow-dropup-circle')" class="ion-android-arrow-dropup-circle" data-pack="android" data-tags="chevron, navigation"></li>
+      <li ng-click="selectIcon('ion-android-arrow-dropright')" class="ion-android-arrow-dropright" data-pack="android" data-tags="chevron, navigation"></li>
+      <li ng-click="selectIcon('ion-android-arrow-dropright-circle')" class="ion-android-arrow-dropright-circle" data-pack="android" data-tags="chevron, navigation"></li>
+      <li ng-click="selectIcon('ion-android-arrow-dropdown')" class="ion-android-arrow-dropdown" data-pack="android" data-tags="chevron, navigation"></li>
+      <li ng-click="selectIcon('ion-android-arrow-dropdown-circle')" class="ion-android-arrow-dropdown-circle" data-pack="android" data-tags="chevron, navigation"></li>
+      <li ng-click="selectIcon('ion-android-arrow-dropleft')" class="ion-android-arrow-dropleft" data-pack="android" data-tags="chevron, navigation"></li>
+      <li ng-click="selectIcon('ion-android-arrow-dropleft-circle')" class="ion-android-arrow-dropleft-circle" data-pack="android" data-tags="chevron, navigation"></li>
+      <li ng-click="selectIcon('ion-android-add')" class="ion-android-add" data-pack="android" data-tags="plus, include, invite"></li>
+      <li ng-click="selectIcon('ion-android-add-circle')" class="ion-android-add-circle" data-pack="android" data-tags="plus, include, invite"></li>
+      <li ng-click="selectIcon('ion-android-remove')" class="ion-android-remove" data-pack="android" data-tags="minus, subtract, delete"></li>
+      <li ng-click="selectIcon('ion-android-remove-circle')" class="ion-android-remove-circle" data-pack="android" data-tags="minus, subtract, delete"></li>
+      <li ng-click="selectIcon('ion-android-close')" class="ion-android-close" data-pack="android" data-tags="delete, remove"></li>
+      <li ng-click="selectIcon('ion-android-cancel')" class="ion-android-cancel" data-pack="android" data-tags="delete, remove"></li>
+      <li ng-click="selectIcon('ion-android-radio-button-off')" class="ion-android-radio-button-off" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-radio-button-on')" class="ion-android-radio-button-on" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-checkmark-circle')" class="ion-android-checkmark-circle" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-checkbox-outline-blank')" class="ion-android-checkbox-outline-blank" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-checkbox-outline')" class="ion-android-checkbox-outline" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-checkbox-blank')" class="ion-android-checkbox-blank" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-checkbox')" class="ion-android-checkbox" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-done')" class="ion-android-done" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-done-all')" class="ion-android-done-all" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-menu')" class="ion-android-menu" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-more-horizontal')" class="ion-android-more-horizontal" data-pack="android" data-tags="options, menu"></li>
+      <li ng-click="selectIcon('ion-android-more-vertical')" class="ion-android-more-vertical" data-pack="android" data-tags="options, menu"></li>
+      <li ng-click="selectIcon('ion-android-refresh')" class="ion-android-refresh" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-sync')" class="ion-android-sync" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-wifi')" class="ion-android-wifi" data-pack="android" data-tags="internet,connection, bars"></li>
+      <li ng-click="selectIcon('ion-android-call')" class="ion-android-call" data-pack="android" data-tags="telephone"></li>
+      <li ng-click="selectIcon('ion-android-apps')" class="ion-android-apps" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-settings')" class="ion-android-settings" data-pack="android" data-tags="options"></li>
+      <li ng-click="selectIcon('ion-android-options')" class="ion-android-options" data-pack="android" data-tags="settings, mixer"></li>
+      <li ng-click="selectIcon('ion-android-funnel')" class="ion-android-funnel" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-search')" class="ion-android-search" data-pack="android" data-tags="magnifying glass"></li>
+      <li ng-click="selectIcon('ion-android-home')" class="ion-android-home" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-cloud-outline')" class="ion-android-cloud-outline" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-cloud')" class="ion-android-cloud" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-download')" class="ion-android-download" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-upload')" class="ion-android-upload" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-cloud-done')" class="ion-android-cloud-done" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-cloud-circle')" class="ion-android-cloud-circle" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-favorite-outline')" class="ion-android-favorite-outline" data-pack="android" data-tags="favorite, like, rate"></li>
+      <li ng-click="selectIcon('ion-android-favorite')" class="ion-android-favorite" data-pack="android" data-tags="favorite, like, rate"></li>
+      <li ng-click="selectIcon('ion-android-star-outline')" class="ion-android-star-outline" data-pack="android" data-tags="favorite, like, rate"></li>
+      <li ng-click="selectIcon('ion-android-star-half')" class="ion-android-star-half" data-pack="android" data-tags="favorite, like, rate"></li>
+      <li ng-click="selectIcon('ion-android-star')" class="ion-android-star" data-pack="android" data-tags="favorite, like, rate"></li>
+      <li ng-click="selectIcon('ion-android-calendar')" class="ion-android-calendar" data-pack="android" data-tags="clock"></li>
+      <li ng-click="selectIcon('ion-android-alarm-clock')" class="ion-android-alarm-clock" data-pack="android" data-tags="clock"></li>
+      <li ng-click="selectIcon('ion-android-time')" class="ion-android-time" data-pack="android" data-tags="clock"></li>
+      <li ng-click="selectIcon('ion-android-stopwatch')" class="ion-android-stopwatch" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-watch')" class="ion-android-watch" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-locate')" class="ion-android-locate" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-navigate')" class="ion-android-navigate" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-pin')" class="ion-android-pin" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-compass')" class="ion-android-compass" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-map')" class="ion-android-map" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-walk')" class="ion-android-walk" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-bicycle')" class="ion-android-bicycle" data-pack="android" data-tags="move, bike, transportation, maps"></li>
+      <li ng-click="selectIcon('ion-android-car')" class="ion-android-car" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-bus')" class="ion-android-bus" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-subway')" class="ion-android-subway" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-train')" class="ion-android-train" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-boat')" class="ion-android-boat" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-plane')" class="ion-android-plane" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-restaurant')" class="ion-android-restaurant" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-bar')" class="ion-android-bar" data-pack="android" data-tags="wine, drink, food, dinner"></li>
+      <li ng-click="selectIcon('ion-android-cart')" class="ion-android-cart" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-camera')" class="ion-android-camera" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-image')" class="ion-android-image" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-film')" class="ion-android-film" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-color-palette')" class="ion-android-color-palette" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-create')" class="ion-android-create" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-mail')" class="ion-android-mail" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-drafts')" class="ion-android-drafts" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-send')" class="ion-android-send" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-archive')" class="ion-android-archive" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-delete')" class="ion-android-delete" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-attach')" class="ion-android-attach" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-share')" class="ion-android-share" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-share-alt')" class="ion-android-share-alt" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-bookmark')" class="ion-android-bookmark" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-document')" class="ion-android-document" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-clipboard')" class="ion-android-clipboard" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-list')" class="ion-android-list" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-folder-open')" class="ion-android-folder-open" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-folder')" class="ion-android-folder" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-print')" class="ion-android-print" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-open')" class="ion-android-open" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-exit')" class="ion-android-exit" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-contract')" class="ion-android-contract" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-expand')" class="ion-android-expand" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-globe')" class="ion-android-globe" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-chat')" class="ion-android-chat" data-pack="android" data-tags="talk, text"></li>
+      <li ng-click="selectIcon('ion-android-textsms')" class="ion-android-textsms" data-pack="android" data-tags="talk, text"></li>
+      <li ng-click="selectIcon('ion-android-hangout')" class="ion-android-hangout" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-happy')" class="ion-android-happy" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-sad')" class="ion-android-sad" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-person')" class="ion-android-person" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-people')" class="ion-android-people" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-person-add')" class="ion-android-person-add" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-contact')" class="ion-android-contact" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-contacts')" class="ion-android-contacts" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-playstore')" class="ion-android-playstore" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-lock')" class="ion-android-lock" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-unlock')" class="ion-android-unlock" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-microphone')" class="ion-android-microphone" data-pack="android" data-tags="recorder, speak, noise, music, sound"></li>
+      <li ng-click="selectIcon('ion-android-microphone-off')" class="ion-android-microphone-off" data-pack="android" data-tags="recorder, speak, noise, music, sound, mute"></li>
+      <li ng-click="selectIcon('ion-android-notifications-none')" class="ion-android-notifications-none" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-notifications')" class="ion-android-notifications" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-notifications-off')" class="ion-android-notifications-off" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-volume-mute')" class="ion-android-volume-mute" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-volume-down')" class="ion-android-volume-down" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-volume-up')" class="ion-android-volume-up" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-volume-off')" class="ion-android-volume-off" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-hand')" class="ion-android-hand" data-pack="android" data-tags="stop"></li>
+      <li ng-click="selectIcon('ion-android-desktop')" class="ion-android-desktop" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-laptop')" class="ion-android-laptop" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-phone-portrait')" class="ion-android-phone-portrait" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-phone-landscape')" class="ion-android-phone-landscape" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-bulb')" class="ion-android-bulb" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-sunny')" class="ion-android-sunny" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-alert')" class="ion-android-alert" data-pack="android" data-tags=""></li>
+      <li ng-click="selectIcon('ion-android-warning')" class="ion-android-warning" data-pack="android" data-tags=""></li>
+
+
+      <p>
+      <!--
+
+      End Android-style icons pack.
+
+      Android-style icons originally built by Google’s [Material Design Icons](https://github.com/google/material-design-icons), used under [CC BY](http://creativecommons.org/licenses/by/4.0/) / Modified icons to fit ionicon’s grid from original.
+
+      -->
+      </p>
+
+
+      <li ng-click="selectIcon('ion-social-twitter')" class="ion-social-twitter" data-pack="social" data-tags="follow, post, share"></li>
+      <li ng-click="selectIcon('ion-social-twitter-outline')" class="ion-social-twitter-outline" data-pack="social" data-tags="follow, post, share"></li>
+      <li ng-click="selectIcon('ion-social-facebook')" class="ion-social-facebook" data-pack="social" data-tags="like, post, share"></li>
+      <li ng-click="selectIcon('ion-social-facebook-outline')" class="ion-social-facebook-outline" data-pack="social" data-tags="like, post, share"></li>
+      <li ng-click="selectIcon('ion-social-googleplus')" class="ion-social-googleplus" data-pack="social" data-tags="follow, post, share"></li>
+      <li ng-click="selectIcon('ion-social-googleplus-outline')" class="ion-social-googleplus-outline" data-pack="social" data-tags="follow, post, share"></li>
+      <li ng-click="selectIcon('ion-social-google')" class="ion-social-google" data-pack="social" data-tags="follow, post, share"></li>
+      <li ng-click="selectIcon('ion-social-google-outline')" class="ion-social-google-outline" data-pack="social" data-tags="follow, post, share"></li>
+      <li ng-click="selectIcon('ion-social-dribbble')" class="ion-social-dribbble" data-pack="social" data-tags="design"></li>
+      <li ng-click="selectIcon('ion-social-dribbble-outline')" class="ion-social-dribbble-outline" data-pack="social" data-tags="design"></li>
+      <li ng-click="selectIcon('ion-social-octocat')" class="ion-social-octocat" data-pack="social" data-tags="code, github, fork, merge, clone"></li>
+      <li ng-click="selectIcon('ion-social-github')" class="ion-social-github" data-pack="social" data-tags="code, fork, merge, clone"></li>
+      <li ng-click="selectIcon('ion-social-github-outline')" class="ion-social-github-outline" data-pack="social" data-tags="code, fork, merge, clone"></li>
+      <li ng-click="selectIcon('ion-social-instagram')" class="ion-social-instagram" data-pack="social" data-tags="photo, camera, facebook"></li>
+      <li ng-click="selectIcon('ion-social-instagram-outline')" class="ion-social-instagram-outline" data-pack="social" data-tags="photo, camera, facebook"></li>
+      <li ng-click="selectIcon('ion-social-whatsapp')" class="ion-social-whatsapp" data-pack="social" data-tags="text, sharing, private, facebook"></li>
+      <li ng-click="selectIcon('ion-social-whatsapp-outline')" class="ion-social-whatsapp-outline" data-pack="social" data-tags="text, sharing, private, facebook"></li>
+      <li ng-click="selectIcon('ion-social-snapchat')" class="ion-social-snapchat" data-pack="social" data-tags="photos, app"></li>
+      <li ng-click="selectIcon('ion-social-snapchat-outline')" class="ion-social-snapchat-outline" data-pack="social" data-tags="photos, app"></li>
+      <li ng-click="selectIcon('ion-social-foursquare')" class="ion-social-foursquare" data-pack="social" data-tags="checkin"></li>
+      <li ng-click="selectIcon('ion-social-foursquare-outline')" class="ion-social-foursquare-outline" data-pack="social" data-tags="checkin"></li>
+      <li ng-click="selectIcon('ion-social-pinterest')" class="ion-social-pinterest" data-pack="social" data-tags="social"></li>
+      <li ng-click="selectIcon('ion-social-pinterest-outline')" class="ion-social-pinterest-outline" data-pack="social" data-tags="social"></li>
+      <li ng-click="selectIcon('ion-social-rss')" class="ion-social-rss" data-pack="social" data-tags="blogging"></li>
+      <li ng-click="selectIcon('ion-social-rss-outline')" class="ion-social-rss-outline" data-pack="social" data-tags="blogging"></li>
+      <li ng-click="selectIcon('ion-social-tumblr')" class="ion-social-tumblr" data-pack="social" data-tags="blogging"></li>
+      <li ng-click="selectIcon('ion-social-tumblr-outline')" class="ion-social-tumblr-outline" data-pack="social" data-tags="blogging"></li>
+      <li ng-click="selectIcon('ion-social-wordpress')" class="ion-social-wordpress" data-pack="social" data-tags="blogging"></li>
+      <li ng-click="selectIcon('ion-social-wordpress-outline')" class="ion-social-wordpress-outline" data-pack="social" data-tags="blogging"></li>
+      <li ng-click="selectIcon('ion-social-reddit')" class="ion-social-reddit" data-pack="social" data-tags="news, upvotes, karma"></li>
+      <li ng-click="selectIcon('ion-social-reddit-outline')" class="ion-social-reddit-outline" data-pack="social" data-tags="news, upvotes, karma"></li>
+      <li ng-click="selectIcon('ion-social-hackernews')" class="ion-social-hackernews" data-pack="social" data-tags="discuss, upvotes, karma"></li>
+      <li ng-click="selectIcon('ion-social-hackernews-outline')" class="ion-social-hackernews-outline" data-pack="social" data-tags="discuss, upvotes, karma"></li>
+      <li ng-click="selectIcon('ion-social-designernews')" class="ion-social-designernews" data-pack="social" data-tags="design, post"></li>
+      <li ng-click="selectIcon('ion-social-designernews-outline')" class="ion-social-designernews-outline" data-pack="social" data-tags="design, post"></li>
+      <li ng-click="selectIcon('ion-social-yahoo')" class="ion-social-yahoo" data-pack="social" data-tags=""></li>
+      <li ng-click="selectIcon('ion-social-yahoo-outline')" class="ion-social-yahoo-outline" data-pack="social" data-tags=""></li>
+      <li ng-click="selectIcon('ion-social-buffer')" class="ion-social-buffer" data-pack="social" data-tags="share"></li>
+      <li ng-click="selectIcon('ion-social-buffer-outline')" class="ion-social-buffer-outline" data-pack="social" data-tags="share"></li>
+      <li ng-click="selectIcon('ion-social-skype')" class="ion-social-skype" data-pack="social" data-tags="call"></li>
+      <li ng-click="selectIcon('ion-social-skype-outline')" class="ion-social-skype-outline" data-pack="social" data-tags="call"></li>
+      <li ng-click="selectIcon('ion-social-linkedin')" class="ion-social-linkedin" data-pack="social" data-tags="connect"></li>
+      <li ng-click="selectIcon('ion-social-linkedin-outline')" class="ion-social-linkedin-outline" data-pack="social" data-tags="connect"></li>
+      <li ng-click="selectIcon('ion-social-vimeo')" class="ion-social-vimeo" data-pack="social" data-tags="video, watch, share, view"></li>
+      <li ng-click="selectIcon('ion-social-vimeo-outline')" class="ion-social-vimeo-outline" data-pack="social" data-tags="video, watch, share, view"></li>
+      <li ng-click="selectIcon('ion-social-twitch')" class="ion-social-twitch" data-pack="social" data-tags="gaming, games, live, streaming, video, watch, share, view"></li>
+      <li ng-click="selectIcon('ion-social-twitch-outline')" class="ion-social-twitch-outline" data-pack="social" data-tags="gaming, games, live, streaming, video, watch, share, view"></li>
+      <li ng-click="selectIcon('ion-social-youtube')" class="ion-social-youtube" data-pack="social" data-tags="video, watch, share, view"></li>
+      <li ng-click="selectIcon('ion-social-youtube-outline')" class="ion-social-youtube-outline" data-pack="social" data-tags="video, watch, share, view"></li>
+      <li ng-click="selectIcon('ion-social-dropbox')" class="ion-social-dropbox" data-pack="social" data-tags="upload"></li>
+      <li ng-click="selectIcon('ion-social-dropbox-outline')" class="ion-social-dropbox-outline" data-pack="social" data-tags="upload"></li>
+      <li ng-click="selectIcon('ion-social-apple')" class="ion-social-apple" data-pack="social" data-tags="mac, mobile"></li>
+      <li ng-click="selectIcon('ion-social-apple-outline')" class="ion-social-apple-outline" data-pack="social" data-tags="mac, mobile"></li>
+      <li ng-click="selectIcon('ion-social-android')" class="ion-social-android" data-pack="social" data-tags="mobile"></li>
+      <li ng-click="selectIcon('ion-social-android-outline')" class="ion-social-android-outline" data-pack="social" data-tags="mobile"></li>
+      <li ng-click="selectIcon('ion-social-windows')" class="ion-social-windows" data-pack="social" data-tags="pc"></li>
+      <li ng-click="selectIcon('ion-social-windows-outline')" class="ion-social-windows-outline" data-pack="social" data-tags="pc"></li>
+      <li ng-click="selectIcon('ion-social-html5')" class="ion-social-html5" data-pack="social" data-tags="code, html, css, js, developer"></li>
+      <li ng-click="selectIcon('ion-social-html5-outline')" class="ion-social-html5-outline" data-pack="social" data-tags="code, html, css, js, developer"></li>
+      <li ng-click="selectIcon('ion-social-css3')" class="ion-social-css3" data-pack="social" data-tags="code, html, css, js, developer"></li>
+      <li ng-click="selectIcon('ion-social-css3-outline')" class="ion-social-css3-outline" data-pack="social" data-tags="code, html, css, js, developer"></li>
+      <li ng-click="selectIcon('ion-social-javascript')" class="ion-social-javascript" data-pack="social" data-tags="code, html, css, js, developer"></li>
+      <li ng-click="selectIcon('ion-social-javascript-outline')" class="ion-social-javascript-outline" data-pack="social" data-tags="code, html, css, js, developer"></li>
+      <li ng-click="selectIcon('ion-social-angular')" class="ion-social-angular" data-pack="social" data-tags="code, mobile, js, angularjs, ionic"></li>
+      <li ng-click="selectIcon('ion-social-angular-outline')" class="ion-social-angular-outline" data-pack="social" data-tags="code, mobile, js, angularjs, ionic"></li>
+      <li ng-click="selectIcon('ion-social-nodejs')" class="ion-social-nodejs" data-pack="social" data-tags="code, js, javascript, developer"></li>
+      <li ng-click="selectIcon('ion-social-sass')" class="ion-social-sass" data-pack="social" data-tags="code, css"></li>
+      <li ng-click="selectIcon('ion-social-python')" class="ion-social-python" data-pack="social" data-tags="code"></li>
+      <li ng-click="selectIcon('ion-social-chrome')" class="ion-social-chrome" data-pack="social" data-tags="code, mobile, js, angularjs, ionic"></li>
+      <li ng-click="selectIcon('ion-social-chrome-outline')" class="ion-social-chrome-outline" data-pack="social" data-tags="code, mobile, js, angularjs, ionic"></li>
+      <li ng-click="selectIcon('ion-social-codepen')" class="ion-social-codepen" data-pack="social" data-tags="testing, js, developer"></li>
+      <li ng-click="selectIcon('ion-social-codepen-outline')" class="ion-social-codepen-outline" data-pack="social" data-tags="testing, js, developer"></li>
+      <li ng-click="selectIcon('ion-social-markdown')" class="ion-social-markdown" data-pack="social" data-tags="code, testing, text, developer"></li>
+      <li ng-click="selectIcon('ion-social-tux')" class="ion-social-tux" data-pack="social" data-tags="code, linux, opensource"></li>
+      <li ng-click="selectIcon('ion-social-freebsd-devil')" class="ion-social-freebsd-devil" data-pack="social" data-tags="code, opensource, unix"></li>
+      <li ng-click="selectIcon('ion-social-usd')" class="ion-social-usd" data-pack="social" data-tags="currency, trade, money, cash"></li>
+      <li ng-click="selectIcon('ion-social-usd-outline')" class="ion-social-usd-outline" data-pack="social" data-tags="currency, trade, money, cash"></li>
+      <li ng-click="selectIcon('ion-social-bitcoin')" class="ion-social-bitcoin" data-pack="social" data-tags="currency, trade, money"></li>
+      <li ng-click="selectIcon('ion-social-bitcoin-outline')" class="ion-social-bitcoin-outline" data-pack="social" data-tags="currency, trade, money"></li>
+      <li ng-click="selectIcon('ion-social-yen')" class="ion-social-yen" data-pack="social" data-tags="currency, trade, money, japanese"></li>
+      <li ng-click="selectIcon('ion-social-yen-outline')" class="ion-social-yen-outline" data-pack="social" data-tags="currency, trade, money, japanese"></li>
+      <li ng-click="selectIcon('ion-social-euro')" class="ion-social-euro" data-pack="social" data-tags="currency, trade, money, europe"></li>
+      <li ng-click="selectIcon('ion-social-euro-outline')" class="ion-social-euro-outline" data-pack="social" data-tags="currency, trade, money, europe"></li>
+    </ul>
+							
+					</div>
+					<div class="modal-footer"><a href="#" class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</a></div>
+				</div>
+			</div>
+		</div>

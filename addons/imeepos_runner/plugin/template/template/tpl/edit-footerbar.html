@@ -1,0 +1,43 @@
+<script type="text/ng-template" id="edit-footerbar.html">
+		<div class="fe-panel-editor-title">底部导航设置
+		</div>
+		<div class="fe-panel-editor-line">
+			<div class="fe-panel-editor-name">按钮样式</div>
+			<div class="fe-panel-editor-con">
+				<input class="fe-panel-editor-input2" type="color" ng-model="Edit.params.bgcolor" />
+			</div>
+		</div>
+		
+		<div ng-repeat="footerbar in Edit.data" class="fe-panel-editor-relative">
+			<div class="fe-panel-editor-del" title="移除" ng-click="delItemChild(Edit.id,footerbar.id)">×</div>
+			<div class="fe-panel-editor-line2">
+				<div class="fe-panel-editor-line" >
+					<div class="fe-panel-editor-name">标题</div>
+					<div class="fe-panel-editor-con">
+						<input class="fe-panel-editor-input1" placeholder="请输入标题" style="cursor:pointer;" ng-model="footerbar.title" />
+					</div>
+				</div>
+				<div class="fe-panel-editor-line" >
+					<div class="fe-panel-editor-name">链接</div>
+					<div class="fe-panel-editor-con">
+						<input class="fe-panel-editor-input1" ng-click="chooseUrl(Edit.id,footerbar.id)" placeholder="请输入标题" style="background-color: gray;cursor:pointer;" ng-model="footerbar.hrefurl" />
+					</div>
+				</div>
+				<div class="fe-panel-editor-line" >
+					<div class="fe-panel-editor-name">样式</div>
+					<div class="fe-panel-editor-con">
+						<input class="fe-panel-editor-input1" ng-click="pageIcon('icon',Edit.id,footerbar.id)" readonly="readonly" placeholder="icon选择" style="width:20em;background-color: gray;cursor:pointer;" ng-model="footerbar.icon" />
+						<input class="fe-panel-editor-input2" type="color" placeholder="请选择前景色" style="background-color: gray;cursor:pointer;" ng-model="footerbar.color" />
+						
+					</div>
+				</div>
+				<div class="fe-panel-editor-line" >
+					<div class="fe-panel-editor-name">背景色</div>
+					<div class="fe-panel-editor-con">
+						<input class="fe-panel-editor-input2" type="color" placeholder="请选择背景色" style="background-color: gray;cursor:pointer;" ng-model="footerbar.bgcolor" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="fe-panel-editor-sub1" ng-click="addItemChild('footerbar',Edit.id)"><i class="fa fa-plus-circle"></i> 添加一个导航</div>
+	</script>

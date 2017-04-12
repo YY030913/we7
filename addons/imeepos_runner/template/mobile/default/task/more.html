@@ -1,0 +1,24 @@
+{loop $orders $order}
+<a class="item item-avatar" data-pjax href="{php echo $this->createMobileUrl('detail',array('id'=>$order['id']))}">
+	<img src="{$order['user']['avatar']}" alt="{$order['user']['nickname']}" />
+	<h2 class="title">{$order['user']['nickname']}</h2>
+	{if floatval($order['small_money']>0)}
+				<span style="display:block;" style="margin-top:5px;">加急：
+					<span class="assertive">{$order['small_money']}元</span>
+				</span>
+	{/if}
+	{if !empty($order['limit_time'])}
+	<span style="display:block;margin-top:5px;">截至到：<span class="assertive">{php echo date('Y-m-d h:i',$order['limit_time']);}</span></span>
+	{else}
+	<span style="display:block;margin-top:5px;">发布时间：<span class="assertive">{php echo $order['create_time']}</span></span>
+	{/if}
+	<p class="royal" style="margin-top:5px;">目的地：<span style="color:#04be02;white-space: normal;">{$order['address']}</span></p>
+	<!--<p style="white-space: normal;color:gray;">{$order['text']}</p>-->
+	<p class="royal" style="margin-top:5px;">城市：<span>{php echo $order['city']}</span></p>
+	{if $order['status'] == 1}
+	<i class="badge badge-assertive" style="margin-top: -10px;">等待中</i>
+	{else}
+	<i class="badge badge-stable" style="margin-top: -10px;">已被抢</i>
+	{/if}
+</a>
+{/loop}

@@ -1,0 +1,172 @@
+{template 'common/header'}
+{template 'nav'}
+{template 'list_nav'}
+<script src="{MODULE_URL}template/mobile/js/jquery-1.7.2.min.js"></script>
+<script>
+	function selectall(obj, name){
+		$('input[name="'+name+'[]"]:checkbox').each(function() {
+			$(this).attr("checked", $(obj).attr('checked') ? true : false);
+		});
+	}
+</script>
+{if $op=='list'}
+<div class="panel panel-default">
+	<div class="panel-heading">筛选</div>
+	<div class="panel-body">
+		<form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+			<input type="hidden" name="c" value="site" />
+			<input type="hidden" name="a" value="entry" />
+			<input type="hidden" name="m" value="meepo_online" />
+			<input type="hidden" name="do" value="live_news" />
+            
+            <input type="hidden" name="listid" value="{$listid}" />
+           
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">消息内容</label>
+				<div class="col-xs-12 col-sm-8 col-lg-8">
+					<input class="form-control" name="content" id="" type="text" value="{$_GPC['content']}" placeholder="请输入消息内容">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input class="btn btn-primary" id="" type="submit" value="搜索">
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<style>
+.cell{float:left;margin-left:10px;}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		图文消息管理
+	</div>
+	<form action="" method="post">
+	<div class="panel-body">
+		<table  class="table table-striped">
+		
+			<thead>
+				<tr>
+					<th style="width:15%;">选择</th>
+					<th style="width:40%;">消息内容</th>
+					<th style="width:40%;">消息图片</th>
+					<th style="width:10%;">评论</th>
+					<th style="width:10%;">赞数</th>
+					<th style="width:20%;">消息评论</th>
+					<th style="width:30%;">发布时间</th>
+					<th style="width:50%;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{loop $lists $row}
+				<tr>
+					<td><input type="checkbox" name="select[]" value="{$row['id']}" /></td>
+					<td>
+					{php echo $this->emo($row['content']);}
+					</td>
+					<td>
+						{if $row['imgs']!='no_imgs'}
+						<div class="one extras j_p_gallery"> 
+						{php $new_imgs = iunserializer($row['imgs']);}
+						{loop $new_imgs $rval}
+						  <div class="cell">     
+							<a href="javascript:;"><img class="j_fullppt"  alt="" src="{php echo tomedia($rval)}" data-src="{php echo tomedia($rval)}" width=40px height=40px></a>
+						  </div>
+						 {/loop}
+						</div>
+						{else}
+							无图片
+						{/if}
+					</td>
+					<td>{php echo intval($row['pl'])}条</td>
+					<td>{php echo intval($row['zan'])}个</td>
+					<td>
+						<div>
+							<div><a class="btn btn-success"  href="{php echo $this->createWebUrl('live_news_reply',array('newsid'=>$row['id'],'listid'=>$listid))}">查看评论</a>
+							</div>
+						</div>
+					</td>
+					<td>
+						{php echo date("Y-m-d H:i:s",$row['createtime'])}
+					</td>
+					<td>
+						<a class="btn btn-success"  href="{php echo $this->createWebUrl('live_news',array('op'=>'post','id'=>$row['id'],'listid'=>$listid))}">
+							编辑
+						</a>
+						<a class="btn btn-danger"  href="{php echo $this->createWebUrl('live_news',array('op'=>'delete','id'=>$row['id'],'listid'=>$listid))}" onclick="return confirm('删除将无法恢复，确认吗？');return false;">
+							删除
+						</a>
+						<a class="btn btn-danger"  href="{php echo $this->createWebUrl('live_news',array('op'=>'reset_pl','id'=>$row['id'],'listid'=>$listid))}" onclick="return confirm('清空将无法恢复，确认吗？');return false;">
+							清评
+						</a>
+						<a class="btn btn-danger"  href="{php echo $this->createWebUrl('live_news',array('op'=>'reset_zan','id'=>$row['id'],'listid'=>$listid))}" onclick="return confirm('清空将无法恢复，确认吗？');return false;">
+							清赞
+						</a>
+					</td>
+				</tr>
+			{/loop}
+			<tr>
+			<td style="width:50px;" class="row-first"><input type="checkbox" onclick="selectall(this, 'select');" /></td>
+			<td colspan="4">
+				<input type="submit" name="del_some" value="删除" class="btn btn-danger" />			
+				<input type="hidden" name="token" value="{$_W['token']}" />
+								
+			</td>
+			</tr>
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+	</form>
+</div>
+{elseif $op=='post'}
+<form action="" method="post" class="form-horizontal" role="form" id="form1" >
+<input type="hidden" value="{$list['id']}" class="" name="id">
+<div class="panel panel-default">
+			<div class="panel-heading">
+				编辑图文消息
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">图文内容</label>
+						<div class="col-sm-8 col-lg-9 col-xs-12">
+							<textarea  class="form-control" name="content" style="height:100px">{$list['content']}</textarea>
+							<span class="help-block">图文内容</span>
+						</div>
+				</div>
+				{if $list['imgs']!='no_imgs'}
+				{php $new_imgs = iunserializer($list['imgs']);}
+				<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">图文内容</label>
+				 {loop $new_imgs $key $rval}
+						  <div class="col-sm-3 col-lg-3" id="news_imgs_{$key}">
+							  <div class="input-group " style="margin-top:.5em;">
+								  <img src="{php echo tomedia($rval)}" onerror="this.src='./resource/images/nopic.jpg'; this.title='图片未找到.'" class="img-responsive img-thumbnail" width="150" id="3dsign_logo_preview">
+								  <em class="close" style="position:absolute; top: 0px; right: -14px;" title="删除这张图片" onclick="delete_img({$key})" >×</em>
+							  </div>	
+							  <input type="hidden" name="img_urls[]" id="" value="{php echo tomedia($rval)}">
+							  <span class="help-block">图片</span>
+						  </div>
+				 {/loop}
+				 </div>
+				 {/if}
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label"></label>
+					<div class="col-sm-8 col-lg-9 col-xs-12">
+						<input type="submit" name="submit" class="btn btn-success" value="保存">
+						<input type="hidden" name="token" value="{$_W['token']}">
+					</div>
+				</div>
+						  
+			</div>
+ </div><!--tab_news-->
+</form>
+<script>
+function delete_img(id){
+	$("#news_imgs_"+id).remove();
+}
+</script>
+{/if}
+{template 'common/footer'}

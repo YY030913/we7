@@ -1,0 +1,38 @@
+{template 'common/header'}
+{template 'plugin/login/web/navs'}
+
+<div class="panel panel-default">
+    <div class="panel-heading"></div>
+    <div class="panel-body">
+       <form action="" method="post" class="form-horizontal" role="form" id="form1" >
+           <div class="form-group">
+               <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">登陆限制</label>
+               <div class="col-sm-4 col-lg-4 col-xs-6">
+                   <div class="input-group">
+                         <span class="input-group-addon">
+                           <input type="radio" name="wechat_limit" aria-label="限制仅微信登录" value="1" checked>
+                         </span>
+                       <input type="text" class="form-control" value="限制仅微信登录" aria-label="限制仅微信登录">
+                   </div>
+               </div>
+               <div class="col-sm-4 col-lg-4 col-xs-6">
+                   <div class="input-group">
+                         <span class="input-group-addon">
+                           <input type="radio" name="wechat_limit" aria-label="取消微信登陆限制" value="0" >
+                         </span>
+                       <input type="text" class="form-control" value="取消微信登陆限制" aria-label="取消微信登陆限制">
+                   </div>
+               </div>
+           </div>
+           <div class="form-group">
+               <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+               <div class="col-sm-8 col-lg-9 col-xs-12">
+                   <button type="submit" class="btn btn-success">提交</button>
+               </div>
+           </div>
+       </form>
+    </div>
+    <div class="panel-footer"></div>
+</div>
+
+{template 'common/footer'}

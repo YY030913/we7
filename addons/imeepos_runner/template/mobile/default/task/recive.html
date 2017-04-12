@@ -1,0 +1,173 @@
+
+<style>
+.avatar{
+    width: 120px;
+    height: 120px;
+    border-radius: 20px;
+}
+.h44{
+	height:44px;
+}
+</style>
+<div class="bar bar-header bar-clear">
+	<a class="button button-clear" data-pjax href="{php echo $this->createMobileUrl('index')}">
+		<i class="icon ion-ios-arrow-back active"></i>
+		<span class="active">返回听单</span>
+	</a>
+	
+	<button class="button button-clear" id="giveUp" data-id="{php echo $recive['id']}">
+		<span class="active">放弃</span>
+	</button>
+</div>
+<div class="h44"></div>
+<div class="page slideIn msg">
+    <div class="weui_msg">
+        <div class="weui_icon_area">
+        	<img class="avatar" src="{php echo tomedia($user['avatar'])}" alt="" />
+        </div>
+        <div class="weui_text_area">
+            <h2 class="weui_msg_title">恭喜您，接单成功</h2>
+            <p class="weui_msg_desc">{$task['desc']}</p>
+            
+            {if $task['type'] == 1}
+            
+            {else}
+            
+            {/if}
+        </div>
+        <div class="weui_opr_area">
+            <p class="weui_btn_area">
+                <a href="tel:{php echo $user['mobile']}" class="weui_btn weui_btn_primary">电话联系</a>
+                {if $task['status'] == 2}
+                <a href="javascript:;" id="finishOrder" data-id="{php echo $id}" class="weui_btn weui_btn_warn">完成订单</a>
+                {/if}
+                <a href="javascript:;" id="goIndex" class="weui_btn weui_btn_default">返回听单</a>
+            </p>
+        </div>
+        <div class="weui_extra_area">
+            <a href="">查看详情</a>
+        </div>
+    </div>
+</div>
+<style>
+.weui_dialog1 {
+    position: fixed;
+    z-index: 13;
+    width: 85%;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    background-color: #FAFAFC;
+    text-align: center;
+    border-radius: 3px;
+}
+</style>
+<div class="weui_dialog1" id="qrcode" style="display:none;">
+	<div class="weui_dialog_hd">
+		<strong class="weui_dialog_title">温馨提示</strong>
+	</div>
+	<div class="weui_dialog_bd">您确认已完成此任务么？如果没有完成请点击取消继续任务！</div>
+	<div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" name="code" type="number" pattern="[0-9]*" placeholder="请输入此任务收货验证码">
+                </div>
+            </div>
+        </div>
+	<div class="weui_dialog_ft">
+		<a href="javascript:;" class="weui_btn_dialog default">取消</a>
+		<a href="javascript:;" class="weui_btn_dialog primary">确定</a>
+	</div>
+</div>
+<script>
+require(['jquery','core','pjax'],function($,core){
+	$('#footer').show();
+	$('#goIndex').click(function(){
+		$.pjax({
+			url:"{php echo $this->createMobileUrl('index')}",
+			container:'#pjax-container'
+		});
+	});
+	$('#qrcode .weui_btn_dialog.default').click(function(){
+		$('#qrcode').hide();
+	});
+	$('#qrcode .weui_btn_dialog.primary').click(function(){
+		var code = $('input[name="code"]').val();
+		$('#qrcode').hide();
+		core.post("runner_finish",{reciveid:"{php echo $id}",code:code},function(data){
+			if(data.result == 0){
+				core.ok("完成订单成功，请等待任务主确认，任务主确认后，佣金将直接到达您的余额，请注意查收！",function(){
+					window.location.reload();
+				});
+			}else if(data.result == 1){
+				core.ok("佣金已到账，请注意查收！",function(){
+					window.location.href = "{php echo $this->createMobileUrl('runner_money_detail')}&tid="+data.tid
+				},function(){
+					
+				});
+			}else{
+				core.cancel(data.message,function(){});
+			}
+		});
+	});
+	$('#finishOrder').click(function(){
+		$('#qrcode').show();
+		
+		/* core.ok("您确认已完成此任务么？如果没有完成请点击取消继续任务！",function(){
+			core.post("runner_finish",{reciveid:"{php echo $id}"},function(data){
+				if(data.result == 0){
+					core.ok("完成订单成功，请等待任务主确认，任务主确认后，佣金将直接到达您的余额，请注意查收！",function(){
+						
+					});
+				}else if(data.result == 1){
+					core.ok("佣金已到账，请注意查收！",function(){
+						$.pjax({
+							url:"{php echo $this->createMobileUrl('runner_money_detail')}&tid="+data.tid,
+							container:"#pjax-container"
+						});
+					});
+				}else{
+					core.cancel(data.message,function(){});
+				}
+			});
+		}); */
+	});
+	
+	
+	$('#giveUp').click(function(){
+		core.ok("您确定要放弃订单么？放弃订单会降低您的信誉度哦，信誉度太低的话，您将无法接单！",function(){
+			core.post("runner_giveup",{reciveid:"{php echo $id}"},function(data){
+				if(data.result == 0){
+					core.ok(data.message,function(){
+						$.pjax({
+							url:"{php echo $this->createMobileUrl('index')}",
+							container:'#pjax-container'
+						});
+					},function(){
+						$.pjax({
+							url:"{php echo $this->createMobileUrl('index')}",
+							container:'#pjax-container'
+						});
+					});
+				}else if(data.result == -1){
+					core.ok(data.message,function(){
+						$.pjax({
+							url:"{php echo $this->createMobileUrl('runner_xinyu')}",
+							container:'#pjax-container'
+						});
+					},function(){
+						$.pjax({
+							url:"{php echo $this->createMobileUrl('runner_xinyu')}",
+							container:'#pjax-container'
+						});
+					});
+				}else{
+					core.cancel(data.message);
+				}
+			});
+		});
+	});
+});
+</script>
+{template 'default/common/share'}

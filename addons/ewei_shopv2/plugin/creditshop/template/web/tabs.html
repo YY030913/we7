@@ -1,0 +1,23 @@
+<div class='menu-header'>{php echo $this->plugintitle}</div>
+<ul>
+
+    {ifp 'creditshop.goods'}<li {if $_W['action']=='goods'}class="active"{/if}><a href="{php echo webUrl('creditshop/goods')}">商品管理</a></li>{/if}
+    {ifp 'creditshop.category'}<li {if $_W['action']=='category'}class="active"{/if}><a href="{php echo webUrl('creditshop/category')}">分类管理</a></li>{/if}
+    {ifp 'creditshop.adv'}<li {if $_W['action']=='adv'}class="active"{/if}><a href="{php echo webUrl('creditshop/adv')}">幻灯片管理</a></li>{/if}
+</ul>
+<div class='menu-header'>记录管理</div>
+<ul>
+    {ifp 'creditshop.log'}<li {if $_W['action']=='log' && $_GPC['type']==0}class="active"{/if}><a href="{php echo webUrl('creditshop/log',array('type'=>0))}">兑换记录</a></li>{/if}
+    {ifp 'creditshop.log'}<li {if $_W['action']=='log' && $_GPC['type']==1}class="active"{/if}><a href="{php echo webUrl('creditshop/log',array('type'=>1))}">抽奖记录</a></li>{/if}
+    
+</ul>
+
+
+<div class='menu-header'>基础设置</div>
+
+<ul>
+    {ifp 'creditshop.cover'}<li {if $_W['action']=='cover'}class="active"{/if}><a href="{php echo webUrl('creditshop/cover')}">入口设置</a></li>{/if}
+    {ifp 'creditshop.notice'}<li  {if $_W['action']=='notice'}class="active"{/if}><a href="{php echo webUrl('creditshop/notice')}">通知设置</a></li>{/if}
+    {ifp 'creditshop.set'}<li {if $_W['action']=='set'}class="active"{/if}><a href="{php echo webUrl('creditshop/set')}">基础设置</a></li>{/if}
+
+</ul>

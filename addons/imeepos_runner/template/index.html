@@ -1,0 +1,133 @@
+{template 'common/header'}
+<script type="text/javascript" src="../addons/imeepos_runner/public/js/angular.min.js"></script>
+<script type="text/javascript" src="../addons/imeepos_runner/public/js/ui-bootstrap-tpls.js"></script>
+<style>
+.jumbotron {
+  padding: 30px;
+  margin-bottom: 30px;
+  color: inherit;
+  background-color: #FFF;
+}
+</style>
+<div class="pane" ng-app="app" ng-controller="appCtrl">
+	<uib-alert close="true" type="warning">
+		人人快递-同城物流-任务赚钱--O2O营销利器，你值得拥有！
+	</uib-alert>
+	<uib-accordion close-others="true">
+		<uib-accordion-group is-disabled="false" is-open="false" panel-class="panel-info">
+			<uib-accordion-heading>
+				人人快递
+			</uib-accordion-heading>
+			人人快递-同城物流-任务赚钱--O2O营销利器，你值得拥有！
+		</uib-accordion-group>
+	</uib-accordion>
+	
+	
+</div>
+
+
+<script type="text/javascript">
+	var app = angular.module('app',['ui.bootstrap']);
+	
+	app.controller("appCtrl",function($scope){
+		
+	});
+</script>
+
+
+
+<div class="jumbotron">
+	<div class="container-fluid container-fullw bg-white">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="row">
+					<div class="col-md-7 col-lg-8">
+						<div class="panel panel-default no-radius" id="visits">
+							<div class="panel-heading border-light">
+								<h4 class="panel-title">人人快递任务统计趋势图 </h4>
+							</div>
+							<div collapse="visits" class="panel-wrapper">
+								<div class="panel-body">
+									<div class="height-350">
+										<canvas id="myChart" class="full-width"></canvas>
+										<div class="margin-top-20">
+											<div class="inline pull-left">
+												<div id="chart1Legend" class="chart-legend"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-5 col-lg-4">
+						<div class="panel panel-default no-radius" id="visits">
+							<div class="panel-heading border-light">
+								<h4 class="panel-title">待办事项 </h4>
+							</div>
+						</div>
+						<ul class="list-group">
+						  <a class="list-group-item" href="{php echo $this->createWebPluginUrl('withdraw/manage',array('act'=>'list','status'=>0))}">
+						    <span class="badge">{$withdrawnum}</span>
+						    提现待审核
+						  </a>
+						  <a class="list-group-item" href="{php echo $this->createWebPluginUrl('member/runner',array('act'=>'list','status'=>0))}">
+						    <span class="badge">{$runnernum}</span>
+						    快递认证待审核
+						  </a>
+						  <a class="list-group-item" href="{php echo $this->createWebPluginUrl('service/service',array('act'=>'shop','status'=>0))}">
+						    <span class="badge">{$shopnum}</span>
+						    	商户认证待审核
+						  </a>
+						  <a class="list-group-item" href="{php echo $this->createWebPluginUrl('message/feedback',array('act'=>'list','status'=>0))}">
+						    <span class="badge">{$feedbacknum}</span>
+						    未读投诉及建议
+						  </a>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	require(['chart', 'jquery'], function(c, $) {
+		var myLine = new Chart(document.getElementById("myChart").getContext("2d"));
+		var datasets = '';
+		var label = '';
+		var lineChartData = null;
+		var obj = null;
+		var day_num = "{php echo $day_num;}";
+		var show_url = "{php echo $this->createWebPluginUrl('tasks/task')}";
+		var add_url = "{php echo $this->createWebPluginUrl('tasks/task')}";
+		var data = null;
+		
+		$.post(location.href, {'m_name' : 'basic'}, function(data){
+			data = $.parseJSON(data);
+			
+			$("#rule").html(data.stat.rule);//总数
+			$("#today").html(data.stat.today);
+			$("#month").html(data.stat.month);
+			$('#show').attr('href', show_url);
+			$('#add').attr('href', add_url);
+
+			 lineChartData = {
+					labels : data.key,
+					datasets : [
+						{
+							fillColor : "rgba(36,165,222,0.1)",
+							strokeColor : "rgba(36,165,222,1)",
+							pointColor : "rgba(36,165,222,1)",
+							pointStrokeColor : "#fff",
+							pointHighlightFill : "#fff",
+							pointHighlightStroke : "rgba(36,165,222,1)",
+							data : data.value
+						}
+					]
+			}
+			obj = myLine.Line(lineChartData, {responsive: true});
+		});
+ 	});
+</script>
+{template 'common/footer'}

@@ -1,0 +1,203 @@
+{template '_header'}
+<script>document.title = "{$_W['shopset']['trade']['credittext']}商城"; </script>
+<link rel="stylesheet" href="../addons/ewei_shopv2/plugin/creditshop/template/mobile/default/images/common.css" />
+<div class='fui-page  fui-page-current creditshop-index-page'>
+	<div class='fui-content navbar'>
+
+		{if !empty($advs)}
+			<div class='fui-swipe' data-transition="500" data-gap="1">
+			    <div class='fui-swipe-wrapper'>
+				{loop $advs $adv}
+					<a class='fui-swipe-item external' href="{if !empty($adv['link'])}{$adv['link']}{else}javascript:;{/if}"><img src="{php echo tomedia($adv['thumb'])}" /></a>
+				{/loop}
+			    </div>
+			    <div class='fui-swipe-page'></div>
+			</div>
+		{/if}
+
+		<div class="menu">
+			<a class="item" href="{php echo mobileUrl('creditshop/creditlog')}">
+				<span class="text"><i class="icon icon-jifen"></i> {$_W['shopset']['trade']['credittext']}{$credit}</span>
+			</a>
+			<a class="item" href="{php echo mobileUrl('creditshop/log')}">
+				<span class="text"><i class="icon icon-navlist"></i> 参与记录</span>
+			</a>
+		</div>
+
+
+		{if count($tops)>0}
+			<div class="fui-line text-danger">
+				<div class="text"><i class="icon icon-hot"></i> 热门兑换</div>
+			</div>
+			<div class="fui-showbox">
+				<div class="left">
+					{if count($tops)>0}
+						<a href="{php echo mobileUrl('creditshop/detail', array('id'=>$tops[0]['id']))}" data-nocache='true'>
+							<div class="title">{$tops[0]['title']}</div>
+							<div class="image"><img src="{$tops[0]['thumb']}"/></div>
+							<div class="price text-danger">
+								<div class="text"><i class="icon icon-jifen"></i> {$tops[0]['credit']}</div>
+								<div class="buy">{if $tops[0]['type']==1}抽奖{else}兑换{/if}</div>
+							</div>
+						</a>
+					{/if}
+				</div>
+				<div class="right">
+					{if count($tops)>1}
+					<a class="item" href="{php echo mobileUrl('creditshop/detail', array('id'=>$tops[1]['id']))}" data-nocache='true'>
+						<div class="info">
+							<div class="title">{$tops[1]['title']}</div>
+							<div class="price text-danger">
+								<div class="text"><i class="icon icon-jifen"></i> {$tops[1]['credit']}</div>
+								<div class="buy">{if $tops[1]['type']==1}抽奖{else}兑换{/if}</div>
+							</div>
+						</div>
+						<div class="image"><img src="{$tops[1]['thumb']}"/></div>
+					</a>
+					{/if}
+					{if count($tops)>2}
+						<a class="item" href="{php echo mobileUrl('creditshop/detail', array('id'=>$tops[2]['id']))}" data-nocache='true'>
+							<div class="info">
+								<div class="title">{$tops[2]['title']}</div>
+								<div class="price text-danger">
+									<div class="text"><i class="icon icon-jifen"></i> {$tops[2]['credit']}</div>
+									<div class="buy">{if $tops[2]['type']==1}抽奖{else}兑换{/if}</div>
+								</div>
+							</div>
+							<div class="image"><img src="{$tops[2]['thumb']}"/></div>
+						</a>
+					{/if}
+				</div>
+			</div>
+		{/if}
+
+		{if count($category)>0}
+			<div class="fui-icon-group noborder circle">
+				{loop $category $cate}
+					<a href="{php echo mobileUrl('creditshop/lists', array('cate'=>$cate['id']))}">
+						<div class="fui-icon-col">
+							<div class="icon"><img src="{$cate['thumb']}"/></div>
+							<div class="text">{$cate['name']}</div>
+						</div>
+					</a>
+				{/loop}
+			</div>
+		{/if}
+
+		{if count($recommands)>0}
+			<div class="fui-line text-danger">
+				<div class="text"><i class="icon icon-good"></i> 为您推荐</div>
+			</div>
+			<div class="fui-goods-group block border">
+				{loop $recommands $item}
+					<a href="{php echo mobileUrl('creditshop/detail', array('id'=>$item['id']))}" data-nocache='true'>
+						<div class="fui-goods-item">
+							<div class="image" style="background-image: url('{$item['thumb']}')"></div>
+							<div class="detail">
+								<div class="name">
+									{if !empty($item['subtitle'])}<span class="fui-label fui-label-danger">{$item['subtitle']}</span>{/if}
+									{$item['title']}
+								</div>
+								<div class="price">
+									<span class="text"><i class="icon icon-jifen"></i> {$item['credit']}</span>
+									<span class="buy {if $item['type']!=1} buy-1{/if}">
+										{if $item['type']==1}抽奖{else}兑换{/if}
+									</span>
+								</div>
+							</div>
+						</div>
+					</a>
+				{/loop}
+			</div>
+		{/if}
+
+		{if count($vips)>0}
+			<div class="fui-line text-danger">
+				<div class="text"><i class="icon icon-vip"></i> 特权专区</div>
+			</div>
+			<div class="fui-goods-group block border">
+				{loop $vips $item}
+					<a href="{php echo mobileUrl('creditshop/detail', array('id'=>$item['id']))}" data-nocache='true'>
+						<div class="fui-goods-item">
+							<div class="image" style="background-image: url('{$item['thumb']}')"></div>
+							<div class="detail">
+								<div class="name">
+									{if !empty($item['subtitle'])}<span class="fui-label fui-label-danger">{$item['subtitle']}</span>{/if}
+									{$item['title']}
+								</div>
+								<div class="price">
+									<span class="text"><i class="icon icon-jifen"></i> {$item['credit']}</span>
+									<span class="buy {if $item['type']!=1} buy-1{/if}">
+										{if $item['type']==1}抽奖{else}兑换{/if}
+									</span>
+								</div>
+							</div>
+						</div>
+					</a>
+				{/loop}
+			</div>
+		{/if}
+
+		{if count($times)>0}
+			<div class="fui-line text-danger">
+				<div class="text"><i class="icon icon-remind"></i> 限时专区</div>
+			</div>
+			<div class="fui-goods-group block border">
+				{loop $times $item}
+					<a href="{php echo mobileUrl('creditshop/detail', array('id'=>$item['id']))}" data-nocache='true'>
+						<div class="fui-goods-item">
+							<div class="image" style="background-image: url('{$item['thumb']}')"></div>
+							<div class="detail">
+								<div class="name">
+									{if !empty($item['subtitle'])}<span class="fui-label fui-label-danger">{$item['subtitle']}</span>{/if}
+									{$item['title']}
+								</div>
+								<div class="price">
+									<span class="text"><i class="icon icon-jifen"></i> {$item['credit']}</span>
+									<span class="buy {if $item['type']!=1} buy-1{/if}">
+										{if $item['type']==1}抽奖{else}兑换{/if}
+									</span>
+								</div>
+							</div>
+						</div>
+					</a>
+				{/loop}
+			</div>
+		{/if}
+
+		{if count($reccategory)>0}
+			{loop $reccategory $rc}
+				{if count($rc['goods'])>0}
+					<div class="fui-line text-danger">
+						<a class="text text-danger" href="{php echo mobileUrl('creditshop/lists', array('cate'=>$rc['id']))}" data-nocache='true'><i class="icon icon-jifen"></i> {$rc['name']}<a>
+					</div>
+					<div class="fui-goods-group block border">
+						{loop $rc['goods'] $item}
+							<a href="{php echo mobileUrl('creditshop/detail', array('id'=>$item['id']))}" data-nocache='true'>
+								<div class="fui-goods-item">
+									<div class="image" style="background-image: url('{$item['thumb']}')"></div>
+									<div class="detail">
+										<div class="name">
+											{if !empty($item['subtitle'])}<span class="fui-label fui-label-danger">{$item['subtitle']}</span>{/if}
+											{$item['title']}
+										</div>
+										<div class="price">
+											<span class="text"><i class="icon icon-jifen"></i> {$item['credit']}</span>
+											<span class="buy {if $item['type']!=1} buy-1{/if}">
+												{if $item['type']==1}抽奖{else}兑换{/if}
+											</span>
+										</div>
+									</div>
+								</div>
+							</a>
+						{/loop}
+					</div>
+				{/if}
+			{/loop}
+		{/if}
+		{template '_copyright'}
+	</div>
+	 
+</div> 
+{php $this->footerMenus()}
+{template '_footer'}

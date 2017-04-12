@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.goodziyuan.com" versionCode="0.6">
+	<application setting="true">
+		<name><![CDATA[O2O预约支付]]></name>
+		<identifie><![CDATA[hx_o2o]]></identifie>
+		<version><![CDATA[1.2.5]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[智慧O2O预约,线上线下，智慧O2O预约服务行业解决方案]]></ability>
+		<description><![CDATA[智慧O2O预约,线上线下，智慧O2O预约服务行业解决方案]]></description>
+		<author><![CDATA[好资源)]]></author>
+		<url><![CDATA[http://www.goodziyuan.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="false" />
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="首页入口" do="main" />
+        </cover>
+		<menu>
+			<entry title="服务项目管理" do="product" state="" direct="false" />
+			<entry title="项目分类" do="category" state="" direct="false" />
+			<entry title="订单管理" do="order" state="" direct="false" />
+			<entry title="门店管理" do="shops" state="" direct="false" />
+		</menu>
+		<home>
+			<entry title="首页入口" do="main" />
+		</home>
+		<profile>
+			<entry title="我的订单" do="order" />
+			<entry title="我的护理疗程" do="combo" />
+        </profile>
+	</bindings>
+	<install><![CDATA[
+
+CREATE TABLE IF NOT EXISTS `ims_hx_o2o_address` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned DEFAULT NULL,
+  `from_user` varchar(50) DEFAULT NULL,
+  `city` varchar(10) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `lat` varchar(255) DEFAULT NULL,
+  `lng` varchar(255) DEFAULT NULL,
+  `room` varchar(20) DEFAULT NULL,
+  `consignee` varchar(20) DEFAULT NULL,
+  `mobile` varchar(11) DEFAULT NULL,
+  `used` tinyint(1) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+CREATE TABLE IF NOT EXISTS `ims_hx_o2o_cart` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL,
+  `productid` int(11) NOT NULL,
+  `producttype` tinyint(1) NOT NULL DEFAULT '1',
+  `from_user` varchar(50) NOT NULL,
+  `total` int(10) unsigned NOT NULL,
+  `price` decimal(10,2) DEFAULT '0.00',
+  PRIMARY KEY (`id`),
+  KEY `idx_openid` (`from_user`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+CREATE TABLE IF NOT EXISTS `ims_hx_o2o_category` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '所属帐号',
+  `name` varchar(50) NOT NULL COMMENT '分类名称',
+  `thumb` varchar(255) NOT NULL COMMENT '分类图片',
+  `type` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '分类类别',
+  `linkurl` varchar(255) DEFAULT '' COMMENT '分类外链',
+  `description` varchar(500) NOT NULL COMMENT '分类介绍',
+  `displayorder` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
+  `enabled` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否开启',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+CREATE TABLE IF NOT EXISTS `ims_hx_o2o_order` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL,
+  `type` tinyint(1) unsigned NOT NULL COMMENT '1为普通，2为套餐',
+  `from_user` varchar(50) NOT NULL,
+  `ordersn` varchar(20) NOT NULL,
+  `price` varchar(10) NOT NULL,
+  `addressid` int(10) unsigned DEFAULT NULL,
+  `date` varchar(10) DEFAULT NULL,
+  `time` varchar(10) DEFAULT NULL,
+  `shopid` int(10) unsigned DEFAULT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '-1取消状态，0普通状态，1为已付款，2为已发货，3为成功',
+  `paytype` tinyint(1) unsigned NOT NULL COMMENT '1为余额，2为在线，3为到付',
+  `transid` varchar(30) NOT NULL DEFAULT '0' COMMENT '微信支付单号',
+  `goodstype` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `remark` varchar(1000) NOT NULL DEFAULT '',
+  `address` varchar(1024) NOT NULL DEFAULT '' COMMENT '收货地址信息',
+  `paydetail` varchar(255) NOT NULL COMMENT '支付详情',
+  `createtime` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+CREATE TABLE IF NOT EXISTS `ims_hx_o2o_order_product` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL,
+  `orderid` int(10) unsigned NOT NULL,
+  `productid` int(10) unsigned NOT NULL DEFAULT '0',
+  `price` decimal(10,2) DEFAULT '0.00',
+  `total` int(10) unsigned NOT NULL DEFAULT '1',
+  `createtime` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+CREATE TABLE IF NOT EXISTS `ims_hx_o2o_products` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL,
+  `catid` int(10) unsigned NOT NULL DEFAULT '0',
+  `type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '1为实体，2为虚拟',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `displayorder` int(10) unsigned NOT NULL DEFAULT '0',
+  `name` varchar(100) NOT NULL DEFAULT '',
+  `thumb` varchar(255) DEFAULT '',
+  `list_thumb` varchar(255) DEFAULT NULL,
+  `description` varchar(1000) NOT NULL DEFAULT '',
+  `content` text NOT NULL,
+  `price` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `marketprice` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `createtime` int(10) unsigned NOT NULL,
+  `pics` text,
+  `times` int(10) unsigned DEFAULT NULL,
+  `timeneed` int(11) DEFAULT '0',
+  `deleted` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `viewtimes` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+CREATE TABLE IF NOT EXISTS `ims_hx_o2o_shops` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `displayorder` int(10) unsigned DEFAULT NULL,
+  `uniacid` int(10) unsigned DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `thumb` varchar(255) DEFAULT NULL,
+  `thumb_sm` varchar(255) DEFAULT NULL,
+  `province` varchar(10) DEFAULT NULL,
+  `city` varchar(10) DEFAULT NULL,
+  `district` varchar(20) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `content` text,
+  `tel` varchar(11) DEFAULT NULL,
+  `score` tinyint(1) unsigned DEFAULT NULL,
+  `enabled` tinyint(1) unsigned DEFAULT NULL,
+  `createtime` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+	]]></install>
+	<uninstall><![CDATA[
+	]]></uninstall>
+	<upgrade><![CDATA[update.php]]>
+	</upgrade>
+</manifest>

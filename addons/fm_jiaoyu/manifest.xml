@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.goodziyuan.com" versionCode="0.6">
+	<application setting="false">
+		<name><![CDATA[智慧微教育]]></name>
+		<identifie><![CDATA[fm_jiaoyu]]></identifie>
+		<version><![CDATA[2.6.8]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[教育行业通用模块，适用于培训学校，幼儿园，具备成绩查询，教师管理，课程安排等功能]]></ability>
+		<description><![CDATA[教育行业通用模块，适用于培训学校，幼儿园，具备成绩查询，教师管理，课程安排等功能]]></description>
+		<author><![CDATA[好资源)]]></author>
+		<url><![CDATA[http://www.goodziyuan.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+			<message type="text" />
+			<message type="image" />
+			<message type="voice" />
+			<message type="video" />
+			<message type="location" />
+			<message type="link" />
+			<message type="subscribe" />
+			<message type="unsubscribe" />
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="false" />
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="首页入口设置" do="wapindex" />
+		</cover>
+		<menu>
+			<entry title="学校管理" do="school" />
+			<entry title="校区设置" do="area" />
+			<entry title="分类设置" do="type" />
+			<entry title="基本设置" do="basic" />
+			<entry title="平台功能" do="manager" />
+		</menu>
+	</bindings>
+	<install><![CDATA[
+CREATE TABLE IF NOT EXISTS `ims_wx_school_area` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `weid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '所属帐号',
+  `name` varchar(50) NOT NULL COMMENT '区域名称',
+  `parentid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '上级分类ID,0为第一级',
+  `ssort` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '显示状态',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_wx_school_banners` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `weid` int(11) DEFAULT '0',
+  `uniacid` int(10) unsigned NOT NULL,
+  `schoolid` int(11) DEFAULT '0',
+  `bannername` varchar(50) DEFAULT '',
+  `link` varchar(255) DEFAULT '',
+  `thumb` varchar(255) DEFAULT '',
+  `displayorder` int(11) DEFAULT '0',
+  `enabled` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_wx_school_bbsreply` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `schoolid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '规则id',
+  `weid` int(10) unsigned NOT NULL COMMENT '公众号ID',
+  `uniacid` int(10) unsigned NOT NULL,
+  `avatar` varchar(200) NOT NULL DEFAULT '' COMMENT '微信头像',
+  `nickname` varchar(50) NOT NULL DEFAULT '' COMMENT '微信昵称',
+  `tid` varchar(125) NOT NULL COMMENT '帖子的ID',
+  `tfrom_user` varchar(255) NOT NULL DEFAULT '' COMMENT '帖子作者的openid',
+  `reply_id` varchar(125) NOT NULL COMMENT '回复评论帖子的ID',
+  `from_user` varchar(255) NOT NULL DEFAULT '' COMMENT '回复评论帖子的openid',
+  `to_reply_id` int(11) NOT NULL DEFAULT '0' COMMENT '回复评论的id',
+  `rfrom_user` varchar(255) NOT NULL DEFAULT '' COMMENT '被回复的评论的作者的openid',
+  `content` text NOT NULL COMMENT '评论回复内容',
+  `is_del` tinyint(2) DEFAULT '0' COMMENT '是否已删除 0-否 1-是',
+  `status` tinyint(2) DEFAULT '0' COMMENT '是否审核 0-否 1-是',
+  `storey` int(11) NOT NULL DEFAULT '0' COMMENT '绝对楼层',
+  `ip` varchar(255) NOT NULL DEFAULT '' COMMENT '回复IP',
+  `shenfen` int(1) unsigned NOT NULL COMMENT '1为班主任，2为母亲，3为父亲，4为本人',
+  `createtime` int(11) NOT NULL COMMENT '回复时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS  `ims_wx_school_bjq` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `weid` int(10) unsigned NOT NULL,
+  `schoolid` int(10) unsigned NOT NULL COMMENT '学校ID',
+  `content` text NOT NULL COMMENT '详细内容或评价',
+  `uid` int(10) unsigned NOT NULL COMMENT '发布者UID',
+  `weixin` varchar(30) NOT NULL DEFAULT '0' COMMENT '0',
+  `bj_id1` int(10) unsigned NOT NULL COMMENT '班级ID1',
+  `bj_id2` int(10) unsigned NOT NULL COMMENT '班级ID2',
+  `bj_id3` int(10) unsigned NOT NULL COMMENT '班级ID3',
+  `sherid` int(10) unsigned NOT NULL COMMENT '所属图文id',
+  `shername` varchar(50) DEFAULT '' COMMENT '分享者名字',
+  `openid` varchar(30) NOT NULL COMMENT '帖子所属openid',
+  `isopen` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否显示',
+  `type` tinyint(1) NOT NULL DEFAULT '0' COMMENT '类型0为班级圈1为评论',
+  `createtime` int(10) unsigned NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wx_school_cat` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `weid` int(10) unsigned NOT NULL,
+  `schoolid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '分校id',
+  `name` char(50) NOT NULL,
+  `icon` char(150) NOT NULL,
+  `sort` tinyint(3) unsigned NOT NULL,
+  `is_show` enum('1','0') NOT NULL,
+  `url` varchar(300) NOT NULL,
+  `system` enum('0','1') NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS  `ims_wx_school_classify` (
+  `sid` int(11) NOT NULL AUTO_INCREMENT,
+  `schoolid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '分校id',
+  `sname` varchar(50) NOT NULL,
+  `ssort` int(5) NOT NULL,
+  `weid` int(10) unsigned NOT NULL,
+  `type` char(20) NOT NULL,
+  `parentid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '上级分类ID,0为第一级',
+  `erwei` varchar(200) NOT NULL DEFAULT '' COMMENT '群二维码',
+  `qun` varchar(200) NOT NULL DEFAULT '' COMMENT 'Q群链接',
+  `tid` int(11) unsigned NOT NULL COMMENT '班级主任userid',
+  PRIMARY KEY (`sid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS  `ims_wx_school_cookbook` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `schoolid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '分校id',
+  `weid` int(10) unsigned NOT NULL,
+  `keyword` varchar(50) NOT NULL,
+  `title` varchar(50) NOT NULL,
+  `begintime` int(11) NOT NULL,
+  `endtime` int(11) NOT NULL,
+  `monday` text NOT NULL,
+  `tuesday` text NOT NULL,
+  `wednesday` text NOT NULL,
+  `thursday` text NOT NULL,
+  `friday` text NOT NULL,
+  `saturday` text NOT NULL,
+  `sunday` text NOT NULL,
+  `ishow` int(1) NOT NULL DEFAULT '1' COMMENT '1:显示,2隐藏,默认1',
+  `sort` int(11) NOT NULL DEFAULT '1',
+  `type` varchar(15) NOT NULL DEFAULT '',
+  `headpic` varchar(200) NOT NULL DEFAULT '',
+  `infos` varchar(500) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS  `ims_wx_school_dianzan` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `weid` int(10) unsigned NOT NULL,
+  `schoolid` int(10) unsigned NOT NULL COMMENT '学校ID',
+  `uid` int(10) unsigned NOT NULL COMMENT '发布者UID',
+  `sherid` int(10) unsigned NOT NULL COMMENT '所属图文id',
+  `zname` varchar(50) DEFAULT '' COMMENT '点赞人名字',
+  `order` int(10) unsigned NOT NULL COMMENT '排序',
+  `createtime` int(10) unsigned NOT NULL COMMENT '创建时间',
+  `w171` varchar(30) NOT NULL DEFAULT '0' COMMENT '图片路径',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wx_school_fans_group` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `weid` int(10) unsigned NOT NULL DEFAULT '0',
+  `schoolid` int(10) unsigned NOT NULL DEFAULT '0',
+  `count` int(10) unsigned NOT NULL,
+  `group_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `name` varchar(50) NOT NULL DEFAULT '',
+  `group_desc` varchar(50) NOT NULL DEFAULT '',
+  `ssort` int(10) unsigned NOT NULL COMMENT '排序',
+  `type` int(1) unsigned NOT NULL DEFAULT '0' COMMENT '二维码状态',
+  `createtime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '生成时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS  `ims_wx_school_index` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `weid` int(10) NOT NULL DEFAULT '0' COMMENT '公众号id',
+  `areaid` int(10) NOT NULL DEFAULT '0' COMMENT '区域id',
+  `title` varchar(50) NOT NULL DEFAULT '' COMMENT '名称',
+  `logo` varchar(200) NOT NULL DEFAULT '' COMMENT '学校logo',
+  `thumb` varchar(200) NOT NULL DEFAULT '' COMMENT '图文消息缩略图',
+  `info` varchar(1000) NOT NULL DEFAULT '' COMMENT '简短描述',
+  `content` text NOT NULL COMMENT '简介',
+  `tel` varchar(20) NOT NULL DEFAULT '' COMMENT '联系电话',
+  `location_p` varchar(100) NOT NULL DEFAULT '' COMMENT '省',
+  `location_c` varchar(100) NOT NULL DEFAULT '' COMMENT '市',
+  `location_a` varchar(100) NOT NULL DEFAULT '' COMMENT '区',
+  `address` varchar(200) NOT NULL COMMENT '地址',
+  `place` varchar(200) NOT NULL DEFAULT '',
+  `lat` decimal(18,10) NOT NULL DEFAULT '0.0000000000' COMMENT '经度',
+  `lng` decimal(18,10) NOT NULL DEFAULT '0.0000000000' COMMENT '纬度',
+  `password` varchar(20) NOT NULL DEFAULT '' COMMENT '登录密码',
+  `hours` varchar(200) NOT NULL DEFAULT '' COMMENT '营业时间',
+  `recharging_password` varchar(20) NOT NULL DEFAULT '' COMMENT '充值密码',
+  `thumb_url` varchar(1000) DEFAULT NULL,
+  `is_show` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否在手机端显示',
+  `ssort` tinyint(3) NOT NULL DEFAULT '0',
+  `is_sms` tinyint(1) NOT NULL DEFAULT '0',
+  `dateline` int(10) NOT NULL DEFAULT '0',
+  `is_hot` tinyint(1) NOT NULL DEFAULT '0' COMMENT '搜索页显示',
+  `gonggao` varchar(1000) NOT NULL DEFAULT '' COMMENT '通知',
+  `is_rest` tinyint(1) NOT NULL DEFAULT '0',
+  `typeid` int(10) NOT NULL DEFAULT '0' COMMENT '学校类型',
+  `style1` varchar(200) NOT NULL DEFAULT '' COMMENT '模版名称',
+  `isopen` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0显示1否',
+  `qroce` varchar(200) NOT NULL DEFAULT '' COMMENT '二维码',
+  `issale` tinyint(1) NOT NULL DEFAULT '5' COMMENT '5种状态',
+  `zhaosheng` text NOT NULL COMMENT '招生简章',
+  `uid` int(10) NOT NULL DEFAULT '0' COMMENT '账户ID',
+  `style2` varchar(200) NOT NULL DEFAULT '' COMMENT '模版名称2',
+  `style3` varchar(200) NOT NULL DEFAULT '' COMMENT '模版名称3',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_wx_school_kcbiao` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `schoolid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '分校id',
+  `weid` int(10) unsigned NOT NULL,
+  `tid` int(11) NOT NULL COMMENT '所属教师ID',
+  `kcid` int(11) NOT NULL COMMENT '所属课程ID',
+  `nub` int(11) NOT NULL COMMENT '第几堂课或第几讲',
+  `bj_id` int(11) NOT NULL,
+  `km_id` int(11) NOT NULL,
+  `xq_id` int(11) NOT NULL,
+  `sd_id` int(11) NOT NULL,
+  `date` int(10) unsigned NOT NULL COMMENT '开课日期',
+  `isxiangqing` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0显示1否',
+  `content` text NOT NULL COMMENT '课程内容',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wx_school_leave` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `leaveid` int(10) unsigned NOT NULL,
+  `weid` int(10) unsigned NOT NULL,
+  `schoolid` int(10) unsigned NOT NULL COMMENT '学校ID',
+  `uid` int(10) unsigned NOT NULL COMMENT '微赞UID',
+  `tuid` int(10) unsigned NOT NULL COMMENT '老师微赞UID',
+  `openid` varchar(200) DEFAULT '' COMMENT 'openid',
+  `sid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '学生ID',
+  `tid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '教师ID',
+  `type` varchar(10) DEFAULT '' COMMENT '请假类型',
+  `startime` varchar(200) DEFAULT '' COMMENT '开始时间',
+  `endtime` varchar(200) DEFAULT '' COMMENT '结束时间',
+  `conet` varchar(200) DEFAULT '' COMMENT '详细内容',
+  `createtime` int(10) unsigned NOT NULL COMMENT '创建时间',
+  `cltime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '处理时间',
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '审核状态',
+  `bj_id` int(10) unsigned NOT NULL COMMENT '班级ID',
+  `isliuyan` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否留言',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wx_school_media` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `weid` int(10) unsigned NOT NULL,
+  `schoolid` int(10) unsigned NOT NULL COMMENT '学校ID',
+  `uid` int(10) unsigned NOT NULL COMMENT '发布者UID',
+  `picurl` varchar(255) DEFAULT '' COMMENT '图片',
+  `bj_id1` int(10) unsigned NOT NULL COMMENT '班级ID1',
+  `bj_id2` int(10) unsigned NOT NULL COMMENT '班级ID2',
+  `bj_id3` int(10) unsigned NOT NULL COMMENT '班级ID3',
+  `order` int(10) unsigned NOT NULL COMMENT '排序',
+  `sherid` int(10) unsigned NOT NULL COMMENT '所属图文id',
+  `createtime` int(10) unsigned NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wx_school_news` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `weid` int(10) unsigned NOT NULL,
+  `schoolid` int(10) unsigned NOT NULL,
+  `cateid` int(10) unsigned NOT NULL,
+  `type` varchar(50) NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `content` mediumtext NOT NULL,
+  `thumb` varchar(255) NOT NULL,
+  `author` varchar(50) NOT NULL,
+  `picarr` text COMMENT '图片组',
+  `displayorder` tinyint(3) unsigned NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `is_display` tinyint(3) unsigned NOT NULL,
+  `is_show_home` tinyint(3) unsigned NOT NULL,
+  `createtime` int(10) unsigned NOT NULL,
+  `click` int(10) unsigned NOT NULL,
+  `dianzan` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_wx_school_notice` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `weid` int(10) unsigned NOT NULL,
+  `schoolid` int(10) unsigned NOT NULL COMMENT '学校ID',
+  `tid` int(10) unsigned NOT NULL COMMENT '教师ID',
+  `tname` varchar(10) DEFAULT '' COMMENT '发布老师名字',
+  `title` varchar(50) DEFAULT '' COMMENT '文章名称',
+  `content` text NOT NULL COMMENT '详细内容',
+  `picarr` text COMMENT '用户信息',
+  `createtime` int(10) unsigned NOT NULL COMMENT '创建时间',
+  `bj_id` int(10) unsigned NOT NULL COMMENT '班级ID',
+  `type` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否班级通知',
+  `groupid` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1为全体师生2为全体教师3为全体家长和学生',
+  `km_id` int(10) unsigned NOT NULL COMMENT '科目ID',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS  `ims_wx_school_order` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `weid` int(10) unsigned NOT NULL,
+  `schoolid` int(10) unsigned NOT NULL COMMENT '学校ID',
+  `orderid` int(10) unsigned NOT NULL COMMENT '订单ID',
+  `userid` int(10) unsigned NOT NULL COMMENT '发布者UID',
+  `uid` int(10) unsigned NOT NULL COMMENT '发布者UID',
+  `sid` int(10) unsigned NOT NULL COMMENT '所属图文id',
+  `kcid` int(10) unsigned NOT NULL COMMENT '课程ID',
+  `obid` int(10) unsigned NOT NULL COMMENT '项目ID',
+  `cose` varchar(10) NOT NULL COMMENT '价格',
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1未支付2为未支付3为已退款',
+  `type` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1课程2项目3功能',
+  `createtime` int(10) unsigned NOT NULL COMMENT '创建时间',
+  `w171` varchar(30) NOT NULL DEFAULT '0' COMMENT '支付LOGO',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wx_school_qrcode_info` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `weid` int(10) unsigned NOT NULL DEFAULT '0',
+  `qrcid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '二维码场景ID',
+  `gpid` int(10) unsigned NOT NULL DEFAULT '0',
+  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '场景名称',
+  `keyword` varchar(100) NOT NULL COMMENT '关联关键字',
+  `model` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '模式，1临时，2为永久',
+  `ticket` varchar(250) NOT NULL DEFAULT '' COMMENT '标识',
+  `show_url` varchar(550) NOT NULL DEFAULT '' COMMENT '图片地址',
+  `expire` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '过期时间',
+  `subnum` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '关注扫描次数',
+  `createtime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '生成时间',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '0为未启用，1为启用',
+  `group_id` int(3) unsigned NOT NULL DEFAULT '0',
+  `rid` int(3) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `idx_qrcid` (`qrcid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_wx_school_qrcode_set` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `bg` int(10) unsigned NOT NULL DEFAULT '0',
+  `qrleft` int(10) unsigned NOT NULL DEFAULT '0',
+  `qrtop` int(10) unsigned NOT NULL DEFAULT '0',
+  `qrwidth` int(10) unsigned NOT NULL DEFAULT '0',
+  `qrheight` int(10) unsigned NOT NULL DEFAULT '0',
+  `model` int(10) unsigned NOT NULL DEFAULT '1',
+  `logoheight` int(10) unsigned NOT NULL DEFAULT '0',
+  `logowidth` int(10) unsigned NOT NULL DEFAULT '0',
+  `logoqrheight` int(10) unsigned NOT NULL DEFAULT '0',
+  `logoqrwidth` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_wx_school_qrcode_statinfo` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `weid` int(10) unsigned NOT NULL DEFAULT '0',
+  `qid` int(10) unsigned NOT NULL,
+  `openid` varchar(150) NOT NULL DEFAULT '' COMMENT '用户的唯一身份ID',
+  `type` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否发生在订阅时',
+  `qrcid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '二维码场景ID',
+  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '场景名称',
+  `createtime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '生成时间',
+  `group_id` int(3) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS  `ims_wx_school_reply` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `rid` int(10) unsigned NOT NULL DEFAULT '0',
+  `schoolid` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_rid` (`rid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS  `ims_wx_school_score` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `weid` int(10) unsigned NOT NULL,
+  `schoolid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '分校id',
+  `xq_id` int(11) NOT NULL,
+  `bj_id` int(11) NOT NULL,
+  `qh_id` int(11) NOT NULL,
+  `km_id` int(11) NOT NULL,
+  `sid` int(11) NOT NULL,
+  `my_score` varchar(50) NOT NULL,
+  `info` varchar(1000) NOT NULL DEFAULT '' COMMENT '教师评价',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `ims_wx_school_set` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `weid` int(10) unsigned NOT NULL,
+  `istplnotice` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否模版通知',
+  `xsqingjia` varchar(200) DEFAULT '' COMMENT '学生请假申请ID',
+  `xsqjsh` varchar(200) DEFAULT '' COMMENT '学生请假审核通知ID',
+  `jsqingjia` varchar(200) DEFAULT '' COMMENT '教员请假申请体提醒ID',
+  `jsqjsh` varchar(200) DEFAULT '' COMMENT '教员请假审核通知ID',
+  `xxtongzhi` varchar(200) DEFAULT '' COMMENT '学校通知ID',
+  `liuyan` varchar(200) DEFAULT '' COMMENT '家长留言ID',
+  `liuyanhf` varchar(200) DEFAULT '' COMMENT '教师回复家长留言ID',
+  `bjtz` varchar(200) DEFAULT '' COMMENT '班级通知ID',
+  `zuoye` varchar(200) DEFAULT '' COMMENT '发布作业提醒ID',
+  `bjqshjg` varchar(200) DEFAULT '',
+  `bjqshtz` varchar(200) DEFAULT '',
+  `guanli` tinyint(1) NOT NULL DEFAULT '0' COMMENT '管理方式',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS  `ims_wx_school_students` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `schoolid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '分校id',
+  `xq_id` int(11) NOT NULL,
+  `area_addr` varchar(200) NOT NULL DEFAULT '',
+  `ck_id` int(11) NOT NULL,
+  `bj_id` int(11) NOT NULL,
+  `birthdate` int(10) unsigned NOT NULL,
+  `sex` int(1) NOT NULL,
+  `createdate` int(10) unsigned NOT NULL,
+  `seffectivetime` int(10) unsigned NOT NULL,
+  `weixin` varchar(30) NOT NULL DEFAULT '0' COMMENT '0',
+  `stheendtime` int(10) unsigned NOT NULL,
+  `jf_statu` int(11) DEFAULT NULL,
+  `mobile` char(11) NOT NULL,
+  `homephone` char(16) NOT NULL,
+  `s_name` varchar(50) NOT NULL,
+  `localdate_id` char(20) NOT NULL DEFAULT '',
+  `note` varchar(50) NOT NULL DEFAULT '',
+  `amount` int(11) NOT NULL,
+  `area` varchar(50) NOT NULL,
+  `weid` int(10) unsigned NOT NULL,
+  `own` varchar(30) NOT NULL DEFAULT '0' COMMENT '自己微信',
+  `xjid` int(11) unsigned NOT NULL COMMENT '学籍信息',
+  `mom` varchar(30) NOT NULL DEFAULT '0' COMMENT '母亲微信',
+  `dad` varchar(30) NOT NULL DEFAULT '0' COMMENT '父亲微信',
+  `ouid` int(10) unsigned NOT NULL COMMENT '系统memberID',
+  `muid` int(10) unsigned NOT NULL COMMENT '系统memberID',
+  `duid` int(10) unsigned NOT NULL COMMENT '系统memberID',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_wx_school_tcourse` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `schoolid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '分校id',
+  `weid` int(10) unsigned NOT NULL,
+  `tid` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '课程名称',
+  `dagang` text NOT NULL COMMENT '课程大纲',
+  `start` int(10) unsigned NOT NULL COMMENT '开始时间',
+  `end` int(10) unsigned NOT NULL COMMENT '结束时间',
+  `minge` int(11) NOT NULL COMMENT '名额限制',
+  `adrr` varchar(100) NOT NULL DEFAULT '' COMMENT '授课地址或教室',
+  `km_id` int(11) NOT NULL,
+  `bj_id` int(11) NOT NULL,
+  `xq_id` int(11) NOT NULL,
+  `sd_id` int(11) NOT NULL,
+  `is_hot` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否推荐',
+  `yibao` int(11) NOT NULL COMMENT '已报人数',
+  `cose` varchar(11) NOT NULL COMMENT '价格',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_wx_school_teachers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `schoolid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '分校id',
+  `weid` int(10) unsigned NOT NULL,
+  `tname` varchar(50) NOT NULL,
+  `birthdate` int(10) unsigned NOT NULL,
+  `tel` varchar(20) NOT NULL,
+  `mobile` char(11) NOT NULL,
+  `email` char(50) NOT NULL,
+  `sex` int(1) NOT NULL,
+  `km_id1` int(11) NOT NULL COMMENT '授课科目1',
+  `km_id2` int(11) NOT NULL COMMENT '授课科目2',
+  `bj_id1` int(11) NOT NULL COMMENT '授课班级1',
+  `bj_id2` int(11) NOT NULL COMMENT '授课班级2',
+  `bj_id3` int(11) NOT NULL COMMENT '授课班级3',
+  `xq_id1` int(11) NOT NULL COMMENT '授课年级1',
+  `xq_id2` int(11) NOT NULL COMMENT '授课年级2',
+  `xq_id3` int(11) NOT NULL COMMENT '授课年级3',
+  `com` varchar(30) NOT NULL DEFAULT '0' COMMENT '0',
+  `jiontime` int(10) unsigned NOT NULL,
+  `info` text NOT NULL COMMENT '教学成果',
+  `jinyan` text NOT NULL COMMENT '教学经验',
+  `headinfo` text NOT NULL COMMENT '教学特点',
+  `thumb` varchar(200) NOT NULL DEFAULT '',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `sort` int(11) DEFAULT NULL,
+  `code` int(11) unsigned NOT NULL COMMENT '绑定码',
+  `openid` varchar(30) NOT NULL DEFAULT '0' COMMENT '老师微信',
+  `uid` int(10) unsigned NOT NULL COMMENT '系统memberID',
+  `is_show` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否显示',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_wx_school_type` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `weid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '所属帐号',
+  `name` varchar(50) NOT NULL COMMENT '类型名称',
+  `parentid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '上级分类ID,0为第一级',
+  `ssort` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '显示状态',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS  `ims_wx_school_user` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `sid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '学生ID',
+  `tid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '老师ID',
+  `weid` int(10) unsigned NOT NULL COMMENT '公众号ID',
+  `schoolid` int(10) unsigned NOT NULL COMMENT '学校ID',
+  `uid` int(10) unsigned NOT NULL COMMENT '微赞系统memberID',
+  `openid` varchar(30) NOT NULL COMMENT 'openid',
+  `userinfo` text COMMENT '用户信息',
+  `pard` int(1) unsigned NOT NULL COMMENT '关系',
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '用户状态',
+  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS  `ims_wx_school_wxpay` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `w171` varchar(30) NOT NULL DEFAULT '0' COMMENT '订单ID',
+  `weid` int(10) unsigned NOT NULL,
+  `schoolid` int(10) unsigned NOT NULL COMMENT '学校ID',
+  `orderid` int(10) unsigned NOT NULL COMMENT '返回订单ID',
+  `od1` int(10) unsigned NOT NULL COMMENT '1',
+  `od2` int(10) unsigned NOT NULL COMMENT '2',
+  `od3` int(10) unsigned NOT NULL COMMENT '3',
+  `od4` int(10) unsigned NOT NULL COMMENT '4',
+  `od5` int(10) unsigned NOT NULL COMMENT '5',
+  `cose` varchar(10) NOT NULL COMMENT '价格',
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1未支付2为未支付3为已退款',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+	]]></install>
+	<uninstall><![CDATA[
+	]]></uninstall>
+	<upgrade><![CDATA[update.php]]></upgrade>
+</manifest>

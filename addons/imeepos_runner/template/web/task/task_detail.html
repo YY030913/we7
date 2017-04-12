@@ -1,0 +1,42 @@
+{template 'common/header'}
+{template 'web/task/navs'}
+<style>
+	.user img{width:50px;height:50px;
+		border-radius:40px;
+		display:inline;
+	}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		用户信息
+	</div>
+	<div class="panel-body">
+		<div class="user">
+			<img src="{$user['avatar']}" alt="" />
+			<span>{$user['nickname']}【电话：{$user['mobile']}】</span>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		订单信息
+	</div>
+	<div class="panel-body">
+		<p>简介：{$task['desc']}</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		接单信息
+	</div>
+	<div class="panel-body">
+		<div class="user">
+			<img src="{$reciver['avatar']}" alt="" />
+			<span>{$reciver['nickname']}【电话：{$reciver['mobile']}】</span>
+		</div>
+	</div>
+</div>
+
+{template 'common/footer'}

@@ -1,0 +1,117 @@
+{template '_header'}
+ 
+<div class="page-heading"> 
+	
+	<span class='pull-right'>
+		
+		{ifp 'creditshop.goods.add'}
+			<a class="btn btn-primary btn-sm" href="{php echo webUrl('creditshop/goods/add')}">添加新商品</a>
+		{/if}
+		<a class="btn btn-default  btn-sm" href="{php echo webUrl('creditshop/goods')}">返回列表</a>
+                
+                
+	</span>
+	<h2>{if !empty($item['id'])}编辑{else}添加{/if}商品 <small>{if !empty($item['id'])}修改【{$item['title']}】 <a href='javascript:;' title='点击复制链接' class='js-clip' data-url='{php echo mobileUrl('creditshop/detail',array('id'=>$item['id']), true)}'>复制链接</a> {/if} </small></h2>
+</div>
+
+    <form id="dataform" action="" method="post" class="form-horizontal form-validate">
+        <input type='hidden' id='tab' name='tab' value='basic' />
+
+               <ul class="nav nav-arrow-next nav-tabs" id="myTab">
+                    <li {if $_GPC['tab']=='basic' || empty($_GPC['tab'])}class="active"{/if} ><a href="#tab_basic">商品</a></li>
+                    <li {if $_GPC['tab']=='act'}class="active"{/if}><a href="#tab_act">活动</a></li>
+                    <li {if $_GPC['tab']=='sub'}class="active"{/if}><a href="#tab_sub">提供商家</a></li>
+                    <li {if $_GPC['tab']=='vip'}class="active"{/if}><a href="#tab_vip">会员特权</a></li>
+                    {if com('verify')}<li><a href="#tab_verify">线下兑换</a></li>{/if}
+                    <li {if $_GPC['tab']=='notice'}class="active"{/if}><a href="#tab_notice">商家通知</a></li>
+                    <li {if $_GPC['tab']=='share'}class="active"{/if}><a href="#tab_share">关注及分享</a></li>
+                </ul> 
+ 
+                <div class="tab-content">
+                    <div class="tab-pane  {if $_GPC['tab']=='basic' || empty($_GPC['tab'])}active{/if}" id="tab_basic">{template 'creditshop/goods/basic'}</div>
+                    <div class="tab-pane  {if $_GPC['tab']=='act'}active{/if}" id="tab_act">{template 'creditshop/goods/act'}</div>
+                    <div class="tab-pane  {if $_GPC['tab']=='sub'}active{/if}" id="tab_sub">{template 'creditshop/goods/sub'}</div>
+                    <div class="tab-pane  {if $_GPC['tab']=='vip'}active{/if}" id="tab_vip">{template 'creditshop/goods/vip'}</div>
+                    {if com('verify')}<div class="tab-pane {if $_GPC['tab']=='verify'}active{/if}" id="tab_verify"  {if $_GPC['tab']=='basic'}active{/if}>{template 'creditshop/goods/verify'}</div>{/if}
+                    <div class="tab-pane  {if $_GPC['tab']=='notice'}active{/if}" id="tab_notice">{template 'creditshop/goods/notice'}</div>
+                    <div class="tab-pane  {if $_GPC['tab']=='share'}active{/if}" id="tab_share">{template 'creditshop/goods/share'}</div>
+                </div>
+     
+                    <div class="form-group"></div>
+                   <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-9 col-xs-12">
+                       {ife 'creditshop.goods' $item}
+                            <input type="submit"  value="提交" class="btn btn-primary" />
+                            
+                       {/if}
+                       
+                       <input type="button" name="back" onclick='history.back()' {ifp 'creditshopadv.add|creditshopadv.edit'}style='margin-left:10px;'{/if} value="返回列表" class="btn btn-default" />
+                    </div>
+        </div>
+ 
+ 
+<script language='javascript'>
+ 
+        require(['bootstrap'],function(){
+             $('#myTab a').click(function (e) {
+                 e.preventDefault();
+                $('#tab').val( $(this).attr('href'));
+                 $(this).tab('show');
+             })
+     });
+   
+              
+     $('form').submit(function(){
+         
+         
+       
+        {if $pcoupon}
+           if($(':radio[name=goodstype]:checked').val()=='1'){
+                 if($(':input[name=couponid_text]').val()==''){
+                     $('#myTab a[href="#tab_basic"]').tab('show');
+                     return false;
+                } 
+                
+           }
+           {/if}
+               
+           if($(':radio[name=goodstype]:checked').val()=='0'){
+                 if($(':input[name=goodsid_text]').val()==''){
+                     return false;
+                } 
+            }
+            
+            
+            
+        if($('select[name=cate]').val()==''){
+            $('#myTab a[href="#tab_basic"]').tab('show');
+            return false;
+        }
+          return true;
+    });
+    
+	function select_goods(o){
+		     $("#couponid").val('');
+                       $(":input[name=thumb]").val(o.thumb);
+                       $(".thumb-container .img-thumbnail").attr('src',o.thumb);
+                       $(":input[name=total]").val(o.total);
+                       $(":input[name=price]").val(o.marketprice);
+ 	 }
+     
+    function select_coupon(o) {
+         $("#goodsid").val('');
+         $(":input[name=thumb]").val(o.thumb);
+         $(".thumb-container  .img-thumbnail").attr('src',o.thumb);
+         $(":input[name=title]").val(o.couponname);
+         $(":input[name=total]").val(o.total=='-1'?'':o.total);
+         $(":input[name=money]").val(o.money);
+         $(":input[name=credit]").val(o.credit);
+         $(":checkbox[name=usecredit2]").get(0).checked = o.usecredit2=='1';
+         $(":input[name=price]").val('');
+    }
+ 
+</script>
+ 
+{template '_footer'}
+ 

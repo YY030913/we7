@@ -1,0 +1,75 @@
+{template 'default/common/header_base'}
+<link rel="stylesheet" href="{MODULE_URL}public/libs/weui/weui.css"/>
+<link rel="stylesheet" href="{MODULE_URL}public/libs/jquery_weui/jquery-weui.css"/>
+<link rel="stylesheet" href="{MODULE_URL}public/libs/ionic/css/ionic.css"/>
+<div class="container" id="pjax-container" style="margin-top:0px;">
+	<style>
+		.active{
+			color:#04BE02 !important;
+		}
+		.tabs-striped .tab-item.tab-item-active, .tabs-striped .tab-item.active, .tabs-striped .tab-item.activated {
+			margin-top: -2px;
+			border-style: solid;
+			border-width: 2px 0 0 0;
+			border-color: #04BE02;
+		}
+		.h44{
+			height:44px;
+		}
+		.badge-calm{
+			background-color:#04BE02 !important;
+		}
+		img.icon{
+			width: 1em;
+			height: 1em !important;
+			margin-top: 5px;
+			margin-bottom: 5px;
+		}
+	</style>
+	<div class="page" style="margin-bottom: 44px;">
+		{template 'default/common/footerbar2'}
+		{template 'default/home/header'}
+		<div class="hd">
+			<div class="list" style="padding-bottom:0px !important;">
+				{php $navs = M('navs')->getall('runner_home')}
+				{loop $navs $nav}
+				<a class="item item-icon-left item-icon-right" style="padding-top: 12px;"  href="{php echo $nav['link']}">
+					<i style="font-size: 1.3em;color: #5d2f18;" class="icon {php echo $nav['icon']}"></i>
+					<h2 class="title">{$nav['title']}</h2>
+					<i class="icon ion-ios-arrow-right"></i>
+				</a>
+				{/loop}
+			</div>
+		</div>
+	</div>
+	<script>
+		require(['jquery','weixin','core'],function($,wx,core){
+			$('#footer').show();
+
+			wx.config(jssdkconfig);
+			$('#qrcode').click(function(){
+				wx.ready(function(){
+					wx.scanQRCode({
+						needResult: 1,
+						scanType: ["qrCode","barCode"],
+						success: function (res) {
+							var result = res.resultStr;
+							core.post('scanresult',{result:result},function(data){
+								if(data.status == 1){
+									core.ok(data.message,function(){
+
+									});
+								}else{
+									core.cancel(data.message,function(){
+
+									});
+								}
+							});
+						}
+					});
+				});
+			});
+		});
+	</script>
+</div>
+{template 'default/common/footer'}

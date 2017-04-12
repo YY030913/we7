@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0, maximum-scale=1.0,user-scalable=0">
+    <meta name="format-detection" content="telephone=no"/>
+    <title>{if !empty($title)}{$title} - {else if !empty($_W['page']['title'])}{$_W['page']['title']} - {/if}{if !empty($_W['page']['sitename'])}{$_W['page']['sitename']}{else}{$_W['account']['name']}{/if}</title>
+
+    <style>
+        html,body{
+            width:100%;
+            overflow:hidden;
+        }
+        #app{
+            width:100%;
+            overflow:hidden;
+        }
+        .active{
+            color:#04BE02 !important;
+        }
+        .vux-slider>.vux-swiper>.vux-swiper-item {
+            overflow:hidden;
+        }
+        p{
+            margin:0px;
+        }
+        .m-title {
+            font-size: 10px;
+            overflow:hidden;
+        }
+        .vux-timeline-item-head-first {
+            width: 20px;
+            height: 20px;
+            left: -4px;
+            top: 5px;
+        }
+        .vux-timeline-item-head, .vux-timeline-item-head-first {
+            position: absolute;
+            content: '';
+            z-index: 99;
+            border-radius: 99px;
+        }
+    </style>
+    <link rel="stylesheet" href="{MODULE_URL}public/libs/vux/vux.css?t={php echo time()}"/>
+    <link rel="stylesheet" href="{MODULE_URL}public/libs/ionic/css/ionic.css"/>
+
+    <script src="{MODULE_URL}public/js/require.js"></script>
+    <script src="{MODULE_URL}public/js/config.js"></script>
+</head>
+<body>

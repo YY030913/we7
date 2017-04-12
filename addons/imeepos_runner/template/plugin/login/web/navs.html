@@ -1,0 +1,14 @@
+<ul class="nav nav-tabs">
+    <li {if $_GPC['mdo']=="setting"}class="active"{/if}>
+        <a href="{php echo $this->createWebUrl('plugin',array('mp'=>'login ','mdo'=>'setting'))}">登陆设置</a>
+    </li>
+    <li {if $_GPC['mdo']=="template"}class="active"{/if}>
+        <a href="{php echo $this->createWebUrl('plugin',array('mp'=>'login','mdo'=>'template'))}">登陆模板</a>
+    </li>
+    <li {if $_GPC['mdo']=="smsset"}class="active"{/if}>
+        <a href="{php echo $this->createWebUrl('plugin',array('mp'=>'login','mdo'=>'smsset'))}">验证码</a>
+    </li>
+    <li {if $_GPC['mdo']=="qqoauth"}class="active"{/if}>
+    <a href="{php echo $this->createWebUrl('plugin',array('mp'=>'login','mdo'=>'qqoauth'))}">QQ授权登陆</a>
+    </li>
+</ul>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html class="no-js " lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="cleartype" content="on">
+<title>{$reply['title']}</title>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="{$_W['siteroot']}app/resource/js/require.js"></script>
+<script src="{$_W['siteroot']}app/resource/js/app/config.js"></script>
+<script type="text/javascript" src="{$_W['siteroot']}app/resource/js/lib/jquery-1.11.1.min.js"></script>
+<script>
+    // jssdk config 对象
+    jssdkconfig = {php echo json_encode($_W['account']['jssdkconfig']);} || {};
+    
+    /*  是否启用调试 */
+    jssdkconfig.debug = false;
+    jssdkconfig.jsApiList = [
+        'checkJsApi',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo',
+        'hideMenuItems',
+        'showMenuItems',
+        'hideAllNonBaseMenuItem',
+        'showAllNonBaseMenuItem',
+        'translateVoice',
+        'startRecord',
+        'stopRecord',
+        'onRecordEnd',
+        'playVoice',
+        'pauseVoice',
+        'stopVoice',
+        'uploadVoice',
+        'downloadVoice',
+        'chooseImage',
+        'previewImage',
+        'uploadImage',
+        'downloadImage',
+        'getNetworkType',
+        'openLocation',
+        'getLocation',
+        'hideOptionMenu',
+        'showOptionMenu',
+        'closeWindow',
+        'scanQRCode',
+        'chooseWXPay',
+        'openProductSpecificView',
+        'addCard',
+        'chooseCard',
+        'openCard'
+    ];
+    </script>
+<!-- meta viewport -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<!-- CSS -->
+<link rel="stylesheet" href="{$_W['siteroot']}addons/shd_chat/template/style/css/index.css">
+</head>
+<body>
+<!-- container -->
+<center><br><br><br><br><br><br><br><br><br><br><br>
+<h1><a href="#" id="btn">无聊吐槽表白（点我进入呀！）</a></h1>
+</center>
+<!--dm start-->
+	<div class="dm">
+	<!--d_screen start-->
+		<div class="d_screen">
+			<a href="#" class="d_del">X</a>
+			<div class="d_mask"></div>
+			<div class="d_show" id="msg_txt">
+				<!-- <div>孙称心太棒了！！</div>
+				<div>www.sanhedao.cn！！</div>
+				<div>GOOD！！</div>
+				<div>Yes！！</div>
+				<div>吊！！</div> -->
+				{loop $msg_list $row}
+				<div style="border:1px solid red;width:100%;height:30px;color:white;">{$row['content']}</div>
+				{/loop}
+			</div>
+		</div>
+		<!--end d_screen-->
+		<!--send start-->
+		<div class="send">
+			<div class="s_fiter">
+				<div class="s_con">
+					<input type="text" class="s_txt"/><input type="button" value="我要说话" onclick="msglist()" class="s_sub"/>
+				</div>
+			</div>
+		</div>
+		<!--end send-->
+	</div>
+	<!--end dm--><!--引入类库-->
+<script type="text/javascript">
+
+	$(function(){
+	init_screen();
+		/* alert("您好"); */
+		$("#btn,.d_del").click(function(){
+			$(".dm,.d_del").toggle(1000);
+		});
+		$(".s_sub").click(function(){
+		   var text=$(".s_txt").val();
+		   if(text=="")
+		   {
+		   	alert("请输入聊天内容！");
+		   }
+		   else
+		   {				/* 将用户发出来的信息插入数据库中去 */
+			   $.post("{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('addmsg'),2)}"+"&msg_txt="+text+"&id="+{$reply['id']},function(data){
+				}); 			   			   
+			    var div="<div class='msg_10'>"+text+"</div><br/>";
+			   $(".d_show").append(div); 
+			   init_screen();
+			   $(".s_txt").val("");
+		   }
+
+		})
+	});	function msglist()	{		$(".d_show").empty();		var cont="";		$.ajax({  			   type: "POST",			   url: "{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('Msglist'),2)}"+"&replyid={$id}",			   datatype: "json",			   success: function(msg_json){			   var data = eval("(" + msg_json + ")");			   for(var i=0;i<6;i++)			   {			   		cont+="<div class='msg_"+i+"'>"+(data[i].content)+"</div>"			   }			   $(".d_show").append(cont);			   			   init_screen();			   }			}); 	}
+/* 初始化弹幕 */function init_screen(){	var _top=0;	$(".d_show").find("div").show().each(function(){		var _left=$(window).width()-$(this).width();		var _height=$(window).height();		_top=_top+76;		if(_top>=_height-100){			_top=0;		}		$(this).css({left:_left,top:_top,color:getReandomColor()});		var time=20000;		if($(this).index()%2==0){			time=20000;			/* $(this).css({'margin-left':'20px','margin-top':'120px','float':'left','width':'100%'}); */		}		$(this).animate({left:"-"+_left+"px"},time,function(){		});	});}
+
+	/* 随机获取颜色值 */
+	function getReandomColor(){
+		/* return '#'+(function(h){
+		return new Array(7-h.length).join("0")+h
+		})((Math.random()*0x1000000<<0).toString(16)) */
+	}
+</script>
+
+<div style="text-align:center;margin:10px 0; font:normal 14px/24px 'MicroSoft YaHei';">
+<p>四川三合道企业营销策划有限公司荣誉出品 </p>
+<p>来源：<a href="http://www.lv2008.cn/" target="_blank">名堂汇</a></p>
+</div>
+<!-- JS -->
+<script src="http://libs.baidu.com/jquery/2.1.1/jquery.min.js" onerror="_cdnFallback(this)"> </script>
+	
+
+<script type="text/javascript">
+{php $share_url = $_W['siteroot'].'app/index.php?i='.$_W['uniacid'].'&c=entry&id='.$id.'&do=detail&m=shd_chat&share_from='.urlencode(base64_encode($_W['openid']));}
+{php $tzurl = isset($_W['openid']) ? $share_url : $reply['share_url'];}
+sharedata = {
+    'title' : "{$reply['share_title']}", // 
+    'desc' : "{$reply['share_content']}",  //
+    'link' :  "{$share_url}",
+    'imgUrl' : "{php echo tomedia($reply['share_img'])}",
+}
+sharedata.success = function(){
+    $.ajax({
+            type:"POST",
+            url:"{$_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&id={$id}&do=sharedata&m=shd_chat",
+            data:{
+                from: "{$share_from}"
+            },
+            dataType: "json",
+            success:function(msg){
+                location.href = "{$tzurl}";
+            }
+        });
+}
+</script>
+	<script type="text/javascript">
+    wx.config(jssdkconfig);
+    require(['jquery', 'util'], function($, util){    	var latitude;    	var longitude;    	var speed;    	var accuracy;
+        wx.ready(function () {        	
+            wx.onMenuShareAppMessage(sharedata);
+            wx.onMenuShareTimeline(sharedata);
+            wx.onMenuShareQQ(sharedata);
+            wx.onMenuShareWeibo(sharedata);                        wx.getLocation({                type: 'wgs84', /*  默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02' */                success: function (res) {                    latitude = res.latitude; /*  纬度，浮点数，范围为90 ~ -90 */                    longitude = res.longitude;/*  经度，浮点数，范围为180 ~ -180。 */                    speed = res.speed; /* 速度，以米/每秒计 */                    accuracy = res.accuracy; /*  位置精度 */                    /* alert('纬度：'+latitude+'经度：'+longitude+'速度：'+speed+'精度：'+accuracy);  */                },                cancel: function (res) {                    alert('用户拒绝授权获取地理位置');                    WeixinJSBridge.call('closeWindow');                  }            });
+        });
+    });
+</script>
+</body>
+</html>

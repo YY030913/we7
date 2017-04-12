@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.goodziyuan.com" versionCode="0.6">
+	<application setting="false">
+		<name><![CDATA[财务中心]]></name>
+		<identifie><![CDATA[kim_financial]]></identifie>
+		<version><![CDATA[1.8]]></version>
+		<type><![CDATA[customer]]></type>
+		<ability><![CDATA[用于会员在线充值余额、余额购买套餐，购买短信条数服务]]></ability>
+		<description><![CDATA[用于会员在线充值余额、余额购买套餐，购买短信条数服务]]></description>
+		<author><![CDATA[好资源)]]></author>
+		<url><![CDATA[http://www.goodziyuan.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+			<message type="text" />
+			<message type="image" />
+			<message type="voice" />
+			<message type="video" />
+			<message type="location" />
+			<message type="link" />
+			<message type="subscribe" />
+			<message type="unsubscribe" />
+			<message type="qr" />
+			<message type="trace" />
+			<message type="click" />
+			<message type="view" />
+			<message type="enter" />
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+	</platform>
+	<bindings>
+		<menu>
+			<entry title="财务中心" do="FinancialCenter" state="" direct="false" />
+		</menu>
+	</bindings>
+	<install><![CDATA[install.php]]></install>
+	<uninstall><![CDATA[uninstall.php]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

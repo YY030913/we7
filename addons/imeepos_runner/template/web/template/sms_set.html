@@ -1,0 +1,65 @@
+{template 'common/header-meepo'}
+{template 'web/template/navs'}
+<div class="panel panel-default">
+	<div class="panel-heading">
+		阿里大鱼短信设置
+	</div>
+	<div class="panel-body">
+		<form action="" method="post" class="form-horizontal" role="form" id="form1" >
+		<input type="hidden" name="id" value="{$setting['id']}" class="form-control"/>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">阿里大鱼appkey</label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input type="text" name="appkey" value="{$ali_sms['appkey']}" class="form-control"/>
+					<span class="help-block">阿里大鱼appkey</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">阿里大鱼appsecret</label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input type="text" name="appsecret" value="{$ali_sms['appsecret']}" class="form-control"/>
+					<span class="help-block">阿里大鱼appsecret</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">阿里大鱼身份验证签名</label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input type="text" name="signname" value="{$ali_sms['signname']}" class="form-control"/>
+					<span class="help-block">默认为：<a href="http://www.alidayu.com/admin/service/sign">身份验证</a></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">短信验证码模板号码</label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input type="text" name="moban_num" value="{$ali_sms['moban_num']}" class="form-control"/>
+					<span class="help-block">到阿里大鱼后台管理去改</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">任务完成码短信模板号码</label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input type="text" name="moban_post" value="{$ali_sms['moban_post']}" class="form-control"/>
+					<span class="help-block">到阿里大鱼后台管理去改</span>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">是否开启</label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input type="radio" name="sms_open" value="1" {if $ali_sms['sms_open']==1}checked="checked"{/if} class=""/>开启
+					<input type="radio" name="sms_open" class="" value="0" {if $ali_sms['sms_open']==0}checked="checked"{/if}/>关闭
+					<span class="help-block">是否开启短信验功能</span>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input type="submit" class="btn btn-default" value="提交">
+					<input type="hidden" name="token" value="{$_W['token']}">
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+{template 'common/footer'}

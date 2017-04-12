@@ -1,0 +1,37 @@
+<script>
+	var list = [];
+	setInterval(function(){
+		$.get("{php echo $this->createWebUrl('ajax')}",function(data){
+			if(data.status == 1){
+				for(j in data.news){
+					for (i in list){
+						has = false;
+						if(list[i].id == data.news[j].id){
+							has = true;
+						}
+						if(!has){
+							list = list.concat(data.news[j]);
+						}
+					}
+				}
+				var html = '<div class="upgrade-tips">';
+				for (i in list){
+					var item = list[i];
+					html += '<a class="module" href="'+item.href+'">'+item.title+'</a>';
+					html += '<span class="tips-close" data-id="'+item.id+'" onclick="checkupgradeModule_hide(this)"><i class="fa fa-times-circle"></i></span>';
+				}
+				html += '</div>';
+				$('body').append(html);
+			}
+		},'json');
+	},2000);
+	function checkupgradeModule_hide(that){
+		var id = $(that).data('id');
+		$.post("{php echo $this->createWebUrl('ajax',array('act'=>'update'))}",{id:id},function(){});
+		$(that).parent().hide();
+	}
+</script>
+			</div>
+		</div>
+	</div>
+{template 'common/footer-base'}

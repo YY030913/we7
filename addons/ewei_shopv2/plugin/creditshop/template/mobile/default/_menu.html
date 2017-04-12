@@ -1,0 +1,23 @@
+<div class="fui-navbar">
+			<a href="{php echo mobileUrl('creditshop')}" class="external nav-item {if $_W['routes'] == 'creditshop'}active{/if}">
+				<span class="icon icon-home"></span>
+				<span class="label">首页</span>
+			</a>
+			
+			<a href="{php echo mobileUrl('creditshop/lists')}" class="external nav-item {if $_W['routes'] == 'creditshop.lists'}active{/if}">
+				<span class="icon icon-list"></span>
+				<span class="label">全部商品</span>
+			</a>
+			
+			<a href="{php echo mobileUrl('creditshop/creditlog')}" class="external nav-item {if $_W['routes'] == 'creditshop.creditlog'}active{/if}">
+				<span class="icon icon-jifen"></span>
+				<span class="label">我的{$_W['shopset']['trade']['credittext']}</span>
+			</a>
+			
+			<a href="{php echo mobileUrl('creditshop/log')}" class="external nav-item {if $_W['routes'] == 'creditshop.log'}active{/if}">
+				<span class="icon icon-navlist"></span>
+				<span class="label">参与记录</span>
+			</a>
+			
+			
+</div>

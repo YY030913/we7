@@ -1,0 +1,23 @@
+<style type="text/css">
+	.badge2{
+		position: absolute;
+	    top: 4px;
+	    right: 4px;
+	    background: #D23F31;
+	    color: #fff;
+	    font-size: 8px;
+	    border-radius: 50%;
+	    width: 18px;
+	    height: 18px;
+	    text-align: center;
+	    line-height: 14px;
+	}
+</style>
+<div class="list">
+	<a ng-repeat="i in list_num(Item.params.list_num)" class="item {{Item.params.class}}" href="#/">
+		<img src="../addons/imeepos_runner/icon.jpg" alt="" />
+		<h2 class="title">演示数据</h2>
+		<p>浙江省杭州市</p>
+		<i class="badge badge-light {{Item.params.badge_class}}">11元</i>
+	</a>
+</div>

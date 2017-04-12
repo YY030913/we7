@@ -1,0 +1,4 @@
+<div class='menu-header'>{php echo $this->plugintitle}</div>
+<ul>
+    {ifp 'taobao'}<li {if $_W['action']==''}class="active"{/if}><a href="{php echo webUrl('taobao')}">获取宝贝</a></li>{/if}
+</ul>

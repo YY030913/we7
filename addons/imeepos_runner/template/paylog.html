@@ -1,0 +1,65 @@
+{template 'common/header'}
+{template 'web/task/navs'}
+<style>
+    .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {overflow: visible !important;}
+    .dropdown-menu{min-width:4em;}
+    .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {white-space: normal !important;overflow: visible !important;}
+    .dropdown{display:inline-block !important;}
+    .account-stat-num > div {width: 25%;float: left;font-size: 16px;text-align: center;}
+    .account-stat-num > div span {display: block;font-size: 30px;font-weight: bold;}
+</style>
+<div class="panel panel-default" style="padding:1em">
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin: -1em -1em 1em -1em;">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="javascript:;">数据统计</a>
+        </div>
+    </nav>
+    <div class="panel-body">
+        <div class="account-stat-num row">
+            {php $m = M('paylog')->total();}
+            <div>总金额<span>{$m['all']['fee']}</span></div>
+            <div>本日金额<span>{$m['day']['fee']}</span></div>
+            <div>本周金额<span>{$m['week']['fee']}</span></div>
+            <div>本月金额<span>{$m['month']['fee']}</span></div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        支付记录
+    </div>
+    <div class="panel-body">
+        <table st-table="items" class="table table-striped table-condensed" style="display:auto;">
+            <thead>
+            <tr>
+                <th style="width:8em;">头像</th>
+                <th style="width:12em;">昵称</th>
+                <th style="width:18em;">订单编号</th>
+                <th style="width:12em;">时间</th>
+                <th style="width:12em;">金额</th>
+                <th style="width:5em;">状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {loop $list['list'] $li}
+            {php $member = M('member')->getInfo($li['openid']);}
+            <tr>
+                <td><img src="{php echo $member['avatar']}" style="height:4em;width:4em;" alt=""/></td>
+                <td>{$member['nickname']}</td>
+                <td>{$li['tid']}</td>
+                <td>{php echo date('Y-m-d H:i',$li['time'])}</td>
+                <td>{$li['fee']}元</td>
+                <td>{if $li['status']==1}成功{else}失败{/if}</td>
+                <td>
+                    <a href="{php echo $this->createWebUrl('paylog',array('act'=>'delete','id'=>$li['id']))}" class="btn btn-danger">删除</a>
+                </td>
+            </tr>
+            {/loop}
+            </tbody>
+        </table>
+        {php echo $list['pager']}
+    </div>
+</div>
+
+{template 'common/footer'}

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.goodziyuan.com" versionCode="0.52,0.6,0.7">
+	<application setting="true">
+		<name><![CDATA[互粉互赚]]></name>
+		<identifie><![CDATA[xkd_fkz]]></identifie>
+		<version><![CDATA[2.3]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[互粉互赚]]></ability>
+		<description><![CDATA[互粉互赚]]></description>
+		<author><![CDATA[好资源)]]></author>
+		<url><![CDATA[http://www.goodziyuan.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+			<message type="scan" />
+			<message type="subscribe" />
+		</subscribes>
+		<handles>
+			<message type="text" />
+			<message type="subscribe" />
+		</handles>
+		<rule embed="true" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="升级入口" do="indexA" state="" direct="false" />
+			<entry title="批准入口" do="waitup" state="" direct="false" />
+			<entry title="个人中心" do="myinfo" state="" direct="false" />
+			<entry title="互粉朋友圈" do="adv" state="" direct="false" />
+		</cover>
+		<menu>
+			<entry title="会员管理" do="member" state="" direct="false" />
+			<entry title="升级管理" do="record" state="" direct="false" />
+			<entry title="名片设置" do="spread" state="" direct="false" />
+			<entry title="其它设置" do="setting" state="" direct="false" />
+		</menu>
+	</bindings>
+	<install><![CDATA[CREATE TABLE IF NOT EXISTS `ims_jiexi_aaa_adv` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `openid` varchar(255) NOT NULL,
+  `nickname` varchar(255) NOT NULL,
+  `headimgurl` varchar(500) NOT NULL,
+  `uploadimg` longtext NOT NULL,
+  `content` varchar(255) NOT NULL,
+  `link` varchar(300) NOT NULL,
+  `add_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_jiexi_aaa_member` (
+  `uid` int(10) unsigned NOT NULL,
+  `uniacid` int(10) unsigned NOT NULL,
+  `openid` varchar(30) NOT NULL,
+  `wechat` varchar(50) NOT NULL,
+  `qq` varchar(20) NOT NULL,
+  `mobile` varchar(11) NOT NULL,
+  `level` tinyint(3) unsigned NOT NULL,
+  `add_time` int(10) unsigned NOT NULL,
+  `deleted` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `parent1` int(10) unsigned NOT NULL DEFAULT '0',
+  `parent2` int(10) unsigned NOT NULL DEFAULT '0',
+  `parent3` int(10) unsigned NOT NULL DEFAULT '0',
+  `parent4` int(10) unsigned NOT NULL DEFAULT '0',
+  `parent5` int(10) unsigned NOT NULL DEFAULT '0',
+  `parent6` int(10) unsigned NOT NULL DEFAULT '0',
+  `parent7` int(10) unsigned NOT NULL DEFAULT '0',
+  `parent8` int(10) unsigned NOT NULL DEFAULT '0',
+  `parent9` int(10) unsigned NOT NULL DEFAULT '0',
+  `parent10` int(10) unsigned NOT NULL DEFAULT '0',
+  `parent11` int(10) unsigned NOT NULL DEFAULT '0',
+  `parent12` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`uid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_jiexi_aaa_poster` (
+  `poster_id` int(10) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL,
+  `active` int(10) unsigned NOT NULL DEFAULT '0',
+  `follow` varchar(500) NOT NULL,
+  `notmember` varchar(500) NOT NULL,
+  `bg` varchar(200) NOT NULL,
+  `bgparam` text NOT NULL,
+  `createtime` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`poster_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_jiexi_aaa_qr` (
+  `uniacid` int(10) unsigned NOT NULL,
+  `scene_id` varchar(50) NOT NULL,
+  `qr_url` varchar(1024) NOT NULL,
+  `media_id` varchar(1024) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `poster_id` int(10) NOT NULL DEFAULT '0',
+  `openid` varchar(100) NOT NULL,
+  PRIMARY KEY (`uniacid`,`scene_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_jiexi_aaa_record` (
+  `record_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL,
+  `apply_uid` int(10) unsigned NOT NULL,
+  `upgrade` tinyint(3) unsigned NOT NULL,
+  `approval_uid` int(10) unsigned NOT NULL,
+  `manager_uid` int(10) unsigned NOT NULL,
+  `packet` tinyint(3) unsigned NOT NULL,
+  `a_flag` tinyint(3) unsigned NOT NULL,
+  `m_flag` tinyint(3) unsigned NOT NULL,
+  `apply_time` int(10) unsigned NOT NULL,
+  `approval_time` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`record_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_jiexi_aaa_scene_id` (
+  `uniacid` int(10) unsigned NOT NULL,
+  `scene_id` int(10) NOT NULL,
+  PRIMARY KEY (`uniacid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_jiexi_aaa_setting` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `fkz_name` varchar(255) NOT NULL,
+  `adv_headimg` varchar(500) NOT NULL,
+  `adv_open` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+</manifest>

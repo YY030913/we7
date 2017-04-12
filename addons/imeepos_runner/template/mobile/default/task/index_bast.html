@@ -1,0 +1,470 @@
+{template 'common/header'}
+<link rel="stylesheet" href="{MODULE_URL}public/libs/ionic/css/ionic.css"/>
+<link rel="stylesheet" href="{MODULE_URL}public/libs/vux/vux.css"/>
+<link rel="stylesheet" href="{MODULE_URL}public/css/iconfont.css"/>
+<link rel="stylesheet" href="{MODULE_URL}public/css/common.css"/>
+<link rel="stylesheet" href="{MODULE_URL}public/libs/jquery_weui/jquery-weui.css"/>
+<link href="{MODULE_URL}public/libs/frozenui/css/frozen.css" rel="stylesheet">
+<div class="page-group">
+    <style>
+        .st{
+            position:absolute;top:20%;
+            left: 20%;z-index:100000;
+            opacity:0.75;
+            color:white;
+            background: rgba(68, 68, 68, 0);
+            background-image: initial;
+            background-position-x: initial;
+            background-position-y: initial;
+            background-size: initial;
+            background-repeat-x: initial;
+            background-repeat-y: initial;
+            background-attachment: initial;
+            background-origin: initial;
+            background-clip: initial;
+            background-color: rgba(68, 68, 68, 0);
+        }
+        .page-group{
+            background-color: #f4f4f4;
+        }
+        .h44{
+            height:54px;
+            background-color:#f4f4f4;
+        }
+        #advSwiper{height:150px;overflow:hidden;}
+        .swiper-slide{overflow:hidden;}
+        #advSwiper img{width:100%;max-height:2000px !important;}
+        .meepo_tabs .meepo_tab-item{width: 50%;float: right;margin-top: 15px;}
+        .all{position:absolute;z-index:99999;width: 100%;height: 100%;opacity: 0.75;background-color: #000000;}
+    </style>
+    <div class="page page-current" id="page-index">
+        <div class="content infinite-scroll native-scroll" data-distance="10" style="padding-bottom: 0px;">
+            <!--滑动广告--->
+            {php $advs = M('advs')->getList(1," AND position = 'adv'");}
+            <div class="swiper-container" id="advSwiper">
+                <div class="swiper-wrapper">
+                    {loop $advs['list'] $adv}
+                    <a href="{php echo $adv['link']}" class="swiper-slide">
+                        <img src="{php echo tomedia($adv['image'])}" />
+                    </a>
+                    {/loop}
+                </div>
+            </div>
+            <!--滑动广告--->
+            <!--分类-->
+            <div class="j-rmd-types rmd-types">
+                {php $cats = M('advs')->getList(1," AND position = 'navs'");}
+                {loop $cats['list'] $cat}
+                <a href="{php echo $cat['link']}" class="external">
+                    <img src="{php echo tomedia($cat['image'])}" alt="">
+                    <span>{$cat['title']}</span>
+                </a>
+                {/loop}
+            </div>
+            <!--分类-->
+
+            <!--轮播-->
+            <div class="x_new_publish">
+                <div class="left-icon">
+                    <i class="icon iconfont">&#xe614;</i>
+                </div>
+                {php $announcements = M('announcement')->getall();}
+                <ul class="x_newest_publish" id="publishData">
+                    {loop $announcements $announcement}
+                    <li><span><a href="{php echo $announcement['link']}">{$announcement['title']}</a></span></li>
+                    {/loop}
+                </ul>
+            </div>
+            <!--轮播-->
+            <style>
+                .x_new_publish{width:100%;height:40px;position:relative;overflow:hidden;background:#fff no-repeat 5% center;background-size:20px}
+                .x_new_publish:before {content: " ";position: absolute;left: 0;top: 0;width: 100%;height: 1px;border-top: 1px solid #e1e1e1;color: #C7C7C7;-webkit-transform-origin: 0 0;transform-origin: 0 0;-webkit-transform: scaleY(0.5);transform: scaleY(0.5);}
+                .x_new_publish:after {content: " ";position: absolute;left: 0;bottom: 0;width: 100%;height: 1px;border-bottom: 1px solid #e1e1e1;color: #C7C7C7;-webkit-transform-origin: 0 100%;transform-origin: 0 100%;-webkit-transform: scaleY(0.5);transform: scaleY(0.5);}
+                .x_new_publish .left-icon{position: absolute;padding-left: 15px;line-height: 40px;}
+                .x_new_publish .left-icon .iconfont{font-size: 24px;color: #d93a55;}
+                .x_newest_publish{width:100%;line-height:40px;position: absolute;padding-left: 15px;float: left;padding-left: 50px;}
+                .x_newest_publish li{width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+                .c0 {
+                    padding-bottom: 0;
+                    border-top: 1px dashed #eee;
+                    margin-top: 3px;
+                    padding-top: 0px;
+                    padding-bottom: 12px;
+                }
+                .list{
+                    background-color:#f4f4f4;
+                }
+            </style>
+            <script type="text/javascript">
+                function newnotice(){var a=0;$($(".x_newest_publish li")[0]).clone(!0).insertAfter($($(".x_newest_publish li")[$(".x_newest_publish li").length-1]));setInterval(function(){a-=40;a>=40*-($(".x_newest_publish li").length-2)?$(".x_newest_publish").animate({marginTop:a},2E3):$(".x_newest_publish").animate({marginTop:a},2E3,function(){a=0;$(".x_newest_publish").css({marginTop:0})})},4E3)};
+                $(function () {
+                    newnotice();
+                });
+            </script>
+            {php $v_set = M('setting')->getValue('v_set')}
+            {if $v_set['shop_runner_best'] == 1}
+            <div class="hd" id="teacher">
+                <div class="item item-divider item-icon-right" style="padding-bottom: 0px;">
+                    优秀快递
+                </div>
+                <style>
+                    .box1 {height: 70px;position: relative;}
+                    .box1-item{width: 50px;height: 50px;margin-top:10px;border-radius:50%;margin-left:5px;margin-right:5px;background-color: #ccc;display: inline-block;margin-left: 15px;float: left;text-align: center;line-height: 50px;}
+                    .box1-item img{width:50px;height:50px;border-radius:50%;}
+                </style>
+                <scroller lock-y :scrollbar-x=false>
+                    <div class="box1" style="width: {{teachers_width}}px;background-color:#fff;">
+                        <div class="box1-item" v-for="i in runners">
+                            <img :src="i.avatar" alt=""/>
+                        </div>
+                    </div>
+                </scroller>
+            </div>
+            {/if}
+            <div style="height:15px;"></div>
+            <div id="list" style="display:none;">
+                <tab :line-width="1">
+                    <tab-item :selected="active_item == 0" @click="goTo(0)">全部</tab-item>
+                    <tab-item :selected="active_item == 1" @click="goTo(1)">帮我送</tab-item>
+                    <tab-item :selected="active_item == 2" @click="goTo('2')">帮我买</tab-item>
+                    <tab-item :selected="active_item == 3" @click="goTo('3')">帮帮忙</tab-item>
+                </tab>
+                <style>
+                    .ui-avatar>span{
+                        border-radius:0px !important;
+                    }
+                    .list_image_badge{
+                        position: absolute;
+                        font-size: 10px;
+                        height: 15px;
+                        line-height: 15px;
+                        bottom: 0;
+                        right: 0;
+                        z-index: 9;
+                        color: #fff;
+                        border-radius: 2px;
+                        text-align: center;
+                        border-radius: 5px;
+                        padding-left:5px;
+                        padding-right:5px;
+                    }
+                    .ui-tag-pop-hot-before{
+                        font-family: iconfont!important;
+                        font-size: 10px;
+                        font-style: normal;
+                        -webkit-font-smoothing: antialiased;
+                        -webkit-text-stroke-width: .2px;
+                        display: block;
+                        position: absolute;
+                        left: -10px;
+                        top: 1px;
+                        line-height: 15px;
+                        color: #fff;
+                        background-color: #ff7200;
+                        border-radius: 5px;
+                        padding-left:5px;
+                        padding-right:5px;
+                    }
+                </style>
+                <ul class="ui-list ui-border-tb" v-for="item in tasks">
+                    <li class="ui-border-t">
+                        <div class="ui-list-img ui-grid-halve-img" style="padding-top: 0;width:68px">
+                            <i v-if="item.level" class="list_image_badge" style="z-index: 2;background-color:red;color:#fff;">{{item.level}}</i>
+                            <span class="" style="background-size: 100%;border-radius:0px;background-image:url({{item.src}})">
+                                <i class="ui-tag-pop-hot-before" v-if="item.small_money_show">
+                                    已加价{{item.small_money}}
+                                </i>
+                            </span>
+                        </div>
+                        <div class="ui-list-info">
+                            <h4 class="ui-nowrap ui-badge-wrap">
+                                {{item.nickname}}
+                                <span class="ui-txt-highlight">【{{item.type_title}}】</span>
+                            </h4>
+                            <p class="ui-nowrap-multi ui-whitespace" v-if="item.detail.sendaddress">起始地：{{item.detail.sendaddress}}{{item.detail.senddetail}}</p>
+                            <p class="ui-nowrap-multi ui-whitespace" v-if="item.detail.receiveaddress">目的地：{{item.detail.receiveaddress}}{{item.detail.receivedetail}}</p>
+                            <p class="ui-nowrap-multi ui-whitespace" style="color:red;" v-if="item.total">赏金：{{item.total}}元<span v-if="item.small_money_show">【含小费{{item.small_money}}元】</span><span v-if="item.fee2">【货到付款：{{item.fee2}}元】</span></p>
+                            <p class="ui-nowrap-multi ui-whitespace" style="color:red;" v-if="item.limit_time">送达时间：{{item.limit_time}}</span></p>
+                        </div>
+                    </li>
+                    <div class="item tabs tabs-secondary tabs-icon-left" style="margin:0px;padding:0px;border: none;">
+                        <a class="tab-item" style="font-size: 0.8em;padding-top: 0px;opacity: 1;border: none;" href="javascript:;" @click="ask(item)">
+                            <i class="icon ion-ios-email-outline"></i>
+                            咨询
+                        </a>
+                        <a class="tab-item" style="padding-top: 0px;opacity: 1;font-size: 0.8em;border: none;" href="javascript:;" @click="play(item)">
+                            <i class="icon ion-ios-volume-high"></i>
+                            播单
+                        </a>
+                        <a class="tab-item" style="padding-top: 0px;opacity: 1;font-size: 0.8em;border: none;" href="javascript:;" @click="detail(item)">
+                            <i class="icon ion-ios-navigate-outline"></i>
+                            抢单
+                        </a>
+                    </div>
+                </ul>
+                <!--<div v-for="item in tasks" class="ui-list ui-border-tb" style="padding-bottom: 0px;">
+
+                    <div class="item item-thumbnail-left" style="padding-bottom: 0px;border: none;">
+                        <img class="" :src="item.src">
+                        <h2 class="title">
+                            <div class="ui-badge-wrap" style="width: 100px;line-height: 50px;">
+                                {{item.nickname}}｜【{{item.type_title}}】
+                                <div class="ui-badge-corner">{{item.level}}</div>
+                            </div>
+                        </h2>
+                        &lt;!&ndash;<p style="white-space: normal;border: none;">{{item.desc}}</p>&ndash;&gt;
+                        <p class="ui-nowrap-multi ui-whitespace">{{item.desc}}</p>
+                        <sapan class="badge badge-assertive " style="margin-top: 60px;">{{item.total}}元</sapan>
+                    </div>
+                    <div class="item tabs tabs-secondary tabs-icon-left" style="margin:0px;padding:0px;border: none;">
+                        <a class="tab-item" style="font-size: 0.8em;padding-top: 0px;opacity: 1;border: none;" href="javascript:;" @click="ask(item)">
+                            <i class="icon ion-ios-email-outline"></i>
+                            咨询
+                        </a>
+                        <a class="tab-item" style="padding-top: 0px;opacity: 1;font-size: 0.8em;border: none;" href="javascript:;" @click="play(item)">
+                            <i class="icon ion-ios-volume-high"></i>
+                            听单
+                        </a>
+                        <a class="tab-item" style="padding-top: 0px;opacity: 1;font-size: 0.8em;border: none;" href="javascript:;" @click="detail(item)">
+                            <i class="icon ion-ios-navigate-outline"></i>
+                            抢单
+                        </a>
+                    </div>
+                </div>-->
+                <cell style="margin: 0 auto;text-align: center;" :title="moretitle" @click="loadMore()"></cell>
+                <div class="weui_dialog weui_dialog_visible" id="item" style="display:none;">
+                    <div class="weui_dialog_hd">
+                        <strong class="weui_dialog_title">在线咨询</strong>
+                    </div>
+                    <div class="weui_dialog_bd">
+                        <textarea class="weui_textarea" v-model="message.content" placeholder="请输入消息内容" rows="3"></textarea>
+                        <div class="weui_textarea_counter"><span>0</span>/200</div>
+                    </div>
+                    <div class="weui_dialog_ft">
+                        <a href="javascript:;" @click="cancelPost()" class="weui_btn_dialog default">取消</a>
+                        <a href="javascript:;" @click="postData(message)" class="weui_btn_dialog postData">提交</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="h44"></div>
+        {template 'default/common/footerbar2'}
+    </div>
+</div>
+
+<script>
+    require([
+        '{MODULE_URL}public/libs/vue.min.js',
+        '{MODULE_URL}public/libs/vux/components/scroller/index.js',
+        '{MODULE_URL}public/libs/vux/components/tab/index.js',
+        '{MODULE_URL}public/libs/vux/components/tab-item/index.js',
+        '{MODULE_URL}public/libs/jquery_weui/jquery-weui.js',
+    ],function(Vue,scroller,tab,tab_item){
+        var localId = null;
+        var jssdkconfig = {php echo json_encode($_W['account']['jssdkconfig']);} || {};
+        // 是否启用调试
+        jssdkconfig.debug = false;
+        jssdkconfig.jsApiList = [
+            'checkJsApi',
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ',
+            'onMenuShareWeibo',
+            'hideMenuItems',
+            'showMenuItems',
+            'hideAllNonBaseMenuItem',
+            'showAllNonBaseMenuItem',
+            'translateVoice',
+            'startRecord',
+            'stopRecord',
+            'onRecordEnd',
+            'playVoice',
+            'pauseVoice',
+            'stopVoice',
+            'uploadVoice',
+            'downloadVoice',
+            'chooseImage',
+            'previewImage',
+            'uploadImage',
+            'downloadImage',
+            'getNetworkType',
+            'openLocation',
+            'getLocation',
+            'hideOptionMenu',
+            'showOptionMenu',
+            'closeWindow',
+            'scanQRCode',
+            'chooseWXPay',
+            'openProductSpecificView',
+            'addCard',
+            'chooseCard',
+            'openCard'
+        ];
+
+        wx.config(jssdkconfig);
+
+        Vue.component('scroller', scroller);
+        Vue.component('tab', tab);
+        Vue.component('tab-item', tab_item);
+
+        var footers = {php echo json_encode($members)};
+        var count2 = footers.length;
+
+        var runners = {php echo json_encode($runners)};
+        var count = runners.length;
+
+        var list = new Vue({
+            el:"#list",
+            data:{
+                active_item : "{php echo $_GPC['k']}",
+                tasks:{php echo json_encode($order)},
+                voicing:false,
+                message:{content:'',taskid:''},
+            },
+            ready:function(){
+                $('#list').show();
+            },
+            methods:{
+                ask:function(item){
+                    list.message.taskid = item.id;
+                    $('#item').show();
+                },
+                cancelPost:function(){
+                    $('#item').hide();
+                },
+                postData:function(m){
+                    console.log(m);
+                    $.post("{php echo $this->createMobileUrl('wechat')}",m,function(data){
+                        if(data.status == 0){
+                            $.toast(data.message);
+                            setTimeout(function(){
+                                $('.weui_toast').remove();
+                                window.location.href = data.url;
+                            },1000);
+                        }else{
+                            $.toast(data.message,'forbidden');
+                            setTimeout(function(){
+                                $('.weui_toast').remove();
+                            },1000);
+                        }
+                    },'json');
+                    $('#item').hide();
+                },
+                detail:function(item){
+                    window.location.href="{php echo $this->createMobileUrl('detail')}&id="+item.id;
+                },
+                play:function(item){
+                    list.voicing = true;
+                    wx.ready(function(){
+                        wx.downloadVoice({
+                            serverId: item.media_id,
+                            isShowProgressTips: 1,
+                            success: function (res) {
+                                localId = res.localId;
+                                //播放
+                                wx.playVoice({
+                                    localId: localId
+                                });
+                                //清除定时器
+                                wx.onVoicePlayEnd({
+                                    success:function(){
+                                        list.voicing = false;
+                                    }
+                                });
+                            }
+                        });
+                    });
+                },
+                loadMore:function(){
+                    page = page + 1;
+                    $('#loadingToast').show();
+                    $.get("{php echo $this->createMobileUrl('tasks',array('act'=>'more'))}&k="+list.active_item+"&page="+page,function(data){
+                        if(data.status == 1){
+                            setTimeout(function(){
+                                $('#loadingToast').hide();
+                            },1000);
+                            var orders = ordersFielt(data.data);
+                            list.tasks = list.tasks.concat(orders);
+                        }else{
+                            vm.moretitle = '已没有更多';
+                            setTimeout(function(){
+                                $('#loadingToast').hide();
+                            },1000);
+                        }
+                    },'json');
+                },
+                goTo:function(k){
+                    list.active_item = k;
+                    $.post("{php echo $_W['siteurl']}",{k:k},function(data){
+                        list.tasks = data.data;
+                    },'json');
+                }
+            }
+        });
+
+        function ordersFielt(orders){
+            var items = [];
+            _.each(orders,function(item){
+                //item.limit_time = new Date(item.limit_time);
+                item.total = toDecimal(item.total);
+                items = items.concat(item);
+            });
+            return items;
+        }
+        function sorftOrders(key){
+            if(key == 1){
+                var orders = {php echo json_encode($orders1)};
+            }else if(key == 2){
+                var orders = {php echo json_encode($orders2)};
+            }else{
+                var orders = {php echo json_encode($orders3)};
+            }
+            var items = ordersFielt(orders);
+            return items;
+        }
+
+        function toDecimal(x) {
+            var f = parseFloat(x);
+            if (isNaN(f)) {
+                return;
+            }
+            f = Math.round(x*100)/100;
+            return f;
+        }
+
+        var vm = new Vue({
+            el:"#teacher",
+            data:{
+                runners:runners,
+                teachers_width:count * 70,
+                footers:footers,
+                footers_width:count2 * 70,
+            },
+            ready:{
+
+            },
+            methods:{
+
+            }
+        });
+    });
+</script>
+<script>
+    require(['swiper'],function(Swiper){
+        var loading = false;
+        var page = 1;
+        function addItems(page) {
+            var ajaxurl = "{php echo $this->createMobileUrl('index',array('act'=>'more'))}";
+            $.post(ajaxurl,{},function(data){
+                if(data.status == 1){
+                    $(".ul_1").append(data.html);
+                    page = page + 1;
+                }else{
+                    $('.loading_more').html('全部数据加载完毕');
+                }
+            });
+        }
+        addItems(page);
+    });
+</script>

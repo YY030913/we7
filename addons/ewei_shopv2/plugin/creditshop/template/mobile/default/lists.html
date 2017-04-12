@@ -1,0 +1,71 @@
+{template '_header'}
+<link rel="stylesheet" href="../addons/ewei_shopv2/plugin/creditshop/template/mobile/default/images/common.css" />
+<div class='fui-page   fui-page-current creditshop-index-page'>
+	
+	<div class="fui-header">
+		<div class="fui-header-left">
+			<a class="back"></a>
+		</div>
+		<div class="title">{if empty($cate)}商品列表{else}{$cate['name']}{/if}</div>
+		<div class="fui-header-right"></div>
+	</div>
+	
+	<div class='fui-content navbar'>
+		<div class="fui-searchbar">
+		    <div class="searchbar">
+		      <a class="searchbar-cancel" id="search">搜索</a>
+		      <div class="search-input">
+		        <i class="icon icon-search"></i>
+		        <input type="search" id="keyword" placeholder="输入关键字..." value="{$_GPC['keyword']}">
+		      </div>
+		    </div>
+	    </div>
+	    
+	    <div class="fui-message fui-message-popup in content-empty" style="display: none; margin: 0; padding: 0; position: relative;">
+				<div class="icon ">
+					<i class="icon icon-information"></i>
+				</div>
+				<div class="content">未找到任何产品~</div>
+		</div>
+	    
+	    <div class="fui-goods-group block border container"></div>
+	    <div class='infinite-loading' style="text-align: center; color: #666;">
+	    	<span class='fui-preloader'></span>
+	    	<span class='text'> 正在加载...</span>
+	    </div>
+	</div>
+	<script id='tpl_list' type='text/html'>
+
+			<%each list as item%>
+				<a href="{php echo mobileUrl('creditshop/detail')}&id=<%item.id%>" data-nocache="false">
+						<div class="fui-goods-item">
+							<div class="image" style="background-image: url('<%item.thumb%>')"></div>
+							<div class="detail">
+								<div class="name">
+									<%if item.subtitle!='' %>
+										<span class="fui-label fui-label-danger"><%item.subtitle%></span>
+									<%/if%>
+									<%item.title%>
+								</div>
+								<div class="price">
+									<span class="text"><i class="icon icon-jifen"></i><%item.credit%></span>
+									<span class="buy <%if item.type==1 %> buy-1<%/if%>">
+										<%if item.type==1 %>抽奖<%/if%>
+										<%if item.type!=1 %>兑换<%/if%>
+									</span>
+								</div>
+							</div>
+						</div>
+					</a>
+			<%/each%>
+
+	</script>
+
+	<script language="javascript">
+		require(['../addons/ewei_shopv2/plugin/creditshop/static/js/lists.js'],function(modal){
+			modal.init({cate: "{$_GPC['cate']}", keyword: "{$_GPC['keyword']}"});
+		});
+	</script>
+</div>
+{php $this->footerMenus()}
+{template '_footer'}

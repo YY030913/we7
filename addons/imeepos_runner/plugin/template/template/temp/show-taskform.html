@@ -1,0 +1,199 @@
+<style type="text/css">
+	#uploader input {
+		position: absolute;
+		right: 0;
+		top: 0;
+		opacity: 0;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		cursor: pointer;
+	}
+	
+	#uploader .item img {
+		float: left;
+		position: relative;
+		width: 65px;
+		height: 65px;
+	}
+</style>
+<div class="vc-section order-content-section order-remark-section">
+	<div class="vcth-border-box vc-flexbox vc-align-items-center vc-border-row order-content-section-item order-remark-section-item">
+		<input style="margin-left:10px;" type="text" name="title" maxlength="50" class="vcth-border-box vc-flex-1 vc-flexbox vc-align-items-center order-remark-input J_remark_input J_hidefooter_input" placeholder="任务描述  (必填)">
+	</div>
+</div>
+<div class="list" id="uploader" style="margin-top:10px;">
+	<div class="item">
+		<div class="up-entry" id="picker">
+			<input type="file" name="file" id="file" multiple="true" onchange="ajaxFileUpload()" />
+		</div>
+	</div>
+</div>
+
+<div class="vcth-border-box order-main-page">
+	<div class="vcth-border-box vc-section order-content-section order-addr-time-section">
+		<!--地址-->
+		<div id="J_trigger_addr" class="vcth-border-box vc-flexbox vc-align-items-center vc-border-row order-content-section-item order-addr-section-item vc-arrow-right J_trigger_addr">
+			<span class="order-content-item-tips order-content-addr-tips">服务地址</span>
+			<div class="vcth-border-box vc-flex-1 vc-flexbox vc-align-items-center vc-justify-content-end order-content-item-body order-content-addr-body">
+				<span id="selectaddr" class="vcth-border-box order-content-addr-body-tips">请选择</span>
+			</div>
+		</div>
+		<!--时间-->
+		<div id="J_trigger_timepicker" class="vcth-border-box vc-flexbox vc-align-items-center vc-border-row order-content-section-item order-time-section-item J_trigger_timepicker vc-arrow-right">
+			<span class="order-content-item-tips order-content-time-tips">服务时间</span>
+			<div class="vcth-border-box vc-flex-1 vc-flexbox vc-align-items-center vc-justify-content-end order-content-item-body order-content-time-body">
+				<span class="order-content-time-body-tips">请选择</span>
+			</div>
+		</div>
+	</div>
+	<div class="vc-section order-content-section order-phone-section">
+		<div>
+			<div class="EasyLogin_Mobile_Mobile">
+				<div class="EasyLogin_row">
+					<div class="EasyLogin_Mobile_tit EasyLogin_Mobile_Country"><span class="EasyLogin-country-code" data-code="86">86</span>
+						<div class="EasyLogin_Mobile_Arrow"></div>
+					</div>
+					<input type="tel" name="mobile" placeholder="请输入手机号" class="J_hidefooter_input">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="list">
+	<button style="margin-bottom: 40px;" class="button button-calm button-block">立即支付</div>
+</div>
+<div class="addrpane"></div>
+<div class="timerpane"></div>
+<script>
+	function ajaxFileUpload(callback) {
+		require(['jquery', 'ajaxfileupload', 'core'], function($) {
+			$.ajaxFileUpload({
+				url: $_W.upload,
+				secureuri: false,
+				fileElementId: 'file',
+				dataType: 'json',
+				success: function(data, status) {
+					if (callback) {
+						callback(data);
+					} else {
+						var img = $('#uploader img');
+						var length = img.length;
+						var url = data.url;
+						if (img.length > 3) {
+							core.toast('任务图片最多上传4张', 'top', 1000);
+						} else {
+							var img = $("<div class='up-entry'><img src='" + url + "' /><input data-image='" + length + "' type='file' name='file' id='file" + length + "' value='' multiple='false'/></div>");
+							$('#picker').before(img);
+						}
+					}
+				},
+				error: function(data, status, e) {
+					console.log(e);
+				}
+			})
+			return false;
+		});
+	}
+
+	function postshop() {
+		require(['jquery', 'core'], function($, core) {
+			var data = {};
+			if ($('.item img').length <= 0) {
+				core.toast('请上传商铺logo', 'top', 1000);
+				return '';
+			}
+			data.logo = $('.item img')[0].currentSrc;
+			if ($('#selectaddr').html() == '请选择') {
+				core.toast('请选择商铺地址', 'top', 1000);
+				return '';
+			}
+			data.address = $('#selectaddr').html();
+			if ($('.order-content-time-body-tips').html() == '请选择') {
+				core.toast('请选择营业时间', 'top', 1000);
+				return '';
+			}
+			data.time = $('.order-content-time-body-tips').html();
+			if (!$('input[name=mobile]').val()) {
+				core.toast('请输入您的手机号码', 'top', 1000);
+				return '';
+			}
+			data.mobile = $('input[name=vcode]').val();
+			if (!$('input[name=vcode]').val()) {
+				core.toast('请输入手机验证码', 'top', 1000);
+				return '';
+			}
+			data.mobile = $('input[name=vcode]').val();
+			if (!$('input[name=title]').val()) {
+				core.toast('请输入店铺名称', 'top', 1000);
+				return '';
+			}
+			data.title = $('input[name=title]').val();
+			data.desc = $('input[name=desc]').val();
+			var url = $_W.pluginUrl + 'page&code=shop_post&act=post';
+			core.json(url, data, function(data) {
+				if (0 == data.code) {
+					core.toast('提交成功', 'top', 1000);
+					window.location.href = data.url;
+				}
+			}, true, true);
+		});
+	}
+	require(['jquery', 'core', 'handlebars', 'text!./task/timepicker.html', 'text!./task/addrpicker.html', 'map'], function($, core, Handlebars, timer, source) {
+		$(function() {
+			$('.up-entry input').bind('change', function() {
+				if ($('.up-entry img').length > 0) {
+				}
+			});
+			$('#J_trigger_addr').click(function() {
+				$('.bar-header').hide();
+				$('.list').hide();
+				$('.button-block').hide();
+				$('.scroll-content').removeClass('has-header');
+				$('.addrpane').html(source);
+			});
+			$('#J_trigger_timepicker').click(function() {
+				$('.bar-header').hide();
+				$('.list').hide();
+				$('.button-block').hide();
+				$('.scroll-content').removeClass('has-header');
+				$('.timerpane').html(timer);
+			});
+			$('.EasyLogin_send').click(function() {
+				//发送手机验证码
+				var mobile = $('input[name=mobile]').val();
+				if (!mobile) {
+					core.toast('请输入您的手机号码', 'top', 1000);
+					return '';
+				}
+				var send = $(this);
+				send.attr("disabled", true);
+				var downcount = 30;
+				send.html(downcount + "秒后重新获取");
+				var timer = setInterval(function() {
+					downcount--;
+					console.log(downcount);
+					if (downcount <= 0) {
+						clearInterval(timer);
+						send.html("重新获取验证码");
+						send.attr("disabled", false);
+						downcount = 60;
+					} else {
+						send.html(downcount + "秒后重新获取");
+						console.log(send.html())
+					}
+				}, 1000);
+				$.post(url, {}, function(data) {
+					if (0 == data.code) {} else {
+						clearInterval(timer);
+						send.html("重新获取验证码");
+						send.attr("disabled", false);
+						downcount = 60;
+						core.toast('验证码获取失败', 'top', 1000);
+					}
+				});
+			});
+		});
+	});
+</script>

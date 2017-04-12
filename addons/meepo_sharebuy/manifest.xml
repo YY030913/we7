@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.goodziyuan.com" versionCode="0.6,0.7">
+	<application setting="false">
+		<name><![CDATA[分享下单]]></name>
+		<identifie><![CDATA[meepo_sharebuy]]></identifie>
+		<version><![CDATA[1.1]]></version>
+		<type><![CDATA[activity]]></type>
+		<ability><![CDATA[分享下单]]></ability>
+		<description><![CDATA[分享下单]]></description>
+		<author><![CDATA[好资源)]]></author>
+		<url><![CDATA[http://www.goodziyuan.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+			<message type="text" />
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+	    <cover>
+	      <entry title="分享页面" do="index" state="" direct="false" />
+	    </cover>
+		<menu>
+			<entry title="分享管理" do="sharemanage" state="" direct="false" />
+		</menu>
+	</bindings>
+	<install><![CDATA[
+CREATE TABLE IF NOT EXISTS `ims_share_datas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `weid` int(11) NOT NULL,
+  `share_title` varchar(100) NOT NULL,
+  `share_link` varchar(300) NOT NULL,
+  `share_ztlink` varchar(300) NOT NULL,
+  `share_content` varchar(300) NOT NULL,
+  `share_logo` varchar(100) NOT NULL,
+  `num` int(100) NOT NULL DEFAULT '0',
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+</manifest>

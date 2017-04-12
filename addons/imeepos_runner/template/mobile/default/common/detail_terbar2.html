@@ -1,0 +1,45 @@
+<link href="{$_W['siteroot']}app/resource/css/font-awesome.min.css" rel="stylesheet">
+<style>
+    .weui_mask, .weui_mask_transition, .weui_mask_transparent{
+        z-index: 9 !important;}
+    .page{
+        margin-bottom:44px;
+    }
+    .tab-item {
+        padding-top: 6px;
+        color: #5d2f18;
+    }
+    .active{
+        color:#04BE02 !important;
+    }
+    .tab-item .icon {
+        height: auto;
+        margin-bottom: 3px;
+    }
+    .h44{
+        height:44px;
+    }
+</style>
+<div class="h44"></div>
+<div class="tabs tabs-icon-top tabs-light" v-if="order.status == 1" style="position: fixed;bottom: 0px;right:0px;left:0px;margin:0px;padding:0px;border:none;">
+    <a v-if="role == 'owener'" style="color: #5d2f18;height:auto;" @click="deleteOrder(order.id)" href="javascript:;" class="tab-item dark">
+        <i style="font-size: 2em;" class="icon fa fa-power-off"></i>
+        <span>撤销任务</span>
+    </a>
+    <a v-if="role == 'owener'" style="color: #5d2f18;height:auto;" @click="showYanShi()" href="javascript:;" class="tab-item dark">
+        <i style="font-size: 2em;" class="icon fa fa-history"></i>
+        <span>任务延时</span>
+    </a>
+    <a v-if="role == 'owener'" style="color: #5d2f18;height:auto;" @click="showShangJin()" href="javascript:;" class="tab-item dark">
+        <i style="font-size: 2em;" class="icon ion-android-locate"></i>
+        <span>增加赏金</span>
+    </a>
+    <a v-if="role == 'runner'" style="color: #5d2f18;height:auto;" @click="receiveOrder(order.id)" href="javascript:;" class="tab-item dark">
+        <i style="font-size: 2em;" class="icon ion-ribbon-a"></i>
+        <span>立即抢单</span>
+    </a>
+    <a v-if="role == 'owener'" style="color: #5d2f18;height:auto;" href="javascript:;" @click="getQrcode()" class="tab-item dark">
+        <i style="font-size: 2em;" class="icon ion-image"></i>
+        <span>二维码</span>
+    </a>
+</div>

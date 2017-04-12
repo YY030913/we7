@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>{$reply['title']}--扫码支付</title>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<style>
+body {
+    width: 100%;
+    background: #EFEFF4 none repeat scroll 0% 0%;
+    overflow-x: hidden;
+}
+body, dd, dl, form, h1, h2, h3, h4, h5, h6, li, ol, p, ul {
+    margin: 0px;
+    padding: 0px;
+}
+body, button, input, select, textarea {
+    font: 14px/1.5 "Lucida Grande","Lucida Sans Unicode","Helvetica Neue","Hiragino Sans GB","Microsoft Yahei",sans-serif;
+    color: #333;
+}
+body {
+    font: 16px/1.5 "Microsoft Yahei",helvetica,arial;
+    min-width: 320px;
+    color: #333;
+}
+a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, body, canvas, caption, center, cite, code, dd, del, details, dfn, div, dl, dt, em, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, iframe, img, ins, kbd, label, legend, li, mark, menu, nav, object, ol, p, pre, q, s, samp, section, small, span, strike, strong, sub, summary, sup, table, tbody, td, tfoot, th, thead, time, tr, tt, u, ul, var, video {
+    margin: 0px;
+    padding: 0px;
+    border: 0px none;
+    outline: 0px none;
+}
+body, div, fieldset, form, h1, h2, h3, h4, h5, h6, html, p {
+}
+.card.card-fullscreen {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+}
+.card.card-light {
+    background-color: #EDEDF3;
+}
+.card {
+    background-color: #3F3F41;
+    padding: 35px 30px;
+}
+.card.card-fullscreen .card-body {
+    height: 100%;
+}
+.card.card-light .card-body {
+    box-shadow: 0px 0px 2px 1px rgba(40, 40, 40, 0.1);
+}
+.card .card-body {
+    min-height: 380px;
+    background-color: #FFF;
+    border-radius: 8px;
+    text-align: center;
+}
+.pay-code {
+    position: relative;
+}
+.pay-code .message {
+    padding-top: 10px;
+    padding-bottom: 0px;
+}
+.message {
+    padding: 80px 0px 30px;
+}
+.message, .tips {
+    text-align: center;
+}
+.pay-code .message h2 {
+    font-size: 16px;
+    font-weight: 400;
+}
+.message h2 {
+    margin-top: 15px;
+    font-size: 20px;
+}
+.green {
+    color: #3FB837;
+}
+.red {
+    color: red;
+}
+.blue {
+    color: blue;
+}
+cite, em, i, li, ul {
+    font-style: normal;
+}
+.pay-code .message h3 {
+    color: #2D2D2D;
+    font-size: 28px;
+    margin: 0px 0px;
+    display: block;
+}
+.key, .pay-code .message h3, .pay-code .tel {
+    font-family: sans-serif;
+}
+.message h3 {
+    font-size: 16.5px;
+}
+.message h3, caption, i, th {
+    font-weight: 400;
+}
+.pay-code .message .btn {
+    width: 40%;
+    margin-top: 0px;
+}
+.btn.btn-tall {
+    height: 40px;
+    line-height: 40px;
+}
+.message .btn {
+    margin-top: 40px;
+}
+.btn {
+    border: 1px solid #1A9D18;
+    background: #06BF04 none repeat scroll 0% 0%;
+    border-radius: 5px;
+    width: 100%;
+    height: 42px;
+    line-height: 38px;
+    text-shadow: 0px 1px 0px #1A9D18;
+    text-align: center;
+    font-size: 18px;
+}
+.btn, .btn:active, .btn:hover {
+    color: #FFF;
+}
+.btn, .btn span {
+    display: inline-block;
+}
+.btn, .checkbox span.icon {
+    cursor: pointer;
+    box-sizing: border-box;
+}
+a {
+    color: #008ED2;
+    text-decoration: none;
+}
+.dialog .dialog_content .verify input:focus, :focus, a {
+    outline: 0px none;
+}
+.btn, .btn span {
+    display: inline-block;
+}
+.pay-code .footer {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+}
+.pay-code .info {
+    border-top: 1px dashed #E3E3E3;
+    padding: 10px 0px;
+    margin: 0px 20px;
+}
+.pay-code .info table {
+    width: 100%;
+    font-size: 14px;
+    text-align: left;
+}
+table {
+    empty-cells: show;
+    border-collapse: collapse;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0px;
+    word-break: break-all;
+}
+.pay-code .info td, .pay-code .info th {
+    height: 22px;
+}
+.pay-code .info th {
+    width: 75px;
+    color: #C3C3C3;
+}
+caption, th {
+    text-align: left;
+}
+.message h3, caption, i, th {
+    font-weight: 400;
+}
+.pay-code .info td, .pay-code .info th {
+    height: 22px;
+}
+.green {
+    color: #3FB837;
+}
+body, dd, dl, form, h1, h2, h3, h4, h5, h6, li, ol, p, ul {
+    margin: 0px;
+    padding: 0px;
+}
+.pay-code .logo {
+    height: 18px;
+}
+img {
+    vertical-align: middle;
+    border: 0px none;
+}
+.pay-code .tel {
+    color: #CCC;
+    font-size: 16px;
+    font-weight: lighter;
+    padding: 4px 0px 16px;
+}
+.pay-code .tel a {
+    color: #CCC;
+    display: block;
+}
+a {
+    color: #008ED2;
+    text-decoration: none;
+}
+.dialog .dialog_content .verify input:focus, :focus, a {
+    outline: 0px none;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+	<div class="card card-light card-fullscreen">
+		<div class="card-body pay-code">
+			<div class="message">
+				<h2>请确认<em class="green">支付码</em>是否使用</h2>
+				<h3>{$payed['paycode']}</h3>
+				{if $payed['status']<>2}
+					<a class="btn btn-tall" id="close" href="{php echo $this->createMobileUrl('paycheck',array('op' =>'used' , 'cid' =>$payed['clientOrderId']))}">
+					<span>确认使用</span>
+					</a>
+				{elseif $reply['openid']==$_W['fans']['openid']}
+					<a class="btn btn-tall" id="close" href="{php echo $this->createMobileUrl('paycheck',array('op' =>'payed' , 'cid' =>$payed['clientOrderId']))}">
+					<span>取消使用</span>
+					</a>
+				{/if}
+				<a class="btn btn-tall" id="close" href="{php echo $this->createMobileUrl('payed',array('op' =>'detail' , 'rid' =>$payed['rid']))}">
+					<span>查看账单</span>
+				</a>
+				{if empty($reply['product'])}
+
+				{else}
+					<h2>{$reply['product']}</h2>
+				{/if}
+				{if $payed['paytype'] == 1}
+					<h2>付款类型：余额支付</h2>
+				{elseif $payed['paytype'] == 2}
+					<h2>付款类型：支付宝支付</h2>
+				{else}
+					<h2>付款类型：微信支付</h2>
+				{/if}
+			</div>
+			<div class="footer">
+				<div class="info">
+					<table>
+					<tbody>
+					<tr>
+						<th>
+							订单号：
+						</th>
+						<td class="blue">
+							{$payed['clientOrderId']}
+						</td>
+					</tr>
+					<tr>
+						<th>
+							消费金额：
+						</th>
+						<td class="green">
+							{$payed['qrmoney']}元
+						</td>
+					</tr>
+					{if $reply['red']==1}
+					<tr>
+						<th>
+							红包金额：
+						</th>
+						<td class="green">
+							{$payed['red']}元
+						</td>
+					</tr>
+					<tr>
+						<th>
+							红包状态：
+						</th>
+						<td class="green">
+							{$payed['redmemo']}
+						</td>
+					</tr>
+					{/if}
+					<tr>
+						<th>
+							订单状态：
+						</th>
+						<td class="red">
+							{if $payed['status']==2}
+								已使用
+							{elseif $payed['status']==1}
+								已支付
+							{elseif $payed['status']==0}
+								未支付
+							{/if}
+						</td>
+					</tr>
+					{if ($reply['card']==1)&&($payed['cardtime']>0)}
+					<tr>
+						<th>
+							卡券ID：
+						</th>
+						<td class="green">
+							{$payed['cardid']}
+						</td>
+					</tr>
+					{/if}					
+					<tr>
+						<th>
+							消费门店：
+						</th>
+						<td>
+							{$reply['title']}
+						</td>
+					</tr>
+					<tr>
+						<th>
+							支付时间：
+						</th>
+						<td>
+							{php echo date("Y-m-d H:i:s" , $payed['paytime'] );}
+						</td>
+					</tr>
+					</tbody>
+					</table>
+				</div>
+				<p>
+					<img class="logo" src="{$_W['attachurl']}/{$reply['logo']}">
+				</p>
+				<p class="tel">
+					<a href="tel:{$reply['tel']}">{$reply['tel']}</a>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

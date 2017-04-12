@@ -1,0 +1,1009 @@
+
+{template 'default/common/header1'}
+{template 'default/common/header1'}
+<style>
+.map {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+.map.active {
+    z-index:10 !important;
+}
+.h44{
+    height:44px;
+}
+.weui_label {
+    display: block;
+    min-width:4em !important;
+}
+.weui_navbar_item.weui_bar_item_on {
+    background-color: #f5f5f5;
+    color: #04be02;
+}
+.weui_navbar_item{
+    min-width:5em;
+}
+.weui_navbar{
+    overflow-x:auto;
+    -webkit-overflow-scrolling: touch
+}
+::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+}
+.wrapper {
+    padding-top: 0px;
+}
+</style>
+<div class="wrapper">
+    <div class="main" id="main" style="">
+        <div class="fix-box veh-box border-r5">
+            <dl class="veh-col_01">
+                <dt>取货时间：</dt>
+                <dd>
+                    <span><label id="jishibut"><input type="radio" name="time" value="0" checked/>及时取</label></span>
+                    <span><label id="yuyuebut"><input type="radio" name="time" value="1"/>预约取</label></span>
+                </dd>
+            </dl>
+        </div>
+
+        <div class="fix-box veh-box mt10 border-r5" id="pl_yuyue" style="display:none;">
+            <dl class="veh-col_01">
+                <dt>预约时间：</dt>
+                <dd>
+                    <p data-node="text" name="dataTime" style="color: #F4A527;" id="yuyuetxt"></p>
+                    <input type="hidden" name="showDataTime" /> <!-- 展示用 -->
+                    <input type="hidden" name="dataTimeValue" /> <!-- 传后台 -->
+                </dd>
+            </dl>
+        </div>
+
+        <div class="fix-box veh-box mt10 border-r5">
+            <dl class="veh-col_02 border-bm" style="padding-bottom: 0.6rem;">
+                <dt>当前城市：</dt>
+                <dd>
+                    <input type="hidden" name="province" value="正在获取你的位置.." />
+                    <p name="city" style="color: #8a8a8a" id="getCurCityHtml">正在获取你的位置..</p>
+                    <input type="hidden" readonly id="getCurCity" name="city" value="正在获取你的位置.." />
+                </dd>
+            </dl>
+            <dl class="veh-col_02 ptb15 border-bm">
+                <dt>发货地：</dt>
+                <dd>
+                    <input type="hidden" name="sendlon"/>
+                    <input type="hidden" name="sendlat"/>
+                    <input type="hidden" name="sendaddress" readonly placeholder="请输入发货地"/>
+                    <p name="sendaddress" data-node="text">请输入发货地</p>
+                </dd>
+            </dl>
+            <dl class="veh-col_02" style="padding-top: 12px;">
+                <dt>收货地：</dt>
+                <dd>
+                    <input type="hidden" name="receivelon"/>
+                    <input type="hidden" name="receivelat"/>
+                    <input type="hidden" name="receiveaddress" readonly placeholder="请输入收货地"/>
+                    <p name="receiveaddress" data-node="text">请输入收货地</p>
+                </dd>
+            </dl>
+        </div>
+
+        <div class="fix-box veh-box border-r5 mt10">
+            <dl class="veh-col-03 border-bm" style="padding-bottom: 0.6rem;">
+                <dt>物品名称：</dt>
+                <dd><input name="goodsname" type="text" placeholder="请填写物品名称"/></dd>
+            </dl>
+            <dl class="veh-col-03 border-bm ptb15">
+                <dt>价值：</dt>
+                <dd><input type="number" name="goodscost" class="deal" style="display: inline-block;width: 88%" />元</dd>
+            </dl>
+            
+            <dl class="veh-col-03 border-bm ptb15">
+                <dt>重量：</dt>
+                <dd>
+                    <div>
+                        <a id="reduce"></a>
+                        <input class="deal" name="goodsweight" id="weightNumber" value="1" onblur="if(this.value<=0){this.value=1}" onkeyup="checkWeight(this)" style="display: inline-block;" type="number" />
+                        <a class="hover" id="plus"></a>
+                        &nbsp;kg&nbsp;&nbsp;&nbsp;
+                    </div>
+                </dd>
+            </dl>
+
+            <dl class="veh-col-03 border-bm ptb15">
+                <dt>小费：</dt>
+                <dd><input type="number" name="addmoney" class="deal" style="display: inline-block;width: 88%" />元</dd>
+            </dl>
+        </div>
+        <input type="hidden" name="range" />
+        <p class="veh-check-info">查看<a href="javascript:;" data-check="true">《禁止发布的事项信息》</a></p>
+
+        <a href="javascript:;" class="weui_btn weui_btn_primary" style="margin-top:15px;" id="cost-calculation">算算费用</a>
+        
+        <div class="h44"></div>
+    </div>
+</div>
+
+
+<!-- 交通工具选择 start -->
+<div class="vehicle" id="showVehicle">
+    <div class="vehicle-box">
+        <h3 class="clearfix">
+            <a href="javascript:;" id="veh-close" class="fl">取消</a>
+            <a href="javascript:;" id="veh-sure" class="fr">确定</a>
+        </h3>
+        <div class="vehicle-list" id="vehicle-list">
+            <p style="text-align: center;">正在加载交通工具...</p>
+        </div>
+    </div>
+</div>
+
+<div id="sendGoodsAddress" style="display: none;position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: 100;">
+    <input type="hidden" name="sendSelect" />
+    <div class="sendGoodsAddress">
+
+        <div class="wrapper fix-map-location">
+            <div class="bar bar-header ">
+                <a class="button button-clear" href="{php echo $this->createMobileUrl('map')}">
+                    <span class="active">常用地址</span>
+                </a>
+                <h2 class="title">选取你的位置</h2>
+                <button id="buy_text" class="button button-clear close" data-pjax href="">
+                    <span class="active">关闭</span>
+                </button>
+            </div>
+            <div class="main" style="margin-top: 44px;">
+                <div class="search-map">
+                    <p><input type="text" readonly style="border-bottom-color: gray;border-bottom-width: 0.5px;border-bottom-style: solid;"  class="hover" onfocus="this.onblur" data-lon="" data-lat="" id="user-location" placeholder="住宅小区/大厦名称/标志建筑/街道门牌" /></p>
+                    <p><input type="text" style="border-bottom-color: gray;border-bottom-width: 0.5px;border-bottom-style: solid;" id="user-room" placeholder="楼号、房间号" /></p>
+                </div>
+            </div>
+        </div>
+        <div class="baidu-map map" id="showMap"></div>
+        <div id="searchResultPanel" style="display:none;"></div>
+        <div class="weui_btn_area" style="position: absolute;bottom: 0px;left: 0px;right: 0px;z-index: 999;">
+            <a class="weui_btn weui_btn_primary" href="javascript:" id="map-choose-seat">确定</a>
+        </div>
+    </div>
+</div>
+<div id="choiceAddressList" style="display: none;position: absolute;top: 0;left: 0;height: 100%;width: 100%;z-index: 500;background: #E8E8E8;">
+    <div class="sendGoodsAddress">
+        <div class="wrapper fix-map-location">
+            <div class="main">
+                <div class="search-map">
+                    <p><input type="text" class="hover " data-lon="" data-lat="" id="choiceAddress" placeholder="住宅小区/大厦名称/标志建筑/街道门牌" /><button id="clear-user-info"></button></p>
+                </div>
+                <ul class="search-city-list" id="addrList">
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+.container2{
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    left: 0px;
+    right: 0px;
+    background-color: #F4F4F4;
+    z-index: 9999;
+}
+.container1 .article{
+    width: 100%;
+    overflow: hidden;
+}
+.article .page_title {
+    color: #de7c23;
+    font-size: 22px;
+    margin-top: 15px;
+}
+.page_title {
+    text-align: center;
+    font-size: 34px;
+    color: #3cc51f;
+    font-weight: 400;
+    margin: 0 15%;
+}
+.weui_article {
+    padding: 20px 15px;
+    font-size: 15px;
+    word-break: break-all;
+}
+</style>
+<div class="container2" id="checkInfo-toast" style="display:none;">
+    <div class="article">
+        <div class="hd">
+            <h1 class="page_title">禁止发布的事项信息</h1>
+        </div>
+        <div class="bd">
+            <article class="weui_article">
+                {$html}
+            </article>
+        </div>
+        <a href="javascript:;" class="weui_btn weui_btn_primary">同意</a>
+    </div>
+</div>
+
+<!-- 禁止发布的事项 -->
+
+
+<!-- 缓存当前位置 -->
+<input type="hidden" data-curLon="" data-curLat name="curPosition" />
+<!-- 回调当前城市数据 缓存默认数据 用于城市切换 -->
+<input type="hidden" name="defaultValue" data-defaultcity="" data-defaultlon="" data-defaultlat="" data-defaultprovince="" />
+
+<script id="tpl:getCity" type="text/html">
+    <ul>
+        {{each result as value i}}
+        <li data-province="{{value.province}}" onclick="chooseCity(this)">{{value.city}}</li>
+        {{/each}}
+    </ul>
+</script>
+
+
+<script id="tpl:Vehicle" type="text/html">
+    <ul>
+        <li class="hover" data-vehval="0" data-text="不限" data-isfloat="false">
+            <div>
+                <span><i class="normal"></i></span><br />
+                不限
+            </div>
+        </li>
+        {{each result as value i}}
+        {{if value.transporttypeid == 5}}
+        <li data-vehval="{{value.transporttypeid}}" data-text="{{value.transport}}" data-isfloat="{{value.isfloat}}">
+            <div>
+                <span><i class="battery"></i></span><br />
+                {{value.transport}}
+            </div>
+        </li>
+        {{else if value.transporttypeid == 7}}
+        <li data-vehval="{{value.transporttypeid}}" data-text="{{value.transport}}" data-isfloat="{{value.isfloat}}">
+            <div>
+                <span><i class="car"></i></span><br />
+                {{value.transport}}
+            </div>
+        </li>
+        {{else if value.transporttypeid == 9}}
+        <li data-vehval="{{value.transporttypeid}}" data-text="{{value.transport}}" data-isfloat="{{value.isfloat}}">
+            <div>
+                <span><i class="bus"></i></span><br />
+                {{value.transport}}
+            </div>
+        </li>
+        {{/if}}
+        {{/each}}
+    </ul>
+</script>
+<script>
+    var _checkSphereAreaNew = "";
+    var _selcost = "";
+    var _orderConfirm = "";
+    var _wxconfig = "";
+    var _getSameCity  = "";
+    
+    </script>
+    <script>
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+            resizeEvt = 'onorientationchange' in window ? 'orientationchange' : 'resize';
+            var fontsize = 20;
+            var recalc = function () {
+               var newfontsize = 20;
+               var clientWidth = docEl.clientWidth;
+               if(clientWidth > 640){
+                    clientWidth = 640;
+               }
+               if(clientWidth > 320){
+                    newfontsize = Math.floor(20 * (clientWidth / 320));
+               }
+               if(newfontsize != fontsize){
+                   fontsize = newfontsize;
+                   docEl.style.fontSize = fontsize + 'px';
+               }
+            };
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, function(){
+                setTimeout(recalc,500);
+            }, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    </script>
+<script>
+var map;
+require(['jquery','weixin','core','map','js/tool','js/template','js/index','js/convertor'],function($,wx,core,BMap,R){
+    
+    var userPoint;
+    
+    map = new BMap.Map('showMap');
+    map.setDefaultCursor("default");
+    map.setDraggingCursor("pointer");
+    map.enableDragging();
+    map.enableInertialDragging(); 
+    
+    $('#footer').show();
+    
+    $('.veh-check-info').click(function(){
+        $('#checkInfo-toast').show();
+    });
+    
+    $('#checkInfo-toast .weui_btn_primary').click(function(){
+        $('#checkInfo-toast').hide();
+        $('#footer').show();
+    });
+    
+    
+    function G(id) {
+        return document.getElementById(id);
+    }
+    
+    var userLocation = document.getElementById("user-location");
+    
+    $('#chooseVehicle').on('touchend',function(){
+        R.vehicle.show();
+    });
+    /**
+     * 减少/增加重量
+     * **/
+    var reduceBtn     =  document.getElementById("reduce"),
+        plusBtn       =  document.getElementById("plus"),
+        weightNumber  =  document.getElementById("weightNumber");
+
+
+    //增加
+    plusBtn.addEventListener('touchend',function(){
+        weightNumber.value = parseInt(weightNumber.value) +  1;
+        weightNumber.value > 1 ? reduceBtn.className = 'hover' : '';
+        if(parseInt(weightNumber.value) > 100)
+        {
+            R.alert('提示信息','物品重量不能超过100KG');
+            weightNumber.value = 100;
+            return false;
+        }
+    },false);
+    //减少
+    reduceBtn.addEventListener('touchend',function(){
+        weightNumber.value = parseInt(weightNumber.value) -  1;
+        if(parseInt(weightNumber.value) <= 0)
+        {
+            weightNumber.value = 1;
+            return false;
+        }
+        if(parseInt(weightNumber.value) <= 1){
+            reduceBtn.className = ' ';
+        }
+    },false);
+
+    //计算费用
+    var range;
+    $('#cost-calculation').on('touchend',function(e){
+
+        var start = $('input[name="sendlat"]').val() + ',' + $('input[name="sendlon"]').val();
+        var end = $('input[name="receivelat"]').val() + ',' + $('input[name="receivelon"]').val();
+        var city = document.getElementById('getCurCity').value;
+        if(checkGoods()){
+            getRange(start,end,city,function(obj){
+                Computational(obj);
+            });
+        }
+        e.preventDefault();
+    });
+    //预约取
+    var yuyuepl = $('#pl_yuyue');
+    var yuyuetxt = $('#yuyuetxt');
+    $('#jishibut').on('touchend',function(){
+        yuyueobj.settime();
+        yuyuepl.hide();
+    });
+    var yuyueobj = R.appointment.bind($('#yuyuebut'));
+    yuyueobj.closecal.add(function(obj){
+        if(obj.btn == 'cancel'){
+            if(yuyueobj.gettime() == ''){ //说明是取消预约取而不是修改上次预约的时间
+                $('#jishibut').find('[type="radio"]').prop('checked',true);
+            }
+        }
+        else if(obj.btn == 'set'){
+            yuyuepl.show();
+            yuyuetxt.html(obj.text);
+            $('input[name="dataTimeValue"]').val(obj.value);
+            $('input[name="showDataTime"]').val(obj.text);
+        }
+    });
+    var popCity = $('#popCity');
+    //弹出下拉城市列表
+    $('#getCurCityHtml').on('touchend',function(e){
+        popCity.show();
+        e.preventDefault();
+    });
+    popCity.on('touchend','[node="close"]',function(){
+        popCity.hide();
+    });
+
+//选取当前运营城市
+function chooseCity(obj){
+    var location = document.getElementById('user-location');
+    var defaultValue = $('input[name="defaultValue"]');
+    
+    if(obj.innerHTML != defaultValue.data('defaultcity')){ //如果选择不是当前城市  去掉默认的地址
+        $(location).val('').data('lon','').data('lat','');
+        $('input[name="curPosition"]').val('').data('curLon','').data('curLat','');
+        $('#addrList').find('.cur').hide();
+        
+    }else{ //如果选择的城市和当前定位城市一样  恢复以前的数据
+        $(location).val(defaultValue.val()).data('lon',defaultValue.data('defaultlon')).data('lat',defaultValue.data('defaultlat'));
+        $('input[name="curPosition"]').val(defaultValue.val()).data('curLon',defaultValue.data('defaultlon')).data('curLat',defaultValue.data('defaultlat'));
+        $('#addrList').find('.cur').show();
+        
+    }
+    document.getElementById('getCurCity').value = obj.innerHTML;
+    document.getElementById('getCurCityHtml').innerHTML = obj.innerHTML;
+    
+    $('input[name="province"]').val(obj.getAttribute('data-province'));
+    popCity.hide();
+}
+
+
+    /**
+     * 百度地图接口类
+     * **/
+    var userLocation = document.getElementById("user-location");  // 住宅小区/大厦名称/标志建筑/街道门牌
+    var clearBtn = document.getElementById("clear-user-info");
+    var userRoom = document.getElementById("user-room");         //  楼号、房间号
+    var choiceAddress = document.getElementById('choiceAddress'); //获取下拉地址
+
+    userLocation.addEventListener('touchend',function(){
+        G('choiceAddressList').style.display = 'block';
+        G('sendGoodsAddress').style.display = 'none';
+        //初始化搜索下拉地址高度
+        fixAddersHeight();
+    },false);
+
+    clearBtn.addEventListener('touchend',function(){
+        choiceAddress.value = '';
+    },false);
+
+    /**
+     * 获取百度地图坐标值
+     * **/
+    function getMapVal(){
+        $('p[name="sendaddress"]').on('touchend',function(e){  //发货地
+            G('main').style.visibility = 'hidden';
+            G('sendGoodsAddress').style.display = 'block';
+            $('input[name="sendSelect"]').val(1);
+    
+            var data = {
+                'lon' : $('input[name="sendlon"]').val(),
+                'lat' : $('input[name="sendlat"]').val(),
+                'sendaddress' : $('input[name="sendaddress"]').val(),
+                'location' : $('input[name="sendaddress"]').attr('data-location'),
+                'room' : $('input[name="sendaddress"]').attr('data-room')
+            };
+            if(data.lon && data.lat && data.sendaddress && data.location){
+                showMap('showMap',data.location,$('input[name="province"]').val());
+                userLocation.value = data.location;
+                if(data.room){
+                    userRoom.value = data.room;
+                }
+                userLocation.setAttribute('data-lon',data.lon);
+                userLocation.setAttribute('data-lat',data.lat);
+            }else{
+                showMap('showMap',$('input[name="curPosition"]').val(),$('input[name="province"]').val());
+                userLocation.value = $('input[name="curPosition"]').val();
+                userLocation.setAttribute('data-lon',$('input[name="curPosition"]').data('curLon'));
+                userLocation.setAttribute('data-lat',$('input[name="curPosition"]').data('curLat'));
+            }
+            e.preventDefault();
+        });
+    
+        $('p[name="receiveaddress"]').on('touchend',function(e){  //收货地
+            G('main').style.visibility = 'hidden';
+            G('sendGoodsAddress').style.display = 'block';
+            $('input[name="sendSelect"]').val(2);
+            var data = {
+                'lon' : $('input[name="receivelon"]').val(),
+                'lat' : $('input[name="receivelat"]').val(),
+                'receiveaddress' : $('input[name="receiveaddress"]').val(),
+                'location' : $('input[name="receiveaddress"]').attr('data-location'),
+                'room' : $('input[name="receiveaddress"]').attr('data-room')
+            };
+            if(data.lon && data.lat && data.receiveaddress && data.location){
+                showMap('showMap',data.location,$('input[name="province"]').val());
+                userLocation.value = data.location;
+                if(data.room){
+                    userRoom.value = data.room;
+                }
+                userLocation.setAttribute('data-lon',data.lon);
+                userLocation.setAttribute('data-lat',data.lat);
+            }else{
+                showMap('showMap',$('input[name="curPosition"]').val(),$('input[name="province"]').val());
+                userLocation.value = $('input[name="curPosition"]').val();
+                userLocation.setAttribute('data-lon',$('input[name="curPosition"]').data('curLon'));
+                userLocation.setAttribute('data-lat',$('input[name="curPosition"]').data('curLat'));
+            }
+            e.preventDefault();
+        });
+    }
+
+    //触发地址下拉选项
+    choiceAddress.oninput = function(){
+        var city = G('getCurCity').value;
+        getAddress(this.value,city);
+        G('addrList').style.display = 'block';
+        G('map-choose-seat').style.display = 'block';
+    };
+
+    //关闭地图层
+    $('.sendGoodsAddress .close').click(function(){
+        mapClose();
+    });
+    
+    function mapClose(){
+        G('sendGoodsAddress').style.display = 'none';
+        G('main').style.visibility = 'visible';
+        userLocation.value = '';
+        userRoom.value = '';
+        $('.map').hide();
+    }
+
+    //关闭下拉选项层
+    function closeAddress(){
+        G('choiceAddressList').style.display = 'none';
+        G('sendGoodsAddress').style.display = 'block';
+        G('choiceAddress').value = '';
+        $('#addrList').find('li').not('.cur').remove();
+    }
+
+    //选择下拉详细地址  监听li的touchend事件
+    $('#addrList').on('click','li',function(e){
+        var ulList = G('addrList');
+        userLocation.value = this.getAttribute("data-text");
+        //赋值经纬度  临时存放
+        userLocation.setAttribute('data-lon',this.getAttribute("data-longitude"));
+        userLocation.setAttribute('data-lat',this.getAttribute("data-latitude"));
+        var longitude = this.getAttribute("data-longitude"),
+            latitude = this.getAttribute("data-latitude"),
+            province = $('input[name="province"]').val(),
+            getCurCity = G('getCurCity').value;
+        var data = {
+            'longitude' : longitude,
+            'latitude' : latitude,
+            'province' : province,
+            'city' : getCurCity
+        };
+        showMap('showMap',$(this).data('addr'),getCurCity);
+        closeAddress();
+        e.preventDefault();
+    });
+    /**
+     * 确定  赋值操作
+     * **/
+    $('#map-choose-seat').find('input[type="button"]').on('touchend',function(e){
+        
+        if($(this).attr('disabled')){
+            return false;
+        }
+        if($.trim(userLocation.value) == ''){
+            R.alert('提示信息','请选择正确的地址！');
+            return false;
+        }
+        if($('input[name="sendSelect"]').val() == 1){          //发货地
+            var val = userLocation.value + userRoom.value;
+            $('p[name="sendaddress"]').css({color:'#8a8a8a'}).text(val);
+            $('input[name="sendaddress"]').val(val);
+            $('input[name="sendaddress"]').attr('data-location',userLocation.value);
+            $('input[name="sendaddress"]').attr('data-room',userRoom.value);
+            $('input[name="sendlon"]').val(userLocation.getAttribute('data-lon'));
+            $('input[name="sendlat"]').val(userLocation.getAttribute('data-lat'));
+        }else{
+            //收货地
+            var val = userLocation.value + userRoom.value;
+            $('p[name="receiveaddress"]').css({color:'#8a8a8a'}).text(val);
+            $('input[name="receiveaddress"]').val(val);
+            $('input[name="receiveaddress"]').attr('data-location',userLocation.value);
+            $('input[name="receiveaddress"]').attr('data-room',userRoom.value);
+            $('input[name="receivelon"]').val(userLocation.getAttribute('data-lon'));
+            $('input[name="receivelat"]').val(userLocation.getAttribute('data-lat'));
+        }
+        mapClose();
+        e.preventDefault();
+    });
+
+    //初始化地图高度
+    function setMapHeight(){
+        var doc = $(document).height();
+        var win = $(window).height();
+        if(doc > win){
+            $('#showMap').height(doc);
+        }else{
+            $('#showMap').height(win);
+        }
+    }
+
+
+    /**
+     * 输入价值正则验证
+     * **/
+    function clearNoNum(obj){
+        obj.value = obj.value.replace(/[^\d.]/g,""); //清除"数字"和"."以外的字符
+        obj.value = obj.value.replace(/^\./g,""); //验证第一个字符是数字而不是
+        obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的
+        obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d).*$/,'$1$2.$3'); //只能输入两个小数
+        if(obj.value > 5000)
+        {
+            obj.value = 5000;
+            return;
+        }
+    }
+
+    //验证重量
+    function checkWeight(obj){
+        obj.value=obj.value.replace(/[^\d]/g,'');
+        if(obj.value >1){
+            document.getElementById('reduce').className = 'hover'
+        }else if(obj.value <= 0){
+            document.getElementById('reduce').className = ' ';
+        }
+        if(obj.value > 100){
+            obj.value = 100;
+        }
+    }
+
+
+    //验证必填选项
+    function checkGoods(){
+        core.post('check',{act:'post'},function(data){
+            if(data.status != 0){
+                core.ok(data.message,function(){
+                    $.pjax({
+                        url:""+data.url,
+                        container:'#pjax-container'
+                    });
+                },function(){
+                    $.pjax({
+                        url:""+data.url,
+                        container:'#pjax-container'
+                    });
+                });
+            }
+        });
+        return true;
+        if($('[type="radio"]','#yuyuebut').prop('checked') && yuyueobj.gettime() == ''){
+            R.alert('提示信息','预约取时间不能为空');
+            return false;
+        }
+        if($('input[name="sendaddress"]').val() == '' || $('p[name="sendaddress"]').text() == '请输入发货地'){
+            R.alert('提示信息','发货地不能为空');
+            return false;
+        }
+        if($('input[name="receiveaddress"]').val() == '' || $('p[name="receiveaddress"]').text() == '请输入收货地'){
+            R.alert('提示信息','收货地不能为空');
+            return false;
+        }
+        if($('input[name="goodsname"]').val() == '' || $('input[name="goodsname"]').val() == '请填写物品名称'){
+            R.alert('提示信息','物品名称不能为空');
+            return false;
+        }
+        /* if($('input[name="goodscost"]').val() == ''){
+            R.alert('提示信息','请输入物品价值');
+            return false;
+        } */
+        if($('input[name="goodsweight"]').val() == '' || $('input[name="goodsweight"]').val() < 1){
+            R.alert('提示信息','请输入正确的物品重量');
+            return false;
+        }
+    }
+
+    /**
+     * 计算发件人位置与收件人位置距离
+     * start   发件人经纬度
+     * end    收件人经纬度    lat,lng
+     * city   城市
+     * **/
+    function getRange(start,end,city,callback){
+        var distance;
+        $.ajax({
+            type: "get",
+            url: "http://api.map.baidu.com/direction/v1?mode=walking&origin="+start+"&destination="+end+"&region="+city+"&output=json&ak=i8v3S2b8jP7fjFH13ILZdyiO",
+            async: false,
+            dataType: "jsonp",
+            jsonp: "callback",
+            success: function(data) {
+                if(data["status"]==0){
+                    var obj=data["result"]["routes"];
+                    if(obj){
+                        //得到步行距离
+                        distance=obj[0]["distance"];
+                        if(distance.toString() != ''){
+                            distance=parseInt(distance);  //单位：米
+                            typeof callback === 'function' ? callback(distance) : '';
+                        }else{
+                            R.alert('提示信息',"无法获取距离，请重新输入地址");
+                            return false;
+                        }
+                    }else{
+                        R.alert('提示信息',"发货地地址有误差，请核实····");
+                        return false;
+                    }
+                }else{
+                    R.alert('提示信息',"输入有误");
+                    return false;
+                }
+            }
+        });
+    }
+
+    //设置搜索下拉地址高度
+    function fixAddersHeight(){
+        var nodes = {
+            'h' : $(document).height(),
+            'addrlist' : $('#addrList'),
+            'liH' : ''
+        };
+        nodes.liH = nodes.addrlist.find('li.cur').length > 0 ? nodes.addrlist.find('li.cur').height() : false;
+        nodes.liH != 'flase' ? nodes.h = nodes.h - 120 - nodes.liH : nodes.h - 120;
+        nodes.addrlist.css({
+            'height' :nodes.h,
+            'overflow' : 'auto'
+        });
+    }
+    
+    wx.config(jssdkconfig);
+    
+    //获取交通工具
+    function getVehicle(lon,lat){
+        var data = {
+            lon: lon,
+            lat: lat
+        };
+        /* core.post('data_config',data,function(data){
+            if(data.success == 'true'){
+                document.getElementById('vehicle-list').innerHTML = template('tpl:Vehicle',{result:data.transporttype})
+            }else{
+                R.alert('提示信息',data.msg);
+            }
+        }); */
+    }
+    
+    function showPosition(position,isBmap){
+        var geoc = new BMap.Geocoder();
+        if(isBmap){
+            var point = position;
+            var pt = new BMap.Point(position.coords.longitude,position.coords.latitude);
+            geoc.getLocation(pt, function(rs){
+                var addComp = rs.addressComponents;
+                var addstreet =  addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber; //addComp.province + addComp.city +
+                userLocation.value = addComp.district  + addComp.street  + addComp.streetNumber;
+                userLocation.setAttribute('data-lon',point.lng);
+                userLocation.setAttribute('data-lat',point.lat);
+                
+                $('input[name="province"]').val(addComp.province);
+                $('input[name="city"]').val(addComp.city);
+                
+                //缓存默认数据 用于城市切换
+                $('input[name="defaultValue"]').data('defaultcity',addComp.city).data('defaultprovince',addComp.province);
+                document.getElementById('getCurCityHtml').innerHTML = addComp.city;
+                
+                //缓存当前位置数据
+                $('input[name="curPosition"]').val(addComp.district  + addComp.street  + addComp.streetNumber).data('curLon',point.lng).data('curLat',point.lat);
+                //缓存默认数据 用于城市切换
+                $('input[name="defaultValue"]').val(addComp.district  + addComp.street  + addComp.streetNumber).data('defaultlon',point.lng).data('defaultlat',point.lat);
+                var html = '<li class="cur" data-longitude="'+point.lng+'" data-latitude="'+point.lat+'" data-text="'+addComp.district  + addComp.street  + addComp.streetNumber+'">' +
+                           '<i><img src="{php echo $user['avatar']}" style="height:1.5rem;width:1.5rem;margin-top:10px;" alt=""/></i>' +
+                            '<span><b>当前位置：'+addComp.street  + addComp.streetNumber+'</b><br>'+addComp.province + addComp.city + addComp.district+'</span>' +
+                            '</li>';
+                $('#addrList').html(html);
+                //获取交通工具
+                getVehicle(point.lng,point.lat);
+            });
+        }else{
+            var gpsPoint = new BMap.Point(position.coords.longitude,position.coords.latitude);
+            BMap.Convertor.translate(gpsPoint,0,function(point){
+                var pt = new BMap.Point(point.lng,point.lat);
+                userPoint = pt;
+                
+                geoc.getLocation(pt, function(rs){
+                    var addComp = rs.addressComponents;
+                    var addstreet =  addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber; //addComp.province + addComp.city +
+                    userLocation.value = addComp.district  + addComp.street  + addComp.streetNumber;
+                    userLocation.setAttribute('data-lon',point.lng);
+                    userLocation.setAttribute('data-lat',point.lat);
+                    
+                    $('input[name="province"]').val(addComp.province);
+                    $('input[name="city"]').val(addComp.city);
+                    
+                    //缓存默认数据 用于城市切换
+                    $('input[name="defaultValue"]').data('defaultcity',addComp.city).data('defaultprovince',addComp.province);
+                    document.getElementById('getCurCityHtml').innerHTML = addComp.city;
+                    
+                    //缓存当前位置数据
+                    $('input[name="curPosition"]').val(addComp.district  + addComp.street  + addComp.streetNumber).data('curLon',point.lng).data('curLat',point.lat);
+                    //缓存默认数据 用于城市切换
+                    $('input[name="defaultValue"]').val(addComp.district  + addComp.street  + addComp.streetNumber).data('defaultlon',point.lng).data('defaultlat',point.lat);
+                    var html = '<li class="cur" data-longitude="'+point.lng+'" data-latitude="'+point.lat+'" data-text="'+addComp.district  + addComp.street  + addComp.streetNumber+'">' +
+                               '<i><img src="{php echo $user['avatar']}" style="height:1.5rem;width:1.5rem;margin-top:10px;" alt=""/></i>' +
+                                '<span><b>当前位置：'+addComp.street  + addComp.streetNumber+'</b><br>'+addComp.province + addComp.city + addComp.district+'</span>' +
+                                '</li>';
+                    $('#addrList').html(html);
+                    //获取交通工具
+                    getVehicle(point.lng,point.lat);
+                });
+            });
+        }
+    }
+    
+    /**
+     * 输入价值正则验证
+     * **/
+    function clearNoNum(obj){
+        obj.value = obj.value.replace(/[^\d.]/g,""); //清除"数字"和"."以外的字符
+        obj.value = obj.value.replace(/^\./g,""); //验证第一个字符是数字而不是
+        obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的
+        obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d).*$/,'$1$2.$3'); //只能输入两个小数
+        if(obj.value > 5000)
+        {
+            obj.value = 5000;
+            return;
+        }
+    }
+    
+    $('.goodscost').on('keyup',function(){
+        clearNoNum(this);
+    });
+    
+    function isWeiXin(){
+        var ua = window.navigator.userAgent.toLowerCase();
+        if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    function locationBug(){
+        var geolocation = new BMap.Geolocation();
+        geolocation.getCurrentPosition(function(r){
+            if(this.getStatus() == BMAP_STATUS_SUCCESS){
+                var point = r.point;
+                var position = {
+                        'coords' : {
+                            'longitude' : point.lng,
+                            'latitude' : point.lat
+                        }
+                    };
+                showPosition(position,true);
+            }
+        });
+    }
+    
+    function getLocation(){
+        if(isWeiXin()){
+            wxGetLocation();
+        }else{
+            locationBug();
+        }
+    }
+    var isposting = false;
+    /**
+     * 计算费用 跳转链接
+     * **/
+    function Computational(range){
+        
+        var data = {
+            "goodsweight" : $('input[name="goodsweight"]').val(),  //货物重量
+            "goodscost" : $('input[name="goodscost"]').val(),    //货物价值
+            "goodsname" : $('input[name="goodsname"]').val(),    //货物价值
+            "sendprovince" : $('input[name="province"]').val(),  //寄件人所在省
+            "sendcity" : $('input[name="city"]').val(),      //寄件人所在市
+            "sendaddress" : $('input[name="sendaddress"]').val(),   //寄件人所在详细街道地址
+            "receiveprovince" : $('input[name="province"]').val(),  //收件人所在省
+            "receivecity" : $('input[name="city"]').val(),      //收件人所在市
+            "receiveaddress" : $('input[name="receiveaddress"]').val(),   //收件人详细地址
+            "pickupdate" : $('#jishibut').prop('checked')? '': yuyueobj.gettime(),       //预约取件时间没有则为空
+            "transport" : parseInt($('#getVehicleValue').val()),       //交通工具ID
+            "sendlon" : $('input[name="sendlon"]').val(),        //寄件人经度
+            "sendlat" : $('input[name="sendlat"]').val(),        //寄件人纬度
+            "receivelon" : $('input[name="receivelon"]').val(),     //收货人经度
+            "receivelat" : $('input[name="receivelat"]').val(),     //收货人纬度
+            "distance" : range,       //寄件人和收货人之间距离
+            'dataTimeValue':$('input[name="dataTimeValue"]').val(),
+            'time':$('input[name="time"]:checked').val()
+        };
+        var url = $.param(data);
+        if(isposting){
+            return ;
+        }
+        isposting = true;
+        core.post('upload',data,function(data){
+            if(data.result == 0){
+                isposting = false;
+               core.ok(data.message,function(){
+                   window.location.href = "{php echo $this->createMobileUrl('paytask')}&tid="+data.tid;
+               });
+            }else{
+                isposting = false
+                R.alert('提示信息',data.message);
+                return false;
+            }
+        });
+    }
+    
+    function wxGetLocation(){
+        wx.ready(function() {
+            wx.getLocation({
+                success: function(res){
+                    var lat = res.latitude;   // 纬度，浮点数，范围为90 ~ -90
+                    var lng = res.longitude;  // 经度，浮点数，范围为180 ~ -180。
+                    var position = {
+                        'coords' : {
+                            'longitude' : lng,
+                            'latitude' : lat
+                        }
+                    };
+                    showPosition(position,false);
+                }
+            });
+        });
+    }
+    
+    var btn = $('a[data-check="true"]');
+    btn.on('touchend',function(){
+        $('#html-checkInfo').show();
+        $('#footer').hide();
+    });
+    
+    var btn_sure = $('a[data-icon="sure"]');
+    btn_sure.on('touchend',function(){
+        $('#html-checkInfo').hide();
+        $('#footer').show();
+    });
+    
+
+    //初始化  兼容系统后退按钮  缓存数据
+    (function(){
+        if(weightNumber.value > 1){
+            reduceBtn.className = 'hover';
+        }
+        if($('input[name="sendaddress"]').val() != ''){
+            $('p[name="sendaddress"]').text($('input[name="sendaddress"]').val());
+        }
+        if($('input[name="receiveaddress"]').val() != ''){
+            $('p[name="receiveaddress"]').text($('input[name="receiveaddress"]').val());
+        }
+        if($('#yuyuebut').find('input').is(':checked')){
+            yuyuepl.show();
+            yuyueobj.settime($('input[name="dataTimeValue"]').val());
+            yuyuetxt.html($('input[name="showDataTime"]').val());
+        }
+        if( $('p[name="sendaddress"]').text() == '请输入发货地'){
+            $('p[name="sendaddress"]').css({color:'#d8d8d8'});
+        }else{
+            $('p[name="sendaddress"]').removeAttr('style');
+        }
+        if( $('p[name="receiveaddress"]').text() == '请输入收货地'){
+            $('p[name="receiveaddress"]').css({color:'#d8d8d8'});
+        }else{
+            $('p[name="receiveaddress"]').removeAttr('style');
+        }
+
+    })();
+    
+    function _init(){
+        getLocation();
+        setMapHeight();
+        getMapVal();
+    }
+    _init();
+    
+});
+</script>
+{template 'default/common/share'}
+{template 'default/common/footerbar'}
+{template 'default/common/footer'}

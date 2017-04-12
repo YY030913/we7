@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>{$_W['uniaccount']['name']}</title>
+	<meta name="format-detection" content="telephone=no, address=no">
+	<meta name="apple-mobile-web-app-capable" content="yes"> <!-- apple devices fullscreen -->
+	<meta name="apple-touch-fullscreen" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+      <link rel="stylesheet" type="text/css" href="{TEMPLATE_PATH}css/qd.css">
+	    <script type="text/javascript" src="{TEMPLATE_PATH}js/zepto.20140212.js"></script>
+
+	<script src=""></script>
+        <style type="text/css"> 
+
+		</style>
+</head>
+<body onselectstart="return true;" ondragstart="return false;">
+<div class="container container-fill">
+<header>
+				<ul class="tbox tbox_1">
+					<li>
+						<p class="pre">
+							<label><?php echo $this->profile['credit1'];?></label>
+							可用积分
+						</p>
+					</li>
+					<li>
+				<a class ="qian" href="javascript:void(0)" ><label class ="qiandao"><?php if($this->user_shu){echo '已签到';}else{echo '未签到';}?></label></a>
+							
+					</li>
+					<li>
+						<p class="pre">
+							<label><?php echo $this->user_total;?></label>
+							签到次数
+						</p>
+					</li>
+				</ul>
+				<nav class="nav_integral">
+					<ul class="box">
+						<li><a href="{php echo $this->createMobileUrl('Zong', array('rid' => $rid ));}"><span class="icons icons_prize">&nbsp;</span><label>总排行榜</label></a></li>
+						<li><a href="{php echo $this->createMobileUrl('my', array('rid' => $rid ));}"><span class="icons icons_luck">&nbsp;</span><label>签到记录</label></a></li>
+						<li><a href="{php echo $this->createMobileUrl('jing', array('rid' => $rid ));}"><span class="icons icons_record">&nbsp;</span><label>今日排名</label></a></li>
+												<li><a href="<?php echo $this->token_url;?>"><span class="icons icons_teach">&nbsp;</span><label>积分兑换</label></a></li>
+											</ul>
+				</nav>
+			</header>

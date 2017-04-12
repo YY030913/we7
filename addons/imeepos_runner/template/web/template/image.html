@@ -1,0 +1,100 @@
+{template 'common/header-meepo'}
+{template 'web/template/navs'}
+<style>
+.editable-click, a.editable-click {color: #000 !important;
+    border-bottom:none !important;
+    text-decoration: none;
+}
+.editable-input.editable-has-buttons {
+    width: auto;
+    max-width: 100px;
+}
+</style>
+<div class="panel panel-default" ng-app="app" ng-controller="rootCtrl">
+	<div class="panel-heading">
+		图片库管理
+	</div>
+	<div class="panel-body">
+		<table st-table="items" class="table table-striped">
+			<thead>
+				<tr>
+					<th>图片编号</th>
+					<th>图片</th>
+					<th>标签</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in items">
+					<td>
+						{{item.id}}
+					</td>
+					<td>
+						<img ng-click="picker(item)" ng-click="picker(item)" ng-src="{{item.src || '../addons/meepo_bar_free/icon.jpg'}}" style="width:50px;height:50px;"/>
+					</td>
+					<td>
+						<a href="#" editable-text="item.code" onbeforesave="updatecode(item,$data)">{{ item.code || "empty" }}</a>
+					</td>
+					<td>
+						<a class="btn btn-default" ng-mouseenter="tooltip()" data-toggle="tooltip" data-placement="top" title="删除表单" href="#" ng-click="delete(item.id,$index)">
+							<i class="fa fa-times"></i>
+						</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="panel-footer">
+		<button type="button" ng-click="addRandomItem()" class="btn btn-sm btn-success">
+			<i class="glyphicon glyphicon-plus"></i>新增
+		</button>
+	</div>
+</div>
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}/public/libs/angular-xeditable/dist/css/xeditable.css"/>
+<script src="{MODULE_URL}public/libs/angular.min.js"></script>
+<script type="text/javascript" src="{MODULE_URL}/public/libs/smart-table.js"></script>
+<script type="text/javascript" src="{MODULE_URL}/public/libs/angular-xeditable/dist/js/xeditable.js"></script>
+<script>
+	var app = angular.module('app',['xeditable','smart-table']);
+	app.run(function(editableOptions) {
+		editableOptions.theme = 'bs3';
+	});
+	app.controller('rootCtrl',function($scope,$http,$filter){
+		$scope.items = {php echo json_encode($list)};
+		var addurl = "{php echo $this->createWebUrl('image_setting',array('act'=>'add','id'=>$id))}";
+		var deleteurl = "{php echo $this->createWebUrl('image_setting',array('act'=>'delete','id'=>$id))}";
+		$scope.addRandomItem = function(){
+			var row = {
+				src:'',
+				code:'其他'
+			}
+			$http.post(addurl,row).success(function(data){
+				$scope.items = $scope.items.concat(data.data);
+			});
+		}
+		
+		$scope.updatecode = function(e,data){
+			e.code = data;
+			$http.post(addurl,e).success(function(data){});
+		}
+		
+		$scope.delete = function(id,start){
+			var truthBeTold = window.confirm("您确定要删除此图片么，单击“确定”继续。单击“取消”停止。");
+			if(truthBeTold){
+				$http.get(deleteurl+'&fid='+id).success(function(data){
+					$scope.items.splice(start,1);
+				});
+			}
+		}
+		
+		$scope.picker = function(e){
+			require(['jquery', 'util'], function($, util) {
+				util.image('', function(data) {
+					e.src = data['url'];
+					$http.post(addurl,e).success(function(data){});
+				});
+			});
+		}
+	});
+</script>
+{template 'common/footer'}

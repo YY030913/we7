@@ -1,0 +1,42 @@
+<ul class="nav nav-tabs">
+	<li {if $_GPC['do']=="task"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('task')}">任务管理</a>
+	</li>
+	{if !empty($_GPC['tasks_id'])}
+	<li {if $_GPC['do']=="tasks_paylog"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('tasks_paylog',array('tasks_id'=>$_GPC['tasks_id']))}">支付记录</a>
+	</li>
+	{/if}
+	<li {if $_GPC['do']=="recive"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('recive')}">最新接单</a>
+	</li>
+	<li {if $_GPC['do']=="star"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('star')}">最新评价</a>
+	</li>
+	<li {if $_GPC['do']=="tasks_log"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('tasks_log')}">最新进度</a>
+	</li>
+	<li {if $_GPC['do']=="paylog"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('paylog')}">支付记录</a>
+	</li>
+	<li {if $_GPC['do']=="member"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('member')}">会员管理</a>
+	</li>
+	<li {if $_GPC['do']=="v"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('v')}">快递管理</a>
+	</li>
+	<li {if $_GPC['do']=="runner"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('runner')}">监控</a>
+	</li>
+	<li {if $_GPC['do']=="moneylog"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('moneylog')}">快递佣金管理</a>
+	</li>
+	<li {if $_GPC['do']=="plugin_list"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('plugin_list')}">插件管理</a>
+	</li>
+	{if !empty($_GPC['taskid']) || !empty($_GPC['reciveid'])}
+	<li {if $_GPC['do']=="task_detail"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('task_detail')}">任务详情</a>
+	</li>
+	{/if}
+</ul>

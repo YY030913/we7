@@ -1,0 +1,20 @@
+<div class="page">
+	<div class="hd">
+		<div class="list">
+			{loop $orders $order}
+			<div class="item">
+				<h2 class="title">{$order['title']}</h2>
+				<p>{$order['text']}</p>
+				<i class="badge badge-calm">{$order['status']}</i>
+			</div>
+			{/loop}
+		</div>
+	</div>
+</div>
+
+<script>
+require(['jquery'],function(){
+	$('#footer').show();
+});
+</script>
+{template 'default/common/share'}

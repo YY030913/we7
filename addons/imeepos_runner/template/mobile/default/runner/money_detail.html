@@ -1,0 +1,38 @@
+<div class="page">
+<div class="weui_cells">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><img src="{$task['avatar']}" style="width:50px;margin-right:5px;border-radius:25px;display:block"></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p>{$task['desc']}</p>
+                </div>
+                <div class="weui_cell_ft">{$task['nickname']}</div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><img src="{$runner['avatar']}" alt="" style="width:20px;margin-right:5px;display:block"></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p>接单时间：{$recive['create_time']}</p>
+                </div>
+                <div class="weui_cell_ft">{$runner['nickname']}</div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><img src="{$runner['avatar']}" alt="" style="width:20px;margin-right:5px;display:block"></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p>完成时间：{$task['update_time']}</p>
+                </div>
+                <div class="weui_cell_ft">{$runner['nickname']}</div>
+            </div>
+            
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><img src="{$runner['avatar']}" alt="" style="width:20px;margin-right:5px;display:block"></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p>到账时间：{$moneylog['create_time']}</p>
+                </div>
+                <div class="weui_cell_ft">{$runner['nickname']}</div>
+            </div>
+        </div>
+</div>
+<script>
+require(['jquery'],function(){
+	$('#footer').show();
+});
+</script>

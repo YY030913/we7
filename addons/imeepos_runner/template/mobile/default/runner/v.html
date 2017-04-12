@@ -1,0 +1,330 @@
+{template 'default/common/header1'}
+<style>
+.button.button-calm.button-outline {
+    border-color: #D68202;
+    background: transparent;
+    color: #D68202;
+}
+.button {
+    border-color: transparent;
+    background-color: #f8f8f8;
+    color: #444;
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    padding: 0 12px;
+    min-width: 52px;
+    min-height: 17px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 4px;
+    vertical-align: top;
+    text-align: center;
+    text-overflow: ellipsis;
+    font-size: 16px;
+    line-height: 32px;
+    cursor: pointer;
+}
+	.weui_input{
+		text-align:left;
+	}
+</style>
+<div class="bar bar-header bar-clear">
+	<button class="button button-clear" onclick="window.history.go(-1)">
+		<i class="icon ion-ios-arrow-back dark"></i>
+		<span class="dark">返回</span>
+	</button>
+	<button class="button button-clear savePost" id="save">
+		<span class="dark">保存</span>
+	</button>
+</div>
+
+<div class="page" style="margin-bottom:55px;">
+	<div class="h44"></div>
+	<div class="hd">
+		<div class="weui_cells_title">手机号：</div>
+		<div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" style="width: 60%;display: inline;" name="mobile" value="{$user['mobile']}" type="tel" pattern="[0-9]*" placeholder="请输入您的电话号码">
+                	{if !empty($sysms_set['sms_open'])}<button class="button button-outline button-calm" id="send" style="float:right;">立即发送</button>{/if}
+                </div>
+            </div>
+        </div>
+        {if !empty($sysms_set['sms_open'])}
+        <div class="weui_cells_title">手机验证码：</div>
+		<div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" name="code" value="{$user['code']}" type="text" placeholder="请输入您的手机验证码">
+                </div>
+            </div>
+        </div>
+        {/if}
+        <div class="weui_cells_title">姓名：</div>
+		<div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" name="realname" value="{$user['realname']}" type="text" placeholder="请输入您真实姓名">
+                </div>
+            </div>
+        </div>
+        
+        <div class="weui_cells_title">身份证号码：</div>
+		<div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" name="cardnum" value="{$user['cardnum']}" type="text" placeholder="请输入您的身份证号码">
+                </div>
+            </div>
+        </div>
+        <style>
+        .weui_uploader_file img{
+        	width: 100%;
+		    height: 100%;
+		    border-top-left-radius: 20px;
+		    border-top-right-radius: 20px;
+		    opacity: 0.7;
+		    max-height: 300px;
+        }
+        </style>
+        <div class="weui_cells_title">手持身份证正面：</div>
+		<div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <div class="weui_uploader">
+                        <div class="weui_uploader_bd">
+                            <ul class="weui_uploader_files">
+                                <li class="weui_uploader_file card_image1" style="{if empty($user['card_image1'])}display:none;{/if}background-image:url()">
+							  		<img src="{php echo $user['card_image1']}" alt=""/>
+							  		<span class="weui_icon_clear delete_img" ></span>
+							  	</li>
+                            </ul>
+                            <div class="weui_uploader_input_wrp">
+                            	<input class="weui_uploader_input" data-id="card_image1" id="card_image1" style="width:100%;height:100%;opacity: 0;z-index: 99;" type="file" accept="image/jpg,image/jpeg,image/png,image/gif" max="1" capture="camera">
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="weui_cells_title">手持身份证反面：</div>
+		<div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <div class="weui_uploader">
+                        <div class="weui_uploader_bd ">
+                            <ul class="weui_uploader_files">
+                                <li class="weui_uploader_file card_image2" style="{if empty($user['card_image2'])}display:none;{/if}background-image:url()">
+							  		<img src="{php echo $user['card_image2']}" alt=""/>
+							  		<span class="weui_icon_clear delete_img" ></span>
+							  	</li>
+                            </ul>
+                            <div class="weui_uploader_input_wrp">
+                            	<input class="weui_uploader_input" data-id="card_image2" id="card_image2" style="width:100%;height:100%;opacity: 0;z-index: 99;" type="file" accept="image/jpg,image/jpeg,image/png,image/gif" max="1" capture="camera">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 禁止发布的事项 -->
+        
+        
+ <style>
+.container1{
+	position: absolute;
+    top: 0px;
+    width: 100%;
+    left: 0px;
+    right: 0px;
+    background-color: #F4F4F4;
+    z-index: 9999;
+}
+.container1 .article{
+	width: 100%;
+    overflow: hidden;
+}
+.article .page_title {
+    color: #de7c23;
+    font-size: 22px;
+    margin-top: 15px;
+}
+.page_title {
+    text-align: center;
+    font-size: 34px;
+    color: #3cc51f;
+    font-weight: 400;
+    margin: 0 15%;
+}
+.weui_article {
+    padding: 20px 15px;
+    font-size: 15px;
+    word-break: break-all;
+}
+</style>
+<div class="container1" id="article" style="display:none;">
+	<div class="article">
+		<div class="hd">
+		    <h1 class="page_title">快递服务人员注册条款</h1>
+		</div>
+		<div class="bd">
+		    <article class="weui_article">
+		        {php echo $item['register']}
+		    </article>
+		</div>
+		<a href="javascript:;" class="weui_btn weui_btn_primary">同意</a>
+	</div>
+</div>
+
+<!-- 禁止发布的事项 -->
+
+<!-- 禁止发布的事项 -->
+        
+        <!-- 注册条款 -->
+        <p class="veh-check-info">查看<a href="javascript:;" data-check="true">《注册快递服务人员条款》</a></p>
+	</div>
+	<div class="h44"></div>
+	<button class="weui_btn weui_btn_primary savePost">保存</button>
+</div>
+
+<script>
+require(['jquery','core','base64upload'],function($,core){
+	$('#footer').hide();
+	
+	$('.veh-check-info').click(function(){
+		$('#article').show();
+	});
+	
+	$('#article .weui_btn_primary').click(function(){
+		$('#article').hide();
+	});
+	
+	var timer = null;
+	var codeid = null;
+	var card_image1 = null;
+	var card_image2 = null;
+	
+	
+	$('#send').click(function(){
+		var start = 0;
+		var time = 30;
+		var _this = $(this);
+		_this.html('剩余'+time+'秒');
+		_this.attr('disabled',true);
+		
+		var mobile = $('input[name="mobile"]').val();
+		var reg = /^1[3|4|5|8|7][0-9]\d{4,8}$/;
+		
+		if (!reg.test(mobile)) {
+			core.cancel('手机号码格式有误！请重新输入');
+			return '';
+		}
+		
+		timer = setInterval(function(){
+			if(time == 0){
+				_this.attr('disabled',false);
+				_this.html('重新发送');
+				clearInterval(timer);
+			}else{
+				time = time -1;
+				_this.html('剩余'+time+'秒');
+			}
+		},1000);
+		
+		core.post('sms_code',{mobile:mobile},function(data){
+			if(data.status == 0){
+				core.cancel(data.message);
+			}else{
+				codeid = data.codeid;
+			}
+		});
+	});
+	var status = true;
+	$('#card_image1').localResizeIMG({
+    	width: 360,
+        quality: 0.8,
+        success: function (result) {
+        	if (result.height > 1600) {
+                status = false;
+                core.tip("照片最大高度不超过1600像素");
+            }
+        	$('.weui_uploader_file.card_image1 img').attr('src',result.base64);
+        	$('.weui_uploader_file.card_image1').show();
+        	card_image1 = result.base64;
+        }
+    });
+	
+	$('#card_image2').localResizeIMG({
+    	width: 360,
+        quality: 0.8,
+        success: function (result) {
+        	if (result.height > 1600) {
+                status = false;
+                core.tip("照片最大高度不超过1600像素");
+            }
+        	$('.weui_uploader_file.card_image2 img').attr('src',result.base64);
+        	$('.weui_uploader_file.card_image2').show();
+        	card_image2 = result.base64;
+        }
+    });
+	
+	$('.savePost').click(function(){
+		var mobile = $('input[name="mobile"]').val();
+		var realname = $('input[name="realname"]').val();
+		var reg = /^1[3|4|5|7|8][0-9]\d{4,8}$/;
+		console.log(reg.test(mobile));
+		if (!reg.test(mobile)) {
+			core.cancel('手机号码格式有误！请重新输入');
+			return '';
+		}
+		
+		if(core.empty(realname)){
+			core.cancel('请认真填写您的姓名');
+			return '';
+		}
+		{if !empty($sysms_set['sms_open'])}
+		var code = $('input[name="code"]').val();
+		if(core.empty(code)){
+			core.cancel('请填写手机验证码');
+			return '';
+		}
+		{else}
+		var code = '';
+		{/if}
+		var cardnum = $('input[name="cardnum"]').val();
+		if(core.empty(cardnum)){
+			core.cancel('请填写您的身份证号码');
+			return '';
+		}
+		
+		if(core.empty(card_image1)){
+			core.cancel('请上传您的手持身份证正面照片！');
+			return '';
+		}
+		
+		if(core.empty(card_image2)){
+			core.cancel('请上传您的手持身份证反面照片！');
+			return '';
+		}
+		//校验身份证号码
+		
+		core.post('v',{act:'post',mobile:mobile,realname:realname,cardnum:cardnum,card_image1:card_image1,card_image2:card_image2,code:code,codeid:codeid},function(data){
+			if(data.status != 0){
+				core.cancel(data.message);
+				return;
+			}else{
+				core.ok(data.message,function(){
+					window.location.href = "{php echo $this->createMobileUrl('payrunner')}&tid="+data.tid;
+				});
+			}
+			
+		});
+	});
+});
+</script>
+{template 'default/common/share'}
+{template 'default/common/footerbar2'}
+{template 'default/common/footer'}

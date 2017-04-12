@@ -1,0 +1,190 @@
+{template 'default/common/header1'}
+{template 'default/common/share'}
+<link href="//cdn.bootcss.com/weui/0.4.2/style/weui.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{MODULE_URL}public/libs/ionic/css/ionic.css"/>
+<link href="{MODULE_URL}public/css/basic.css" rel="stylesheet">
+<link href="{MODULE_URL}public/css/layout.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}public/css/divider.css">
+
+<style type="text/css">
+    .box ul li{
+        display: inline-block;
+        margin-left: 5px;
+        border-bottom-width: 0.5px;
+        border-bottom-style: solid;
+        border-bottom-color: gray;
+    }
+    .search-city-list {
+        position: absolute;
+        top: 3.25rem;
+        left: 0;
+        width: 100%;
+        z-index: 199;
+        padding: 0.5rem;
+    }
+    .mainmap{
+        position: absolute;
+        top: 44px;
+        left: 0px;
+        right: 0px;
+        z-index: 999;
+    }
+    .main{
+    	margin: 0px;
+    	padding: 0px;
+    }
+</style>
+
+<div class="container" id="app" style="display:none;">
+	<div class="page" v-show="showMain">
+        <div class="bar bar-header">
+            <button class="button button-clear" onclick="window.history.go(-1)">
+                <i class="icon ion-ios-arrow-back dark"></i>
+                <span class="dark">返回</span>
+            </button>
+            <h2 class="title">我的常用地址</h2>
+            <button class="button button-clear" v-on:click="addItem()">
+                <span class="dark">+添加</span>
+            </button>
+        </div>
+		<div class="list" style="margin-top:44px;">
+			<div class="item item-button-right" v-for="li in list">
+				<h2 class="title" v-on:click="editItem(li)">{{li.poiaddress}}</h2>
+				<p style="white-space: normal;color:gray;" v-on:click="editItem(li)">{{li.detail}}-{{li.realname}}【{{li.mobile}}】</p>
+                <button class="button button-clear" v-on:click="deleteItem(li.id)">
+                    <i class="icon ion-trash-a"></i>
+                </button>
+			</div>
+		</div>
+	</div>
+    <div class="page" v-show="showAddItme">
+        <div class="weui_cells">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary" v-on:click="editMap()">
+                    <p><i class="icon ion-location" style="color:red;"></i>&nbsp;&nbsp;{{loc.cityname}}</p>
+                    <p><i class="icon ion-arrow-graph-up-left" style="color:red;"></i>&nbsp;&nbsp;{{loc.poiaddress}}</p>
+                    <p><i class="icon ion-soup-can-outline" style="color:red;"></i>&nbsp;&nbsp;{{loc.poiname}}</p>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">详细地址</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="text" v-model="loc.detail" placeholder="请输入详细地址">
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">真实姓名</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="text" v-model="loc.realname" placeholder="请输入真实姓名">
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">联系电话</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="text" v-model="loc.mobile" placeholder="请输入联系电话">
+                </div>
+            </div>
+        </div>
+        <div class="weui_btn_area">
+            <a class="weui_btn weui_btn_primary" href="javascript:" v-on:click="postItem(loc)">提交</a>
+        </div>
+    </div>
+    <div class="page" v-if="showMap">
+        <iframe id="mapPage" width="100%" height="100%" v-if="showMap" style="position:absolute;display:block;" frameborder='0' src="http://apis.map.qq.com/tools/locpicker?search=1&type=1&key=4MHBZ-JVL35-WLMII-Q3NME-3Z2G2-PKBJJ&referer=myapp"></iframe>
+    </div>
+</div>
+
+<script>
+require(['vue','jquery','core','js/tool','js/template','js/index','js/convertor'],
+        function(Vue,$,core,R){
+
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            showMap:false,
+            showMain:true,
+            showAddItme:false,
+            loc:{
+                cityname:'',
+                latlng:{lat:'',lng:''},
+                poiaddress:'',
+                poiname:'',
+                realname:'',
+                mobile:'',
+                detail:''
+            },
+            loc_id:"0",
+            list:{php echo json_encode($list)},
+        },
+        ready:function(){
+            $('#app').show();
+            window.addEventListener('message', function(event) {
+                var loc = event.data;
+                if (loc && loc.module == 'locationPicker') {
+                    console.log(loc);
+                    vm.loc.cityname = loc.cityname;
+                    vm.loc.latlng =loc.latlng;
+                    vm.loc.module = loc.module;
+                    vm.loc.poiaddress = loc.poiaddress;
+                    vm.loc.poiname = loc.poiname;
+                    vm.showSendDetailInput = true;
+                    vm.showMap = false;
+                    vm.showAddItme = true;
+                }
+            }, false);
+        },
+        methods:{
+            addItem:function(){
+                vm.showMain = false;
+                vm.showMap = true;
+                console.log('新增地址');
+            },
+            deleteItem:function(id){
+                R.confirm('温馨提示','您确认要删除此地址么？',function(){
+                    for(item in vm.list){
+                        if(vm.list[item].id == id){
+                            vm.list.splice(item,1);
+                        }
+                    }
+                    $.post("{php echo $this->createMobileUrl('home_address',array('act'=>'delete'))}",{id:id},function(data){
+
+                    });
+                },function(){
+
+                },'取消','确认');
+            },
+            editMap:function(){
+                vm.showAddItme = false;
+                vm.showMap = true;
+            },
+            editItem:function(li){
+                vm.loc_id = li.id;
+
+                vm.loc.cityname = li.cityname;
+                vm.loc.latlng = {
+                    lat:li.lat,lng:li.lng
+                };
+                vm.loc.poiaddress = li.poiaddress;
+                vm.loc.poiname = li.poiname;
+
+                vm.loc.detail = li.detail;
+                vm.loc.realname = li.realname;
+                vm.loc.mobile = li.mobile;
+
+                vm.showMain = false;
+                vm.showAddItme = true;
+
+                console.log('编辑地址');
+            },
+            postItem:function(loc){
+                var has = false;
+                $.post("{php echo $this->createMobileUrl('home_address_add')}",{loc:loc,loc_id:vm.loc_id},function(data){
+                    window.location.href = "{php echo $this->createMobileUrl('home_address')}";
+                },'json');
+            }
+        }
+    });
+});
+</script>
+
+{template 'default/common/footer'}

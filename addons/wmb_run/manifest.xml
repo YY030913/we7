@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.goodziyuan.com" versionCode="0.6">
+    <application setting="true">
+        <name><![CDATA[约跑有礼]]></name>
+        <identifie><![CDATA[wmb_run]]></identifie>
+        <version><![CDATA[4.2]]></version>
+        <type><![CDATA[activity]]></type>
+        <ability><![CDATA[约跑有礼兑奖活动展示商业信息]]></ability>
+        <description><![CDATA[约跑有礼兑奖活动展示商业信息]]></description>
+		<author><![CDATA[好资源)]]></author>
+		<url><![CDATA[http://www.goodziyuan.com]]></url>
+    </application>
+    <platform>
+        <subscribes>
+        </subscribes>
+        <handles>
+            <message type="text" />
+        </handles>
+        <rule embed="false" />
+    </platform>
+    <bindings>
+        <cover>
+            <entry title="主题入口" do="list" />
+        </cover>
+        <menu>
+            <entry title="主题活动管理" do="themeset" state="" direct="false" />
+            <entry title="奖品信息管理" do="giftset" state="" direct="false" />
+            <entry title="奖品兑换管理" do="membergift" state="" direct="false" />
+        </menu>
+    </bindings>
+	
+    <install><![CDATA[
+
+CREATE TABLE IF NOT EXISTS `ims_wmb_run_convert` (
+  `nickname` varchar(255) DEFAULT NULL COMMENT '昵称',
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `weid` int(11) NOT NULL,
+  `uniacid` int(11) NOT NULL,
+  `themeid` int(11) NOT NULL,
+  `themename` varchar(200) NOT NULL,
+  `openid` varchar(200) NOT NULL,
+  `giftid` int(11) NOT NULL,
+  `giftname` varchar(100) NOT NULL,
+  `code` varchar(100) NOT NULL,
+  `codetime` varchar(100) NOT NULL,
+  `istake` int(2) NOT NULL,
+  `tel` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=75 ;
+
+CREATE TABLE IF NOT EXISTS `ims_wmb_run_gift` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `weid` int(11) NOT NULL,
+  `uniacid` int(11) NOT NULL,
+  `unit` varchar(10) NOT NULL,
+  `amount` int(11) NOT NULL,
+  `need` int(11) NOT NULL,
+  `left` int(11) NOT NULL,
+  `desc` varchar(500) NOT NULL,
+  `stdname` varchar(200) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+
+CREATE TABLE IF NOT EXISTS `ims_wmb_run_info` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) DEFAULT NULL,
+  `openid` varchar(255) DEFAULT NULL,
+  `nickname` varchar(1000) DEFAULT NULL,
+  `headimgurl` varchar(1000) DEFAULT NULL,
+  `logoopenid` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=59 ;
+
+
+CREATE TABLE IF NOT EXISTS `ims_wmb_run_member` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `openid` varchar(200) NOT NULL,
+  `themeid` int(11) NOT NULL COMMENT '主题id',
+  `distance` int(11) NOT NULL DEFAULT '0',
+  `helpid` varchar(200) NOT NULL,
+  `nickname` varchar(100) NOT NULL,
+  `headimgurl` varchar(255) NOT NULL,
+  `time` int(13) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=443 ;
+
+
+CREATE TABLE IF NOT EXISTS `ims_wmb_run_oauth` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `weid` int(10) DEFAULT NULL,
+  `appid` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `secret` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+
+
+CREATE TABLE IF NOT EXISTS `ims_wmb_run_reply` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `rid` int(10) unsigned NOT NULL DEFAULT '0',
+  `bid` int(10) unsigned NOT NULL,
+  `new_pic` varchar(200) NOT NULL,
+  `news_content` varchar(500) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_rid` (`rid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+
+
+CREATE TABLE IF NOT EXISTS `ims_wmb_run_theme` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `weid` int(11) NOT NULL,
+  `uniacid` int(11) NOT NULL,
+  `themename` varchar(100) NOT NULL,
+  `headtitle` varchar(200) NOT NULL,
+  `themelogo` varchar(512) NOT NULL,
+  `place` varchar(200) NOT NULL,
+  `tel` varchar(30) NOT NULL,
+  `begintime` varchar(200) NOT NULL,
+  `endtime` varchar(200) NOT NULL,
+  `undertaker` varchar(200) NOT NULL,
+  `overtitle` varchar(1000) NOT NULL,
+  `giftid` int(11) NOT NULL,
+  `therule` mediumtext COMMENT '游戏规则',
+  `toppicture` varchar(1024) DEFAULT NULL COMMENT '顶部图片',
+  `flink` varchar(500) DEFAULT NULL COMMENT '关注连接',
+  `endpic` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+        
+	  ]]></install>
+	  
+    <uninstall><![CDATA[]]></uninstall>
+    <upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

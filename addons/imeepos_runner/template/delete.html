@@ -1,0 +1,26 @@
+{template 'common/header'}
+<div class="panel panel-default" ng-app="app" ng-controller="rootCtrl">
+	<div class="panel-heading">
+		清理测试数据
+	</div>
+	<div class="panel-body">
+		<form action="" method="post" class="form-horizontal" role="form" id="form1" >
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">请输入删除密码</label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input type="text" name="code" value="" class="form-control"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input type="submit" class="btn btn-default" value="提交">
+					<input type="hidden" name="token" value="{$_W['token']}">
+				</div>
+			</div>
+			
+		</form>
+	</div>
+</div>
+{template 'common/footer'}

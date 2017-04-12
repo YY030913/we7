@@ -1,0 +1,101 @@
+{template 'common/header-base'}
+<style>
+.nav.nav-tabs {
+    margin-bottom: 20px;
+    z-index: 999999999;
+    position: absolute;
+    background-color: #fff;
+    width:100%;
+}
+</style>
+{template 'web/task/navs'}
+{php load()->func('tpl')}
+<link rel="stylesheet" href="{MODULE_URL}public/libs/weui/weui.css?t={php echo time()}"/>
+<style>
+.map{
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+}
+.BMapLabel{
+	border:none !important;
+	background-color: rgba(255, 255, 255, 0) !important;
+}
+.BMapLabel .avatar{
+	width:30px;
+	height:30px;
+	border-radius:25px;
+}
+
+</style>
+<div class="map" id="map"></div>
+
+<ul class="nav nav-tabs" style="z-index: 999999999;position: absolute;bottom:0px;width:100%;text-align:center;">
+	<li {if $_GPC['mdo']=="help"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('plugin',array('mp'=>'help','mdo'=>'help'))}">使用手册</a>
+	</li>
+	<li {if $_GPC['mdo']=="deve"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('plugin',array('mp'=>'help','mdo'=>'deve'))}">开发手册</a>
+	</li>
+	<li {if $_GPC['mdo']=="qus"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('plugin',array('mp'=>'help','mdo'=>'qus'))}">常见问题</a>
+	</li>
+	<li {if $_GPC['mdo']=="post"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('plugin',array('mp'=>'help','mdo'=>'post'))}">工单提交</a>
+	</li>
+</ul>
+<input type="hidden" name="province"/>
+<input type="hidden" name="city"/>
+
+<script>
+require(['jquery','map','district'],function($,BMap,district){
+	var map;
+	function location() {
+        $.ajax({
+            url: 'http://api.map.baidu.com/location/ip?ak=F51571495f717ff1194de02366bb8da9',
+            dataType: "jsonp",
+            jsonp: "callback",
+            timeout: 5000,
+            success: function(data) {
+            	$('input[name="province"]').val(data.content.address_detail.province);
+                $('input[name="city"]').val(data.content.address_detail.city);
+                var province = data.content.address_detail.province;
+                var city = data.content.address_detail.city;
+                
+            	map = util.map.instance = new BMap.Map('map');
+            	var point = new BMap.Point(116.331398,39.897445);
+            	map.centerAndZoom(point, 12);
+            	map.setCenter(city);
+            	
+            	map.enableScrollWheelZoom();
+            	map.enableDragging();
+            	map.enableContinuousZoom();
+            	map.addControl(new BMap.NavigationControl());
+            	
+            	addRunner();
+            }
+        });
+    }
+	location();
+	var runners = {php echo json_encode($runner)};
+	var geoc = new BMap.Geocoder();
+	
+	function addRunner(){
+		var i = 0;
+		for(i;i<runners.length;i++){
+			console.log();
+			var pt = new BMap.Point(parseFloat(runners[i].lng), parseFloat(runners[i].lat));
+			var run = runners[i];
+			var opts = {position : pt}
+			var str = '<div class="weui_cell">'+
+			                '<div class="weui_cell_hd"><img src="'+run.avatar+'" alt="" style="width:40px;border-radius:20px;"></div>'+
+			           '</div>';
+			var label = new BMap.Label(str,opts);
+			map.addOverlay(label);
+			
+		}
+	}
+});
+</script>

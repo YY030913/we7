@@ -1,0 +1,41 @@
+<div class="bar bar-header bar-clear" style="position:fixed;">
+	<button class="button button-clear" onclick="window.history.go(-1)">
+		<i class="icon ion-ios-arrow-back dark"></i>
+		<span class="dark">返回</span>
+	</button>
+</div>
+<div class="page">
+	<div class="list">
+		<div class="item item-avatar">
+			<img src="{$user['avatar']}" alt="" />
+			<h2 class="title">{$user['nickname']}</h2>
+			<p>电话：{if !empty($member['mobile'])}{$member['mobile']}{else}未填写{/if}</p>
+		</div>
+		
+		<div class="item item-icon-right">
+			电话：<span style="float:right;">{if !empty($member['mobile'])}{$member['mobile']}{else}未填写{/if}</span>
+			<i class="icon ion-ios-arrow-right"></i>
+		</div>
+		
+		<div class="item item-icon-right">
+			真实姓名：<span style="float:right;">{if !empty($member['realname'])}{$member['realname']}{else}未填写{/if}</span>
+			<i class="icon ion-ios-arrow-right"></i>
+		</div>
+		
+		<div class="item item-icon-right">
+			年龄：<span style="float:right;">{if !empty($member['age'])}{$member['age']}{else}未填写{/if}</span>
+			<i class="icon ion-ios-arrow-right"></i>
+		</div>
+		
+		<div class="item item-icon-right">
+			性别：<span style="float:right;">{if !empty($member['gender'])}{$member['gender']}{else}未填写{/if}</span>
+			<i class="icon ion-ios-arrow-right"></i>
+		</div>
+		
+		<div class="item item-icon-right">
+			身份证：<span style="float:right;">{if !empty($member['cardnum'])}{$member['cardnum']}{else}未填写{/if}</span>
+			<i class="icon ion-ios-arrow-right"></i>
+		</div>
+	</div>
+</div>
+{template 'default/common/share'}

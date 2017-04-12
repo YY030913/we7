@@ -1,0 +1,155 @@
+{template 'default/common/header1'}
+{template 'default/common/share'}
+<style type="text/css">html,body{height: 100%;overflow: hidden;user-select:none;-webkit-touch-callout:none;-webkit-user-select:none;} .bugGoodsBg{text-align: center;max-height: 458px;min-height: 300px;padding-top: 10%;} .bugGoodsText{text-align: center;font-size: 16px; line-height: 24px;color: #555;position: fixed;bottom: 85px;left: 0;text-align: center;width: 100%;} .bugGoodsText strong{color: #FFA000;font-size: 24px;} .voice{ height: 140px; width: 140px !important; margin: 0 auto; display: block; border-radius: 70px; background-color: #f49e10 !important; color: #fff !important; padding: 0 5px; line-height: 140px; } .hovered{ background-color: #985F02 !important } .bugGoodsBg img{display: block;max-width: 495px;width: 100%;} .bar-header input{display: block;} .bar-header .text{width: 32px;height: 32px;border: 1px solid #ffa000;border-radius: 100%;-webkit-border-radius: 100%;margin: 0 0 0 10px;background:#fff url({MODULE_URL}public/images/keybord.png) no-repeat center center;background-size: 20px auto;} .bar-header .voice{-webkit-box-flex: 1;box-flex: 1;max-height: 32px;background: #ffa000;border-radius: 5px;-webkit-border-radius: 5px;margin:0 10px;text-align: center;line-height:32px;color: #fff;} .button.button-calm { border-color: transparent; background-color: #04be02; color: #fff; } .active { color: #04BE02 !important; }
+.weui_toast{
+	width: 50%;
+	left: 50%;
+	top: 25%;
+}
+</style>
+
+<div class="container" id="app" style="display:none;" ng-controller="appCtrl">
+	<div class="bar bar-header bar-clear">
+	    <h2 class="title"></h2>
+	    <a id="buy_text" class="button button-clear" href="{php echo $this->createMobileUrl('buy_text')}">
+	        <span class="active">手工输入</span>
+	        <i class="icon ion-ios-arrow-right active"></i>
+	    </a>-
+	</div>
+
+	<div id="toast" v-show="is_start" >
+        <div class="weui_mask_transparent"></div>
+        <div class="weui_toast">
+            <p class="weui_toast_content" style="text-align: center;margin-top: 20px;padding-left:10px;padding-right:10px;">
+                <span style="display:block;text-align:center;">请在✘✘购买✘✘送到✘✘，谢谢</span>
+				<span style="margin-top:15px;display:block;text-align:center;">{{curtime}}秒</span>
+                <button class="button button-calm" v-on:click="stop()" style="margin-top:20px;">停止录音</button>
+			</p>
+        </div>
+    </div>
+    <div class="msg">
+        <div class="weui_msg">
+            <div class="weui_icon_area">
+                <img src="{MODULE_URL}public/images/bug.png" alt="" style="width: 100%;" /></div>
+            <div class="weui_text_area">
+                <h2 class="weui_msg_title"></h2>
+                <p class="weui_msg_desc"></p>
+            </div>
+            <div class="weui_opr_area">
+                <p class="weui_btn_area">
+                    <a href="javascript:;" ontouchstart = "return false;" style="margin-top:20px;" class="weui_btn weui_btn_primary" id="voice">
+						点我录音
+					</a>
+				</p>
+            </div>
+        </div>
+    </div>
+	{template 'default/common/footerbar'}
+</div>
+
+<script type="text/javascript">
+	require(['angular','weixin','core','touch','vue'],function(angular,wx,core,touch,Vue){
+		$('#app').show();
+		var vm = new Vue({
+  			el: '#app',
+		  	data: {
+				showMain:true,
+				is_start:false,
+				timemax:60,
+				curtime:0,
+				time_long:0,
+				settime:null,
+			},
+			ready: function () {
+			    wx.ready(function(){
+					wx.onVoiceRecordEnd({
+	                  complete: function(res) {
+	                  		vm.is_start = false;
+							clearTimeout(this.settime);
+	                     	vm.setLocalId(res);
+	                  }
+	              	});
+				});
+			},
+			methods:{
+				start:function(){
+					vm.is_start = true;
+					wx.ready(function(){
+						wx.startRecord({
+							success: function() {
+								vm.timmer();
+							}
+						});
+					});
+				},
+				timmer : function(){
+					vm.settime = setTimeout(function(){
+						//$scope.safeApply(function(){
+							vm.curtime = vm.curtime + 1;
+							if (vm.curtime == vm.timemax) {
+								vm.time_long = vm.curtime;
+								vm.curtime = 0;
+								clearTimeout(vm.settime);
+								wx.ready(function(){
+									wx.stopRecord({
+										success: function(res) {
+											vm.setLocalId(res);
+										}
+									});
+								});
+							}else{
+								vm.timmer();
+							}
+						//});
+					},1000);
+				},
+
+				setLocalId : function(res){
+					if (vm.time_long <= 3) {
+						core.cancel('语音不可少于3秒，请重新录制',function(){});
+						return;
+					}
+					wx.ready(function(){
+						wx.uploadVoice({
+							localId: res.localId, // 需要上传的音频的本地ID，由stopRecord接口获得
+							isShowProgressTips: 1, // 默认为1，显示进度提示
+							success: function (res) {
+								var serverId = res.serverId; // 返回音频的服务器端ID
+								window.location.href = "{php echo $this->createMobileUrl('buy_voice')}&voiceid="+serverId+"&time="+vm.time_long;
+							}
+						});
+					});
+				},
+
+				stop : function(){
+					vm.is_start = false;
+					clearTimeout(vm.settime);
+
+					vm.time_long = vm.curtime;
+					vm.curtime = 0;
+					$('.voice').removeClass('hovered');
+
+					wx.ready(function(){
+						wx.stopRecord({
+							success: function(res) {
+								vm.setLocalId(res);
+							}
+						});
+					});
+				}
+			}
+		});
+
+		touch.on('#voice', 'hold', function(ev){
+			vm.start();
+		});
+
+		$('#voice')[0].addEventListener('touchend', function(e) {
+			setTimeout(function(){
+				vm.stop();
+			},0);
+		},false);
+	});
+</script>
+	
+{template 'default/common/footer'}

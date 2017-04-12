@@ -1,0 +1,21 @@
+<script>
+			/**
+ 			 * 积分签到
+			*/
+			 $(".qian").on('click', function (e)
+    {
+             e.preventDefault();
+
+             $.post('{php echo $this->createMobileUrl('qian',array('type'=>'uids'))}', { p: 1 }, function(data){
+    
+             $('.qiandao').html(data);
+             history.go(0);
+         
+            })
+
+
+
+    });
+		</script>
+
+</body></html>

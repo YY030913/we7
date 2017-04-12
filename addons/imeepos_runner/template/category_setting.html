@@ -1,0 +1,79 @@
+{template 'common/header-meepo'}
+{template 'web/task/navs'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        基础设置
+    </div>
+    <div class="panel-body">
+        <form action="" method="post"  class="form-horizontal" enctype="multipart/form-data">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    小费设置
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="col-sm-8 col-lg-9 col-xs-12">
+                            <div class="input-group">
+                                <div class="input-group-addon">最小</div>
+                                <input type="text" class="form-control" name="buy_min_num" value="{$item['buy_min_num']}"/>
+                                <div class="input-group-addon">元，最大</div>
+
+                                <input type="text" class="form-control" name="buy_max_num" value="{$item['buy_max_num']}"/>
+                                <div class="input-group-addon">元，默认</div>
+                                <input type="text" class="form-control" name="buy_default_num" value="{$item['buy_default_num']}"/>
+                                <div class="input-group-addon">元</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    佣金系数
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="col-sm-8 col-lg-9 col-xs-12">
+                            <div class="form-group">
+                                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">佣金系数</label>
+                                <div class="col-sm-8 col-lg-9 col-xs-12">
+                                    <input type="text" name="platform_money" placeholder="" value="{$item['platform_money']}" class="form-control"/>
+                                    <span class="help-block">任务完成后，快递服务人员获取的佣金为（总金额*佣金系数）,请填写小于100的整数，如80则总金额的0.8</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <div class="input-group">
+                        <div class="input-group-addon">正常服务时间，从</div>
+                        <input type="text" class="form-control" name ="start_time" value="{$item['start_time']}"/>
+                        <div class="input-group-addon">点</div>
+                        <input type="text" class="form-control" name ="end_time" value="{$item['end_time']}" >
+                        <div class="input-group-addon">点,超出每单加</div>
+                        <input type="text" class="form-control" name ="time_fee" value="{$item['time_fee']}">
+                        <div class="input-group-addon">%</div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    《发布须知》
+                </div>
+                <div class="panel-body">
+                    {php echo tpl_ueditor('post_notice',$item['post_notice'])}
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-md-offset-2 col-lg-offset-1 col-xs-12 col-sm-10 col-md-10 col-lg-11">
+                    <input name="submit" type="submit" value="提交" class="btn btn-primary span3" />
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{template 'common/footer'}

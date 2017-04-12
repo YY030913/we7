@@ -1,0 +1,75 @@
+{template 'default/common/header1'}
+<link rel="stylesheet" href="{MODULE_URL}public/libs/weui/weui.css?t={php echo time()}"/>
+<style>
+.map{
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+}
+.BMapLabel{
+	border:none !important;
+	background-color: rgba(255, 255, 255, 0) !important;
+}
+.BMapLabel .avatar{
+	width:30px;
+	height:30px;
+	border-radius:25px;
+}
+
+</style>
+<div class="map" id="map"></div>
+<input type="hidden" name="province"/>
+<input type="hidden" name="city"/>
+
+<script>
+require(['jquery','map'],function($,BMap){
+	var map;
+	function location() {
+        $.ajax({
+            url: 'http://api.map.baidu.com/location/ip?ak=F51571495f717ff1194de02366bb8da9',
+            dataType: "jsonp",
+            jsonp: "callback",
+            timeout: 5000,
+            success: function(data) {
+            	$('input[name="province"]').val(data.content.address_detail.province);
+                $('input[name="city"]').val(data.content.address_detail.city);
+                var province = data.content.address_detail.province;
+                var city = data.content.address_detail.city;
+                
+            	map = new BMap.Map('map');
+            	var point = new BMap.Point(116.331398,39.897445);
+            	map.centerAndZoom(point, 12);
+            	map.setCenter(city);
+            	
+            	map.enableScrollWheelZoom();
+            	map.enableDragging();
+            	map.enableContinuousZoom();
+            	map.addControl(new BMap.NavigationControl());
+            	
+            	addRunner();
+            }
+        });
+    }
+	location();
+	var runners = {php echo json_encode($runner)};
+	var geoc = new BMap.Geocoder();
+	
+	function addRunner(){
+		var i = 0;
+		for(i;i<runners.length;i++){
+			console.log();
+			var pt = new BMap.Point(parseFloat(runners[i].lng), parseFloat(runners[i].lat));
+			var run = runners[i];
+			var opts = {position : pt}
+			var str = '<div class="weui_cell">'+
+			                '<div class="weui_cell_hd"><img src="'+run.avatar+'" alt="" style="width:40px;border-radius:20px;"></div>'+
+			           '</div>';
+			var label = new BMap.Label(str,opts);
+			map.addOverlay(label);
+			
+		}
+	}
+});
+</script>

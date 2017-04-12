@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+    <link rel="apple-touch-icon" href="" />
+    <title>{$title}-图文直播发送端</title>
+	{php echo register_jssdk(false);}
+	<link rel="stylesheet" href="{MODULE_URL}template/mobile/css/weui.min.css">
+	<link rel="stylesheet" href="{MODULE_URL}template/mobile/css/jquery-weui.min.css">
+	<link rel="stylesheet" href="{MODULE_URL}template/mobile/css/new/news_reply.css?t={php echo time()}">
+	<style>
+	</style>
+</head>
+<body>
+
+
+</body>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+<script type="text/javascript" src="{MODULE_URL}template/mobile/js/jquery-weui.min.js"></script>
+<script>
+$(function () {
+		
+   
+        $.prompt("", "请输入密码", function(text) {
+			if(text=="{$host['host_pass']}"){
+				       $.showLoading("密码验证中...");
+						Meepo_tools.ajax({
+							do_it:'send_pass',
+							type: "POST",                        
+							dataType: 'JSON',      
+							cache: true,                 
+							urlPata: {},
+							formPata:{"listid":"{$listid}","pass":text},
+							beforesend:function(){},
+							complete:function(){}, 
+							success:function(data) {
+							  $.hideLoading();
+							  $.toast("密码正确");
+							  window.location.href="{php echo $this->createMobileUrl('news_send',array('listid'=>$listid))}";
+							}
+						});
+			}else{
+					alert('密码错误');
+					window.location.reload(true);
+					
+			}
+        }, function() {
+			alert('请输入密码');
+			window.location.reload();
+       });
+      
+   
+});
+
+/**
+ * ajax
+ * */
+(function (window,$,Meepo_tools) {
+	Meepo_tools.post = function(d,data,call){
+		var i = Meepo_tools.querystring('i');
+		var j = Meepo_tools.querystring('j');
+		
+		var url = './index.php?i='+i+'&j='+j+'&c=entry&do='+d+'&m=meepo_online';
+		$.post(url,data,call);
+	}
+	Meepo_tools.ajax = function(ajaxInfo){
+		var i = Meepo_tools.querystring('i');
+		var j = Meepo_tools.querystring('j');
+		
+		var url = './index.php?i='+i+'&j='+j+'&c=entry&do='+ajaxInfo.do_it+'&m=meepo_online';
+		var defaultInfo = {
+            type: "GET",                       
+            dataType: 'JSON',      
+            cache: false,
+            urlPata: {},
+            formPata: {},  
+			beforeSend:function(){
+			},
+			complete:function(){
+			},
+            success: function() {
+            } //成功后显示debug信息。也可以增加自己的处理程序
+        };
+
+        //补全ajaxInfo
+        if (typeof ajaxInfo.dataType == "undefined") {
+            ajaxInfo.dataType = defaultInfo.dataType;
+        }
+        
+        if (typeof ajaxInfo.formPata == "undefined") {
+            ajaxInfo.type = "GET";
+        } else {
+            if (ajaxInfo.dataType == "JSON") {
+                ajaxInfo.type = "POST";
+            } else {    //get或者jsonp
+                ajaxInfo.type = "POST";
+            }
+            ajaxInfo.data = ajaxInfo.formPata;
+        }
+
+        
+
+		$.ajax({
+            type: ajaxInfo.type,
+            dataType: ajaxInfo.dataType,
+            cache: ajaxInfo.cache,
+            xhrFields: {
+                //允许跨域访问时添加cookie
+                withCredentials: true
+            },
+            url: url,  
+            data: ajaxInfo.data,
+            beforeSend:function(){
+				ajaxInfo.beforesend();
+			},
+            complete:function(){
+				ajaxInfo.complete();
+			},
+            success: function (data) {
+                  ajaxInfo.success(data);
+            }
+        });
+    
+
+	
+	}
+	Meepo_tools.querystring = function(name){ 
+		var result = location.search.match(new RegExp("[\?\&]" + name+ "=([^\&]+)","i")); 
+		if (result == null || result.length < 1){ 
+			return "";
+		}
+		return result[1]; 
+	}
+    window.Meepo_tools = Meepo_tools;
+    
+    typeof define === 'function' && define('Meepo_tools',[],function(){return Meepo_tools});
+})(window,window.jQuery,window.Meepo_tools || {});
+
+</script>
+</html>

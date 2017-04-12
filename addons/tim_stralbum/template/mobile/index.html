@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html">
+    <meta name="viewport"
+          content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="format-detection" content="telephone=no">
+    <meta charset="utf-8">
+    <meta name="Author" content="xinsw"/>
+    <title></title>
+    {php echo register_jssdk(false);}
+    <link rel="stylesheet" href="../addons/tim_stralbum/style/style.css">
+    <link rel="apple-touch-icon" href="../addons/tim_stralbum/style/image/logo.png"/>
+    <link rel="shortcut icon" href="../addons/tim_stralbum/style/image/logo.png"/>
+</head>
+<body>
+<style>
+#mcover {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    z-index: 20000;
+}
+#mcover img {
+    position: fixed;
+    right: 18px;
+    top: 5px;
+    width: 80%;
+    z-index: 20001;
+}
+</style>
+
+ <div id="mcover" onclick="document.getElementById('mcover').style.display='';" style="display:none;">
+ <img src="../addons/tim_stralbum/style/image/guide.png" />
+ </div>
+<div id="page">
+    <div id="page_start" class="pagemode">
+        <img class="logo_image" src="../addons/tim_stralbum/style/image/logo.png">
+
+        <div class="site_cn_title"><span>微相册</span></div>
+        <div class="site_en_title"><span>THE CLOUD SHADOW</span></div>
+        <div class="site_sub_title"><span>个性化手机相册</span></div>
+    </div>
+
+</div>
+<div id="load_area" class="fixed">
+    <div class="load_bg_area"><img class="load_image" src="../addons/tim_stralbum/style/image/loading.png"/>&nbsp;&nbsp;努力加载中...</div>
+</div>
+<div id="info_dialog_outer" class="fixed"></div>
+<!--菜单 -->
+<div class="menu_button fixed display_none" style="z-index: 21; line-height: 2.5em;"><span>菜单</span></div>
+<div class="menu_button fixed display_none"><img src="../addons/tim_stralbum/style/image/icon0.png"/>
+
+    <div class="menu_text"><span>{$album['button1']}</span></div>
+</div>
+<div class="menu_button fixed display_none"><img src="../addons/tim_stralbum/style/image/icon1.png"/>
+
+    <div class="menu_text"><span>播放</span></div>
+</div>
+<div class="menu_button fixed display_none"><img src="../addons/tim_stralbum/style/image/icon2.png"/>
+    <div class="menu_text"><span>分享</span></div>
+</div>
+<div class="menu_button fixed display_none"><img src="../addons/tim_stralbum/style/image/icon3.png"/>
+
+    <div class="menu_text"><span>{$album['button3']}</span></div>
+</div>
+
+<!--更多 -->
+<div id="menu_more_outer" class="fixed">
+    <div id="menu_more_left"></div>
+    <div id="menu_more_content">
+        <div class="menu_more_bg"></div>
+    </div>
+</div>
+
+<!--分享-->
+<div id="share_outer" class="fixed">
+    <div class="share_bg"></div>
+    <div class="share_inner">
+        <div class="share_title"><span>分享</span></div>
+        <div class="share_type_outer"></div>
+        <div class="share_cancel_outer">
+            <div class="share_cancel"><span>取消</span></div>
+        </div>
+    </div>
+</div>
+<audio id="myaudio" loop style="display: none;" src=""></audio>
+<script>
+	var mydata = {
+		host: "{$_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&m=tim_stralbum",
+		index_url:"&do=index&id={$id}",
+		image_path:"{$_W['attachurl']}",
+		title:"{php echo $album['title']?$album['title']:'微信相册'}"
+	};
+</script>
+<script src="../addons/tim_stralbum/style/config.js"></script>
+<script>
+    var myApp = {    //single page 全局变量
+        appName: "",
+        titleName:"",
+        button1:"{$album['button1']}",
+        button2:"分享",
+        button3:"{$album['button3']}",
+        url1:"{php echo $album['url1']?$album['url1']:'#'}",
+		url3:"{php echo $album['url3']?$album['url3']:'#'}"
+    };
+
+    seajs.use("../addons/tim_stralbum/style/script/app/index/enter", function (enter) {
+        document.getElementsByTagName("title")[0].innerText=company_name;
+        enter.init()
+    });
+</script>
+<script type="text/javascript">
+    initShare();
+    function initShare(){
+        wx.ready(function () {
+            sharedata = {
+                title: "{$album['title']}——{$album['name']}",
+                desc: "{$album['content']}",
+                link: window.location.href,
+                imgUrl: "{$_W['attachurl']}{$album['thumb']}",
+                success: function(){
+	            },
+	            cancel: function(){
+	                    
+	            }
+	        };
+	        wx.onMenuShareAppMessage(sharedata);
+	        wx.onMenuShareTimeline(sharedata);
+        });
+    }
+</script>
+</body>
+</html>

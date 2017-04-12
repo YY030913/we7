@@ -1,0 +1,93 @@
+{template 'common/header'}
+{template 'web/task/navs'}
+<div class="panel panel-default">
+    <div class="panel-heading">任务详情</div>
+    <div class="panel-body">
+        <form action="" method="post"  class="form-horizontal" enctype="multipart/form-data">
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">货物重量</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" name="goodsweight" placeholder="" value="{$item['goodsweight']}" class="form-control"/>
+                    <span class="help-block"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">货物价值</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" name="goodscost" placeholder="" value="{$item['goodscost']}" class="form-control"/>
+                    <span class="help-block"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">货物名称</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" name="goodsname" placeholder="" value="{$item['goodsname']}" class="form-control"/>
+                    <span class="help-block"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">发货地</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" name="sendaddress" placeholder="" value="{$item['sendaddress']}" class="form-control"/>
+                    <span class="help-block"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">发货详细地址</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" name="senddetail" placeholder="" value="{$item['senddetail']}" class="form-control"/>
+                    <span class="help-block"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">收货地</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" name="receiveaddress" placeholder="" value="{$item['receiveaddress']}" class="form-control"/>
+                    <span class="help-block"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">收货详细地址</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" name="receivedetail" placeholder="" value="{$item['receivedetail']}" class="form-control"/>
+                    <span class="help-block"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">收货人姓名</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" name="receiverealname" placeholder="" value="{$item['receiverealname']}" class="form-control"/>
+                    <span class="help-block"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">收货人电话</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" name="receivemobile" placeholder="" value="{$item['receivemobile']}" class="form-control"/>
+                    <span class="help-block"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">总路程</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" name="distance" placeholder="" value="{$item['distance']}" class="form-control"/>
+                    <span class="help-block"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">图片说明</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    {php echo tpl_form_field_multi_image('images',$item['images'])}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">订单留言</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <textarea name="message"  class="form-control" id="" cols="30" rows="10">{$item['message']}</textarea>
+                    <span class="help-block"></span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{template 'common/footer'}

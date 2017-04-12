@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.goodziyuan.com" versionCode="0.6">
+	<application setting="false">
+		<name><![CDATA[编辑助手]]></name>
+		<identifie><![CDATA[mon_editor]]></identifie>
+		<version><![CDATA[1.2]]></version>
+		<type><![CDATA[activity]]></type>
+		<ability><![CDATA[编辑助手]]></ability>
+		<description><![CDATA[编辑助手]]></description>
+		<author><![CDATA[好资源)]]></author>
+		<url><![CDATA[http://www.goodziyuan.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+		</handles>
+	</platform>
+	<bindings>
+		<menu>
+			<entry title="编辑助手" do="index" state="" />
+		</menu>
+	</bindings>
+	<install>
+	</install>
+	<uninstall></uninstall>
+	<upgrade></upgrade>
+</manifest>

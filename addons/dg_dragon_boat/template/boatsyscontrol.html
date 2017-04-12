@@ -1,0 +1,246 @@
+<?php 
+	$id=$reply["id"];//id
+	$status=$reply["status"];//活动状态
+	$huodongname=$reply["huodongname"];//活动名称
+	$huodongdesc=$reply["huodongdesc"];//活动说明
+	$huodongurl=$reply["huodongurl"];//活动链接
+	$hdpicture=$reply["hdpicture"];//活动图片
+	$subscribe=$reply["subscribe"];//是否强制需要关注公众号才能参与
+	$start_time=$reply["start_time"];//开始时间
+	$end_time=$reply["end_time"];//结束时间
+
+	$qylogo=$reply["qylogo"];//企业logo
+	$qyname=$reply["qyname"];//企业名称
+	$qylink=$reply["qylink"];//企业链接
+	
+	$ggimg=$reply["ggimg"];//广告图片	
+	$gglink=$reply["gglink"];//广告链接
+
+	$sharetitle=$reply["sharetitle"];//分享标题
+	$shareimg=$reply["shareimg"];//分享图片
+	$sharecontent=$reply["sharecontent"];//分享简介
+	$followdesc=$reply["followdesc"];//关注说明
+
+	$gametime=$reply["gametime"];//游戏时间
+	$gamegzjp=$reply["gamegzjp"];//游戏规则及奖品
+	$gamemusic=$reply["gamemusic"];//游戏背景音乐
+
+	$iscaiji=$reply["iscaiji"];//是否支持采集信息
+?>
+<input type="hidden" name="reply_id" value="{$id}" />
+<div class="panel panel-default">
+    <div class="panel-heading">
+                       活动设置
+    </div>
+    <div class="panel-body">
+    	<div class="form-group">
+			<label class="col-xs-12 col-sm-2 col-md-2  control-label"><span style='color:red'>*</span>活动状态</label>
+			<div class="col-sm-8">					
+				<label class="radio-inline">
+                	<input type="radio" name="status" value="1" {if $status == 1} checked="checked"{/if}/>开始活动
+                </label>
+                <label class="radio-inline">
+                	<input type="radio" name="status" value="0" {if $status == 0} checked="checked"{/if}/>关闭活动（前台显示为暂停）
+                </label>
+			</div>
+		</div>
+		
+    	<div class="form-group">
+			<label class="col-xs-12 col-sm-2 col-md-2  control-label"><span style='color:red'>*</span>是否需要关注才能参与</label>
+			<div class="col-sm-8">					
+				<label class="radio-inline">
+                	<input type="radio" name="subscribe" value="1" {if $reply['subscribe'] == 1} checked="checked"{/if}/>是
+                </label>
+                <label class="radio-inline">
+                	<input type="radio" name="subscribe" value="0" {if $reply['subscribe'] == 0} checked="checked"{/if}/>否
+                </label>
+				
+			</div>
+		</div>
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>活动名称</label>
+            <div class="col-sm-9 col-xs-12">
+               	<input type="text" id="title" class="form-control" placeholder="" name="huodongname" value="{$huodongname}">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>活动说明</label>
+            <div class="col-sm-9 col-xs-12">
+               	<textarea style="height:60px;" id='huodongdesc' name="huodongdesc" class="form-control" cols="60" >{$huodongdesc}</textarea>
+            </div>
+        </div>
+        
+        <div class="form-group">
+			<label class="col-xs-12 col-sm-2 col-md-2  control-label"><span style='color:red'>*</span>活动图片</label>
+			<div class="col-sm-8">
+				{php echo tpl_form_field_image('hdpicture', $hdpicture)}
+			</div>		
+		</div>
+       
+       <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>活动时间</label>
+            <div class="col-sm-9 col-xs-12">
+               	{php echo tpl_form_field_daterange('datelimit', array('start'=>date('Y-m-d H:i',$start_time),'end'=>date('Y-m-d H:i',$end_time)), true)}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+       	 游戏设置
+    </div>
+    <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>游戏时间（秒）</label>
+            <div class="col-sm-9 col-xs-12">
+               	<input type="text" id="gametime" class="form-control" placeholder="" name="gametime" value="{$gametime}">
+            </div>
+        </div>
+    <div class="form-group">
+         <label class="col-xs-12 col-sm-3 col-md-2 control-label">游戏规则及奖品</label>
+         <div class="col-sm-9 col-xs-12">
+             <textarea style="height:300px;" id='gamegzjp' name="gamegzjp"  class="form-control richtext">{$gamegzjp}</textarea>
+             <span class="help-block">游戏规则及奖品说明 </span>
+         </div>
+     </div>
+	 
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-2 col-md-2  control-label"><span style='color:red'>*</span>游戏背景音乐</label>
+		<div class="col-sm-8">
+			{php echo tpl_form_field_audio('gamemusic', $gamemusic)}
+		</div>		
+	</div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+       	 广告设置
+    </div>
+    <div class="form-group">
+		<label class="col-xs-12 col-sm-2 col-md-2  control-label"><span style='color:red'>*</span>广告图片</label>
+		<div class="col-sm-8">
+			{php echo tpl_form_field_image('ggimg', $ggimg)}
+			<span class="help-block">图片大小：500*780 </span>
+		</div>		
+	</div>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>广告链接</label>
+        <div class="col-sm-9 col-xs-12">
+           	<input type="text" id="gglink" class="form-control" placeholder="" name="gglink" value="{$gglink}">
+        </div>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+       	 底部企业设置
+    </div>
+    <div class="form-group">
+		<label class="col-xs-12 col-sm-2 col-md-2  control-label"><span style='color:red'>*</span>企业logo</label>
+		<div class="col-sm-8">
+			{php echo tpl_form_field_image('qylogo', $qylogo)}
+			<span class="help-block">建议正方型透明图片 </span>
+		</div>		
+	</div>
+	<div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>企业名称</label>
+        <div class="col-sm-9 col-xs-12">
+           	<input type="text" id="qyname" class="form-control" placeholder="" name="qyname" value="{$qyname}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>企业链接</label>
+        <div class="col-sm-9 col-xs-12">
+           	<input type="text" id="qylink" class="form-control" placeholder="" name="qylink" value="{$qylink}">
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+                      分享设置
+    </div>
+    <div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>分享标题</label>
+            <div class="col-sm-9 col-xs-12">
+               	<input type="text" id="sharetitle" name="sharetitle" class="form-control" value="{$sharetitle}">
+            </div>
+        </div>
+        <div class="form-group">
+			<label class="col-xs-12 col-sm-2 col-md-2  control-label"><span style='color:red'>*</span>分享图片</label>
+			<div class="col-sm-8">
+				 {php echo tpl_form_field_image('shareimg', $shareimg)}
+			</div>		
+		</div>
+		<!-- 
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">分享链接</label>
+            <div class="col-sm-9 col-xs-12">
+               	<input type="text" id="shareurl" class="form-control" placeholder="" name="shareurl" value="{$shareurl}">
+                	<div class="help-block">分享的链接，推荐用微信平台的素材库，转成短地址。<a target="_blank" href="http://www.dwz.cn/">短网址转换</a></div>
+            </div>
+        </div>
+        -->
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>分享简介</label>
+            <div class="col-sm-9 col-xs-12">
+     			<textarea style="height:60px;" id='sharecontent' name="sharecontent" class="form-control" cols="60">{$sharecontent}</textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+       	 信息采集设置
+    </div>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>是否开启</label>
+        <div class="col-sm-9 col-xs-12">
+           	<label class="radio-inline">
+            	<input type="radio" name="iscaiji" value="1" {if $iscaiji == 1} checked="checked"{/if}/>是
+            </label>
+            <label class="radio-inline">
+            	<input type="radio" name="iscaiji" value="0" {if $iscaiji == 0} checked="checked"{/if}/>否
+            </label>
+        </div>
+    </div>
+</div>
+{if $reply['subscribe'] == 1}
+<div class="panel panel-default" id="followdiv">
+    <div class="panel-heading">
+                      关注设置
+    </div>
+    <div class="panel-body">
+    <!-- 
+       <div class="form-group">
+			<label class="col-xs-12 col-sm-2 col-md-2  control-label"><span style='color:red'>*</span>关注二维码图片</label>
+			<div class="col-sm-8">
+				 {php echo tpl_form_field_image('followpic', $followpic)} -->
+				<!--<img src="{$_W['account']['qrcode']}" class='' width='150' height='120'>
+			</div>		
+		</div>
+		 -->
+		 <div class="form-group">
+	         <label class="col-xs-12 col-sm-3 col-md-2 control-label">关注说明</label>
+	         <div class="col-sm-9 col-xs-12">
+	             <textarea style="height:300px;" id='followdesc' name="followdesc"  class="form-control richtext">{$followdesc}</textarea>
+	         </div>
+     	</div>
+    </div>
+</div>
+{/if}
+<script type="text/javascript">
+$("input[name='subscribe']").click(function(){
+	if($(this).val()==1){
+		$("#followdiv").show();
+	}else{
+		$("#followdiv").hide();
+	}
+})
+require(['jquery', 'util'], function($, u){
+	$(function(){
+		u.editor($('.richtext')[0]);
+		u.editor($('.richtext')[1]);
+	});
+});
+</script>

@@ -1,0 +1,190 @@
+{template 'default/common/header1'}
+<div class="page">
+	<style>
+	#advSwiper{
+		height:180px;
+	}
+	#advSwiper img{
+		width:100%;
+	}
+	.meepo_tabs .meepo_tab-item{
+		width: 50%;
+	    float: right;
+	    margin-top: 15px;
+	    
+	}
+	</style>
+	<div class="swiper-container" id="advSwiper">
+		<div class="swiper-wrapper">
+			{loop $advs $adv}
+				<a href="{php echo $adv['link']}" class="swiper-slide">
+					<img src="{php echo tomedia($adv['image'])}" />
+				</a>
+			{/loop}
+		</div>
+	</div>
+	<style>
+		.bgcfff {background: #fff;}
+		.ovh {overflow: hidden;}
+		.ptb {padding: 10px 0;}
+		.ptb {
+			padding: 10px 0;
+		}
+		.wp25 {
+			width: 25%;
+		}
+		.alic {
+			text-align: center;
+		}
+		.fl {
+			float: left;
+		}
+		.navls {
+			color: #333;
+			display: inline-block;
+			font-size: 1em;
+		}
+		.navls span {
+			margin-bottom: 5px;
+		}
+
+		.share-appxgt {
+			width: 50px;
+			height: 50px;
+			background-position: 0 -275px;
+		}
+		.share-appxgt {
+			width: 50px;
+			height: 50px;
+			background-position: 0 -275px;
+		}
+		.share-appbbs {
+			width: 50px;
+			height: 50px;
+			background-position: 0 -110px;
+		}
+		.share-appart {
+			width: 50px;
+			height: 50px;
+			background-position: 0 -55px;
+		}
+		.share-appzxtc {
+			width: 50px;
+			height: 50px;
+			background-position: 0 -330px;
+		}
+		a {
+			text-decoration: none;
+			color: #333;
+			-webkit-tap-highlight-color: transparent;
+			z-index: 1;
+		}
+		div, p, span, a, nav, input, select, ul, li, img {
+			margin: 0;
+			padding: 0;
+			outline: 0;
+			-webkit-tap-highlight-color: transparent;
+		}
+		.share-logo, .share-apphome, .share-appxgt, .share-appcase, .share-app3d, .share-appart, .share-appzxtc, .share-appbbs, .share-arrow, .share-bbshot, .share-logo_l, .share-qq, .share-weibo, .share-weixin {
+			 background-repeat: no-repeat;
+			 background-image: url('{MODULE_URL}public/images/share-s4844caaf5f.png');
+			 background-size: 148.5px 656px;
+			 display: inline-block;
+		 }
+		.dsb {
+			display: block;
+			margin: 0 auto;
+			margin-bottom:5px;
+		}
+	</style>
+	<div class="nav ovh ptb bgcfff">
+		<p class="alic wp25 fl">
+			<a href="{php echo $this->createMobileUrl('tasks',array('type'=>'mai'))}" class="navls">
+				<span class="dsb share-appxgt"></span>
+				帮我买
+			</a>
+		</p>
+		<p class="alic wp25 fl">
+			<a href="{php echo $this->createMobileUrl('tasks',array('type'=>'song'))}" class="navls">
+				<span class="dsb share-appbbs"></span>
+				帮我送
+			</a>
+		</p>
+		<p class="alic wp25 fl">
+			<a href="{php echo $setting['help_url']}" class="navls">
+				<span class="dsb share-appart"></span>
+				接单流程
+			</a>
+		</p>
+		<!--<p class="alic wp25 fl">
+			<a href="{php echo $this->createMobileUrl('find')}" class="navls">
+				<span class="dsb share-appzxtc"></span>
+				找快递
+			</a>
+		</p>-->
+	</div>
+	<div class="hd tasks">
+		<div class="list">
+			{loop $orders1 $order}
+			<a class="item item-avatar" href="{php echo $this->createMobileUrl('detail',array('id'=>$order['id']))}">
+				<img src="{$order['user']['avatar']}" alt="{$order['user']['nickname']}" />
+				<h2 class="title">{$order['user']['nickname']}</h2>
+				{if floatval($order['small_money']>0)}
+				<span style="display:block;" style="margin-top:5px;">加急：
+					<span class="assertive">{$order['small_money']}元</span>
+				</span>
+				{/if}
+				{if !empty($order['limit_time'])}
+				<span style="display:block;margin-top:5px;">截至到：<span class="assertive">{php echo date('Y-m-d H:i',$order['limit_time']);}</span></span>
+				{else}
+				<span style="display:block;margin-top:5px;">发布时间：<span class="assertive">{php echo $order['create_time']}</span></span>
+				{/if}
+				<p class="royal" style="margin-top:5px;">目的地：<span style="color:#04be02;white-space: normal;">{$order['address']}</span></p>
+				<!--<p style="white-space: normal;color:gray;">{$order['text']}</p>-->
+				<p class="royal" style="margin-top:5px;">城市：<span>{php echo $order['city']}</span></p>
+				{if $order['status'] == 1}
+					<i class="badge badge-assertive" style="margin-top: -10px;">等待中</i>
+				{else}
+					<i class="badge badge-stable" style="margin-top: -10px;">已被抢</i>
+				{/if}
+			</a>
+			{/loop}
+		</div>
+	</div>
+	
+	<div class="h44" style="height:44px;"></div>
+</div>
+<script>
+require(['jquery','core','swiper'],function($,core){
+	$('#footer').show();
+
+	var mySwiper = new Swiper('#advSwiper', {
+		autoplay: 3000,
+		loop : true,
+		effect : 'fade',
+	});
+	var page1 = 2;
+	var status1 = 1;
+	var params = {page:2,act:'more'}
+	window.onscroll = function(){
+		params.page = page1;
+		loadMore(params);
+	}
+	
+	function loadMore(params,call){
+		if ($(document).scrollTop() + $(window).height() > $(document).height() - 30) {
+			if(status1 == 0){
+				return ;
+			}
+			status1 = 0;
+			core.post('tasks',params,function(data){
+				if(data.status == 1){
+					$('.tasks .list').append(data.data);
+					status1 = 0;
+				}
+			});
+		}
+	}
+});
+</script>
+{template 'default/common/share'}

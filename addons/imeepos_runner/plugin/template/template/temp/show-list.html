@@ -1,0 +1,7 @@
+<a class="item {{list.class}}" href="{{list.hrefurl}}" ng-repeat="list in Item.data">
+	<i ng-if="list.left_icon" class="icon {{list.left_icon}}"></i>
+	<img ng-if="list.img" ng-src="{{list.img}}" alt="" />
+	<h2 ng-if="list.title" class="title">{{list.title}}</h2>
+	<p ng-if="list.desc">{{list.desc}}</p>
+	<i ng-if="list.right_icon" class="icon {{list.right_icon}}"></i>
+</a>

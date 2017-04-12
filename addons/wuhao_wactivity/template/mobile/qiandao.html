@@ -1,0 +1,215 @@
+﻿{template 'common/header'}
+
+<link rel="stylesheet" href="../addons/wuhao_wactivity/template/mobile/css/style.css" />
+{loop $data_matches_new $index $item}
+<div class="container">
+	<form class="form-horizontal" action="" method="POST" onsubmit='return check()'>
+		<div class="form-group" style="margin-top:30px;">
+		    <label for="title" class="col-xs-3 col-md-1">活动标题</label>
+		    <div class="col-xs-9">
+		    	<input type="text" class="form-control" name="title" id="title" value="{$item[0]['title']}" readOnly="true">
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="time" class="col-xs-3 col-md-1">活动时间</label>
+		    <div class="col-xs-9">
+		    	<input type="text" class="form-control" name="time" id="time" value="{$item['time']}" readOnly="true">
+		    	<!-- <input type="hidden" class="form-control" name="time_ori" id="time_ori" value="{$item['time_ori']}"> -->
+		    	<input type="hidden" class="form-control" name="timeqiandao_ori" id="timeqiandao_ori" value="{$item['timeqiandao_ori']}">
+		    	<input type="hidden" class="form-control" name="timeqiandao1_ori" id="timeqiandao1_ori" value="{$item['timeqiandao1_ori']}">
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="time1" class="col-xs-3 col-md-1">报名截止时间</label>
+		    <div class="col-xs-9">
+		    	<input type="text" class="form-control" name="time1" id="time1" value="{$item['time1']}" readOnly="true">
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="timeqiandao" class="col-xs-3 col-md-1">签到开始时间</label>
+		    <div class="col-xs-9">
+		    	<input type="text" class="form-control" name="timeqiandao" id="timeqiandao" value="{$item['timeqiandao']}" readOnly="true">
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="timeqiandao1" class="col-xs-3 col-md-1">签到截止时间</label>
+		    <div class="col-xs-9">
+		    	<input type="text" class="form-control" name="timeqiandao1" id="timeqiandao1" value="{$item['timeqiandao1']}" readOnly="true">
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="place" class="col-xs-3 col-md-1">活动地点</label>
+		    <div class="col-xs-9">
+		    	<input type="text" class="form-control" name="place" id="place" value="{$item[0]['place']}" readOnly="true">
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="peoplenum" class="col-xs-3 col-md-1">活动人数</label>
+		    <div class="col-xs-9">
+		    	<input type="text" class="form-control" name="peoplenum" id="peoplenum" value="{$item[0]['peoplenum']}" readOnly="true">
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="price" class="col-xs-3 col-md-1">活动费用</label>
+		    <div class="col-xs-9">
+		    	<input type="text" class="form-control" name="price" id="price" value="{$item[0]['price']}" readOnly="true">
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="content" class="col-xs-3 col-md-1">具体内容</label>
+		    <div class="col-xs-9">	
+		    	<div contenteditable="true" class="t_area">{$item[0]['content']}</div>	      
+		    	<!-- <textarea style="width:100%" name="content" readOnly="true">{$item[0]['content']}</textarea> -->
+		    </div>
+		</div>
+		
+		<div class="form-group">	  
+		  	<input type="hidden" name="matchid" id="matchid{$index}" value="{$item[0]['matchid']}">
+		  	<input type="hidden" name="buttoncancel" id="buttoncancel{$index}" value="{$item['buttoncancel']}">
+		  	
+		  	<div class="col-xs-4 col-md-2">
+		  		<input type="submit" name="qiandaostatus" id="qiandaostatus{$index}" class="button_huodong" style="width:120px;height:50px;" value="签到">			  		 		
+		  	</div>  
+		  	<div class="col-xs-4 col-md-2">
+		  		<input type="button" name="qiandaoinfo" id="qiandaoinfo{$index}" class="button_huodong" style="width:120px;height:50px;" value="签到详细信息" >		  		 		
+		  	</div> 
+		  	
+		  	<input type="hidden" value="{$_W['token']}" name="token">	
+		</div>		
+
+		<div class="form-group">		   	
+		   	<label for="qiandaonum" class="col-xs-6 col-md-3">签到总人数 {$item['qiandaonum']}人</label>		   		
+		</div>
+
+
+		<div class="form-group">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th class="col-xs-2 col-md-1">
+						群组
+						</th>
+						<th class="col-xs-2 col-md-1">
+						人数
+						</th>
+						<th class="col-xs-8 col-md-5">
+						详细列表
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					{loop $data_total_group[$index] $index_group $item_group}					
+						<tr>
+							<td class="col-xs-2 col-md-1">
+								{$item_group['groupname']}								
+							</td>
+							<td class="col-xs-2 col-md-1">								
+								<input type="text" style="width:100%;border:none;" name="qiandaonum{$index_group}" value="{$item_group['qiandaonum']}">
+							</td>
+							<td class="col-xs-8 col-md-5" style="word-wrap:break-word;">							    
+							    {$item_group['qiandaolistmyself']} 							    	
+						    </td>
+					    </tr>					
+					{/loop}	
+				</tbody>
+			</table>	
+		</div>
+	</form>
+</div>
+{/loop}
+<script type="text/javascript">
+	function check(){
+		//获取活动时间
+	    
+	    var tqiandao=document.getElementById("timeqiandao_ori").value;	    
+	    var tqiandao1=document.getElementById("timeqiandao1_ori").value;
+	    var timeqiandao=tqiandao.replace("-","/").replace("-","/");
+	    var timeqiandao1=tqiandao1.replace("-","/").replace("-","/");
+	    console.log(tqiandao);
+	    console.log(tqiandao1);
+	    //获取当前时间
+	    var d = new Date();
+		var vYear = d.getFullYear();
+		var vMon = d.getMonth() + 1;
+		var vDay = d.getDate();
+		var h = d.getHours(); 
+		var m = d.getMinutes(); 
+		var se = d.getSeconds();	    	
+		var timenow=vYear+'/'+(vMon<10 ? "0" + vMon : vMon)+'/'+(vDay<10 ? "0"+ vDay : vDay)+' '+(h<10 ? "0"+ h : h)+':'+(m<10 ? "0" + m : m)+':'+(se<10 ? "0" +se : se);
+		
+	    
+	    //console.log(time1);	    
+	    //console.log(time2);
+
+	    var dtqiandao = new Date(Date.parse(timeqiandao));
+	    var dtqiandao1 = new Date(Date.parse(timeqiandao1));
+		var dtnow= new Date(Date.parse(timenow));
+		//console.log(dt1);
+	    //console.log(dt2);
+		//var diff1 = parseInt((dtnow.getTime() - dtqiandao.getTime()) / (1000 * 60 * 60));
+		//var diff2 = parseInt((dtqiandao1.getTime() - dtnow.getTime()) / (1000 * 60 * 60));
+		var diff1 = parseInt(dtnow.getTime() - dtqiandao.getTime());
+		var diff2 = parseInt(dtqiandao1.getTime() - dtnow.getTime());
+		console.log(diff1);
+		console.log(diff2);
+		if((diff1>0)&&(diff2>0)){
+			return true;
+		}else{
+			alert("请在规定时间内签到！");
+	    	return false;
+		}
+
+  	}
+
+
+  	$("#qiandaoinfo0").click(function(){
+  		var matchid=document.getElementById("matchid0").value;
+  		console.log(matchid);
+  		window.location.href="{php echo $this->createMobileUrl('getqiandaoinfo')}"+"&matchid="+matchid;
+  	});
+  	$("#qiandaoinfo1").click(function(){
+  		var matchid=document.getElementById("matchid1").value;
+  		console.log(matchid);
+  		window.location.href="{php echo $this->createMobileUrl('getqiandaoinfo')}"+"&matchid="+matchid;
+  	});
+  	$("#qiandaoinfo2").click(function(){
+  		var matchid=document.getElementById("matchid2").value;
+  		console.log(matchid);
+  		window.location.href="{php echo $this->createMobileUrl('getqiandaoinfo')}"+"&matchid="+matchid;
+  	});
+
+  	
+  	$(document).ready(function(){
+  		var buttoncancel0=document.getElementById("buttoncancel0").value;  		
+  		console.log(buttoncancel0);  		
+  		if(buttoncancel0 == 1){
+  			$("#qiandaostatus0").attr("disabled", true);
+  		}else{
+  			$("#qiandaostatus0").attr("disabled", false);
+  		}
+
+  		var buttoncancel1=document.getElementById("buttoncancel1").value;  		
+  		console.log(buttoncancel1);  		
+  		if(buttoncancel1 == 1){
+  			$("#qiandaostatus1").attr("disabled", true);
+  		}else{
+  			$("#qiandaostatus1").attr("disabled", false);
+  		}
+
+  		var buttoncancel2=document.getElementById("buttoncancel2").value;  		
+  		console.log(buttoncancel2);  		
+  		if(buttoncancel2 == 1){
+  			$("#qiandaostatus2").attr("disabled", true);
+  		}else{
+  			$("#qiandaostatus2").attr("disabled", false);
+  		}
+  	});
+  	
+
+  	
+</script>
+{template 'common/footer'}
+
+
+
+

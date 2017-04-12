@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0, maximum-scale=1.0,user-scalable=0">
+    <meta name="format-detection" content="telephone=no"/>
+    <title>{if !empty($title)}{$title} - {else if !empty($_W['page']['title'])}{$_W['page']['title']} - {/if}{if !empty($_W['page']['sitename'])}{$_W['page']['sitename']}{else}{$_W['account']['name']}{/if}</title>
+	<link rel="stylesheet" href="{MODULE_URL}public/libs/vux/vux.css">
+    <link href="{MODULE_URL}public/libs/swiper/css/swiper.css" rel="stylesheet">
+    <link rel="stylesheet" href="{MODULE_URL}public/libs/ionic/css/ionic.css?t={php echo time()}"/>
+    <link rel="stylesheet" href="{MODULE_URL}public/css/animate.min.css" />
+    <link href="{MODULE_URL}public/css/basic.css" rel="stylesheet">
+    <link href="{MODULE_URL}public/css/layout.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="{MODULE_URL}public/css/mobiscroll.custom-2.15.1.min.css">
+    <link type="text/css" rel="stylesheet" href="{MODULE_URL}public/css/ion.rangeSlider.css">
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}public/css/waitting.css"/>
+    <style>
+	.button{
+		-webkit-touch-callout:none;
+		-webkit-user-select:none;
+		-khtml-user-select:none;
+		-moz-user-select:none;
+		-ms-user-select:none;
+		user-select:none;
+	}
+	.popup-btns>a {
+		-webkit-box-flex: 1;
+		box-flex: 1;
+		padding: 12px;
+		display: block;
+		text-align: center;
+		background: #fff;
+		border-radius: 5px;
+		width: 100%;
+		border: 1px solid #04be02 !important;
+	}
+	.popup-btns .sure {
+		background-color: #04be02 !important;
+		color: #fff;
+	}
+
+    .kb-wall-loading {
+		height: 30px;
+		background: url({MODULE_URL}public/images/loading_line.gif) no-repeat 50% 50%;
+	}
+	.bar.bar-calm {
+	    border-color: #005871;
+	    background-color: #0D5379;
+	    background-image: linear-gradient(0deg, #0a9dc7, #0a9dc7 50%, transparent 50%);
+	    color: #fff;
+	}
+	.calm-bg{
+		background-color: #0D5379;
+	}
+	.calm{
+		color:#0D5379;
+	}
+	.weui_mask {
+	    position: fixed;
+	    z-index: 1;
+	    width: 100%;
+	    height: 100%;
+	    top: 0;
+	    left: 0;
+	    background: rgba(0, 0, 0, 0.6);
+	    z-index: 12;
+	}
+	.h44{
+		height:44px;
+	}
+	.weui_label {
+		display: block;
+		width: auto;
+	}
+	.weui_input {
+		text-align:right;
+	}
+
+	.active{
+		color:#04BE02 !important;
+	}
+	.tabs-striped .tab-item.tab-item-active, .tabs-striped .tab-item.active, .tabs-striped .tab-item.activated {
+		margin-top: -2px;
+		border-style: solid;
+		border-width: 2px 0 0 0;
+		border-color: #04BE02;
+	}
+	.weui_mask {
+		z-index: 99;
+	}
+	.weui_dialog {
+		z-index: 100;
+	}
+    </style>
+    <script>
+    var timer = null;
+    // jssdk config 对象
+	jssdkconfig = {php echo json_encode($_W['account']['jssdkconfig']);} || {};
+	// 是否启用调试
+	jssdkconfig.debug = false;
+	jssdkconfig.jsApiList = [
+		'checkJsApi',
+		'onMenuShareTimeline',
+		'onMenuShareAppMessage',
+		'onMenuShareQQ',
+		'onMenuShareWeibo',
+		'hideMenuItems',
+		'showMenuItems',
+		'hideAllNonBaseMenuItem',
+		'showAllNonBaseMenuItem',
+		'translateVoice',
+		'startRecord',
+		'stopRecord',
+		'onRecordEnd',
+		'playVoice',
+		'pauseVoice',
+		'stopVoice',
+		'uploadVoice',
+		'downloadVoice',
+		'chooseImage',
+		'previewImage',
+		'uploadImage',
+		'downloadImage',
+		'getNetworkType',
+		'openLocation',
+		'getLocation',
+		'hideOptionMenu',
+		'showOptionMenu',
+		'closeWindow',
+		'scanQRCode',
+		'chooseWXPay',
+		'openProductSpecificView',
+		'addCard',
+		'chooseCard',
+		'openCard'
+	];
+	</script>
+	<script src="{MODULE_URL}public/js/require.js"></script>
+	<script src="{MODULE_URL}public/js/config.js?t={php echo time()}"></script>
+	<script src="{MODULE_URL}public/js/convertor.js"></script>
+</head>
+<body ontouchstart>

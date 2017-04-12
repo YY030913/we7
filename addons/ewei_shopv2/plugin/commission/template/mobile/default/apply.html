@@ -1,0 +1,66 @@
+{template '_header'}
+<div class='fui-page  fui-page-current'>
+    <div class="fui-header">
+        <div class="fui-header-left">
+            <a class="back"></a>
+        </div>
+        <div class="title">申请{php echo $this->set['texts']['withdraw']}</div>
+
+    </div>
+    <div class='fui-content navbar' >
+        <div class='fui-cell-group'>
+
+            <div class='fui-cell'>
+                <div class='fui-cell-info'>我的{php echo $this->set['texts']['commission_ok']}</div>
+            </div>
+            <div class='fui-cell'>
+                <div class='fui-cell-label big' style='width:auto;font-size:1.2rem;'>￥</div>
+                <div class='fui-cell-info' style='font-size:1.2rem;' id='current'>{php echo number_format($commission_ok,2)}</div>
+            </div>
+        </div>
+
+        <div class='fui-cell-group'>
+
+            {if !empty($set_array['charge'])}
+            <div class='fui-cell'>
+                <div class='fui-cell-info'>佣金提现个人所得税 {$set_array['charge']}%</div>
+            </div>
+            {/if}
+
+            {if !empty($set_array['end'])}
+            <div class='fui-cell'>
+                <div class='fui-cell-info'> 个人所得税金额在￥{$set_array['begin']}到￥{$set_array['end']}间免收</div>
+            </div>
+            {/if}
+
+            {if !empty($deductionmoney)}
+            <div class='fui-cell'>
+                <div class='fui-cell-info'>本次提现将扣除个人所得税金额 ￥ {$deductionmoney}</div>
+            </div>
+            {/if}
+
+            {if !empty($set_array['charge'])}
+            <div class='fui-cell'>
+                <div class='fui-cell-info'>本次提现实际到账金额 ￥ {$realmoney}</div>
+            </div>
+            {/if}
+
+        </div>
+
+        {if empty($this->set['closetocredit'])}
+        <a class='btn btn-warning block btn-submit {if !$cansettle}disabled{/if}' data-type="0">{php echo $this->set['texts']['withdraw']}到{$_W['shopset']['trade']['moneytext']}</a>
+        {/if}
+
+        <a class='btn btn-success block btn-submit  {if !$cansettle}disabled{/if}' data-type="1">{php echo $this->set['texts']['withdraw']}到微信</a>
+
+    </div>
+    <script language='javascript'>
+        require(['../addons/ewei_shopv2/plugin/commission/static/js/apply.js'], function (modal) {
+            modal.init({
+                withdraw:{php echo floatval($withdraw)}
+            });
+        });
+    </script>
+</div>
+
+{template '_footer'}

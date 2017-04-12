@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.goodziyuan.com" versionCode="0.6">
+    <application setting="false">
+        <name><![CDATA[大逃杀]]></name>
+        <identifie><![CDATA[sinrch_dataosha]]></identifie>
+        <version><![CDATA[4.2]]></version>
+        <type><![CDATA[wdlgame]]></type>
+        <ability><![CDATA[大逃杀微信小游戏]]></ability>
+        <description><![CDATA[大逃杀微信小游戏]]></description>
+		<author><![CDATA[好资源)]]></author>
+		<url><![CDATA[http://www.goodziyuan.com]]></url>
+    </application>
+    <platform>
+        <subscribes>
+        </subscribes>
+        <handles>
+            <message type="text" />
+        </handles>
+        <rule embed="false" />
+    </platform>
+    <bindings>
+        <cover>
+            <entry title="大逃杀入口" do="Battle" />
+        </cover>
+        <menu>
+            <entry title="参数设置" do="setting" state="" direct="false" />
+        </menu>
+
+    </bindings>
+	
+    <install><![CDATA[
+
+CREATE TABLE IF NOT EXISTS `ims_sinrch_dataosha_setting` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `weid` int(10) NOT NULL,
+  `subscribe_num` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `subscribe_skill` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `subscribe_url` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `subscribe_game` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `share_title` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `share_desc` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `photo` varchar(255) CHARACTER SET utf8 NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+        
+	  ]]></install>
+	  
+    <uninstall><![CDATA[]]></uninstall>
+    <upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

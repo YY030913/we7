@@ -1,0 +1,148 @@
+{template 'common/header'}
+<style>
+TABLE.ListProduct {
+	BORDER-TOP: #d3d3d3 1px solid;
+	MARGIN-TOP: 5px;
+	WIDTH: 100%;
+	MARGIN-BOTTOM: 5px;_border-collapse: collapse;
+
+}
+TABLE.ListProduct THEAD TH {
+	BORDER-BOTTOM: #E7E9F3 1px solid; PADDING-BOTTOM: 5px; BACKGROUND-COLOR: #F4F5F9; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; COLOR: #666; FONT-SIZE: 14px; BORDER-TOP: #e3e3e3 1px solid; FONT-WEIGHT: normal; BORDER-RIGHT: #ddd 1px solid; PADDING-TOP: 5px; color:#222; font-weight:bold
+}
+TABLE.ListProduct TBODY TD {
+	BORDER-BOTTOM: #eee 1px solid; PADDING-BOTTOM: 10px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; BORDER-RIGHT: #eee 1px solid; PADDING-TOP: 10px;
+	font-size:12px;_empty-cells:show;word-break: break-all;
+}
+TABLE.ListProduct TBODY TR:nth-child(2n+1) {
+    background-color:#FCFCFC;
+}
+TABLE.ListProduct TBODY TR:hover {
+    background-color:#F1FCEA;
+}
+TABLE.ListProduct TBODY TD p{
+	PADDING: 0;font-size:12px;_empty-cells:show;word-break: break-all;
+}
+TABLE.ListProduct Tfoot TD {
+	BORDER-BOTTOM: #eee 1px solid; PADDING-BOTTOM: 10px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; BORDER-RIGHT: #eee 1px solid; PADDING-TOP: 10px; background-color:#f9f9f9;
+	font-size:12px;_empty-cells:show;word-break: break-all;
+}
+TABLE.ListProduct THEAD TH.norightborder {
+	BORDER-RIGHT: 0;
+}
+TABLE.ListProduct TBODY TD.norightborder {
+	BORDER-RIGHT: 0;
+}
+TABLE.ListProduct .select{
+	width: 30px;
+}
+TABLE.ListProduct .keywords{width: 150px;
+}
+TABLE.ListProduct .answer{
+	width: 375px;
+}
+TABLE.ListProduct .answer_text{
+	 width: 360px; overflow:hidden;white-space:nowrap;text-overflow:ellipsis; height:16px
+}
+.answer_text img{
+	 margin-right: 5px; float:left;
+}
+TABLE.ListProduct .category{
+	width: 70px;
+}
+TABLE.ListProduct .time{
+	width: 70px;
+}
+
+
+TABLE.ListProduct .edit{
+	width: 120px;
+}
+
+
+
+.ListProduct td.norightborder a {
+	background-image: none !important;
+	border: 1px solid #E6E7EC !important;
+	text-shadow: none !important;
+	padding: 4px 12px !important;
+	cursor: pointer !important;
+	display: inline-block !important;
+	overflow: visible !important;
+	border-radius: 4px !important;
+	-moz-border-radius: 4px !important;
+	-webkit-border-radius: 4px !important;
+	background-color: #F4F5F9 !important;
+	color: #222 !important;
+	font-size: 14px !important;
+	margin-bottom: 5px;
+	margin-left:3px;
+}
+
+.ListProduct td.norightborder a:hover {
+	background-color: #E6E7EC !important;
+	color: #222 !important;
+	text-decoration: none;
+	text-shadow: none;
+}
+</style>
+
+<style>
+a.a_upload,a.a_choose{border:1px solid #3d810c;box-shadow:0 1px #CCCCCC;-moz-box-shadow:0 1px #CCCCCC;-webkit-box-shadow:0 1px #CCCCCC;cursor:pointer;display:inline-block;text-align:center;vertical-align:bottom;overflow:visible;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;vertical-align:middle;background-color:#f1f1f1;background-image: -webkit-linear-gradient(bottom, #CCC 0%, #E5E5E5 3%, #FFF 97%, #FFF 100%); background-image: -moz-linear-gradient(bottom, #CCC 0%, #E5E5E5 3%, #FFF 97%, #FFF 100%); background-image: -ms-linear-gradient(bottom, #CCC 0%, #E5E5E5 3%, #FFF 97%, #FFF 100%); color:#000;border:1px solid #AAA;padding:2px 8px 2px 8px;text-shadow: 0 1px #FFFFFF;font-size: 14px;line-height: 1.5;
+}
+
+.pages{padding:3px;margin:3px;text-align:center;}
+.pages a{border:#eee 1px solid;padding:2px 5px;margin:2px;color:#036cb4;text-decoration:none;}
+.pages a:hover{border:#999 1px solid;color:#666;}
+.pages a:active{border:#999 1px solid;color:#666;}
+.pages .current{border:#036cb4 1px solid;padding:2px 5px;font-weight:bold;margin:2px;color:#fff;background-color:#036cb4;}
+.pages .disabled{border:#eee 1px solid;padding:2px 5px;margin:2px;color:#ddd;}
+</style>
+<!-- <link rel="stylesheet" type="text/css" href="http://zwlm.alipaylife.com/tpl/User/default/common/css/style_2_common.css"> -->
+<ul class="nav nav-tabs">
+
+	<li class="active"><a href="./index.php?c=site&amp;a=entry&amp;op=display&amp;do=category&amp;m=ewei_shopping">管理签到记录</a></li>
+</ul>
+
+<div class="msgWrap form">
+<div class="content">
+
+
+    <table class="ListProduct" border="0" cellspacing="0" cellpadding="0" width="100%">
+	<thead>
+	<tr>
+	<th></th>
+	  <th style="width:10%;">签到者</th>
+	  <th style="width:10%;">头像</th>
+	  <th style="width:8%;">分数</th>
+	  <th style="width:15%;">签到时间</th>
+	 <th style="width:15%;">地点</th>
+	  <th style="width:15%;">IP</th>
+	
+	<th>操作</th>
+	</tr>
+	</thead>
+	{loop $urs $i $item}
+	<tbody><tr>
+	  <td><input type="checkbox" name="item_id[]" value="27"></td>
+		  <td>{$item['nickname']}</td>
+		 
+		  <td><img src="{$item['avatar']}" width="50px" height="50px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		  <td>{$item['fen']}</td>
+		  <td><?php echo date('Y-m-d H:i:s', $item['time']);?></td>
+		  <td>{$item['didian']}</td>
+		   <td>{$item['ip']}</td>
+		  <td class="norightborder">
+		  <a href="#">不通过</a><a href="{php echo $this->createWebUrl('Guili', array('id' => $item['id'], 'op' => 'del'))}">删除</a>
+		  </td>
+		</tr>
+	  </tbody>
+	  {/loop}
+	  
+	</table>
+	<div class="footactions" style="padding-left:10px">
+<div class="pages" style="text-align:right;">{$pager}</div>	</div>
+    </div>
+  </div>
+
+{template 'common/footer'}

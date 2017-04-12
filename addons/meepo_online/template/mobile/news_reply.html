@@ -1,0 +1,308 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />   
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+    <title>{$title}</title>
+	<link rel="stylesheet" href="{MODULE_URL}template/mobile/css/weui.min.css">
+	<link rel="stylesheet" href="{MODULE_URL}template/mobile/css/jquery-weui.css">
+	<link rel="stylesheet" href="{MODULE_URL}template/mobile/css/new/news_reply.css">
+	<style>
+		.no_reply{height:60px;line-height:60px;text-align:center}
+		.upload_img{display:none}
+		#dt_review_box_emo { display: none; padding-top: 3px; }
+		#dt_review_box_emo ul {
+			list-style: none outside none;
+		}
+		#dt_review_box_emo li {
+			float:left;
+			display: list-item;
+			text-align: -webkit-match-parent;
+		}
+		#dt_review_box_emo ul,li{margin:0;padding:0}
+		.emo { float: left; padding: 3px; }
+		.emo:active {background-color: #FFF; }
+		.emo img { width: 24px; height: 24px; }
+		.dt_emo { width: 24px; height: 24px; }
+	</style>
+</head>
+<body>
+<input type="hidden" id="wx_openid" value="{$user['openid']}">
+<input type="hidden" id="listid"  value="{$listid}">
+<input type="hidden" id="newsid"  value="{$news_id}">
+<div class="articleHead">
+			<div class="mainNav">
+				<span class="j_backPrePage gIcon backPrevPage" onclick="JavaScript:history.back(-1);"></span>
+				<p class="center_tips">评论(<span>{$reply_nums}</span>)</p>
+				<div id="imgBox" class="user">
+					<a id="loginBox" class="hIcon" href="{php echo $this->createMobileUrl('user')}"><img src="{php echo $user['avatar']}"></a>
+				</div>
+			</div>
+</div>
+<div class="f_hot_cmnt" style="margin-bottom:48px;">
+<div class="cmnt_list" id="j_newslist">
+				{if !empty($news_reply)}
+				{loop $news_reply $row}
+				<div class="cmnt_item">
+					<img src="{$row['avatar']}" alt="" class="cmnt_pic">
+					<div class="cmnt_info">
+						<span class="cmnt_name cmnt_nick">{$row['nickname']}</span>
+						
+					</div>
+					<div class="cmnt_floor"></div>
+					<div class="cmnt_text">{php echo $this->emo($row['content'])}</div>
+					<div class="cmnt_op">
+						<div class="cmnt_num">
+							<span class="cmnt_time">{php echo date("Y-m-d H:i:s",$row['createtime'])}</span>
+						</div>
+					</div>
+				</div>
+				{/loop}
+				{else}
+				<div class="no_reply">快来发表第一条评论吧！</div>	
+				{/if}
+				<div class="cmnt_mores j_cmnt_more hide" id="j_pullLoader" data-page="2">
+					<span class="loading_btn"><i class="icon_loading"></i>加载中</span>
+				</div>
+				<div class="cmnt_more j_cmnt_end hide"><p>已加载全部评论</p></div>
+</div>
+</div>
+		<aside><div class="foot_comment" style="z-index: 9;"><div class="foot_commentcont"><a href="javascript:;" class="foot_cmt_input j_cmt_btn open-popup"><p>评论一下吧</p></a></div></div></aside>
+		<div id="fans_reply" class="weui-popup-container">
+		  <div class="weui-popup-modal">
+				<div class="cmnt_fixed" id="j_cmnt_pop" style="display: block;">
+					  <div class="th_td">
+						<a href="javascript:void(0);" class="cmnt_cancel" id="j_cmnt_cancel">取消</a>
+						<a href="javascript:void(0);" class="cmnt_smt" id="j_cmnt_smt">发送</a></div>
+					  <div class="cmnt_border">
+						<textarea id="j_cmnt_input" class="cmnt_textarea" name="" placeholder="说说你的看法"></textarea>
+						<div class="cmnt_opbox">
+						  <a href="javascript:;" class="cmnt_tabbtn j_cmnt_tabbtn" id="dt_review_box_emo_button"><i class="icon iconfont">&#xf01ef;</i></a>
+						</div>
+					  </div>
+					  <div style="display: none;" id="dt_review_box_emo">
+								 
+					   </div>
+					</div>
+		  </div>
+		</div>
+</body>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+<script type="text/javascript" src="{MODULE_URL}template/mobile/js/jquery-weui.min.js"></script>
+<script>
+var load_status = 0;
+$(function(){
+window.onscroll = function () { 
+	if ($(document).scrollTop() + $(window).height() > $(document).height() - 30 && load_status==0) {
+			load_status = 1;
+			$("#j_pullLoader").removeClass('hide');
+			setTimeout("loading_more()",2000);
+	}
+};
+
+$(".foot_cmt_input").click(function(){
+	$("#fans_reply").popup();
+});
+$("#j_cmnt_cancel").click(function(){
+	$.closePopup();
+});
+$('#j_cmnt_smt').click(function() {
+		var content = $("#j_cmnt_input").val();
+		if("undefined"==content || ""==content){
+			$.toptip('请先输入评论内容', 'warning');
+			return;
+		}
+		var listid = $("#listid").val();
+		if("undefined"==listid || ""==listid){
+			$.toptip('直播id不存在、评论失败', 'warning');
+			return;
+		}
+		var newsid = $("#newsid").val();
+		var post_data = {"content":content,'listid':listid,'news_id':newsid,'openid':$("#wx_openid").val()};
+		$.showLoading("拼命发布中...");
+		Meepo_tools.ajax({
+				do_it:'news_reply_ajax',
+	            type: "POST",                        
+	            dataType: 'JSON',      
+	            cache: true,                 
+	            urlPata: {},
+	            formPata:post_data,
+				beforesend:function(){},
+				complete:function(){}, 
+	            success:function(data) {
+				  $.hideLoading();
+				  if(data.errno==0){
+					$.toast("发布成功");
+					window.location.reload();
+				  }else{
+					$.toptip('发布失败', 'error');
+				  }
+				}
+	        });
+
+});
+});
+</script>
+<script>
+$('#dt_review_box_emo_button').click(function() {
+			_emo._show("dt_review_box_emo", function(index) {
+			  $("#j_cmnt_input").val($("#j_cmnt_input").val() + _emo._text[index]);
+			});
+})
+var _emo= {
+    _text: ["[笑脸]", "[感冒]", "[流泪]", "[发怒]", "[爱慕]", "[吐舌]", "[发呆]", "[可爱]", "[调皮]", "[寒冷]", "[呲牙]", "[闭嘴]", "[害羞]", "[苦闷]", "[难过]", "[流汗]", "[犯困]", "[惊恐]", "[咖啡]", "[炸弹]", "[西瓜]", "[爱心]", "[心碎]"],
+    _indexOf: function(text) {
+        if (_emo._text.indexOf) {
+            return _emo._text.indexOf(text);
+        }
+        for (var i = 0, _len = _emo._text.length; i < _len; i++) {
+            if (_emo._text[i] == text) {
+                return i;
+            }
+        }
+        return -1;
+    },
+    _insertFun: null,
+    _show: function(id, fun) {
+        _emo._insertFun = fun;
+        if ($("#" + id).children().length == 0) {
+            var _html = "<ul>";
+            for (var i = 0; i < 23; i++) {
+                _html += "<li class='emo' ontouchstart='' onclick='_emo._insert(" + i + ")'><img src='" + '../addons/meepo_online/template/mobile/emo/' + (i + 1) + ".png'></li>";
+            }
+            _html += "</ul>";
+            $("#" + id).html(_html);
+        }
+		
+			$("#" + id).slideToggle();
+		
+    },
+    _hide: function(id) {
+        $("#" + id).hide();
+    },
+    _insert: function(index) {
+        (_emo._insertFun)(index);
+    },
+    _toCode: function(content) {
+        return content.replace(/\[[\u4e00-\u9fa5]{1,2}\]/g, function(a) {
+            var _code = _emo._indexOf(a) + 1;
+            return _code == 0 ? a : "[/" + _code + "]";
+        });
+    }
+};
+/**
+ * ajax
+ * */
+(function (window,$,Meepo_tools) {
+	Meepo_tools.post = function(d,data,call){
+		var i = Meepo_tools.querystring('i');
+		var j = Meepo_tools.querystring('j');
+		
+		var url = './index.php?i='+i+'&j='+j+'&c=entry&do='+d+'&m=meepo_online';
+		$.post(url,data,call);
+	}
+	Meepo_tools.ajax = function(ajaxInfo){
+		var i = Meepo_tools.querystring('i');
+		var j = Meepo_tools.querystring('j');
+		
+		var url = './index.php?i='+i+'&j='+j+'&c=entry&do='+ajaxInfo.do_it+'&m=meepo_online';
+		var defaultInfo = {
+            type: "GET",                       
+            dataType: 'JSON',      
+            cache: false,
+            urlPata: {},
+            formPata: {},  
+			beforeSend:function(){
+			},
+			complete:function(){
+			},
+            success: function() {
+            } //成功后显示debug信息。也可以增加自己的处理程序
+        };
+
+        //补全ajaxInfo
+        if (typeof ajaxInfo.dataType == "undefined") {
+            ajaxInfo.dataType = defaultInfo.dataType;
+        }
+        
+        if (typeof ajaxInfo.formPata == "undefined") {
+            ajaxInfo.type = "GET";
+        } else {
+            if (ajaxInfo.dataType == "JSON") {
+                ajaxInfo.type = "POST";
+            } else {    //get或者jsonp
+                ajaxInfo.type = "POST";
+            }
+            ajaxInfo.data = ajaxInfo.formPata;
+        }
+
+        
+
+		$.ajax({
+            type: ajaxInfo.type,
+            dataType: ajaxInfo.dataType,
+            cache: ajaxInfo.cache,
+            xhrFields: {
+                //允许跨域访问时添加cookie
+                withCredentials: true
+            },
+            url: url,  
+            data: ajaxInfo.data,
+            beforeSend:function(){
+				ajaxInfo.beforesend();
+			},
+            complete:function(){
+				ajaxInfo.complete();
+			},
+            success: function (data) {
+                  ajaxInfo.success(data);
+            }
+        });
+    
+
+	
+	}
+	Meepo_tools.querystring = function(name){ 
+		var result = location.search.match(new RegExp("[\?\&]" + name+ "=([^\&]+)","i")); 
+		if (result == null || result.length < 1){ 
+			return "";
+		}
+		return result[1]; 
+	}
+    window.Meepo_tools = Meepo_tools;
+    
+    typeof define === 'function' && define('Meepo_tools',[],function(){return Meepo_tools});
+})(window,window.jQuery,window.Meepo_tools || {});
+function loading_more(){
+			var page = $("#j_pullLoader").attr('data-page');
+			var listid = $("#listid").val();
+			var newsid = $("#newsid").val();
+			Meepo_tools.ajax({
+				do_it:'news_reply_ajax_more',
+	            type: "POST",                        
+	            dataType: 'JSON',      
+	            cache: true,                 
+	            urlPata: {},
+	            formPata:{'listid':listid,'page':page,"news_id":newsid},
+				beforesend:function(){},
+				complete:function(){}, 
+	            success:function(data) {
+				  $("#j_pullLoader").addClass('hide');
+				  if(data.errno==0){
+					load_status = 0;
+					$("#j_pullLoader").attr('data-page',parseInt(page)+1)
+					$('#j_newslist').prepend(data.message);
+				  }else if(data.errno==-1){
+					load_status = 0;
+					alert(data.message);
+				  }else{
+					$(".j_cmnt_end").show();
+				  }
+				}
+	        });
+}
+</script>
+</html>

@@ -1,0 +1,270 @@
+{template 'common/header'}
+{template 'web/task/navs'}
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form action="./index.php" method="get"  class="form-horizontal">
+            <input type="hidden" name="c" value="{php echo $_GPC['c']}"/>
+            <input type="hidden" name="a" value="{php echo $_GPC['a']}"/>
+            <input type="hidden" name="m" value="{php echo $_GPC['m']}"/>
+            <input type="hidden" name="do" value="{php echo $_GPC['do']}"/>
+            <input type="hidden" name="act" value="{php echo $_GPC['act']}"/>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">昵称</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" name="nickname" placeholder="" value="{$_GPC['nickname']}" class="form-control"/>
+                    <span class="help-block"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">姓名</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" name="realname" placeholder="" value="{$_GPC['realname']}" class="form-control"/>
+                    <span class="help-block"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">电话</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" name="mobile" placeholder="" value="{$_GPC['mobile']}" class="form-control"/>
+                    <span class="help-block"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-md-offset-2 col-lg-offset-1 col-xs-12 col-sm-10 col-md-10 col-lg-11">
+                    <input name="submit" type="submit" value="搜索" class="btn btn-primary span3" />
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<style>
+    .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {overflow: visible !important;}
+    .dropdown-menu{min-width:4em;}
+    .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {white-space: normal !important;overflow: visible !important;}
+    .dropdown{display:inline-block !important;}
+    .account-stat-num > div {width: 25%;float: left;font-size: 16px;text-align: center;}
+    .account-stat-num > div span {display: block;font-size: 30px;font-weight: bold;}
+</style>
+<div class="panel panel-default" ng-app="app" ng-controller="rootCtrl">
+    <div class="panel-heading">
+        快递列表
+    </div>
+    <div class="panel-body">
+        <table st-table="items" class="table table-striped table-condensed" style="display:auto;">
+            <thead>
+            <tr>
+                <th style="width:50px;">会员编号</th>
+                <th style="width:140px;">会员昵称</th>
+                <th style="width:140px;">真实姓名</th>
+                <th style="width:140px;">手机号</th>
+                <th style="width:100px;">信誉</th>
+                <th style="width:80px;">会员头像</th>
+
+                <th style="width:100px;">状态</th>
+                <th style="width:80px;">是否快递</th>
+                <th style="width:280px;">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {loop $list['list'] $li}
+            <tr>
+                <td>{$li['uid']}</td>
+                <td>{$li['nickname']}</td>
+                <td>{$li['realname']}</td>
+                <td>{$li['mobile']}</td>
+                <td>
+                    <label class="label label-info">{$li['xinyu']}</label>
+                </td>
+                <td><img src="{php echo tomedia($li['avatar'])}" style="width:4em;height:4em;" alt=""/></td>
+                <td>
+                    <label class="label label-danger">{if $li['status']==1}正常{else}禁止{/if}</label>
+                </td>
+                <td>
+                    <label class="label label-danger">{if $li['isrunner']==1}正常{else}禁止{/if}</label>
+                </td>
+
+                <td>
+                    <a href="{php echo $this->createWebUrl('task',array('act'=>'list','openid'=>$li['openid']))}" class="btn btn-default">任务记录</a>
+                    <a href="{php echo $this->createWebUrl('recive',array('act'=>'list','openid'=>$li['openid']))}" class="btn btn-default">接单记录</a>
+                    <a href="{php echo $this->createWebUrl('moneylog',array('act'=>'list','openid'=>$li['openid']))}" class="btn btn-default">佣金记录</a>
+                    <a href="{php echo $this->createWebUrl('paylog',array('openid'=>$li['openid']))}" class="btn btn-default">支付记录</a>
+                    <a class="btn btn-success" ng-mouseenter="tooltip()" data-toggle="tooltip" data-placement="top" title="审核" href="#" ng-click="shenhe(item)">
+                        审核
+                    </a>
+                    <a class="btn btn-info" ng-mouseenter="tooltip()" data-toggle="tooltip" data-placement="top" title="充值信誉" href="#" ng-click="chongzhi(item)">
+                        充值信誉
+                    </a>
+                    <a href="{php echo $this->createWebUrl('v_new',array('act'=>'edit','id'=>$li['id']))}" class="btn btn-default">编辑</a>
+                    <a href="{php echo $this->createWebUrl('v_new',array('act'=>'delete','id'=>$li['id']))}" class="btn btn-danger">删除</a>
+                </td>
+            </tr>
+            {/loop}
+            </tbody>
+        </table>
+        {php echo $list['pager']}
+    </div>
+</div>
+
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}/public/libs/angular-xeditable/dist/css/xeditable.css"/>
+<script src="{MODULE_URL}public/libs/angular.min.js"></script>
+<script type="text/javascript" src="{MODULE_URL}/public/libs/smart-table.js"></script>
+<script type="text/javascript" src="{MODULE_URL}/public/libs/angular-xeditable/dist/js/xeditable.js"></script>
+<script src="{MODULE_URL}/public/libs/ui-bootstrap-tpls.min.js"></script>
+<script>
+    var app = angular.module('app',['xeditable','smart-table',"ui.bootstrap"]);
+    app.run(function(editableOptions) {
+        editableOptions.theme = 'bs3';
+    });
+    app.controller('rootCtrl',function($scope,$http){
+        $scope.items = {php echo json_encode($list)};
+        var addurl = "{php echo $this->createWebUrl('v',array('act'=>'add'))}";
+        var deleteurl = "{php echo $this->createWebUrl('v',array('act'=>'delete'))}";
+        var userurl = "{php echo $this->createWebUrl('v',array('act'=>'xinyu'))}";
+        $scope.tooltip = function(){
+            $scope.tooltip = function(){
+                $('[data-toggle="tooltip"]').tooltip();
+            }
+        }
+        $scope.chongzhi = function(user){
+            require(['jquery','util'],function($,util){
+                var body = '<div class="media">'+
+                        '<div class="pull-left">'+
+                        '<a href="#">'+
+                        '<img class="media-object" src="'+user.avatar+'" alt="'+user.nickname+'">'+
+                        '</a>'+
+                        '</div>'+
+                        '<div class="media-body">'+
+                        '<h4 class="media-heading">'+user.nickname+'('+user.realname+')</h4>'+
+                        '<p>电话：<a href="tel:'+user.mobile+'">'+user.mobile+'</a></p>'+
+                        '<p>身份证号码：'+user.cardnum+'</a></p>'+
+                        '</div>'+
+                        '</div>';
+                body += '<div class="panel panel-default"><div class="panel-heading">信誉充值</div><div class="panel-body"><input type="number" name="xinyu" value="" placeholder="请输入充值信誉数量" class="form-control"/><input type="number" name="kouchu" value="" placeholder="请输入扣除信誉数量" class="form-control"/></div></div>';
+
+                var footer = '<button class="btn btn-primary sendmessage ">提交</button>';
+                footer += '<button class="btn btn-default down">关闭</button>';
+
+                var modalobj = util.dialog('信誉充值',body,footer,{containerName:'user'});
+
+                modalobj.removeClass('fade');
+                modalobj.show();
+
+                $('#user .sendmessage').click(function(){
+                    //审核成功
+                    var data = {};
+                    data.xinyu = $('#user input[name="xinyu"]').val();
+                    data.kouchu = $('#user input[name="kouchu"]').val();
+                    data.id = user.id;
+                    $http.post(userurl,data).success(function(data){
+                        require(['jquery','util'],function($,util){
+                            util.message('操作成功','','success');
+                            window.location.reload();
+                        });
+                    });
+                });
+
+                $('#user .close').click(function(){
+                    modalobj.hide();
+                });
+
+                $('#user .down').click(function(){
+                    modalobj.hide();
+                });
+            });
+        }
+        $scope.shenhe = function(user){
+            require(['jquery','util'],function($,util){
+                var body = '<div class="media">'+
+                        '<div class="pull-left">'+
+                        '<a href="#">'+
+                        '<img class="media-object" src="'+user.avatar+'" alt="'+user.nickname+'">'+
+                        '</a>'+
+                        '</div>'+
+                        '<div class="media-body">'+
+                        '<h4 class="media-heading">'+user.nickname+'('+user.realname+')</h4>'+
+                        '<p>电话：<a href="tel:'+user.mobile+'">'+user.mobile+'</a></p>'+
+                        '<p>身份证号码：'+user.cardnum+'</a></p>'+
+                        '</div>'+
+                        '</div>';
+                body += '<div class="panel panel-default"><div class="panel-heading">身份证核实</div><div class="panel-body"><div class="card_1"><img src="'+user.card_image1+'" alt="" /></div><div class="card_2"><img src="'+user.card_image2+'" alt="" /></div></div></div>';
+
+                var footer = '<button class="btn btn-primary sendmessage ">审核成功</button>';
+                footer += '<button class="btn btn-default sysinfo">审核失败</button>';
+                footer += '<button class="btn btn-default down">关闭</button>';
+
+                var modalobj = util.dialog('身份核实',body,footer,{containerName:'user'});
+                modalobj.removeClass('fade');
+                modalobj.show();
+
+                $('#user .sendmessage').click(function(){
+                    //审核成功
+                    user.status = 1;
+                    user.statustitle = '审核通过';
+                    user.status_label = 'label-info';
+                    $http.post("{php echo $this->createWebUrl('v',array('act'=>'status'))}",user).success(function(data){
+
+                    });
+                    modalobj.hide();
+                });
+
+                $('#user .sysinfo').click(function(){
+                    //审核失败
+                    user.status = 0;
+                    user.statustitle = '待审核';
+                    user.status_label = 'label-danger';
+                    $http.post("{php echo $this->createWebUrl('v',array('act'=>'status'))}",user).success(function(data){
+
+                    });
+                    modalobj.hide();
+                });
+
+                $('#user .close').click(function(){
+                    modalobj.hide();
+                });
+
+                $('#user .down').click(function(){
+                    modalobj.hide();
+                });
+            });
+        }
+        $scope.delete = function(id,start){
+            var truthBeTold = window.confirm("您确定要删除此会员么，单击“确定”继续。单击“取消”停止。");
+            if(truthBeTold){
+                $http.get(deleteurl+'&id='+id).success(function(data){
+                    $scope.items.splice(start,1);
+                });
+            }
+        }
+        $scope.isrunner = function(e){
+            if(e.isrunner == 0){
+                e.isrunner = 1;
+                e.isrunnertitle = '是';
+                e.isrunner_label = 'label-info';
+            }else{
+                e.isrunner = 0;
+                e.isrunnertitle = '否';
+
+                e.isrunner_label = 'label-danger';
+            }
+            $http.post(addurl,e).success(function(data){});
+        }
+        $scope.updatexinyu = function(e,t){
+            e.xinyu = t;
+            $http.post(addurl,e).success(function(data){});
+        }
+        $scope.status = function(e){
+            if(e.status == 0){
+                e.status = 1;
+                e.statustitle = '审核通过';
+                e.status_label = 'label-info';
+            }else{
+                e.status = 0;
+                e.statustitle = '待审核';
+                e.status_label = 'label-danger';
+            }
+            $http.post(addurl,e).success(function(data){});
+        }
+    });
+</script>
+{template 'common/footer'}

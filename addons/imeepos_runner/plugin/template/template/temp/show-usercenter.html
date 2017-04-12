@@ -1,0 +1,17 @@
+<div class="list">
+	<div class="row {{Item.bg}}" style="height:30px;"></div>
+	<div class="row {{Item.bg}}">
+		<div class="col"></div>
+		<div class="col"></div>
+		<div class="col"><img ng-src="{{userinfo.avatar || '../addons/imeepos_runner/icon.jpg'}}" style="width:100%;border-radius:50%"></div>
+		<div class="col"></div>
+		<div class="col"></div>
+	</div>
+	<div class="row responsive-sm {{Item.bg}}" style="height:20px;">
+		<div class="col light" style="text-align:center">
+			<span style="color:#000;">余额:{{userinfo.credit2}}元</span>
+			<span style="color:#000;">经验值:{{userinfo.credit_member}}</span>
+		</div>
+	</div>
+	<div class="row {{Item.bg}}" style="height:30px;"></div>
+</div>

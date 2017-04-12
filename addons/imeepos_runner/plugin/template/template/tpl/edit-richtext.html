@@ -1,0 +1,82 @@
+<script type="text/ng-template" id="edit-richtext.html">
+	<div class="fe-panel-editor-title">富文本设置</div>
+	<div class="fe-panel-editor-line">
+		<div class="fe-panel-editor-name">背景颜色</div>
+		<div class="fe-panel-editor-con">
+			<input class="fe-panel-editor-input2" type="color" ng-model="Edit.params.bgcolor">
+		</div>
+	</div>
+	<div class="ueditor" ng-model="Edit.content" style="height:400px; width:100%; margin-top:10px;"></div>
+</script>
+<script type="text/javascript">
+	// 百度编辑器初始化
+	var opts = {
+		type: 'image',
+		direct: false,
+		multi: true,
+		tabs: {
+			'upload': 'active',
+			'browser': '',
+			'crawler': ''
+		},
+		path: '',
+		dest_dir: '',
+		global: false,
+		thumb: false,
+		width: 0
+	};
+	UE.registerUI('myinsertimage', function(editor, uiName) {
+			editor.registerCommand(uiName, {
+				execCommand: function() {
+					require(['fileUploader'],
+						function(uploader) {
+							uploader.show(function(imgs) {
+									if (imgs.length == 0) {
+										return;
+									} else if (imgs.length == 1) {
+										editor.execCommand('insertimage', {
+											'src': imgs[0]['url'],
+											'_src': imgs[0]['attachment'],
+											'width': '100%',
+											'alt': imgs[0].filename
+										});
+									} else {
+										var imglist = [];
+										for (i in imgs) {
+											imglist.push({
+												'src': imgs[i]['url'],
+												'_src': imgs[i]['attachment'],
+												'width': '100%',
+												'alt': imgs[i].filename
+											});
+										}
+										editor.execCommand('insertimage', imglist);
+									}
+								},
+								opts);
+						});
+				}
+			});
+			var btn = new UE.ui.Button({
+				name: '插入图片',
+				title: '插入图片',
+				cssRules: 'background-position: -726px -77px',
+				onclick: function() {
+					editor.execCommand(uiName);
+				}
+			});
+			editor.addListener('selectionchange',
+				function() {
+					var state = editor.queryCommandState(uiName);
+					if (state == -1) {
+						btn.setDisabled(true);
+						btn.setChecked(false);
+					} else {
+						btn.setDisabled(false);
+						btn.setChecked(state);
+					}
+				});
+			return btn;
+		},
+		19);
+</script>

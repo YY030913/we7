@@ -1,0 +1,259 @@
+<style>
+.wrapper {
+    min-width: 300px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+.btn-container {
+    position: fixed;
+    bottom: 15px;
+    padding: 0 22.5px;
+    width: 100%;
+    height: 41px;
+    box-sizing: border-box;
+    display: -webkit-box;
+}
+.btn-container .btn.btn-default {
+    color: #666;
+    border: 1px solid #e4e4e4;
+    background-color: #fff;
+}
+.btn-container .btn {
+    display: block;
+    border-radius: 6px;
+    text-align: center;
+    line-height: 41px;
+    height: 41px;
+    width: 100%;
+    font-size: 16px;
+    -webkit-box-flex: 1;
+}
+.btn {
+    background: #00a0e9;
+    border: 0;
+    border-radius: 6px;
+    box-shadow: 0 6px 0 #0081bc;
+    color: #fff;
+    width: 100%;
+    text-align: center;
+    height: 50px;
+    line-height: 2.5;
+    cursor: pointer;
+    font-family: inherit;
+    text-decoration: none;
+    outline: none;
+    -webkit-box-flex: 1;
+    box-flex: 1;
+    display: block;
+    margin-left: 10px;
+}
+.meeop_avatar{
+width:100px;height:100px;border-radius:50px;
+}
+</style>
+<div class="container" style="margin-bottom:44px;bottom:44px;">
+	<div class="bar bar-header bar-clear">
+		<h2 class="title"></h2>
+		<a class="button button-clear" href="{php echo $this->createMobileUrl('manage_qr',array('id'=>$id))}">
+			<span class="active">我的收货码</span>
+		</a>
+	</div>
+	<div class="h44"></div>
+	
+	{if $tasks['status'] == 0}
+	<div class="page slideIn msg">
+	    <div class="weui_msg">
+	        <div class="weui_icon_area">
+	        	<img class="meeop_avatar" src="{php echo tomedia($member['avatar'])}" alt="" />
+	        </div>
+	        <div class="weui_text_area">
+	            <h2 class="weui_msg_title">对不起，您尚未完成支付</h2>
+	            <p class="weui_msg_desc">{$tasks['desc']}</p>
+	        </div>
+	        <div class="weui_opr_area">
+	            <p class="weui_btn_area">
+	                <a href="{php echo $this->createMobileUrl('paytask',array('tid'=>$tasks['ordersn']))}" class="weui_btn weui_btn_primary">立即支付</a>
+	                <a href="javascript:;" id="goIndex" class="weui_btn weui_btn_default">取消</a>
+	            </p>
+	        </div>
+	        <div class="weui_extra_area">
+	            <a href="{php echo $this->createMobileUrl('detail',array('id'=>$id))}">查看详情</a>
+	        </div>
+	    </div>
+	</div>
+	{else if $tasks['status'] == 1}
+	<div class="wrapper">
+		<header style="margin-bottom: 20px;">收到，正在为您安排</header>
+		<section style="font-size: 1.1rem;">附近的快递会优先通知</section>
+		<div class="content">
+			<div class="large"></div>
+			<div class="middle"></div>
+			<div class="small">
+				<p>已等候
+				<br><span class="time j_timeClock">0:0:0</span></p>
+			</div>
+		</div>
+		<div class="content" style="position: absolute;top: 320px;left:0px;right:0px;">
+			<div class="card">
+				
+			</div>
+		</div>
+		<div class="btn-container">
+			<div class="btn btn-default cancel" style="box-shadow: none;">取消呼叫</div>
+		</div>
+	</div>
+	{else if $tasks['status'] == 2}
+	<div class="page slideIn msg">
+	    <div class="weui_msg">
+	        <div class="weui_icon_area">
+	        	<img class="meeop_avatar" src="{php echo tomedia($user['avatar'])}" alt="" />
+	        </div>
+	        <div class="weui_text_area">
+	            <h2 class="weui_msg_title">恭喜您，<span style="color:red;">{$user['nickname']}</span>受理了您的任务</h2>
+	            <p class="weui_msg_desc">{$tasks['desc']}</p>
+	        </div>
+	        <div class="weui_opr_area">
+	            <p class="weui_btn_area">
+	                <a href="tel:{php echo $user['mobile']}" class="weui_btn weui_btn_primary">电话联系</a>
+	                <a href="javascript:;" id="goIndex" class="weui_btn weui_btn_default">投诉他</a>
+	            </p>
+	        </div>
+	        <div class="weui_extra_area">
+	            <a href="{php echo $this->createMobileUrl('detail',array('id'=>$id))}">查看详情</a>
+	        </div>
+	    </div>
+	</div>
+	{else if $tasks['status'] == 3}
+	<!-- 已完结订单 -->
+	<div class="page slideIn msg">
+	    <div class="weui_msg">
+	        <div class="weui_icon_area">
+	        	<img class="meeop_avatar" src="{php echo tomedia($user['avatar'])}" alt="" style=""/>
+	        </div>
+	        <div class="weui_text_area">
+	            <h2 class="weui_msg_title">恭喜您，<span style="color:red;">{$user['nickname']}</span>完成了您的任务</h2>
+	            <p class="weui_msg_desc">{$tasks['desc']}</p>
+	        </div>
+	        <div class="weui_opr_area">
+	            <p class="weui_btn_area">
+	                <a href="tel:{php echo $user['mobile']}" class="weui_btn weui_btn_primary">电话联系</a>
+	                <a href="javascript:;" id="finish" class="weui_btn weui_btn_default">投诉他</a>
+	            </p>
+	        </div>
+	        <div class="weui_extra_area">
+	            <a href="{php echo $this->createMobileUrl('detail',array('id'=>$id))}">查看详情</a>
+	        </div>
+	    </div>
+	</div>
+	{else if $tasks['status'] == 4}
+	<div class="page slideIn msg">
+	    <div class="weui_msg">
+	        <div class="weui_icon_area">
+	        	<img class="meeop_avatar" style="width: 100px;height: 100px;border-radius: 50px;" src="{php echo tomedia($user['avatar'])}" alt="" />
+	        </div>
+	        <div class="weui_text_area">
+	            <h2 class="weui_msg_title">恭喜您，此任务完结，已给<span style="color:red;">{$user['nickname']}</span>结款</h2>
+	            <p class="weui_msg_desc">{$tasks['desc']}</p>
+	        </div>
+	        <div class="weui_opr_area">
+	            <p class="weui_btn_area">
+	                <a href="tel:{php echo $user['mobile']}" class="weui_btn weui_btn_primary">电话联系</a>
+	                <a href="javascript:;" id="goIndex" class="weui_btn weui_btn_default">投诉他</a>
+	            </p>
+	        </div>
+	        <div class="weui_extra_area">
+	            <a href="{php echo $this->createMobileUrl('detail',array('id'=>$id))}">查看详情</a>
+	        </div>
+	    </div>
+	</div>
+	{else}
+	<div class="page slideIn msg">
+	    <div class="weui_msg">
+	        <div class="weui_icon_area">
+	        	<img class="meeop_avatar" src="{php echo tomedia($user['avatar'])}" alt="" />
+	        </div>
+	        <div class="weui_text_area">
+	            <h2 class="weui_msg_title">恭喜您，此任务完结，已给<span style="color:red;">{$user['nickname']}</span>结款</h2>
+	            <p class="weui_msg_desc">{$tasks['desc']}</p>
+	        </div>
+	        <div class="weui_opr_area">
+	            <p class="weui_btn_area">
+	                <a href="tel:{php echo $user['mobile']}" class="weui_btn weui_btn_primary">电话联系</a>
+	                <a href="javascript:;" id="finishOrder" data-id="{php echo $recive['id']}" class="weui_btn weui_btn_warn">完成订单</a>
+	                <a href="javascript:;" id="goIndex" class="weui_btn weui_btn_default">投诉他</a>
+	            </p>
+	        </div>
+	        <div class="weui_extra_area">
+	            <a href="{php echo $this->createMobileUrl('detail',array('id'=>$id))}">查看详情</a>
+	        </div>
+	    </div>
+	</div>
+	{/if}
+</div>
+
+<script>
+require(['jquery','core','pjax'],function($,core){
+	$('#footer').hide();
+
+	var id = "{php echo $id}";
+	$('#finish_money').click(function(){
+		finish(id);
+	});
+	function finish(id){
+		core.post('home_finish',{id:id},function(data){
+    		if(data.result == 0){
+    			core.cancel(data.message,function(){
+    				window.location.href = "{php echo $this->createMobileUrl('home_order')}"+"&status="+"{php echo $_GPC['status']}"
+    			});
+    		}else{
+    			core.cancel(data.message,function(){});
+    		}
+    	});
+	}
+	
+	$('.btn.cancel').click(function(){
+		window.location.href = "{php echo $this->createMobileUrl('home_order')}";
+	});
+	
+	var wating_time = 0;
+	var hour = 0;
+	var min = 0;
+	var sec = 0;
+	
+	function addTime(){
+		setTimeout(function(){
+			wating_time = wating_time + 1;
+			if(wating_time % 5 == 0){
+				playNew();
+			}
+			hour = parseInt(wating_time / (60*60));
+			min = parseInt((wating_time-hour * 60*60) / (60));
+			
+			if(wating_time>=60){
+				sec = wating_time % 60;
+			}else{
+				sec = wating_time;
+			}
+			$('.j_timeClock').html(hour+':'+min+':'+sec);
+			addTime();
+		},1000);
+	}
+	addTime();
+	playNew();
+	function playNew(){
+		core.post('manage_check',{id:"{php echo $id}"},function(data){
+			if(data.status == 0){
+				var html = "";
+				var listener = data.data;
+				for(var i = 0;i<listener.length;i++){
+					html += "<div class='item item-avatar'><img src='"+listener[i].avatar+"' alt='' /><h2 class='title'>"+listener[i].nickname+"</h2><p>听单时间："+listener[i].create_time+"</p></div>";
+				}
+				$('.card').html(html);
+			}else{
+				html = '<div class="item">暂无人听单</div>';
+				$('.card').html(html);
+			}
+		});
+	}
+});
+</script>

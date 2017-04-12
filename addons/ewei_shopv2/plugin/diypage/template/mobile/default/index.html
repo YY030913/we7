@@ -1,0 +1,26 @@
+{template '_header'}
+<script>document.title = "{if !empty($page)&&!empty($page['data']['page']['title'])}{$page['data']['page']['title']}{else}{$_W['shopset']['shop']['name']}{/if}"; </script>
+<link href="../addons/ewei_shopv2/plugin/diypage/static/css/foxui.diy.css?v=201606121120"rel="stylesheet"type="text/css"/>
+<div class='fui-page  fui-page-current'>
+    <div class="fui-content {if $page['diymenu']>-1}navbar{/if}" id="container" style="background-color: {$page['data']['page']['background']}">
+        <div class="fui-mask fui-mask-transparent visible"></div>
+        <div class="fui-loader ">
+            <span class="fui-preloader fui-preloader-white"></span>
+        </div>
+    </div>
+
+    {if $page['diymenu']>-1}
+        {php $this->footerMenus($page['diymenu'])}
+    {/if}
+
+    {template 'diypage/_template'}
+
+    <script language="javascript">
+        require(['../addons/ewei_shopv2/plugin/diypage/static/js/mobile.js'], function(modal){
+            modal.init({diypage: {php echo json_encode($page)}, attachurl: "{$_W['attachurl']}"});
+        });
+    </script>
+
+</div>
+
+{template '_footer'}

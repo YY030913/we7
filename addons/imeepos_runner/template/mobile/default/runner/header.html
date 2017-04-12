@@ -1,0 +1,46 @@
+<link rel="stylesheet" href="{MODULE_URL}template/mobile/default/home/css/topscreen_v6.css"/>
+<link rel="stylesheet" href="{MODULE_URL}template/mobile/default/home/css/index_v10.css"/>
+<link rel="stylesheet" href="{MODULE_URL}template/mobile/default/home/css/index/topad.css">
+<link rel="stylesheet" href="{MODULE_URL}template/mobile/default/home/css/index/fifteen.css">
+<link rel="stylesheet" href="{MODULE_URL}template/mobile/default/home/css/topscreen/mod_feature.css">
+<link rel="stylesheet" href="{MODULE_URL}template/mobile/default/home/css/topscreen/mod_game.css">
+<link rel="stylesheet" href="{MODULE_URL}template/mobile/default/home/css/topscreen/mod_life.css">
+<link rel="stylesheet" href="{MODULE_URL}template/mobile/default/home/css/topscreen/mod_zb.css">
+<link rel="stylesheet" href="{MODULE_URL}template/mobile/default/home/css/index/signin.css">
+{php $member = M('member')->getInfo($_W['openid'])}
+{php $uid = mc_openid2uid($_W['openid'])}
+{php $user = mc_fetch($uid);}
+<header style="background-image: url({MODULE_URL}template/mobile/default/home/banner.jpg)" class="header">
+    <h2 class="name" style="color: #fff;">{php echo $member['nickname']}</h2>
+    <div class="info">
+        <div class="date">
+            {php $level = M('runner_level')->getInfo($member['level_id'])}
+            信誉等级：【{php echo $level['title']}】
+        </div>
+        <span class="info-btn">
+            <button type="button" onclick="window.location.href='{php echo $this->createMobileUrl('runner_xinyu')}'" class="btn-renew">升级</button>
+        </span>
+    </div>
+    <div class="level">
+        <span>
+            {if !empty($member['realname'])}{php echo $member['realname']}{else}未完善{/if}
+            {if !empty($member['mobile'])}【{$member['mobile']}】{/if}
+        </span>
+    </div>
+    {php $_GPC['openid'] = $_W['openid'];}
+    {php $total = M('moneylog')->total()}
+    <ul>
+        <li>
+            <em>{$total['all']['fee']}</em>
+            <span>总金额</span>
+        </li>
+        <li>
+            <em>{$total['day']['fee']}</em>
+            <span>本日金额</span>
+        </li>
+        <li>
+            <em>{$total['week']['fee']}</em>
+            <span>本周金额</span>
+        </li>
+    </ul>
+</header>

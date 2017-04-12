@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.goodziyuan.com" versionCode="0.7">
+	<application setting="false">
+		<name><![CDATA[端午节赛龙舟]]></name>
+		<identifie><![CDATA[dg_dragon_boat]]></identifie>
+		<version><![CDATA[6.1.1]]></version>
+		<type><![CDATA[activity]]></type>
+		<ability><![CDATA[端午节赛龙舟游戏]]></ability>
+		<description><![CDATA[端午节赛龙舟游戏活动，助力端午节营销]]></description>
+		<author><![CDATA[好资源)]]></author>
+		<url><![CDATA[http://www.goodziyuan.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="location" />
+			<message type="subscribe" />
+			<message type="qr" />
+			<message type="trace" />
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<menu>
+			<entry title="管理中心" do="manage" state="" direct="false" />
+		</menu>
+	</bindings>
+	<install><![CDATA[
+CREATE TABLE IF NOT EXISTS `ims_longzhou_help` (
+  `HelpId` int(32) unsigned NOT NULL AUTO_INCREMENT,
+  `rid` int(100) NOT NULL COMMENT '规则id',
+  `iacid` varchar(100) DEFAULT NULL COMMENT '微信公众号标识',
+  `uniacid` varchar(100) DEFAULT NULL,
+  `HelpOpenId` varchar(300) DEFAULT NULL COMMENT '助力者微信标识',
+  `HelpHead` varchar(300) DEFAULT NULL COMMENT '助力者头像',
+  `HelpName` varchar(100) DEFAULT NULL COMMENT '助力者昵称',
+  `HelpDistance` int(32) DEFAULT '0' COMMENT '助力距离',
+  `HelpTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '助力时间',
+  `HelpPlayer` int(32) DEFAULT NULL COMMENT '玩家主键id（PlayerId）',
+  PRIMARY KEY (`HelpId`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_longzhou_player` (
+  `PlayerId` int(32) NOT NULL AUTO_INCREMENT,
+  `rid` int(100) DEFAULT NULL COMMENT '规则id',
+  `iacid` varchar(100) DEFAULT NULL COMMENT '微信公众号标识',
+  `uniacid` varchar(100) DEFAULT NULL,
+  `OpenId` varchar(100) DEFAULT NULL COMMENT '微信标识',
+  `WeixinName` varchar(32) DEFAULT NULL COMMENT '昵称',
+  `WeixinHead` varchar(200) DEFAULT NULL COMMENT '头像',
+  `Time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '参与时间',
+  `Distance` int(32) DEFAULT '0' COMMENT '距离（成绩）',
+  `BoatIndex` int(32) DEFAULT '1' COMMENT '选船',
+  PRIMARY KEY (`PlayerId`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_longzhou_reply` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `rid` int(10) DEFAULT '0' COMMENT '规则id',
+  `iacid` int(10) DEFAULT NULL COMMENT '公众号ID',
+  `uniacid` int(10) DEFAULT NULL,
+  `huodongname` varchar(255) DEFAULT NULL COMMENT '活动名称',
+  `huodongdesc` text COMMENT '活动说明',
+  `hdpicture` varchar(255) DEFAULT NULL COMMENT '活动图片',
+  `status` tinyint(1) DEFAULT '1' COMMENT '开关状态',
+  `subscribe` tinyint(1) DEFAULT '1' COMMENT '是否强制需要关注公众号才能参与',
+  `sharetitle` varchar(100) DEFAULT NULL COMMENT '分享标题',
+  `shareurl` varchar(255) DEFAULT NULL COMMENT '分享链接',
+  `sharecontent` varchar(255) DEFAULT NULL COMMENT '分享简介',
+  `start_time` int(10) DEFAULT NULL COMMENT '开始时间',
+  `end_time` int(10) DEFAULT NULL COMMENT '结束时间',
+  `shareimg` varchar(255) DEFAULT NULL COMMENT '分享图片',
+  `followdesc` varchar(255) DEFAULT NULL COMMENT '关注说明',
+  `gamegzjp` text COMMENT '游戏规则及奖品',
+  `gamemusic` varchar(255) DEFAULT NULL COMMENT '游戏背景音乐',
+  `qylogo` varchar(255) DEFAULT NULL COMMENT '企业logo',
+  `qyname` varchar(100) DEFAULT NULL COMMENT '企业名称',
+  `qylink` varchar(255) DEFAULT NULL COMMENT '企业链接',
+  `ggimg` varchar(255) DEFAULT NULL COMMENT '广告图片',
+  `gglink` varchar(255) DEFAULT NULL COMMENT '广告链接',
+  `gametime` int(10) DEFAULT NULL COMMENT '游戏时间',
+  `iscaiji` tinyint(1) DEFAULT '1' COMMENT '是否支持采集信息',
+  PRIMARY KEY (`id`),
+  KEY `indx_rid` (`rid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+CREATE TABLE IF NOT EXISTS `ims_longzhou_userinfo` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `rid` int(10) DEFAULT NULL,
+  `iacid` int(10) DEFAULT NULL,
+  `uniacid` int(10) DEFAULT NULL,
+  `openid` varchar(100) DEFAULT NULL COMMENT '微信标识',
+  `name` varchar(255) DEFAULT NULL COMMENT '姓名',
+  `phone` varchar(11) DEFAULT NULL COMMENT '手机号',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+]]></install>
+	<uninstall><![CDATA[
+DROP TABLE IF EXISTS `ims_longzhou_help`;
+DROP TABLE IF EXISTS `ims_longzhou_player`;
+DROP TABLE IF EXISTS `ims_longzhou_reply`;
+DROP TABLE IF EXISTS `ims_longzhou_userinfo`;
+]]></uninstall>
+	<upgrade><![CDATA[update.php]]></upgrade>
+</manifest>

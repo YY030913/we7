@@ -1,0 +1,87 @@
+
+<style>
+.avatar{
+    width: 120px;
+    height: 120px;
+    border-radius: 20px;
+}
+.h44{
+	height:44px;
+}
+</style>
+<div class="page slideIn msg">
+    <div class="weui_msg">
+        <div class="weui_icon_area">
+        	<img class="avatar" src="{php echo tomedia($user['avatar'])}" alt="" />
+        </div>
+        <div class="weui_text_area">
+            <h2 class="weui_msg_title">恭喜您，{$user['nickname']}接收了您的任务</h2>
+            <p class="weui_msg_desc">{$task['desc']}</p>
+        </div>
+        <div class="weui_opr_area">
+            <p class="weui_btn_area">
+                <a href="tel:{php echo $user['mobile']}" class="weui_btn weui_btn_primary">电话联系</a>
+                <a href="javascript:;" id="finishOrder" data-id="{php echo $recive['id']}" class="weui_btn weui_btn_warn">完成订单</a>
+                <a href="javascript:;" id="goIndex" class="weui_btn weui_btn_default">投诉他</a>
+            </p>
+        </div>
+        <div class="weui_extra_area">
+            <a href="{php echo $this->createMobileUrl('detail',array('id'=>$id))}">查看详情</a>
+        </div>
+    </div>
+</div>
+
+<script>
+require(['jquery','core','pjax'],function($,core){
+	$('#footer').show();
+	$('#goIndex').click(function(){
+		$.pjax({
+			url:"{php echo $this->createMobileUrl('index')}",
+			container:'#pjax-container'
+		});
+	});
+	
+	$('#finishOrder').click(function(){
+		core.ok("您确认已完成此任务么？如果没有完成请点击取消继续任务！",function(){
+			core.post("runner_finish",{reciveid:$(this).data('id')},function(data){
+				if(data.result == 0){
+					core.ok("完成订单成功，请等待任务主确认，任务主确认后，佣金将直接到达您的余额，请注意查收！",function(){
+						
+					});
+				}else if(data.result == 1){
+					core.ok("佣金已到账，请注意查收！",function(){
+						$.pjax({
+							url:"{php echo $this->createMobileUrl('runner_money_detail')}&tid="+data.tid,
+							container:"#pjax-container"
+						});
+					});
+				}else{
+					core.cancel("此任务不存在或已删除！",function(){});
+				}
+			});
+		});
+	});
+	
+	$('#giveUp').click(function(){
+		core.ok("您确定要放弃订单么？放弃订单会降低您的信誉度哦，当信誉度为0时，您将无法接单！",function(){
+			core.post("giveup",{reciveid:$(this).data('id')},function(data){
+				if(data.result == 0){
+					core.ok('发起订单成功，您的信誉度-1，剩余'+data.xinyu+'，点击确定，前往充值',function(){
+						$.pjax({
+							url:"{php echo $this->createMobileUrl('xinyu')}",
+							container:'#pjax-container'
+						});
+					},function(){
+						$.pjax({
+							url:"{php echo $this->createMobileUrl('index')}",
+							container:'#pjax-container'
+						});
+					});
+				}else{
+					core.cancel(data.message);
+				}
+			});
+		});
+	});
+});
+</script>

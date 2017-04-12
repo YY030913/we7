@@ -1,0 +1,99 @@
+{template 'common/header'}
+{template 'plugin/navs'}
+{template 'navs'}
+
+
+<div class="panel panel-defautl" id="app" ng-controller="appCtrl">
+	<div class="panel-heading">
+	
+	</div>
+	
+	<div class="panel-body">
+		<form action="" class="form-horizontal" method="post">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">分享海报奖励积分</label>
+				<div class="col-sm-8 col-lg-8 col-xs-12">
+					<input type="text" class="form-control"/>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">分享海报奖励余额</label>
+				<div class="col-sm-8 col-lg-8 col-xs-12">
+					<input type="text" class="form-control"/>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">分享海报奖励现金红包</label>
+				<div class="col-sm-8 col-lg-8 col-xs-12">
+					<input type="text" class="form-control"/>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">分享海报奖励信誉值</label>
+				<div class="col-sm-8 col-lg-8 col-xs-12">
+					<input type="text" class="form-control"/>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">分享海报成功跳转连接</label>
+				<div class="col-sm-8 col-lg-8 col-xs-12">
+					<input type="text" class="form-control"/>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">成功注册奖励信誉值</label>
+				<div class="col-sm-8 col-lg-8 col-xs-12">
+					<input type="text" class="form-control"/>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">邀请注册奖励信誉值</label>
+				<div class="col-sm-8 col-lg-8 col-xs-12">
+					<input type="text" class="form-control"/>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">被邀请注册奖励信誉值</label>
+				<div class="col-sm-8 col-lg-8 col-xs-12">
+					<input type="text" class="form-control"/>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">被邀请注册成功跳转连接</label>
+				<div class="col-sm-8 col-lg-8 col-xs-12">
+					<input type="text" class="form-control"/>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label"></label>
+				<div class="col-sm-8 col-lg-8 col-xs-12">
+					<input type="submit" class="btn btn-default" value="提交">
+					<input type="hidden" name="token" value="{$_W['token']}">
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script>
+require(['angular'],function(angular){
+	var app = angular.module('app',[]);
+	
+	app.controller('appCtrl',function($scope){
+		
+	});
+	
+	angular.bootstrap($('#app'),['app']);
+});
+</script>
+
+
+{template 'common/footer'}

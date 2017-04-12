@@ -1,0 +1,28 @@
+{template 'common/header'}
+{template 'plugin/navs'}
+{template 'navs'}
+
+
+<div class="panel panel-defautl" id="app" ng-controller="appCtrl">
+	<div class="panel-heading">
+	
+	</div>
+	
+	<div class="panel-body">
+	
+	</div>
+</div>
+<script>
+require(['angular'],function(angular){
+	var app = angular.module('app',[]);
+	
+	app.controller('appCtrl',function($scope){
+		
+	});
+	
+	angular.bootstrap($('#app'),['app']);
+});
+</script>
+
+
+{template 'common/footer'}

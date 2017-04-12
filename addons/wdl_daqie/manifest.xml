@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.goodziyuan.com" versionCode="0.6">	
+    <application setting="true">
+        <name><![CDATA[疯狂打企鹅]]></name>
+        <identifie><![CDATA[wdl_daqie]]></identifie>
+        <version><![CDATA[4.2]]></version>
+        <type><![CDATA[wdlgame]]></type>
+        <ability><![CDATA[打的越远企鹅看得起你哦]]></ability>
+        <description><![CDATA[打的越远企鹅看得起你哦]]></description>
+		<author><![CDATA[好资源)]]></author>
+		<url><![CDATA[http://www.goodziyuan.com]]></url>
+    </application>
+    <platform>
+        <subscribes>
+        </subscribes>
+        <handles>
+            <message type="text" />
+        </handles>
+        <rule embed="false" />
+    </platform>
+    <bindings>
+        <cover>
+            <entry title="游戏配置" do="play" />
+        </cover>
+    </bindings>
+	
+    <install><![CDATA[
+	  ]]></install>
+	  
+    <uninstall><![CDATA[]]></uninstall>
+    <upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

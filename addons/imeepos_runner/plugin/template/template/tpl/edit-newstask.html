@@ -1,0 +1,54 @@
+<script type="text/ng-template" id="edit-newstask.html">
+<div class="panel">
+	<div class="panel-heading">
+		演示数据，仅样式有效
+	</div>
+	<div class="panel-body">
+			<div class="fe-panel-editor-line">
+				<div class="fe-panel-editor-name">类型</div>
+				<div class="fe-panel-editor-con">
+					<select ng-model="Edit.params.class" class="form-control">
+						<option value="">请选择</option>
+						<option value="item-avatar-left">左侧头像</option>
+						<option value="item-avatar-right">右侧头像</option>
+						<option value="item-thumbnail-left">左侧图像</option>
+						<option value="item-thumbnail-right">右侧图像</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="fe-panel-editor-line">
+				<div class="fe-panel-editor-name">价格样式</div>
+				<div class="fe-panel-editor-con">
+					<select ng-model="Edit.params.badge_class" class="form-control">
+					<option value="">请选择</option>
+						<option value="badge-light">light</option>
+						<option value="badge-calm">calm</option>
+						<option value="badge-stable">stable</option>
+						<option value="badge-positive">positive</option>
+						<option value="badge-balanced">balanced</option>
+						<option value="badge-royal">royal</option>
+						<option value="badge-energized">energized</option>
+						<option value="badge-assertive">assertive</option>
+						<option value="badge-dark">dark</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="fe-panel-editor-line">
+				<div class="fe-panel-editor-name">显示数目</div>
+				<div class="fe-panel-editor-con">
+					<input type="text" ng-model="Edit.params.list_num" class="form-control">
+				</div>
+			</div>
+
+			<div class="fe-panel-editor-line">
+				<div class="fe-panel-editor-name">自动更新时间</div>
+				<div class="fe-panel-editor-con">
+					<input type="text" ng-model="Edit.params.update_time" class="form-control">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>

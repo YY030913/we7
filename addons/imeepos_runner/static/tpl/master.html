@@ -1,0 +1,18 @@
+{php $member = M('member')->getInfo($_W['openid'])}
+<section class="mod-header master">
+    <div class="master-hd">
+        <div class="ui-avatar-lg">
+            <span style="background-image:url({php echo tomedia($member['avatar'])})"></span>
+        </div>
+    </div>
+    <div class="master-bd">
+        <div class="master-name">
+            {$member['nickname']}
+            <span class="label-master-5">大神</span>
+        </div>
+        <div class="master-intro">
+            <em>5</em>订单<i>|</i>
+            <em>{$member['xinyu']}</em>信誉值
+        </div>
+    </div>
+</section>

@@ -1,0 +1,112 @@
+<style>
+img.avatar{
+	float: left;
+    max-height: 5em;
+    margin-right: 1em;
+}
+</style>
+<div class="bar bar-header">
+	<button class="button button-clear" onclick="window.history.go(-1)">
+		<i class="icon ion-ios-arrow-back dark"></i>
+		<span class="dark">返回</span>
+	</button>
+	<button class="button button-clear" id="save">
+		<span class="dark">保存</span>
+	</button>
+</div>
+
+<div class="page">
+	<div class="h44"></div>
+	<div class="hd">
+		<div class="weui_cells weui_cells_form">
+	        <div class="weui_cell">
+	            <div class="weui_cell_bd weui_cell_primary">
+	                <div class="weui_uploader">
+	                    <div class="weui_uploader_hd weui_cell">
+	                        <div class="weui_cell_bd weui_cell_primary">我的头像</div>
+	                        <div class="weui_cell_ft">0/1</div>
+	                    </div>
+	                    <div class="weui_uploader_bd">
+	                        <img class="avatar" src="{php echo tomedia($user['avatar'])}" alt="" />
+	                        <div class="weui_uploader_input_wrp">
+	                            <input class="weui_uploader_input" type="file" id="upload_image" accept="image/jpg,image/jpeg,image/png,image/gif" multiple="">
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+		<div class="weui_cells_title">昵称：</div>
+		<div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" name="nickname" value="{php echo $user['nickname']}" type="text" placeholder="请输入您的昵称">
+                </div>
+            </div>
+        </div>
+	
+		<div class="weui_cells_title">手机号：</div>
+		<div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" name="mobile" value="{$user['mobile']}" type="tel" pattern="[0-9]*" placeholder="请输入您的电话号码">
+                </div>
+            </div>
+        </div>
+        
+        <div class="weui_cells_title">姓名：</div>
+		<div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" name="realname" value="{$user['realname']}" type="text" placeholder="请输入您真实姓名">
+                </div>
+            </div>
+        </div>
+	</div>
+</div>
+
+<script>
+require(['jquery','core','base64upload'],function($,core){
+	status = true;
+	$('#footer').hide();
+	$('#upload_image').localResizeIMG({
+    	width: 120,
+        quality: 0.8,
+        success: function (result) {
+        	console.log(result);
+        	if (result.height > 1600) {
+                status = false;
+                core.tip("照片最大高度不超过1600像素");
+            }
+        	if (status) {
+				core.loaded();
+        		$('img.avatar').attr('src',result.base64);
+        	}
+        },
+		before:function(){
+			core.loading();
+		}
+    });
+	
+	$('#save').click(function(){
+		var mobile = $('input[name="mobile"]').val();
+		var realname = $('input[name="realname"]').val();
+		var nickname = $('input[name="nickname"]').val();
+		var avatar = $('img.avatar').attr('src');
+		var reg = /^1[3|4|5|8|6|7|9][0-9]\d{4,8}$/;
+		if (!reg.test(mobile)) {
+			core.cancel('手机号码格式有误！请重新输入');
+			return '';
+		}
+		if(core.empty(realname)){
+			core.cancel('请认真填写您的姓名');
+			return '';
+		}
+		core.post('home_edit',{act:'post',mobile:mobile,realname:realname,nickname:nickname,avatar:avatar},function(){
+			core.ok("数据保存成功",function(){
+				window.location.href="{php echo $this->createMobileUrl('home')}"
+			});
+		});
+	});
+});
+</script>

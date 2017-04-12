@@ -1,0 +1,219 @@
+{template 'default/common/header1'}
+<!--听单-->
+<div class="container" id="pjax-container" style="margin-top:0px;">
+	<style type="text/css">
+	.active{color:#04BE02 !important;}
+	.tabs-striped .tab-item.tab-item-active, .tabs-striped .tab-item.active, .tabs-striped .tab-item.activated {margin-top: -2px;border-style: solid;border-width: 2px 0 0 0;border-color: #04BE02;  }
+	.swiper-slide img{width:100%;}
+	.listen{width:120px;height:120px;text-align:center;margin:0 auto;margin-top: 15px;}
+	.listen div{background-color: #fff;color: #f49e10 !important;width: 120px;height: 120px;line-height: 120px;border-radius: 60px;box-shadow: 1px 1px 1px;border-width: 1px;border-style: solid;display:block;  }
+	.calm{color:#04BE02;}
+	.user img{margin-top:10px;width: 100px;height: 100px;border-radius: 50px;-webkit-box-shadow: 3px 3px 3px;-moz-box-shadow: 3px 3px 3px;box-shadow: 3px 3px 3px;  }
+	.user .title{margin-top: 5px;color: #4AD049;}
+	.user span{width: 80px;height: 80px;display: block;margin: 0 auto;border-radius: 50px;line-height: 80px;border-width: 1px;border-style: solid;margin-top: 10px;margin-bottom: 10px;background-color: #1EC41C;color: #fff;-webkit-box-shadow: 1px 2px 1px;-moz-box-shadow: 1px 2px 1px;box-shadow: 1px 2px 1px;  }
+	.user p{padding: 1em;color: red;white-space: normal;}
+	.weui_extra_area a{background-color: #F49E10;color: #fff !important;padding: 5px 15px;border-radius: 10px;}
+	.no_order_title{margin: 0 auto;display: block;margin-top: 20px;font-weight: 200;font-size: 20px;}
+	</style>
+	<div class="page slideIn msg">
+		<div class="weui_msg">
+			<div class="weui_icon_area">
+				<div class="content">
+					<div class="large"></div>
+					<div class="middle"></div>
+					<div class="small">
+						<p>听单中
+						<br><span class="time j_timeClock">0:0:0</span></p>
+					</div>
+				</div>
+			</div>
+			<div class="weui_text_area" style="margin-top: 200px;">
+				<p class="weui_msg_desc">
+					<div class="left"></div>
+					<div class="card" style="height:100%;" id="desc">
+						<span class="no_order_title" style="padding: 0 20px;">暂无订单</span>
+						<button id="renzheng" class="button button-calm" style="display:none;margin:0 auto;margin-bottom:44px;margin-top:33px;">立即认证</button>
+						<img src="{MODULE_URL}/public/images/no_order_3f875a1.png" alt="" />
+					</div>
+					<div class="right"></div>
+				</p>
+			</div>
+			<input type="hidden" name="province"/>
+			<input type="hidden" name="city"/>
+			<div class="weui_extra_area">
+				<a href="{php echo $this->createMobileUrl('tasks')}">查看所有</a>
+			</div>
+		</div>
+	</div>
+	<script>
+	require(['jquery','core','weixin','map','js/convertor','swiper'],function($,core,wx,BMap){
+		$('#footer').show();
+		clearInterval(timer);
+		var wating_time = 0;
+		var hour = 0;
+		var min = 0;
+		var sec = 0;
+		var isnew = false;
+		function addTime(){
+			wating_time = 0;
+			timer = setInterval(function(){
+				wating_time = wating_time + 1;
+				hour = parseInt(wating_time / (60*60));
+				min = parseInt((wating_time-hour * 60*60) / (60));
+				console.log(wating_time);
+				if(wating_time>=60){
+					sec = wating_time % 60;
+				}else{
+					sec = wating_time;
+				}
+				$('.j_timeClock').html(hour+':'+min+':'+sec);
+			},1000);
+		}
+		core.post('check',{act:'runner'},function(data){
+			if(data.status == 0){
+				addTime();
+				playNew();
+			}else{
+				$html = "<span style='font-size:16px;margin-top:20px;color:red;margin-bottom:44px;'>"+data.message+"</span>";
+				$('.no_order_title').html($html);
+				$('#desc img').hide();
+				$('#renzheng').show();
+				$('#renzheng').click(function(){
+					window.location.href = data.url;
+				});
+			}
+		});
+		wx.config(jssdkconfig);
+		var localId = null;
+		function playNew(){
+			var province = $('input[name="province"]').val();
+			var city = $('input[name="city"]').val();
+			core.post('audionew',{city:city,province:province},function(data){
+				if(data.status == 0){
+					var id = data.media_id;
+					var localId = null;
+					var html ="";
+					html += '<div class="item user" style="display:block;">'+
+								'<img src="'+data.avatar+'" class="avatar" alt="'+data.nickname+'" />'+
+								'<h2 class="title">'+data.nickname+'</h2>'+
+								'<p>'+data.desc+'</p>'+
+								'<span data-id="'+data.data.id+'" class="reciveOrder">立即接单</span>'+
+							'</div>';
+					$('#desc').html(html);
+					var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+					$('.user').addClass('animated bounceInRight');
+
+					$('.reciveOrder').click(function(){
+						core.post('reciveorder',{id:$(this).data('id')},function(data){
+							if(data.success == 0){
+								core.ok(data.message,function(){
+									window.location.href = "{php echo $this->createMobileUrl('detail')}&id="+data.taskid;
+								},function(){});
+							}else{
+								core.cancel(data.message,function(){});
+							}
+						});
+					});
+					wx.ready(function(){
+						wx.onVoicePlayEnd({
+							success:function(res){
+								//addTime();
+								localId = res.localId;
+								setTimeout(function(){
+									playNew();
+								},1000);
+							}
+						});
+						if(!core.empty(localId)){
+							wx.ready(function(){
+								wx.playVoice({
+									localId: localId
+								});
+								wx.onVoicePlayEnd(function(){
+									playNew();
+								});
+							});
+						}else{
+							wx.downloadVoice({
+								serverId: id,
+								isShowProgressTips: 1,
+								success: function (res) {
+									localId = res.localId;
+									//播放
+									wx.playVoice({
+										localId: localId
+									});
+								}
+							});
+						}
+					});
+				}else{
+					setTimeout(function(){
+						playNew();
+					},5000);
+				}
+			});
+		}
+		function location() {
+			$.ajax({
+				url: 'http://api.map.baidu.com/location/ip?ak=F51571495f717ff1194de02366bb8da9',
+				dataType: "jsonp",
+				jsonp: "callback",
+				timeout: 5000,
+				success: function(data) {
+					$('input[name="province"]').val(data.content.address_detail.province);
+					$('input[name="city"]').val(data.content.address_detail.city);
+				}
+			});
+		}
+		//微信获取地理经纬度
+		function wxGetLocation() {
+			wx.ready(function() {
+				wx.getLocation({
+					success: function(res) {
+						var lat = res.latitude;
+						// 纬度，浮点数，范围为90 ~ -90
+						var lng = res.longitude;
+						// 经度，浮点数，范围为180 ~ -180。
+						var position = {
+							'coords': {
+								'longitude': lng,
+								'latitude': lat
+							}
+						};
+						showPosition(position);
+					},
+					fail: function() {
+						alert('请在系统设置里打开微信定位功能');
+					}
+				});
+			});
+		}
+		//根据经纬度转换成物理地址
+		function showPosition(position) {
+			var gpsPoint = new BMap.Point(position.coords.longitude,position.coords.latitude);
+			BMap.Convertor.translate(gpsPoint, 0, function(point) {
+				core.post('latlng',{lat:point.lat,lng:point.lng},function(data){});
+				var geoc = new BMap.Geocoder();
+				var pt = new BMap.Point(point.lng,point.lat);
+				geoc.getLocation(pt, function(rs){
+					 var addComp = rs.addressComponents;
+					 $('input[name="province"]').val(addComp.province);
+					 $('input[name="city"]').val(addComp.city);
+				});
+			});
+		}
+		function getLocation(){
+			if(core.isWeiXin()){
+				wxGetLocation();
+			}else{
+				location();
+			}
+		}
+		getLocation();
+	});
+	</script>
+</div>
+{template 'default/common/share'}
+{template 'default/common/footerbar2'}
+{template 'default/common/footer'}

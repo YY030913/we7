@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.goodziyuan.com" versionCode="0.6">	
+    <application setting="true">
+        <name><![CDATA[微防伪个人版]]></name>
+        <identifie><![CDATA[zmcn_fwfree]]></identifie>
+        <version><![CDATA[4.2]]></version>
+        <type><![CDATA[business]]></type>
+        <ability><![CDATA[微防伪个人版]]></ability>
+        <description><![CDATA[微防伪个人版]]></description>
+		<author><![CDATA[好资源)]]></author>
+		<url><![CDATA[http://www.goodziyuan.com]]></url>
+    </application>
+    <platform>
+        <subscribes>
+        </subscribes>
+        <handles>
+            <message type="text" />
+        </handles>
+        <rule embed="true" />
+    </platform>
+    <bindings>
+       
+        <menu>
+            <entry title="查询管理" do="zmfwcaa" state="" direct="false" />
+            <entry title="防伪码管理" do="zmfwpee" state="" direct="false" />
+            <entry title="使用说明" do="help" state="" direct="false" />
+        </menu>
+		<function>
+            <entry title="查询页面" do="t" state="" direct="false" />  
+			<entry title="API接口" do="a" state="" direct="false" />
+        </function>
+    </bindings>
+	
+    <install><![CDATA[
+
+CREATE TABLE IF NOT EXISTS `ims_zmcn_fw_batch` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) NOT NULL DEFAULT '0',
+  `m1` varchar(2) NOT NULL,
+  `batch` varchar(10) NOT NULL DEFAULT '0' COMMENT '批号',
+  `num` int(11) NOT NULL DEFAULT '0',
+  `rcon` int(10) NOT NULL DEFAULT '0',
+  `factory` varchar(40) NOT NULL COMMENT '生产企业',
+  `product` varchar(50) NOT NULL COMMENT '品名',
+  `brand` varchar(40) NOT NULL COMMENT '品牌',
+  `ischuanhuo` int(11) NOT NULL DEFAULT '0',
+  `province` varchar(20) NOT NULL,
+  `city` varchar(20) NOT NULL,
+  `remark` varchar(100) NOT NULL,
+  `inttype` int(2) NOT NULL DEFAULT '1',
+  `integral` int(10) NOT NULL DEFAULT '0',
+  `addtime` int(10) NOT NULL DEFAULT '0',
+  `lasttime` int(10) NOT NULL DEFAULT '0',
+  `validity` int(10) NOT NULL DEFAULT '0',
+  `buylink` varchar(255) NOT NULL,
+  `logo` varchar(150) NOT NULL,
+  `banner` varchar(150) NOT NULL,
+  `video` varchar(150) NOT NULL,
+  `param` text NOT NULL,
+  `toshop` varchar(200) NOT NULL,
+  `sint` int(7) NOT NULL DEFAULT '0',
+  `leint` varchar(300) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+CREATE TABLE IF NOT EXISTS `ims_zmcn_fw_chai` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) NOT NULL DEFAULT '0',
+  `code` varchar(40) NOT NULL,
+  `type` int(10) NOT NULL DEFAULT '0',
+  `num` int(10) NOT NULL DEFAULT '0',
+  `isvalid` int(2) NOT NULL DEFAULT '0',
+  `addtime` int(10) NOT NULL DEFAULT '0',
+  `userna` varchar(50) NOT NULL,
+  `userid` int(10) NOT NULL DEFAULT '0',
+  `ip` varchar(30) NOT NULL,
+  `gender` int(2) NOT NULL DEFAULT '0',
+  `province` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `os` varchar(15) NOT NULL,
+  `container` varchar(15) NOT NULL,
+  `iserr` int(2) NOT NULL DEFAULT '0' COMMENT '1跨区',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+CREATE TABLE IF NOT EXISTS `ims_zmcn_fw_codeset` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) NOT NULL DEFAULT '0',
+  `rid` int(10) NOT NULL DEFAULT '0',
+  `m1` varchar(2) NOT NULL,
+  `k` varchar(300) NOT NULL,
+  `act` int(2) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+CREATE TABLE IF NOT EXISTS `ims_zmcn_fw_history` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) NOT NULL,
+  `type` int(11) NOT NULL,
+  `summary` varchar(50) NOT NULL,
+  `uid` int(10) NOT NULL DEFAULT '0',
+  `addtime` int(10) NOT NULL DEFAULT '0',
+  `remark` varchar(50) NOT NULL,
+  `ip` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `summary` (`summary`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `ims_zmcn_fw_set` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) NOT NULL DEFAULT '0',
+  `luck` varchar(4000) NOT NULL,
+  `settings` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+	  ]]></install>
+	  
+    <uninstall><![CDATA[]]></uninstall>
+    <upgrade><![CDATA[upgrade.php]]></upgrade>
+
+</manifest>

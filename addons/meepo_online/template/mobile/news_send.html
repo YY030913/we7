@@ -1,0 +1,325 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+    <link rel="apple-touch-icon" href="" />
+    <title>{$title}-图文直播发送端</title>
+	{php echo register_jssdk(false);}
+	<link rel="stylesheet" href="{MODULE_URL}template/mobile/css/weui.min.css">
+	<link rel="stylesheet" href="{MODULE_URL}template/mobile/css/jquery-weui.min.css">
+	<link rel="stylesheet" href="{MODULE_URL}template/mobile/css/new/news_reply.css?t={php echo time()}">
+	<style>
+		.upload_img{display:none}
+		#dt_review_box_emo { display: none; padding-top: 3px; }
+		#dt_review_box_emo ul {
+			list-style: none outside none;
+		}
+		#dt_review_box_emo li {
+			float:left;
+			display: list-item;
+			text-align: -webkit-match-parent;
+		}
+		#dt_review_box_emo ul,li{margin:0;padding:0}
+		.emo { float: left; padding: 3px; }
+		.emo:active {background-color: #FFF; }
+		.emo img { width: 24px; height: 24px; }
+		.dt_emo { width: 24px; height: 24px; }
+	</style>
+</head>
+<body>
+<input id="listid" type="hidden" value="{$listid}" />
+<div class="cmnt_fixed" id="j_cmnt_pop" style="display: block;z-index:1;">
+  <div class="th_td">
+    <a href="{php echo $this->createMobileUrl('detail',array('listid'=>$listid))}" class="cmnt_cancel" id="j_cmnt_cancel">直播</a>
+    <a href="javascript:void(0);" class="cmnt_smt" id="j_cmnt_smt">发布</a></div>
+  <div class="cmnt_border">
+    <textarea id="j_cmnt_input" class="cmnt_textarea" name="" placeholder="说说你的看法"></textarea>
+    <div class="cmnt_opbox">
+     <a href="javascript:;" class="cmnt_tabbtn j_cmnt_tabbtn" id="dt_review_box_emo_button"><i class="iconfont">&#xf01ef;</i></a>
+	 <a href="javascript:;" class="cmnt_tabbtn j_cmnt_tabbtn" id="icon_upload"><i class="iconfont">&#x3463;</i></a>
+	 <!--a href="javascript:;" class="cmnt_tabbtn j_cmnt_tabbtn"><i class="iconfont">&#xe805;</i></a-->
+    </div>
+  </div>
+  <div style="display: none;" id="dt_review_box_emo">
+								 
+  </div>
+  <div class="weui_cells weui_cells_form upload_img">
+        <div class="weui_cell">
+            <div class="weui_cell_bd weui_cell_primary">
+                <div class="weui_uploader">
+                    
+                    <div class="weui_uploader_bd">
+                        <ul class="weui_uploader_files">
+                          
+                        </ul>
+                        <div class="weui_uploader_input_wrp upload_plus">
+                            <!--<input class="weui_uploader_input upload_plus" type="file" accept="image/jpg,image/jpeg,image/png,image/gif" multiple="">-->
+							<input class="weui_uploader_input" type="hidden">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+<script type="text/javascript" src="{MODULE_URL}template/mobile/js/jquery-weui.min.js"></script>
+<script>
+
+ $(function () {
+   
+$('#dt_review_box_emo_button').click(function() {
+			$(".upload_img").hide();
+			_emo._show("dt_review_box_emo", function(index) {
+			  $("#j_cmnt_input").val($("#j_cmnt_input").val() + _emo._text[index]);
+			});
+});
+$('#icon_upload').click(function() {
+		$("#dt_review_box_emo").hide();
+		$(".upload_img").slideToggle();
+});
+$('#j_cmnt_smt').click(function() {
+		var content = $("#j_cmnt_input").val();
+		if("undefined"==content || ""==content){
+			$.toptip('请先输入内容', 'warning');
+			return;
+		}
+		var listid = $("#listid").val();
+		if("undefined"==listid || ""==listid){
+			$.toptip('直播id不存在、发布失败', 'warning');
+			return;
+		}
+		var post_data = {"content":content,'listid':listid};
+		var img_urls = [];
+		if($(".weui_uploader_files li").length>0){
+				for(var j=0;j<$(".weui_uploader_files li").length;j++){
+						img_urls[j]=$(".weui_uploader_files li").eq(j).find("input").val();
+						
+				}
+		}
+		post_data.img_urls = img_urls;
+		$.showLoading("拼命发布中...");
+		Meepo_tools.ajax({
+				do_it:'send_news',
+	            type: "POST",                        
+	            dataType: 'JSON',      
+	            cache: true,                 
+	            urlPata: {},
+	            formPata:post_data,
+				beforesend:function(){},
+				complete:function(){}, 
+	            success:function(data) {
+				  $.hideLoading();
+				  if(data.errno==0){
+					$('.weui_uploader_files').empty();
+					$("#j_cmnt_input").val('');
+					$.toast("发布成功");
+					
+				  }else{
+					$.toptip('发布失败', 'error');
+				  }
+				}
+	        });
+
+});
+})
+var _emo= {
+    _text: ["[笑脸]", "[感冒]", "[流泪]", "[发怒]", "[爱慕]", "[吐舌]", "[发呆]", "[可爱]", "[调皮]", "[寒冷]", "[呲牙]", "[闭嘴]", "[害羞]", "[苦闷]", "[难过]", "[流汗]", "[犯困]", "[惊恐]", "[咖啡]", "[炸弹]", "[西瓜]", "[爱心]", "[心碎]"],
+    _indexOf: function(text) {
+        if (_emo._text.indexOf) {
+            return _emo._text.indexOf(text);
+        }
+        for (var i = 0, _len = _emo._text.length; i < _len; i++) {
+            if (_emo._text[i] == text) {
+                return i;
+            }
+        }
+        return -1;
+    },
+    _insertFun: null,
+    _show: function(id, fun) {
+        _emo._insertFun = fun;
+        if ($("#" + id).children().length == 0) {
+            var _html = "<ul>";
+            for (var i = 0; i < 23; i++) {
+                _html += "<li class='emo' ontouchstart='' onclick='_emo._insert(" + i + ")'><img src='" + '../addons/meepo_online/template/mobile/emo/' + (i + 1) + ".png'></li>";
+            }
+            _html += "</ul>";
+            $("#" + id).html(_html);
+        }
+		
+			$("#" + id).slideToggle();
+		
+    },
+    _hide: function(id) {
+        $("#" + id).hide();
+    },
+    _insert: function(index) {
+        (_emo._insertFun)(index);
+    },
+    _toCode: function(content) {
+        return content.replace(/\[[\u4e00-\u9fa5]{1,2}\]/g, function(a) {
+            var _code = _emo._indexOf(a) + 1;
+            return _code == 0 ? a : "[/" + _code + "]";
+        });
+    }
+};
+/**
+ * ajax
+ * */
+(function (window,$,Meepo_tools) {
+	Meepo_tools.post = function(d,data,call){
+		var i = Meepo_tools.querystring('i');
+		var j = Meepo_tools.querystring('j');
+		
+		var url = './index.php?i='+i+'&j='+j+'&c=entry&do='+d+'&m=meepo_online';
+		$.post(url,data,call);
+	}
+	Meepo_tools.ajax = function(ajaxInfo){
+		var i = Meepo_tools.querystring('i');
+		var j = Meepo_tools.querystring('j');
+		
+		var url = './index.php?i='+i+'&j='+j+'&c=entry&do='+ajaxInfo.do_it+'&m=meepo_online';
+		var defaultInfo = {
+            type: "GET",                       
+            dataType: 'JSON',      
+            cache: false,
+            urlPata: {},
+            formPata: {},  
+			beforeSend:function(){
+			},
+			complete:function(){
+			},
+            success: function() {
+            } //成功后显示debug信息。也可以增加自己的处理程序
+        };
+
+        //补全ajaxInfo
+        if (typeof ajaxInfo.dataType == "undefined") {
+            ajaxInfo.dataType = defaultInfo.dataType;
+        }
+        
+        if (typeof ajaxInfo.formPata == "undefined") {
+            ajaxInfo.type = "GET";
+        } else {
+            if (ajaxInfo.dataType == "JSON") {
+                ajaxInfo.type = "POST";
+            } else {    //get或者jsonp
+                ajaxInfo.type = "POST";
+            }
+            ajaxInfo.data = ajaxInfo.formPata;
+        }
+
+        
+
+		$.ajax({
+            type: ajaxInfo.type,
+            dataType: ajaxInfo.dataType,
+            cache: ajaxInfo.cache,
+            xhrFields: {
+                //允许跨域访问时添加cookie
+                withCredentials: true
+            },
+            url: url,  
+            data: ajaxInfo.data,
+            beforeSend:function(){
+				ajaxInfo.beforesend();
+			},
+            complete:function(){
+				ajaxInfo.complete();
+			},
+            success: function (data) {
+                  ajaxInfo.success(data);
+            }
+        });
+    
+
+	
+	}
+	Meepo_tools.querystring = function(name){ 
+		var result = location.search.match(new RegExp("[\?\&]" + name+ "=([^\&]+)","i")); 
+		if (result == null || result.length < 1){ 
+			return "";
+		}
+		return result[1]; 
+	}
+    window.Meepo_tools = Meepo_tools;
+    
+    typeof define === 'function' && define('Meepo_tools',[],function(){return Meepo_tools});
+})(window,window.jQuery,window.Meepo_tools || {});
+
+</script>
+<script type="text/javascript">
+  wx.ready(function () {
+  });
+ var images = {
+    localId: [],
+    serverId: []
+  };
+  $(".upload_plus").click(function(){
+    wx.chooseImage({
+        success: function (res) {
+            var localIds = res.localIds;
+            syncUpload(localIds);
+        }
+    });
+});
+var syncUpload = function(localIds){
+    var localId = localIds.pop();
+    wx.uploadImage({
+        localId: localId,
+        isShowProgressTips: 1,
+        success: function (res) {
+            var serverId = res.serverId; // 返回图片的服务器端ID
+            downphotos(serverId);
+            if(localIds.length > 0){
+                syncUpload(localIds);
+            }
+        }
+    });
+};
+function downphotos(id){
+	var cr = '';
+   $.ajax({
+			type:"POST",
+			url:"{php echo $this->createMobileUrl('uploadimage')}",
+			data:{"id":id},
+			cache:false,
+			dataType:"JSON",
+			success:function(data){
+			   //alert(data);
+               if(data.errno == 0){
+			         cr += '<li class="weui_uploader_file btn" style="background-image:url('+data.message+')"><input  type="hidden" value="'+ data.message +'"  /></li>';
+					 $('.weui_uploader_files').append(cr);
+			   }else{
+			     alert(data.message);
+			   }
+			}
+		});
+}
+$("body").on("click",'.btn',function () {
+	var alli = new Array();
+	var newall = new Array();
+	var b = $(this).css("background-image");
+	b = b.replace('url(', '');
+	b = b.replace(')', '');  
+	var allp = $(".weui_uploader_files").children("li.btn");
+	for(var j=0;j<allp.length;j++){
+			alli[j]=allp.eq(j).find("input").val();
+			newall.push(alli[j]);
+	}
+	wx.previewImage({
+      current:b,
+      urls: newall
+	
+    });
+});
+</script>
+</html>

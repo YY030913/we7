@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+    <head>
+        <title>{$title}</title>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+        <meta name="HandheldFriendly" content="true" />
+        <link rel="stylesheet" href="{MODULE_URL}template/mobile/default/qrcode/css/common.20160408_064420.min.css">
+        <link rel="stylesheet" href="{MODULE_URL}template/mobile/default/qrcode/css/detail.20160408_064420.min.css">
+        <style>[ms-controller],[ms-important]{display:none}</style>
+        <script src="{MODULE_URL}template/mobile/default/qrcode/js/jquery-1.7.2.min.js"></script>
+        <script src="{MODULE_URL}template/mobile/default/qrcode/js/core.js"></script>
+        <script>
+            var _pub_client = "mobile_ios_weixin";
+            var _imgCdn = "{php echo $_W['siteroot']}addons/meepo_bar/template/mobile/qrcode/detail";
+            var _domain = "{php echo $_W['siteroot']}app/index.php?i="+core.querystring("i")+"&c=entry&do=manage&m=imeepos_runner&op=";
+            var _HDB_SOURCE_KEY = "hdb_source";
+            var _HDB_POS_KEY = "hdb_pos";
+            var _isNoAlertUser = "0"; // 详情页外链点击是否不弹出提示框
+            var _fmShezhi;
+            var dataForShare = {
+                weixin_icon: "http://img1.hudongba.com/images/share/other_weixin_msg_3.png",
+                weixin_tl_icon: "http://img1.hudongba.com/images/share/other_weixin_tl_3.png",
+                weixin_url: _domain,
+                qq_icon: "http://img1.hudongba.com/images/share/other_qq_3.png",
+                weibo_icon: "http://img1.hudongba.com/images/share/other_weibo_3.png",
+                url: _domain,
+                title: "互动吧，免费发布、传播活动，最大化享受微信传播红利。",
+                description: "互动吧，免费提供活动发布、管理、传播、收款等全环节服务，通过互动吧，您可以轻松在微信朋友圈、聊天群里组织各类活动。",
+                sms: "互动吧，免费提供活动发布、管理、传播、收款等全环节服务，通过互动吧，您可以轻松在微信朋友圈、聊天群里组织各类活动。http://hudong.ba",
+                appId: "wx2eb9d27e0e24ec11",
+                callback: function() {
+                    _$(_api3._shareCount, "info_id=0&info_type=other");
+                }
+            };
+            var appInfo = {
+                app_v: 4.0,
+                info_v: 2.1,
+                system: "",
+                pub_system: "mb"
+            };
+            var _config = {
+                _showBtn: 1
+            };
+        </script>
+        
+        <script>
+            (function() {
+                dataForShare.weixin_icon = "http://img1.hudongba.com/images/share/party_weixin_msg_3.png";
+                dataForShare.weixin_icon_android = "http://img1.hudongba.com/images/share/party_qq_3.png";
+                dataForShare.weixin_tl_icon = "http://img1.hudongba.com/images/share/party_weixin_tl_3.png";
+                dataForShare.weixin_url = "http://www.hdb.com/party/hw8au?h_share_uid=likw4&hdb_from=WXShare";
+                dataForShare.qq_icon = "http://img1.hudongba.com/images/share/party_qq_3.png";
+                dataForShare.weibo_icon = "http://img1.hudongba.com/images/share/party_weibo_3.png";
+                dataForShare.url = "http://www.hdb.com/party/hw8au";
+                dataForShare.title = "【国际私塾】三圣乡户外活动，吃过猪肉不一定见过猪跑噢！！！".replace(/\s/g, "");
+                dataForShare.description = "2016.4.10上午10:30快来跟国际私塾外教去看一群奔跑的五花肉。小猪快跑，家长和小朋友都玩得很开心。这是一...".replace(/\s/g, "");
+                dataForShare.share_big_img = "/upload/_oss/userpartyimg/shareicon/201603/28/380094581459149494811_share.png";
+                dataForShare.description = dataForShare.description || dataForShare.title;
+                dataForShare.sms = "快来看看这个活动：http://www.hdb.com/party/hw8au";
+                dataForShare.callback = function() {
+                    _$(_api3._shareCount, "info_id=" + _info._id + "&info_type=" + _info._type + "&share_url=" + dataForShare.weixin_url);
+                };
+                appInfo.app_v = "6.3";
+                appInfo.info_v = "5.3";
+                appInfo.system = "mobile_ios_weixin";
+            })();
+        </script>
+    </head>
+    <body>

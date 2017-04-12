@@ -1,0 +1,103 @@
+{template '_header'}
+<script>document.title = "{php echo $this->set['texts']['center']}"; </script>
+{template 'commission/common'}
+<div class="fui-page fui-page-current page-commission-index ">
+    <div class='fui-content navbar'>
+	<div class="headinfo">
+	    <div class="userinfo">
+		<div class='fui-list'>
+		    <div class='fui-list-media'><img src="{$member['avatar']}" /></div>
+		    <div class='fui-list-info'>
+			<div class='title'>{$member['nickname']} </div>
+			<div class='subtitle'  {if $this->set['levelurl']!=''}onclick='location.href="{php echo $this->set['levelurl']}"'{/if}>
+			    <{php echo empty($level) ? ( empty($this->set['levelname'])?'普通等级':$this->set['levelname'] ) : $level['levelname'];}>
+			    {if $this->set['levelurl']!=''}<i class='icon icon-question' style='font-size:8px;'></i>{/if}
+			</div>
+			<div class='text' >{php echo $this->set['texts']['up']}: {if empty($up)}
+			    总店
+			    {else}
+			    {$up['nickname']}
+			    {/if}</div>
+		    </div>
+		</div>
+		{if empty($this->set['closemyshop'])}
+			<a class="setbtn" href="{php echo mobileUrl('commission/myshop/set')}"><i class="icon icon-settings"></i></a>
+		{/if}
+	    </div>
+	    <div class="userblock">
+		<div class="line total">
+		    <div class="title">{php echo $this->set['texts']['commission_pay']}(元)</div>
+		    <div class="num">{php echo number_format($member['commission_pay'],2)}</div>
+		</div>
+		<div class="line usable">
+		    {if $cansettle}
+		    <a class="btn" href="{php echo mobileUrl('commission/withdraw')}">{php echo $this->set['texts']['commission']}{php echo $this->set['texts']['withdraw']}</a>
+		    {else}
+		    <div class="btn disabled" onclick="FoxUI.toast.show('满 {php echo $this->set['withdraw']} 元才能提现!')">{php echo $this->set['texts']['commission']}{php echo $this->set['texts']['withdraw']}</div>
+		    {/if}
+		    <div class="text">
+			<div class="title">{php echo $this->set['texts']['commission_ok']}(元)</div>
+			<div class="num">{php echo number_format( $member['commission_ok'],2)}</div>
+		    </div>
+		</div>
+	    </div>
+	</div>
+
+	<div class="fui-block-group col-3" style='margin-top:0; overflow: hidden;'>
+            <a class="fui-block-child" href="{php echo mobileUrl('commission/withdraw')}">
+                <div class="icon text-yellow"><i class="icon icon-money"></i></div>
+                <div class="title">{php echo $this->set['texts']['commission1']}</div> 
+                <div class="text"><span>{php echo number_format($member['commission_total'],2)}</span> 元</div>
+            </a>
+            <a class="fui-block-child" href="{php echo mobileUrl('commission/order')}">
+                <div class="icon text-blue"><i class="icon icon-list"></i></div>
+                <div class="title">{php echo $this->set['texts']['order']}</div>
+                <div class="text"><span>{php echo number_format($member['ordercount0'],0)}</span> 笔</div>
+            </a>
+            <a class="fui-block-child" href="{php echo mobileUrl('commission/log')}">
+                <div class="icon text-orange"><i class="icon icon-manageorder"></i></div>
+                <div class="title">{php echo $this->set['texts']['commission_detail']}</div>
+		<div class="text"><span>{php echo number_format($member['applycount'],0)}</span> 笔</div>
+            </a>
+            <a class="fui-block-child" href="{php echo mobileUrl('commission/down')}">
+                <div class="icon text-orange"><i class="icon icon-group"></i></div>
+                <div class="title">{php echo $this->set['texts']['mydown']}</div>
+                <div class="text"><span>{php echo number_format($member['downcount'],0)}</span>人</div>
+            </a>
+
+            <a class="fui-block-child" href="{php echo mobileUrl('commission/qrcode')}">
+                <div class="icon text-yellow"><i class="icon icon-qrcode"></i></div>
+                <div class="title">推广二维码</div>
+                <div class="text"></div>
+            </a>
+
+	    {if empty($this->set['closemyshop'])}
+
+	    <a class="fui-block-child" href="{php echo mobileUrl('commission/myshop/set')}">
+		<div class="icon text-blue"><i class="icon icon-shopfill"></i></div>
+		<div class="title">小店设置</div>
+		<div class="text"></div>
+	    </a>
+	    {if $this->set['openselect']}
+	    <a class="fui-block-child" href="{php echo mobileUrl('commission/myshop/select')}">
+		<div class="icon text-blue"><i class="icon icon-apps"></i></div>
+		<div class="title">自选商品</div>
+		<div class="text"></div>
+	    </a>
+	    {/if}
+	    {/if}
+	    {if !empty($this->set['rank']['status'])}
+		  <a class="fui-block-child" href="{php echo mobileUrl('commission/rank');}">
+			    <div class="icon text-orange"><i class="icon icon-rank"></i></div>
+			    <div class="title">{php echo $this->set['texts']['commission']}排名</div>
+			    <div class="text"></div>
+		 </a>
+	    {/if}
+
+	</div>
+		{template '_copyright'}
+    </div>
+
+    {php $this->footerMenus()}
+</div>
+{template '_footer'}

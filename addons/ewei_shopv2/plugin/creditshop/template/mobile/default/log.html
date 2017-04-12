@@ -1,0 +1,131 @@
+{template '_header'}
+<link rel="stylesheet" href="../addons/ewei_shopv2/plugin/creditshop/template/mobile/default/images/common.css" />
+<div class='fui-page  fui-page-current creditshop-creditlog-page'>
+		<div class="fui-header">
+				<div class="fui-header-left">
+						<a class="back"></a>
+				</div>
+				<div class="title">参与记录</div>
+				<div class="fui-header-right"></div>
+		</div>
+		
+		<div class='fui-content navbar'>
+		 
+		 	<div class="fui-message fui-message-popup in content-empty" style="display: none; margin: 0; padding: 0; position: relative;">
+				<div class="icon ">
+					<i class="icon icon-information"></i>
+				</div>
+				<div class="content">未找到任何记录~</div>
+			</div>
+		
+			<div class="fui-list-group noborder nomargin container"></div>
+	    	<div class='infinite-loading' style="text-align: center; color: #666;">
+	    		<span class='fui-preloader'></span>
+	    		<span class='text'> 正在加载...</span>
+	    	</div>			
+		</div>
+		<script id='tpl_log_list' type='text/html'>
+			<%each list as item%>
+			<a class="fui-list"  data-nocache='true'
+										<%if item.type==0%>
+												<%if item.status==1 || item.status==2%>
+														href="{php echo mobileUrl('creditshop/log/detail')}&id=<%item.id%>" 
+												<%/if%>
+										<%else%>
+												<%if item.status==1%>
+														href="{php echo mobileUrl('creditshop/detail')}&id=<%item.goodsid%>"
+												<%/if%>
+												<%if item.status==2 || item.status==3%>
+														href="{php echo mobileUrl('creditshop/log/detail')}&id=<%item.id%>"
+												<%/if%>
+										<%/if%>
+									>
+					<div class="fui-list-media">
+							<img class="round" src="<%item.thumb%>">
+					</div>
+					
+					<div class="fui-list-inner">
+							<div class="title">
+									
+									<%if item.type==0%>
+											<span class="fui-label fui-label-warning">兑换</span>
+									<%else%>
+											<span class="fui-label fui-label-danger">抽奖</span>
+									<%/if%>
+									
+									<%item.title%>
+								
+							</div>
+							
+							<div class="text">
+									<p>
+											<%if item.acttype=='0'%>
+													<%item.credit%>{$_W['shopset']['trade']['credittext']}+<%item.money%>元
+											<%/if%>
+											
+											<%if item.acttype=='1'%>
+													<%item.credit%>{$_W['shopset']['trade']['credittext']}
+											<%/if%>
+											
+											<%if item.acttype=='2'%>
+													<%item.money%>元
+											<%/if%>
+											
+											<%if item.acttype=='3'%>
+													免费
+											<%/if%>
+											
+											<%if item.goodstype==0%>
+													<%if item.goodstype==0%>
+															<%if item.status==2%>
+																	<span class="text-warning">兑奖码: <%item.eno%>
+															<%/if%>
+															<%if item.status==3%>
+																	已兑换
+															<%/if%>
+													<%else%>
+															<%if item.status==1%>
+																	未中奖 再接再厉
+															<%/if%>
+															<%if item.status==2%>
+																	<span class="text-warning">兑奖码: <%item.eno%>
+															<%/if%>
+															<%if item.status==3%>
+																	已兑换
+															<%/if%>
+													<%/if%>
+											<%else%>
+													<%if item.status==1%>
+															未中奖 再接再厉
+													<%/if%>	
+													<%if item.status==3%>
+															优惠券已发放
+													<%/if%>
+											<%/if%>
+									</p>
+									<p>
+											<%if item.isverify==1 && item.storeid==0 && item.status==2%>
+													请选择线下兑换门店
+											<%/if%>
+											<%if item.isverify==0 && item.addressid==0 && item.status==2%>
+													请选择收货地址
+											<%/if%>
+									</p>
+								</div>
+						</div>
+				<div class="fui-list-angle">
+					<%if item.status!=3%>
+					<div class="angle"></div>
+					<%/if%>
+				</div>
+			</a>
+			<%/each%>
+		</script>
+		<script language="javascript">
+		require(['../addons/ewei_shopv2/plugin/creditshop/static/js/log.js'],function(modal){
+			modal.init({shine: "{$_GPC['shine']}"});
+		});
+	</script>
+</div>
+{php $this->footerMenus()}
+{template '_footer'}

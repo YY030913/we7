@@ -1,0 +1,413 @@
+{template 'default/common/header1'}
+{template 'default/common/share'}
+
+<style>
+    .weui_label {
+        display: block;
+        width: auto;
+    }
+    .sound-model {
+        background: #04be02 !important;
+        width: 100%;
+        height: 1.5rem;
+        border-radius: 0.9rem;
+        -webkit-border-radius: 0.9rem;
+        -webkit-box-shadow: 0 3px 1px #04be02;
+        box-shadow: 0 3px 1px #028001;
+        display: box;
+        display: -webkit-box;
+    }
+    .box ul li{
+        display: inline-block;
+        margin-left: 5px;
+        border-bottom-width: 0.5px;
+        border-bottom-style: solid;
+        border-bottom-color: gray;
+    }
+    .search-city-list {
+        position: absolute;
+        top: 3.25rem;
+        left: 0;
+        width: 100%;
+        z-index: 199;
+        padding: 0.5rem;
+    }
+    .mainmap{
+        position: absolute;
+        top: 44px;
+        left: 0px;
+        right: 0px;
+        z-index: 999;
+    }
+    #r-result {
+        width: 100%;
+    }
+    .popcity {
+        z-index: 100;
+    }
+    .popcity-mask {
+        z-index: 99;
+    }
+</style>
+<div id="app1">
+    <div class="hd" v-show="showMain" id="showMain" style="display:none;">
+        {template 'default/common/footerbar'}
+        <div class="bug-sound" style="border-bottom: 1px solid #eee;padding: 15px 30px;" id="voice" title="语音">
+            <div class="sound-model">
+                <a href="javascript:;" id="playvoice" v-on:click="playVoice(post)">
+                    <img src="{MODULE_URL}public/images/play.png" style="width:1rem;height:1rem;"/>
+                    <span id="voicetime">{{post.voicetime}}</span>
+                </a>
+                <a href="javascript:;" node="delete" v-on:click="deleteVoice(post)"></a>
+            </div>
+        </div>
+        <div class="weui_cells_title">
+            <span>目的地：</span>
+        </div>
+        <div class="weui_cells">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary" @click="openReciveAddress()">
+                    <p v-cloak>{{post.receiveaddress.title}}</p>
+                </div>
+                <div class="weui_cell_ft" v-on:click="openMyaddrlist()">常用地址</div>
+            </div>
+            <div class="weui_cell" v-if="post.receiveaddress.detail">
+                <div class="weui_cell_hd"><label class="weui_label">详细地址</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="text" v-model="post.receiveaddress.detail" placeholder="请输入详细地址">
+                </div>
+            </div>
+            <div class="weui_cell" v-if="post.receiveaddress.mobile">
+                <div class="weui_cell_hd"><label class="weui_label">联系电话</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="text" v-model="post.receiveaddress.mobile" placeholder="请输入联系电话">
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells" v-on:click="selectTime()">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p>预约时间</p>
+                </div>
+                <div class="weui_cell_ft">
+                    <span style="color: #8a8a8a"  id="expectedtime" >不限</span>
+                </div>
+            </div>
+        </div>
+        <div class="send-cost-price border-r5">
+            <div id="pricecon"></div>
+            <div class="price-info" id="priceinfo">
+                亲，加价会让自由快递人跑的更快哦！
+            </div>
+        </div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea class="weui_textarea" v-model="post.message" placeholder="捎个话吧！" rows="3"></textarea>
+                    <div class="weui_textarea_counter"><span v-cloak>{{message_num}}</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="weui_btn_area">
+            <a href="javascript:;" class="weui_btn weui_btn_primary" v-on:click="postTasks(post)" style="margin-top:15px;" id="cost-calculation">
+                <span>立即发布</span>
+            </a>
+        </div>
+        <div class="h44"></div>
+        <div style="height:44px;"></div>
+    </div>
+    <div class="hd" v-show="showResult" id="showResult" style="display:none;">
+        <div class="msg">
+            <div class="weui_cells" style="text-align: left;">
+                <div class="weui_cell">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>任务类型</p>
+                    </div>
+                    <div class="weui_cell_ft">
+                        帮忙
+                    </div>
+                </div>
+                <div class="weui_cell" v-if="confirmdata.result.receiveaddress">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>目的地</p>
+                    </div>
+                    <div class="weui_cell_ft">
+                        <span>{{confirmdata.result.receiveaddress}}</span>
+                    </div>
+                </div>
+
+                <div class="weui_cell" v-if="confirmdata.result.message">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>留言信息</p>
+                    </div>
+                    <div class="weui_cell_ft">
+                        <span>{{confirmdata.result.message}}</span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="weui_cells" style="text-align: left;">
+                <div class="weui_cell" v-if="confirmdata.paylog.tid">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>订单编号</p>
+                    </div>
+                    <div class="weui_cell_ft">
+                        <span>{{confirmdata.paylog.tid}}</span>
+                    </div>
+                </div>
+
+                <div class="weui_cell" v-if="confirmdata.paylog.fee">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>总费用</p>
+                    </div>
+                    <div class="weui_cell_ft">
+                        <span>{{confirmdata.paylog.fee}}</span>元
+                    </div>
+                </div>
+            </div>
+            <div class="weui_opr_area">
+                <p class="weui_btn_area">
+                    <a href="javascript:;" class="weui_btn weui_btn_primary" v-on:click="payOrder(confirmdata.tid)">立即支付</a>
+                    <a href="javascript:;" class="weui_btn weui_btn_default" v-on:click="cancelOrder(confirmdata.tid)">取消订单</a>
+                </p>
+            </div>
+            <div class="h44"></div>
+            <div style="height:44px;"></div>
+        </div>
+    </div>
+    <div class="page" v-if="showMap">
+        <iframe id="mapPage" width="100%" height="100%" v-if="showMap" style="position:absolute;display:block;" frameborder='0' src="http://apis.map.qq.com/tools/locpicker?search=1&type=1&key=4MHBZ-JVL35-WLMII-Q3NME-3Z2G2-PKBJJ&referer=myapp"></iframe>
+    </div>
+    <div class="panel"  v-show="showMyaddrlist" style="z-index:99;display:none;">
+        <div class="bar bar-header">
+            <h2 class="title" style="margin-left:50px;margin-right:50px;">
+                我的常用地址
+            </h2>
+            <button class="button button-clear" v-on:click="colseMyaddrlist()">关闭</button>
+        </div>
+        <div class="list" style="margin-top:44px;">
+            <div class="item item-button-right" v-on:click="choseThisAddr(li)" v-for="li in myadds">
+                <h2 class="title" >{{li.poiaddress}}</h2>
+                <p style="white-space: normal;color:gray;" >{{li.detail}}-{{li.realname}}【{{li.mobile}}】</p>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var localId = null;
+    var jssdkconfig = {php echo json_encode($_W['account']['jssdkconfig']);} || {};
+    // 是否启用调试
+    jssdkconfig.debug = false;
+
+    jssdkconfig.jsApiList = [
+        'checkJsApi',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo',
+        'hideMenuItems',
+        'showMenuItems',
+        'hideAllNonBaseMenuItem',
+        'showAllNonBaseMenuItem',
+        'translateVoice',
+        'startRecord',
+        'stopRecord',
+        'onRecordEnd',
+        'playVoice',
+        'pauseVoice',
+        'stopVoice',
+        'uploadVoice',
+        'downloadVoice',
+        'chooseImage',
+        'previewImage',
+        'uploadImage',
+        'downloadImage',
+        'getNetworkType',
+        'openLocation',
+        'getLocation',
+        'hideOptionMenu',
+        'showOptionMenu',
+        'closeWindow',
+        'scanQRCode',
+        'chooseWXPay',
+        'openProductSpecificView',
+        'addCard',
+        'chooseCard',
+        'openCard'
+    ];
+    require(['vue','jquery','core','js/tool','weixin','js/template','js/index','js/convertor','js/pricerange','js/sendTimeList','js/ion.rangeSlider'],
+            function(Vue,$,core,R,wx){
+                wx.config(jssdkconfig);
+
+                var sendtimelist;
+                var receiveaddress =  window.localStorage.receiveaddress?eval('(' + localStorage.receiveaddress + ')'):{
+                    title:'请选择收货地点',
+                    lat:'',
+                    lng:'',
+                    detail:'',
+                    mobile:'',
+                };
+                var vm = new Vue({
+                    el:'#app1',
+                    data:{
+                        post:{
+                            receiveaddress:receiveaddress,
+                            expectedtime:'0',
+                            city:{
+                                title:'',
+                            },
+                            price:'0',
+                            voiceid:"{php echo trim($_GPC['voiceid'])}",
+                            voicetime:"{php echo $_GPC['time']}",
+                            type:4,
+                        },
+                        myadds:{php echo json_encode($myadds)},
+                        showReciveDetailInput:false,
+                        expectedtime:'请选择送达时间',
+                        isstartAddress:false,
+                        showMap:false,
+                        showMain:true,
+                        obj:{
+                            sendtimelist:null,
+                            curprice:null
+                        },
+                        showMyaddrlist:false,
+                        play_src:"{MODULE_URL}public/images/play.png",
+                        showResult:false,
+                        confirmdata:{}
+                    },
+                    ready:function(){
+                        $('#showMain').show();
+                        window.addEventListener('message', function(event) {
+                            var loc = event.data;
+                            if (loc && loc.module == 'locationPicker') {
+                                if(vm.isstartAddress){
+                                    //如果是起始位置
+                                    vm.$data.post.sendaddress.city = loc.cityname;
+                                    vm.$data.post.sendaddress.lat = loc.latlng.lat;
+                                    vm.$data.post.sendaddress.lng = loc.latlng.lng;
+                                    vm.$data.post.sendaddress.title = loc.poiaddress;
+                                    vm.$data.post.sendaddress.point = loc.latlng;
+                                    vm.$data.showSendDetailInput = true;
+                                    vm.$data.post.city.title = loc.cityname;
+                                }else{
+                                    vm.$data.post.receiveaddress.city = loc.cityname;
+                                    vm.$data.post.receiveaddress.lat = loc.latlng.lat;
+                                    vm.$data.post.receiveaddress.lng = loc.latlng.lng;
+                                    vm.$data.post.receiveaddress.point = loc.latlng;
+                                    vm.$data.post.receiveaddress.title = loc.poiaddress + loc.poiname;
+                                    vm.$data.showReciveDetailInput = true;
+                                }
+                                vm.showMap = false;
+                                vm.showMain = true;
+                            }
+                        }, false);
+                        sendtimelist = R.sendTimeList.bind({elem:$('#expectedtime')},function(text){
+                            vm.post.expectedtime = text;
+                        });
+
+                        R.pricerange({onFinish:function(data){
+                            vm.post.price = data.from;
+                        }},function(data){
+                            vm.post.price = data.start;
+                        });
+
+                    },
+                    methods:{
+                        openMyaddrlist : function(isstart){
+                            if(isstart){
+                                this.isstartAddress = true;
+                            }else{
+                                this.isstartAddress = false;
+                            }
+                            this.showMyaddrlist = true;
+                            this.showMain = false;
+                        },
+                        colseMyaddrlist : function(){
+                            vm.showMyaddrlist = false;
+                            vm.showMain = true;
+                        },
+                        choseThisAddr:function(li){
+                            vm.post.receiveaddress.cityname = li.cityname;
+                            vm.post.receiveaddress.lat =li.lat;
+                            vm.post.receiveaddress.lng =li.lng;
+                            vm.post.receiveaddress.title = li.poiaddress;
+                            vm.post.receiveaddress.poiname = li.poiname;
+                            vm.post.city.title = li.cityname;
+                            vm.post.city.lat = li.lat;
+                            vm.post.city.lng = li.lng;
+
+                            vm.post.receiveaddress.detail = li.detail;
+                            vm.post.receiveaddress.realname = li.realname;
+                            vm.post.receiveaddress.mobile = li.mobile;
+                            vm.$data.showReciveDetailInput = true;
+                            vm.$data.showMain = true;
+                            vm.$data.showMyaddrlist = false;
+                        },
+                        payOrder : function(tid){
+                            window.location.href = "{php echo $this->createMobileUrl('paytask')}&tid="+tid;
+                        },
+                        cancelOrder : function(tid){
+                            vm.showMain = true;
+                            vm.showResult = false;
+                        },
+                        openReciveAddress:function(){
+                            vm.isstartAddress = false;
+                            this.showMap = true;
+                            vm.showMain = false;
+                            $('#mapPage').show();
+                        },
+                        selectTime:function(){
+                            sendtimelist.show();
+                        },
+                        postTasks:function(post){
+                            if(core.empty(post.receiveaddress.lat)){
+                                core.cancel('请选择目的地',function(){});
+                                return '';
+                            }
+                            localStorage.receiveaddress = JSON.stringify(post.receiveaddress);
+                            R.showToast('订单提交中。。');
+                            $.post("{php echo $this->createMobileUrl('check',array('act'=>'post'))}",{},function(data){
+                                if(data.status == 0){
+                                    $.post("{php echo $this->createMobileUrl('buy_voice_post')}",post,function(data){
+                                        vm.confirmdata = data;
+                                        vm.showResult = true;
+                                        vm.showMain = false;
+                                    },'json');
+                                }else{
+                                    R.hideToast();
+                                    core.ok(data.message,function(){
+                                        window.location.href = data.url;
+                                    },function(){
+                                        window.location.href = data.url;
+                                    });
+                                }
+                            },'json');
+
+                        },
+                        playVoice:function(post){
+                            wx.ready(function() {
+                                wx.downloadVoice({
+                                    serverId: post.voiceid,
+                                    isShowProgressTips: 1,
+                                    success: function (res) {
+                                        localId = res.localId;
+                                        //播放
+                                        wx.playVoice({
+                                            localId: localId
+                                        });
+                                    }
+                                });
+                            });
+                        },
+                        deleteVoice:function(post){
+                            window.location.href = "{php echo $this->createMobileUrl('buy')}";
+                        }
+                    }
+                });
+
+
+            });
+</script>
+
+{template 'default/common/footer'}

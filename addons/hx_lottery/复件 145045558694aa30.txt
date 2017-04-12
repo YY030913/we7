@@ -1,0 +1,109 @@
+'D:/WWW/wz/data/module.build<br><br>a:2:{s:4:"data";s:9864:"a:5:{s:4:"name";s:10:"hx_lottery";s:5:"title";s:15:"幸运大抽奖";s:7:"version";a:4:{s:12:"upgradeprice";s:1:"0";s:11:"description";s:31:"优化升级；<br />
+兼容V8";s:10:"createtime";s:16:"2015-12-18 14:15";s:7:"version";s:3:"1.7";}s:5:"files";a:48:{i:0;a:2:{s:4:"path";s:9:"/icon.jpg";s:8:"checksum";s:32:"86ee662d4b9508538be0904845574042";}i:1;a:2:{s:4:"path";s:11:"/module.php";s:8:"checksum";s:32:"201f9c16181b10a1d0771acc81dd58b8";}i:2;a:2:{s:4:"path";s:12:"/preview.jpg";s:8:"checksum";s:32:"26c9fbdc87b0d7472a01095c15e2e2c9";}i:3;a:2:{s:4:"path";s:14:"/processor.php";s:8:"checksum";s:32:"dce36fdc77b26a373a2247cab0f9380c";}i:4;a:2:{s:4:"path";s:9:"/site.php";s:8:"checksum";s:32:"2755d2534d94a02794ffb6b7d26b510e";}i:5;a:2:{s:4:"path";s:24:"/template/awardlist.html";s:8:"checksum";s:32:"59016348ac7eae864e23b2e03baacb83";}i:6;a:2:{s:4:"path";s:19:"/template/form.html";s:8:"checksum";s:32:"16c105aa947ab04de53ee4f20f33cc75";}i:7;a:2:{s:4:"path";s:19:"/template/item.html";s:8:"checksum";s:32:"b68c10b0ae6619dde2647501de0f4e28";}i:8;a:2:{s:4:"path";s:19:"/template/list.html";s:8:"checksum";s:32:"853b1b0ca4650c03b2fc2e23bba1dc59";}i:9;a:2:{s:4:"path";s:28:"/template/mobile/detail.html";s:8:"checksum";s:32:"e08ef4b6154a4a1579802e9552594ead";}i:10;a:2:{s:4:"path";s:27:"/template/mobile/infos.html";s:8:"checksum";s:32:"38b39ccfd1dfd0374aa221a2b4798fbe";}i:11;a:2:{s:4:"path";s:26:"/template/mobile/list.html";s:8:"checksum";s:32:"ccc2498598aa93baa72fc1a0add9dc1b";}i:12;a:2:{s:4:"path";s:28:"/template/style/css/base.css";s:8:"checksum";s:32:"6ec02902ad3599c0ea71e11487788c1c";}i:13;a:2:{s:4:"path";s:29:"/template/style/css/wheel.css";s:8:"checksum";s:32:"b68f26b39cde5db9ad9acde1cb96feda";}i:14;a:2:{s:4:"path";s:25:"/template/style/img/1.gif";s:8:"checksum";s:32:"ad4b0f606e0f8465bc4c4c170b37e1a3";}i:15;a:2:{s:4:"path";s:29:"/template/style/img/arrow.png";s:8:"checksum";s:32:"012188a6262c2ca78f3a0bd82c9cce2d";}i:16;a:2:{s:4:"path";s:35:"/template/style/img/bottom_line.png";s:8:"checksum";s:32:"6abd495c35695af1dcb46ae307b93b94";}i:17;a:2:{s:4:"path";s:30:"/template/style/img/button.png";s:8:"checksum";s:32:"c3c24266380e0d27d41e1e24e3512d32";}i:18;a:2:{s:4:"path";s:40:"/template/style/img/cart-s3b17ef2d22.png";s:8:"checksum";s:32:"c1e2b5ab8b20b9880a8a4960daa026f2";}i:19;a:2:{s:4:"path";s:42:"/template/style/img/cart2x-s686051007e.png";s:8:"checksum";s:32:"16643fe979e54e88f72eb27ca7091fb1";}i:20;a:2:{s:4:"path";s:30:"/template/style/img/coupon.png";s:8:"checksum";s:32:"863e3f46f281e9d7a06fb9bba9e6bdbe";}i:21;a:2:{s:4:"path";s:35:"/template/style/img/face_normal.png";s:8:"checksum";s:32:"2b3e40f87bb0499e7bc1fd3fd21fe8ee";}i:22;a:2:{s:4:"path";s:38:"/template/style/img/face_normal@2x.png";s:8:"checksum";s:32:"cb3e8855332c9b49f57e512f1bc2af4a";}i:23;a:2:{s:4:"path";s:34:"/template/style/img/face_smile.png";s:8:"checksum";s:32:"72f189af68228ba6de0c50aa002aee03";}i:24;a:2:{s:4:"path";s:37:"/template/style/img/face_smile@2x.png";s:8:"checksum";s:32:"52a1010e84a7a9d891398f12b23107e8";}i:25;a:2:{s:4:"path";s:37:"/template/style/img/fav_step_2@2x.png";s:8:"checksum";s:32:"c98a67b1a8082055355b9837a30393f9";}i:26;a:2:{s:4:"path";s:36:"/template/style/img/ftios_step_2.png";s:8:"checksum";s:32:"fe2ce85e16f85441b09aa96533775ece";}i:27;a:2:{s:4:"path";s:35:"/template/style/img/guide_arrow.png";s:8:"checksum";s:32:"9bd31ee761532512c087c8fc04af3195";}i:28;a:2:{s:4:"path";s:30:"/template/style/img/loader.gif";s:8:"checksum";s:32:"03ce3dcc84af110e9da8699a841e5200";}i:29;a:2:{s:4:"path";s:28:"/template/style/img/logo.png";s:8:"checksum";s:32:"4953055fce77a84e18758d5a181d6f95";}i:30;a:2:{s:4:"path";s:31:"/template/style/img/logo@2x.png";s:8:"checksum";s:32:"16c322b9dba90bdde6aa12711d551969";}i:31;a:2:{s:4:"path";s:37:"/template/style/img/middle_button.png";s:8:"checksum";s:32:"c3c24266380e0d27d41e1e24e3512d32";}i:32;a:2:{s:4:"path";s:40:"/template/style/img/middle_button@2x.png";s:8:"checksum";s:32:"1a76bd5482b789572ff430c2fe93d2e8";}i:33;a:2:{s:4:"path";s:29:"/template/style/img/point.png";s:8:"checksum";s:32:"8c6c70fe3025bceed1d948294dd5900b";}i:34;a:2:{s:4:"path";s:31:"/template/style/img/prize_1.png";s:8:"checksum";s:32:"790d56ab7547b22315411af5afcb5af2";}i:35;a:2:{s:4:"path";s:31:"/template/style/img/prize_2.png";s:8:"checksum";s:32:"2f3c76b761f1a9c1d09054e321ad5c30";}i:36;a:2:{s:4:"path";s:31:"/template/style/img/prize_3.png";s:8:"checksum";s:32:"cb0a901e161a75e636c4d3dd2cce5a90";}i:37;a:2:{s:4:"path";s:31:"/template/style/img/prize_4.png";s:8:"checksum";s:32:"9f70eb20c10fd4ee7a133ffa3676089e";}i:38;a:2:{s:4:"path";s:39:"/template/style/img/share_step_2@2x.png";s:8:"checksum";s:32:"f181fa3c96453921c494aec5051da8cc";}i:39;a:2:{s:4:"path";s:30:"/template/style/img/step_1.png";s:8:"checksum";s:32:"6c64de1581e2c06aa3ef1f788333dc84";}i:40;a:2:{s:4:"path";s:33:"/template/style/img/step_1@2x.png";s:8:"checksum";s:32:"5987be5f7590c822a71d92155b0368f3";}i:41;a:2:{s:4:"path";s:30:"/template/style/img/step_2.png";s:8:"checksum";s:32:"685b96c1a5dd9032127ee6242dca1a2b";}i:42;a:2:{s:4:"path";s:30:"/template/style/img/step_3.png";s:8:"checksum";s:32:"17077b9a2c26d9046792c3510ce3d93f";}i:43;a:2:{s:4:"path";s:35:"/template/style/img/wheel_cover.png";s:8:"checksum";s:32:"ab29591c9f1f5b0e3cc445c375c76727";}i:44;a:2:{s:4:"path";s:34:"/template/style/js/jquery-2.1.1.js";s:8:"checksum";s:32:"7403060950f4a13be3b3dfde0490ee05";}i:45;a:2:{s:4:"path";s:32:"/template/style/js/jquery.min.js";s:8:"checksum";s:32:"d021c983bd6e7291b43a5cc1fb2ebe99";}i:46;a:2:{s:4:"path";s:27:"/template/style/js/wheel.js";s:8:"checksum";s:32:"b9425466de253e550d03a94e8757047c";}i:47;a:2:{s:4:"path";s:12:"/upgrade.php";s:8:"checksum";s:32:"302722911fc4715f017cf241c7ef49a0";}}s:8:"manifest";s:4132:"<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.goodziyuan.com" versionCode="0.6">
+	<application setting="false">
+		<name><![CDATA[幸运大抽奖]]></name>
+		<identifie><![CDATA[hx_lottery]]></identifie>
+		<version><![CDATA[1.7]]></version>
+		<type><![CDATA[activity]]></type>
+		<ability><![CDATA[幸运积分大抽奖]]></ability>
+		<description><![CDATA[幸运积分大抽奖]]></description>
+		<author><![CDATA[微赞科技]]></author>
+		<url><![CDATA[http://www.goodziyuan.com/]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+	</platform>
+	<bindings>
+		<menu>
+			<entry title="活动管理" do="list" state="" direct="false" />
+		</menu>
+		<profile>
+			<entry title="我的奖品" do="myaward" state="" direct="false" />
+		</profile>
+	</bindings>
+	<install><![CDATA[
+CREATE TABLE IF NOT EXISTS `ims_hx_lottery_award` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `reply_id` int(10) DEFAULT \'0\',
+  `uid` int(10) DEFAULT \'0\',
+  `name` varchar(50) DEFAULT \'\' COMMENT \'名称\',
+  `prizetype` varchar(10) DEFAULT \'\' COMMENT \'类型\',
+  `level` int(10) unsigned NOT NULL,
+  `createtime` int(10) DEFAULT \'0\',
+  `consumetime` int(10) DEFAULT \'0\',
+  `status` tinyint(4) DEFAULT \'0\',
+  PRIMARY KEY (`id`),
+  KEY `indx_rid` (`reply_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_hx_lottery_fans` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `reply_id` int(10) unsigned NOT NULL DEFAULT \'0\',
+  `from_user` varchar(50) NOT NULL DEFAULT \'\',
+  `uid` int(10) unsigned NOT NULL DEFAULT \'0\',
+  `todaynum` int(10) unsigned NOT NULL DEFAULT \'0\',
+  `totalnum` int(10) unsigned NOT NULL DEFAULT \'0\',
+  `awardnum` int(10) unsigned NOT NULL DEFAULT \'0\',
+  `last_time` int(10) unsigned NOT NULL DEFAULT \'0\',
+  `createtime` int(10) unsigned NOT NULL DEFAULT \'0\',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_hx_lottery_reply` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `rid` int(10) unsigned NOT NULL,
+  `uniacid` int(10) unsigned NOT NULL,
+  `title` varchar(200) NOT NULL,
+  `groupid` int(10) unsigned NOT NULL DEFAULT \'0\' COMMENT \'可参与的用户组\',
+  `thumb` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `starttime` int(10) unsigned NOT NULL,
+  `endtime` int(10) unsigned NOT NULL,
+  `need_type` varchar(10) NOT NULL,
+  `need_num` int(10) unsigned NOT NULL,
+  `give_type` varchar(10) NOT NULL,
+  `give_num` int(10) unsigned NOT NULL DEFAULT \'0\',
+  `onlynone` tinyint(1) NOT NULL DEFAULT \'0\',
+  `awardnum` int(10) unsigned NOT NULL,
+  `playnum` int(10) unsigned NOT NULL,
+  `dayplaynum` int(10) unsigned NOT NULL,
+  `daytotalnum` int(10) unsigned NOT NULL COMMENT \'总参加次数\',
+  `zfcs` int(10) unsigned NOT NULL,
+  `zjcs` int(10) unsigned NOT NULL,
+  `tips` varchar(255) NOT NULL,
+  `prizeinfo` varchar(255) NOT NULL,
+  `remark` varchar(255) NOT NULL,
+  `share_title` varchar(100) NOT NULL,
+  `share_img` varchar(255) NOT NULL,
+  `share_url` varchar(255) NOT NULL,
+  `share_content` varchar(255) NOT NULL,
+  `rate` int(10) unsigned NOT NULL,
+  `prizes` text NOT NULL,
+  `reg` tinyint(1) unsigned NOT NULL DEFAULT \'0\',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT \'0\' COMMENT \'0结束1正常2暂停\',
+  `createtime` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_hx_lottery_share` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uinacid` int(10) unsigned NOT NULL,
+  `reply_id` int(10) unsigned NOT NULL,
+  `share_from` varchar(50) NOT NULL,
+  `share_time` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
+		]]></install>
+	<uninstall><![CDATA[
+DROP TABLE IF EXISTS `ims_hx_lottery_award`;
+DROP TABLE IF EXISTS `ims_hx_lottery_fans`;
+DROP TABLE IF EXISTS `ims_hx_lottery_reply`;
+DROP TABLE IF EXISTS `ims_hx_lottery_share`;
+		]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>";}";s:6:"secret";s:32:"vnjfFnBX5ZBkJYXzfKrrKYDyk8RVR5ZY";}'

@@ -1,0 +1,29 @@
+<link type="text/css" rel="stylesheet" href="{MODULE_URL}template/mobile/css/global.css?t={php echo time()}" />
+<link type="text/css" rel="stylesheet" href="{MODULE_URL}template/mobile/css/style.css?t={php echo time()}" />
+<div id="reward-layer-box">
+  <div id="reward-pay-box" style="position:absolute;left:0;">
+	  <div id="reward-list-wrap" class="clearfix">
+		  {loop $gifts $key $row}
+			{if $key%3==0}
+				 <div class="swiper-slide">
+					<div class="reward-gift-wrap">
+					  <div class="reward-img-wrap {if $key=='0'}selected{/if}" onclick="change_gift('{$row['id']}','{$listid}')" id="gift_{$row['id']}" data-one="{$row['money']}" data-type="{$row['id']}">
+					  <img src="{php echo tomedia($row['img'])}" width=55 height=55 />
+					  </div>
+					  <p>{$row['name']}</p>
+					</div>
+			{else}
+				 <div class="reward-gift-wrap">
+					  <div class="reward-img-wrap {if $key=='0'}selected{/if}" onclick="change_gift('{$row['id']}','{$listid}')" id="gift_{$row['id']}" data-one="{$row['money']}" data-type="{$row['id']}">
+					  <img src="{php echo tomedia($row['img'])}" width=55 height=55 />
+					  </div>
+					  <p>{$row['name']}</p>
+				 </div>
+				{if ($key+1)%3==0}</div>{/if}
+				
+			{/if}
+		  {/loop}
+	  </div>
+  </div>
+  
+</div>

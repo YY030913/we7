@@ -1,0 +1,466 @@
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta charset="utf-8">
+<link rel="stylesheet" href="{MODULE_URL}resource/css/style.css" />
+<script type="text/javascript" src="{MODULE_URL}resource/js/jquery-2.1.4.min.js" ></script>
+{php echo register_jssdk();}
+<title>端午节赛龙舟</title>
+</head>
+<body>
+<div class="hlz">
+    <div class="shan" style="-webkit-animation-duration: {$gametime}s;animation-duration: {$gametime}s;"></div>
+	<!--头部信息-->
+	<div class="header">
+		<ul>
+			<li class="tl"><p>风云排行榜</p>
+				<p>第&nbsp;<span><?php echo $preNum;?></span>&nbsp;名</p>
+			</li>
+			<li class="tc"><span id="timeSpan">{$gametime}</span></li>
+			<li class="tr"><p>总共划了</p>
+				<p><span class="hua"><?php echo $currentDis;?></span>米</p>
+			</li>
+		</ul>
+	</div>
+	<!--赛龙舟-->
+	<div class="longzhouCon">
+		{if $boatIndex==1}
+		<div class="zhou zhouL zhou2"></div>
+		<div class="zhou zhouC zhou{$boatIndex}"></div>
+		<div class="zhou zhouR zhou3"></div>
+		{/if}
+		{if $boatIndex==2}
+		<div class="zhou zhouL zhou1"></div>
+		<div class="zhou zhouC zhou{$boatIndex}"></div>
+		<div class="zhou zhouR zhou3"></div>
+		{/if}
+		{if $boatIndex==3}
+		<div class="zhou zhouL zhou1"></div>
+		<div class="zhou zhouC zhou{$boatIndex}"></div>
+		<div class="zhou zhouR zhou2"></div>
+		{/if}
+	</div>
+	<div class="lnMi"><?php if($haveNext == 1){echo '甩后一名'. $disNext .'米';} ?></div>
+	<div class="lpMi"><?php if($havePre == 1){echo '距前一名'. $disPre .'米';} ?></div>
+	<!--划龙舟按钮-->
+	<div class="btnBox">
+		<div class="playBtn left">
+			<canvas width="240" height="240" style="width:10rem;height:10rem;" id="canvasLeft"></canvas>
+		</div>
+		<div class="playBtn right">
+			<canvas width="240" height="240" style="width:10rem;height:10rem;" id="canvasRight"></canvas>
+		</div>
+		<div id="info"></div>
+	</div>
+	<!--排行榜按钮-->
+	<div class="pageBtn" id="phbBtn" style="display:none;">
+		<a href="{php echo $this->createMobileUrl('paihang',array('rid'=>$rid,'pid'=>$pid,'type'=>1));}" class="paihangbang">查看排行榜</a>
+		<a href="#" class="paihangbang shares">向亲友团求助</a>
+	</div>
+	<!--试玩按钮-->
+	<div class="pageBtn" id="shiwan" style="display:none;">
+		<a href="#" class="paihangbang shares">试玩<span style="font-size: 1.2rem; margin-left: 5px;">(试玩不计入成绩)</span></a>
+		<a href="#" class="paihangbang">立即参赛</a>
+	</div>
+	<!--流动波浪-->
+	<div class="bolang">
+		<div class="bg bg1"></div>
+		<div class="bg bg2"></div>
+	</div>
+	<!--亲友团-->
+	<div class="firends">
+		<ul id="helpUL"><?php echo $helpHtml;?>
+		{if $ismore==1}
+		<li><a href="{php echo $this->createMobileUrl('paihang',array('rid'=>$rid,'pid'=>$pid,'type'=>1));}"><img src="{MODULE_URL}resource/images/more.png" width="100%"><span>{$helpcount}</span></a></li>
+		{/if}
+		</ul>
+	</div>
+</div>
+<div class="copyright"><a href="{$qylink}" class="logo" style="background-image:url(http://{$_SERVER['HTTP_HOST']}/attachment/{$qylogo})">{$qyname}</a></div>
+<!--游戏注意事项-->
+<div class="tips">
+  <div class="btn"></div>
+</div>
+	
+	
+<!--自己划船的结果弹出层-->
+<div class="result" style="display: none;" id="selfdiv">
+	<div class="box">
+		<div class="close"></div>
+		
+		<div class="rb tc">
+			<div class="myZhou{$boatIndex}"></div>
+			<div class="txt">
+				<p class="f24">太棒了</p>
+				<p class="f24">您总共划了<i id="disI1"></i>米远</p>
+			</div>
+		</div>
+		<div class="btn">
+			<ul>
+				<li><a href="{php echo $this->createMobileUrl('paihang',array('rid'=>$rid,'pid'=>$pid,'type'=>1));}">查看排行榜</a></li>
+				{if $ishelp==1}
+				<li><a href="{php echo $this->createMobileUrl('index',array('rid'=>$rid));}" style="color: #006633;">我也要玩</a></li>
+				{/if}
+				{if $ishelp==0}
+				<li class="swx">邀好友助力</li>
+				{/if}
+			</ul>
+		</div>
+	</div>
+</div>
+
+<!--朋友助划的结果弹出层-->
+<div class="result" style="display: none;" id="helpdiv">
+	<div class="box">
+		<div class="close"></div>
+		<div class="rb tc">
+			<div class="myZhou{$boatIndex}"></div>
+			<div class="txt">
+				<p class="f24" id="alertP">您助划了<i id="disI2"></i>米远</p>
+				<p class="f12"><span><?php echo $boatPlayerName;?> 的龙舟</span></p>
+				<p>共向前行进了<i id="playerDisI1"></i>米！</p>
+			</div>
+		</div>
+		<div class="btn">
+			<ul>
+				<li><a href="{php echo $this->createMobileUrl('paihang',array('rid'=>$rid,'pid'=>$pid,'type'=>1));}">查看排行榜</a></li>
+				{if $ishelp==1}
+				<li><a href="{php echo $this->createMobileUrl('index',array('rid'=>$rid));}" style="color: #006633;">我也要玩</a></li>
+				{/if}
+				{if $ishelp==0}
+				<li class="swx">邀好友参与比赛</li>
+				{/if}
+			</ul>
+		</div>
+	</div>
+</div>
+<!--分享弹出提示-->
+<!--向亲友团请求帮助 end-->
+<div class="share"><img src="{MODULE_URL}resource/images/guide.png" width="100%"></div>
+<!--音乐-->
+<audio id="music_audio" loop preload="preload">
+  <source src="{MODULE_URL}resource/music/duanwu.mp3" type="audio/mpeg">
+  你不支持HTML5，快去换浏览器吧</audio>
+<div class="audio">
+  <span class="open">
+	  <i class="icon"><i class="stop"></i></i><i class="mfly m1"></i><i class="mfly m2"></i>  
+	  
+  </span>
+</div>
+<script>
+	$(function(){
+		//关闭注意事项
+		$(".tips .btn").click(function(){
+			$(".tips").hide(0);
+		})
+		
+		//关闭信息提示
+		$(".result .close").click(function(){
+			$(this).closest(".result").hide(0);
+		})
+	
+		//关闭信息提示
+		$(".swx,.share,.shares").click(function(){
+			$(".share").toggle(0);
+		})
+		
+	})
+	
+	var haveNext = '<?php echo $haveNext;?>';//
+	var havePre = '<?php echo $havePre;?>';//
+	
+	var disNext = <?php echo $disNext;?>;//
+	var disPre = <?php echo $disPre;?>;//
+	
+	var myHead = '<?php echo $headimgurl;?>';//我的头像
+	var helpNum = <?php echo count($helpArr); ?>;//助划数量
+	var playerId = <?php echo $pid;?>;//用户ID
+	
+	var mingci = <?php echo $preNum;?>;//js名次
+	var currentDis = <?php echo $currentDis;?>;//js距离
+	var isPlayed = <?php echo $isPlayed; ?>;
+	var ishelp=<?php echo $ishelp; ?>;
+	var time = "{$gametime}";//倒计时xx秒
+	var helpDis = 0;//js助划距离
+	var interval = 0;
+	var focus = -1;//0代表左，1代表右
+	var over = 0;//是否助划结束
+	var rid="{$rid}";
+	var sharelink="{$sharelink}";
+	//助划者分享
+	var sharetitle2="{$sharetitle2}";
+	var sharecontent2="{$sharecontent2}";
+	
+	var img = new Image();
+	img.src = "{MODULE_URL}resource/images/play.png";
+	img.onload = function(){ //图片下载完毕时异步调用callback函数。
+	    init();
+	};
+	var ishad=<?php echo $ishad;?>;
+	if(ishad==1){
+		$(".btnBox").hide();
+		$("#phbBtn").show();
+	}
+	function init(){
+		var pid="{$pid}";
+		$('#canvasLeft').on('touchstart',function(e) {
+			draw('canvasLeft', 400,0);
+			e.preventDefault();
+			$.ajax({ type:'post',
+				 data:{'pid':pid,'rid':rid}, 
+				 url:"{php echo $this->createMobileUrl('checkplayer')}",
+				 dataType:'json',
+				 success:function(data){
+					 if(data.scount>0){
+						 window.location.reload();
+						 //displayResult(0);return;
+					 }else{
+						if(over == 1) {displayResult(0);return;}
+							
+						if(interval == 0){startTime();focus=1;}
+						if(focus == 1 && time>0){
+							helpDis += 1; 
+							focus = 0;
+							$('.hua').html(currentDis + helpDis);
+							changeDis();
+						}
+					 }
+				 }
+			})
+		})
+		
+		$('#canvasLeft').on('touchend',function(e) {
+			draw('canvasLeft', 0,0);
+		})
+		
+		$('#canvasRight').on('touchstart',function(e) {
+			draw('canvasRight', 600,0);
+			e.preventDefault();
+			
+			$.ajax({ type:'post',
+				 data:{'pid':pid,'rid':rid}, 
+				 url:"{php echo $this->createMobileUrl('checkplayer')}",
+				 dataType:'json',
+				 success:function(data){
+					 if(data.scount>0){
+						 window.location.reload();
+						 //displayResult(0);return;
+					 }else{
+						if(over == 1) {displayResult(0);return;}
+							
+						if(interval == 0){startTime();focus=0;}
+						if(focus == 0 && time>0){ 
+							helpDis += 1; 
+							focus = 1;
+							$('.hua').html(currentDis + helpDis);
+							changeDis();
+						}
+					 }
+				 }
+			})
+		})
+		
+		$('#canvasRight').on('touchend',function(e) {
+			draw('canvasRight', 200,0);
+		})
+		
+		draw('canvasLeft', 0,0);
+		
+		draw('canvasRight', 200,0);
+	}
+	
+	function draw(id,sx,sy){
+		var playBtnWidth = $('.playBtn').width();
+		var c = document.getElementById(id);
+		var ctx = c.getContext("2d");
+		ctx.clearRect(0,0,240,240);
+		ctx.drawImage(img,sx,sy,200,200,0,0,240,240);
+	}
+	
+	function changeDis(){
+		if(haveNext == 1){
+			var nDis = disNext + helpDis;
+			$('.lnMi').html('甩后一名'+ nDis +'米');
+		}
+		if(havePre == 1){
+			var pDis = disPre - helpDis;
+			if(pDis >= 0){
+				$('.lpMi').html('距前一名'+ ( pDis ) +'米');
+			}
+			else{
+				$('.lpMi').html('超前一名'+ ( -pDis ) +'米');
+				$('.pm').html(mingci - 1);
+			}
+		}
+	}
+	
+	//开始计时
+	function startTime(){
+		var ishelp="{$ishelp}";
+		$('.longzhouCon').addClass('active');
+		$('.shan').addClass('active');
+		interval = setInterval(function(){
+			if(time > 0){
+				time--;
+				$('#timeSpan').html(time);
+			}
+			else{
+				//$('#timeSpan').html('划船结束');//倒计时文字修改
+				clearInterval(interval); //取消计时器
+				$('.longzhouCon').removeClass('active'); //移除划船动画
+				$(".Btn span").css('background-color',"rgba(0,0,0,0.3)");//左划，右划按钮恢复原状
+				over = 1;//结束标识, 再次点击左划右划按钮无效
+				if(ishelp==0){
+					addNewPlayer();
+				}else{
+					addNewHelp();
+				}
+				$(".btnBox").hide();
+				$("#phbBtn").show();
+			}
+		}, 1000);
+	}
+	//调用自己划接口
+	function addNewPlayer(){
+		var boatIndex="{$boatIndex}";
+		$.ajax({ type:'post',
+				 data:{'distane':helpDis,"rid":rid,"boatIndex":boatIndex}, 
+				 url:"{php echo $this->createMobileUrl('newplayer')}",
+				 dataType:'json',
+				 success:function(data){
+				 	if(data.sucess == 1){
+				 		if($("#helpUL li").length >= 5){//下面头像有显示位置的话，显示头像在最下面
+							var li = '<li><img src="'+ myHead +'" width="100%"><span>划'+helpDis+'米</span></li>';
+							$('#helpUL li').last().remove();
+							$('#helpUL').prepend(li);
+						}
+						else{
+							var li = '<li><img src="'+ myHead +'" width="100%"><span>划'+helpDis+'米</span></li>';
+							$('#helpUL').prepend(li);
+						}
+				 		sharelink=sharelink.replace("pid=0", "pid="+data.pid);
+				 		var nick=data.nickname;
+						var distance=data.distance;
+						var sharetitle=sharetitle2.replace(/【姓名】/g,nick).replace(/【距离】/g,distance);
+						var sharecontent=sharecontent2.replace(/【姓名】/g,nick).replace(/【距离】/g,distance);
+						//分享
+						wx.ready(function(){
+						   sharedata = {
+						       title: sharetitle,
+						       desc: sharecontent,
+						       link: sharelink,
+						       imgUrl: "{$shareimg}"
+							}; 
+							wx.onMenuShareAppMessage(sharedata);//分享给朋友
+							wx.onMenuShareTimeline(sharedata);//分享到朋友圈
+							wx.showOptionMenu();//显示右上角按钮
+						});
+						displayResult(2);
+				 	}
+					else{
+						alert('划船无效');
+					}
+				}
+		})
+	}
+	//调用助划接口
+	function addNewHelp(){
+		$.ajax({ type:'post',
+				 data:{'playerId':playerId, 'distane':helpDis,"rid":rid}, 
+				 url:"{php echo $this->createMobileUrl('help')}",
+				 dataType:'json',
+				 success:function(data){
+				 	if(data.sucess == 1){
+				 		if($("#helpUL li").length >= 5){//下面头像有显示位置的话，显示头像在最下面
+							var li = '<li><img src="'+ myHead +'" width="100%"><span>划'+helpDis+'米</span></li>';
+							$('#helpUL li').last().remove();
+							$('#helpUL').prepend(li);
+						}
+						else{
+							var li = '<li><img src="'+ myHead +'" width="100%"><span>划'+helpDis+'米</span></li>';
+							$('#helpUL').prepend(li);
+						}
+				 		//更新分享信息为邀请人
+						var nick=data.nickname;
+						var distance=data.distance;
+						var sharetitle=sharetitle2.replace(/【姓名】/g,nick).replace(/【距离】/g,distance);
+						var sharecontent=sharecontent2.replace(/【姓名】/g,nick).replace(/【距离】/g,distance);
+						//分享
+						wx.ready(function(){
+						   sharedata = {
+						       title: sharetitle,
+						       desc: sharecontent,
+						       link: sharelink,
+						       imgUrl: "{$shareimg}"
+							}; 
+							wx.onMenuShareAppMessage(sharedata);//分享给朋友
+							wx.onMenuShareTimeline(sharedata);//分享到朋友圈
+							wx.showOptionMenu();//显示右上角按钮
+						});
+						displayResult(1);
+				 	}
+					else{
+						alert('助划无效');
+					}
+				}
+		})
+	}
+	
+	function displayResult(type){
+		setTimeout(function(){
+			if(type == 2){
+				$("#selfdiv").show();
+				$("#disI1").html(helpDis);//划了多少米
+			}
+			if(type == 1){
+				$("#helpdiv").show();
+				$("#disI2").html(helpDis);//划了多少米
+				$("#playerDisI1").html(currentDis + helpDis);
+			}
+			else if(type == 0){//弹出警告
+				if(ishelp==1){
+					$("#helpdiv").show();
+					$("#alertP").html("您已经助划过了");
+					$("#playerDisI1").html(currentDis+helpDis);
+				}else{
+					$("#selfdiv").show();
+					$("#disI1").html(currentDis+helpDis);//总共划了多少米
+				}
+			}
+			
+		}, 100)
+	}
+	//音乐
+	document.getElementById("music_audio").play();
+	$(".audio span").bind("click",function(){
+			var Media = document.getElementById("music_audio"); 
+			if($(this).attr("class")=="open"){
+				$(this).removeClass("open");
+				$(this).addClass("closee"); 
+				Media.pause();   //暂停  
+			}else{
+				$(this).removeClass("closee");
+				$(this).addClass("open");
+				Media.play();    //播放  
+			}
+	});
+	window.addEventListener("load",function(){
+	    var myaudio=document.getElementById("music_audio");
+	    myaudio.volume=0.5;//表示的是播放音量为一半
+	});
+	//分享
+	wx.ready(function(){
+	   sharedata = {
+	       title: "{$sharetitle}",
+	       desc: "{$sharecontent}",
+	       link: sharelink,
+	       imgUrl:"{$shareimg}"
+		}; 
+		wx.onMenuShareAppMessage(sharedata);//分享给朋友
+		wx.onMenuShareTimeline(sharedata);//分享到朋友圈
+		wx.showOptionMenu();//显示右上角按钮
+	});
+</script>
+</body>
+</html>

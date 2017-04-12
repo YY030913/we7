@@ -1,0 +1,57 @@
+<script type="text/ng-template" id="edit-list.html">
+<div class="panel">
+	<div class="panel-body" ng-repeat="list in Edit.data">
+			<div class="fe-panel-editor-line">
+				<div class="fe-panel-editor-name">类型</div>
+				<div class="fe-panel-editor-con">
+					<select ng-model="list.class" class="form-control" ng-change="itemClassChage()">
+						<option value="">请选择</option>
+						<option value="item-avatar-left">左侧头像</option>
+						<option value="item-avatar-right">右侧头像</option>
+						<option value="item-thumbnail-left">左侧图像</option>
+						<option value="item-thumbnail-right">右侧图像</option>
+						<option value="item-icon-left">左侧图标</option>
+						<option value="item-icon-right">右侧图标</option>
+						<option value="item-icon-left item-icon-right">左右图标</option>
+						<option value="item-avatar-left item-icon-right">左头像右图标</option>
+						<option value="item-avatar-right item-icon-left">左图标右头像</option>
+						<option value="item-icon-right">右侧图标</option>
+					</select>
+				</div>
+			</div>
+			<div class="fe-panel-editor-line">
+				<div class="fe-panel-editor-name">标题</div>
+				<div class="fe-panel-editor-con">
+					<input class="fe-panel-editor-input1" style="width:400px;" value="" ng-model="list.title" placeholder="请填写按钮文字" />
+				</div>
+			</div>
+			<div class="fe-panel-editor-line" >
+				<div class="fe-panel-editor-name">简介</div>
+				<div class="fe-panel-editor-con">
+					<input class="fe-panel-editor-input1" style="width:400px;" value="" ng-model="list.desc" placeholder="请填写按钮文字" />
+				</div>
+			</div>
+			<div class="fe-panel-editor-line" ng-click="pageIcon('left_icon',Edit.id,list.id)">
+				<div class="fe-panel-editor-name">左图标</div>
+				<div class="fe-panel-editor-con">
+					<input class="fe-panel-editor-input1" style="width:400px;" value="" ng-model="list.left_icon" placeholder="请选择" />
+				</div>
+			</div>
+			<div class="fe-panel-editor-line" ng-click="pageIcon('right_icon',Edit.id,list.id)">
+				<div class="fe-panel-editor-name">右图标</div>
+				<div class="fe-panel-editor-con">
+					<input class="fe-panel-editor-input1" style="width:400px;" value="" ng-model="list.right_icon" placeholder="请选择" />
+				</div>
+			</div>
+			<div class="fe-panel-editor-line" ng-click="chooseUrl(Edit.id,list.id)">
+				<div class="fe-panel-editor-name">链接</div>
+				<div class="fe-panel-editor-con">
+					<input class="fe-panel-editor-input1" style="width:400px;" value="" ng-model="list.hrefurl" placeholder="请选择" />
+				</div>
+			</div>
+			
+		</div>
+		
+	</div>
+</div>
+</script>

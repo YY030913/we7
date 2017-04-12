@@ -1,0 +1,38 @@
+	<div id="edit" class="modal clearfix welcome-container" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">	
+			<div class="modal-content">
+				<div class="modal-header">	
+					<button type="button" class="close" ng-click="closeModel()">×</button>	
+					<h3>设计风格</h3>
+				</div>
+				<div class="modal-body">
+					<div class="media" ng-if="item.code != 'default'">
+						<div class="shortcut clearfix">
+							<a href="{php echo $this->createWebUrl('plugin',array('mp'=>'template','mdo'=>'design','code'=>'home'))}">
+								<i class="fa fa-bolt"></i>
+								<span>个人中心</span>
+							</a>
+							<a href="{php echo $this->createWebUrl('plugin',array('mp'=>'template','mdo'=>'design','code'=>'buy'))}">
+								<i class="fa fa-bolt"></i>
+								<span>我要买</span>
+							</a>
+							<a href="{php echo $this->createWebUrl('plugin',array('mp'=>'template','mdo'=>'design','code'=>'song'))}">
+								<i class="fa fa-bolt"></i>
+								<span>我要送</span>
+							</a>
+							<a href="{php echo $this->createWebUrl('plugin',array('mp'=>'template','mdo'=>'design','code'=>'listen'))}">
+								<i class="fa fa-bolt"></i>
+								<span>听单</span>
+							</a>
+						</div>
+					</div>
+					<div class="media" ng-if="item.code == 'default'">
+						默认模板不支持自定义
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary sendmessage" ng-click="postData(item)">确定</button>
+				</div>	
+			</div>
+		</div>
+	</div>

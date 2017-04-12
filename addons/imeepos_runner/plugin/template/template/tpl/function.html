@@ -1,0 +1,62 @@
+<script type="text/javascript">
+	function switchtab(tag, n) {
+		$("#" + tag + "-" + n).fadeIn().siblings().hide();
+		$("#" + tag + "-nav-" + n).addClass("active").siblings().removeClass("active");
+	}
+
+	function fold() {
+		width = $(".fe-save").width();
+		left = $(".fe-save").css("left");
+		left = left.replace("px", "");
+		if (left >= 0) {
+			$(".fe-save").animate({
+				left: 0 - width + 40 + "px"
+			}, 1000);
+			$(".fe-save-fold").addClass("fe-save-fold2");
+		} else {
+			$(".fe-save").animate({
+				left: "0px"
+			}, 1000);
+			$(".fe-save-fold").removeClass("fe-save-fold2");
+		}
+	}
+
+	function setcookie(id) {
+		require(['util'], function(util) {
+			util.cookie.set('preview_id', id);
+		});
+	}
+
+	function clone(myObj) {
+		if (typeof(myObj) != 'object' || myObj == null) return myObj;
+		var newObj = new Object();
+		for (var i in myObj) {
+			newObj[i] = clone(myObj[i]);
+		}
+		return newObj;
+	}
+
+	function cloneArr(arr) {
+		var newArr = [];
+		$(arr).each(function(i, val) {
+			newArr.push(clone(val));
+		});
+		return newArr;
+	}
+
+	function initswipe(jobj) {
+		var bullets = jobj.next().get(0).getElementsByTagName('a');
+		var banner = Swipe(jobj.get(0), {
+			auto: 2000,
+			continuous: true,
+			disableScroll: false,
+			callback: function(pos) {
+				var i = bullets.length;
+				while (i--) {
+					bullets[i].className = '';
+				}
+				bullets[pos].className = 'cur';
+			}
+		})
+	}
+</script>

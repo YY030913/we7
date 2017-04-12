@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.goodziyuan.com" versionCode="0.6">
+    <application setting="true">
+        <name><![CDATA[留声墙]]></name>
+        <identifie><![CDATA[on3_voxpic]]></identifie>
+        <version><![CDATA[4.2]]></version>
+        <type><![CDATA[business]]></type>
+        <ability><![CDATA[留声墙]]></ability>
+        <description><![CDATA[留声墙]]></description>
+		<author><![CDATA[好资源)]]></author>
+		<url><![CDATA[http://www.goodziyuan.com]]></url>
+    </application>
+    <platform>
+        <subscribes>
+        </subscribes>
+        <handles>
+            <message type="text" />
+        </handles>
+        <rule embed="true" />
+    </platform>
+    <bindings>
+        <menu>
+            <entry title="管理菜单" do="Indexsys" state="" direct="false" />
+        </menu>
+    </bindings>
+	
+    <install><![CDATA[
+        
+	  ]]></install>
+	  
+    <uninstall><![CDATA[]]></uninstall>
+    <upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

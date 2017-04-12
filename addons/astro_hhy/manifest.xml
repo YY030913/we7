@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.goodziyuan.com" versionCode="0.6">	
+    <application setting="false">
+        <name><![CDATA[星座今日运势]]></name>
+        <identifie><![CDATA[astro_hhy]]></identifie>
+        <version><![CDATA[4.2]]></version>
+        <type><![CDATA[wdlgame]]></type>
+        <ability><![CDATA[星座今日运势]]></ability>
+        <description><![CDATA[星座今日运势]]></description>
+		<author><![CDATA[好资源)]]></author>
+		<url><![CDATA[http://www.goodziyuan.com]]></url>
+    </application>
+    <platform>
+        <subscribes>
+        </subscribes>
+        <handles>
+            <message type="text" />
+        </handles>
+        <rule embed="true" />
+    </platform>
+    <bindings>
+        <rule>
+            <entry title="添加规则" do="addrule" />
+        </rule>
+    </bindings>
+	
+    <install><![CDATA[     
+	  ]]></install>
+	  
+    <uninstall><![CDATA[]]></uninstall>
+    <upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

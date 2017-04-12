@@ -1,0 +1,684 @@
+{template 'default/vux/header'}
+<link rel="stylesheet" href="{MODULE_URL}public/css/detail_vux.css"/>
+<link rel="stylesheet" href="{MODULE_URL}public/libs/vux/components/timeline/style.css"/>
+<style>
+    .vux-timeline>ul>li {
+        list-style: none;
+        z-index: 0;
+    }
+    .timeline-demo .recent {
+        color: #04be02;
+    }
+    .timeline-demo h4 {
+        color: #666;
+        font-weight: 400;
+    }
+</style>
+<div id="loadingToast" style="display:block;" class="weui_loading_toast">
+    <div class="weui_mask_transparent"></div>
+    <div class="weui_toast">
+        <div class="weui_loading">
+            <div class="weui_loading_leaf weui_loading_leaf_0"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_1"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_2"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_3"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_4"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_5"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_6"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_7"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_8"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_9"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_10"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_11"></div>
+        </div>
+        <p class="weui_toast_content">加载中,请稍后!</p>
+    </div>
+</div>
+<div id="app" style="display:none;bottom:44px;">
+    <!--头部导航 start-->
+    <div class="bar bar-header" v-show="showMain" style="position:fixed;top:0px;background-color: rgba(255, 255, 255, 0.8);">
+        <a class="button button-clear" href="javascript:;" onclick="window.history.go(-1);">
+            <i class="icon ion-ios-arrow-back dark"></i>
+            <span class="dark">返回</span>
+        </a>
+        <h2 class="title">{$title}</h2>
+        <a href="javascript:;" class="button button-clear" v-if="order.status == 2 || order.status == 1" @click="postTasksLog(tasklog)">
+            <span class="active">留言</span>
+        </a>
+    </div>
+    <!--头部导航 end-->
+    <div class="msg" v-show="showMain" style="margin-top:44px;">
+        <div class="weui_msg">
+            <style>
+                .weui_icon_area svg{
+                    background-color: rgba(128, 128, 128, 0.75);
+                }
+            </style>
+            <div class="weui_icon_area">
+                <div style='width:100px;height:100px;margin:0 auto;'>
+                    <circle style="border-radius: 50%;background-image:url({{user.avatar}})" :percent="percent2" :stroke-width="6" :trail-width="6" :stroke-color="strokeColor2" trail-color="#ececec">
+                        <i @click="play(order)" v-show="!voicing" class="icon ion-ios-play" style="color: #fff;font-size: 3em;"></i>
+                        <i @click="playend(order)" v-show="voicing" class="icon ion-ios-pause" style="color: #fff;font-size: 3em;"></i>
+                    </circle>
+                </div>
+            </div>
+            <div style="clear:both"></div>
+            <div class="detail_user hdMan">
+                <div class="userPicA">
+                    <a href="" ontouchstart=""><img :src="user.avatar"></a>
+                </div>
+                <div class="hdman_r">
+                    <div class="yhName">
+                        <a href="" class="subinfo_name" id="subinfo_name" ontouchstart="" style="max-width: 103px;">{{user.nickname}}</a>
+                        <p class="fbTime">{{order.create_time}}</p>
+                    </div>
+                    <div class="dt_review_item_count">
+                        <a class="info_share" id="info_share" style="color: rgb(153, 153, 153);">分享 {{order.share_num}}+</a><span id="info_hits">阅读{{order.read_num}}</span>
+                    </div>
+                </div>
+                <input type="hidden" id="postUserId36" value="1146c">
+                <div id="maUrlcanvas" style="display:none;"><div id="canvasimage"></div></div>
+            </div>
+        </div>
+    </div>
+    <!--登录二维码-->
+    <alert style="z-index:999;" :show.sync="showqr" button-text="我知道了" title="请用微信扫码打开">
+        <qrcode :value="value" :fg-color="fgColor"></qrcode>
+    </alert>
+    <div class="page" v-if="order.status == 4">
+        <group title="评价记录" v-if="recive_star.id || user_star.id">
+            <cell :title="runner.realname">
+                <span class="active">
+                    【服务人员】{{recive_star.content}}-【{{recive_star.star}}分】
+                </span>
+            </cell>
+            <cell :title="user.nickname">
+                <span class="active">【任务主】{{user_star.content}}-【{{user_star.star}}分】</span>
+            </cell>
+        </group>
+        <!-- 是接单人 且未评价 -->
+        <group v-if="role == 'runner' && !recive_star.id">
+            <cell title="给任务主打分">
+                <rater :value.sync="data3" slot="value" :max="6" active-color="#04BE02"></rater>
+            </cell>
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea class="weui_textarea" v-model="desc" placeholder="请填写详细信息" rows="3"></textarea>
+                </div>
+            </div>
+            <x-button type="primary" @click="postStartRunner()">提交</x-button>
+        </group>
+
+        <group v-if="role == 'owener' && !user_star.id">
+            <cell title="给服务人员打分">
+                <rater :value.sync="data3" slot="value" :max="6" active-color="#04BE02"></rater>
+            </cell>
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea class="weui_textarea" v-model="desc" placeholder="请填写详细信息" rows="3"></textarea>
+                </div>
+            </div>
+            <x-button type="primary" @click="postStartRunner()">提交</x-button>
+        </group>
+    </div>
+    <div class="page" v-if="showMain && (order.status == 2 || order.status == 1)" style="margin-bottom:44px;padding-bottom:44px;">
+        <confirm :show.sync="show" title="进度留言" cancel-text="取消" confirm-text="提交"  @on-confirm="onConfirm">
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <textarea class="weui_textarea" v-model="tasklog.content" placeholder="请输入评论" rows="3"></textarea>
+                        <div class="weui_textarea_counter"><span>0</span>/200</div>
+                    </div>
+                </div>
+            </div>
+        </confirm>
+        <tab style="margin-top:15px;">
+            <!--demo1 = '进度留言'-->
+            <tab-item :selected="demo1 == '刷新留言'" @click="updateTimeline()">刷新留言</tab-item>
+            <tab-item :selected="demo1 == '任务详情'" @click="demo1 = '任务详情'">任务详情</tab-item>
+        </tab>
+        <!--<scroller lock-x scrollbar-y use-pulldown @pulldown:loading="load" enable-horizontal-swiping>-->
+            <timeline v-if="tasks_log && demo1 == '刷新留言'">
+                <timeline-item v-for="log in tasks_log">
+                    <h4 class="recent">{{log.content}}</h4>
+                    <p class="recent">{{log.create_time}}</p>
+                </timeline-item>
+            </timeline>
+
+            <div class="page" v-if="demo1 == '任务详情'">
+                <div class="weui_cells_title" v-if="role != 'owener' && order.status == 1" style="color:red;">
+                    详细电话和姓名接单后显示
+                </div>
+                <group title="任务起点" v-if="order.detail.sendaddress">
+                    <cell class="dark" :title="order.detail.sendaddress" @click="openMap()">点击查看</cell>
+                    <cell class="dark" :title="order.detail.senddetail">详细地址</cell>
+                    <cell class="dark" v-if="role == 'owener' || (role == 'runner' && order.detail.sendrealname && order.status == 2)"  :title="order.detail.sendrealname">收件人姓名</cell>
+                    <cell class="dark" v-if="role == 'owener' || (role == 'runner' && order.detail.sendmobile && order.status == 2)" :title="order.detail.sendmobile">
+                        <a href="tel:{{order.detail.sendmobile}}">立即拨打</a>
+                    </cell>
+                </group>
+                <group title="任务终点" v-if="order.detail.receiveaddress">
+                    <cell class="dark" :title="order.detail.receiveaddress" @click="openMap()">点击查看</cell>
+                    <cell class="dark" v-if="order.detail.receivedetail" :title="order.detail.receivedetail">详细地址</cell>
+                    <cell class="dark" v-if="role == 'owener' || (role == 'runner' && order.detail.receiverealname && order.status == 2)"  :title="order.detail.receiverealname">收件人姓名</cell>
+                    <cell class="dark" v-if="role == 'owener' || (role == 'runner' && order.detail.receivemobile && order.status == 2)" :title="order.detail.receivemobile">
+                        <a href="tel:{{order.detail.receivemobile}}">立即拨打</a>
+                    </cell>
+                </group>
+                <group title="地图导航" v-if="order.detail.distance_title">
+                    <cell class="active" :title="order.detail.distance_title" @click="openMap()">立即导航</cell>
+                </group>
+                <group title="任务信息">
+                    <cell title="名称" v-if="order.detail.goodsname"><span class="royal">{{order.detail.goodsname}}</span></cell>
+                    <cell title="名称" v-if="order.detail.goodstitle"><span class="royal">{{order.detail.goodstitle}}</span></cell>
+                    <cell title="重量" v-if="order.detail.goodsweight_title"><span class="royal">{{order.detail.goodsweight_title}}KG</span></cell>
+                    <cell title="任务留言" v-if="order.detail.message"><span class="royal">{{order.detail.message}}</span></cell>
+                    <cell title="价值" v-if="order.detail.goodscost_title"><span class="royal">{{order.detail.goodscost_title}}元</span></cell>
+                    <cell title="截止时间" v-if="order.limit_time_title"><span class="royal">{{order.limit_time_title}}</span></cell>
+                    <cell @click="receiveOrder(order.id)" title="任务赏金"><span class="royal">{{order.total}}元</span></cell>
+                </group>
+                <group title="发单人信息" v-if="user.nickname">
+                    <cell :title="user.nickname"><span class="active">{{order.create_time}}</span></cell>
+                </group>
+                <div class="weui_cells weui_cells_form">
+                    <div class="weui_cell">
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <div class="weui_uploader">
+                                <div class="weui_uploader_hd weui_cell">
+                                    <div class="weui_cell_bd weui_cell_primary">
+                                        <span>任务附件</span>
+                                    </div>
+                                    <div class="weui_cell_ft">
+                                        <span ></span>
+                                    </div>
+                                </div>
+                                <div class="weui_uploader_bd">
+                                    <ul class="weui_uploader_files">
+                                        <li v-for="img in order.detail.images" class="weui_uploader_file" style="">
+                                            <img style="height:100%;" :src="img">
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {template 'default/common/detail_terbar'}
+            {template 'default/common/detail_terbar2'}
+    </div>
+    <!-- 确认收货码 -->
+    <confirm :show.sync="show_password" title="请输入收货码" cancel-text="取消" confirm-text="提交" @on-confirm="comfirmPassword">
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input" v-model="password.value" type="number" pattern="[0-9]*" placeholder="请输入收货码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </confirm>
+    <!-- 任务延时 -->
+    <confirm :show.sync="yanshishow" title="任务延时" cancel-text="取消" confirm-text="提交"  @on-confirm="yanshiConfirm">
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" v-model="yanshidata.value" type="number" pattern="[0-9]*" placeholder="请输入延时时间,单位为小时">
+                </div>
+            </div>
+        </div>
+    </confirm>
+    <!-- 增加赏金 -->
+    <confirm :show.sync="shangjinshow" title="增加悬赏金额" cancel-text="取消" confirm-text="提交"  @on-confirm="shangjinConfirm">
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" v-model="shangjindata.value" type="number" pattern="[0-9]*" placeholder="请输入增加金额,单位为元">
+                </div>
+            </div>
+        </div>
+    </confirm>
+    <iframe id="mapPage" width="100%" height="100%" v-if="showMap" style="position:absolute;display:block;" frameborder='0' src="http://apis.map.qq.com/tools/locpicker?search=1&type=1&key=4MHBZ-JVL35-WLMII-Q3NME-3Z2G2-PKBJJ&referer=myapp"></iframe>
+
+</div>
+
+<script>
+    var localId = null;
+    var jssdkconfig = {php echo json_encode($_W['account']['jssdkconfig']);} || {};
+    // 是否启用调试
+    jssdkconfig.debug = false;
+
+    jssdkconfig.jsApiList = [
+        'checkJsApi',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo',
+        'hideMenuItems',
+        'showMenuItems',
+        'hideAllNonBaseMenuItem',
+        'showAllNonBaseMenuItem',
+        'translateVoice',
+        'startRecord',
+        'stopRecord',
+        'onRecordEnd',
+        'playVoice',
+        'pauseVoice',
+        'stopVoice',
+        'uploadVoice',
+        'downloadVoice',
+        'chooseImage',
+        'previewImage',
+        'uploadImage',
+        'downloadImage',
+        'getNetworkType',
+        'openLocation',
+        'getLocation',
+        'hideOptionMenu',
+        'showOptionMenu',
+        'closeWindow',
+        'scanQRCode',
+        'chooseWXPay',
+        'openProductSpecificView',
+        'addCard',
+        'chooseCard',
+        'openCard'
+    ];
+    require([
+        'vue',
+        'jquery',
+        'libs/vux/components/circle/index',
+        'libs/vux/components/timeline/index',
+        'libs/vux/components/timeline-item/index',
+        'libs/vux/components/x-button/index',
+        'libs/vux/components/cell/index',
+        'libs/vux/components/group/index',
+        'libs/vux/components/rater/index',
+        'libs/vux/components/x-textarea/index',
+        'libs/vux/components/x-button/index',
+        'libs/vux/components/qrcode/index',
+        'libs/vux/components/alert/index',
+        'libs/vux/components/x-input/index',
+        'libs/vux/components/confirm/index',
+        'libs/vux/components/tab/index',
+        'libs/vux/components/tab-item/index',
+        'libs/vux/components/scroller/index',
+        'core','js/tool','weixin'
+    ],function(Vue,$,circle,timeline,timeline_item,x_button,cell,
+               group,rater,x_textarea,XButton,qrcode,alert,XInput,Confirm,Tab,TabItem,scroller,core,R,wx){
+        Vue.component('circle', circle);
+        Vue.component('tab', Tab);
+        Vue.component('tab-item', TabItem);
+        Vue.component('timeline', timeline);
+        Vue.component('timeline-item', timeline_item);
+        Vue.component('x-button', x_button);
+        Vue.component('cell', cell);
+        Vue.component('group', group);
+        Vue.component('rater', rater);
+        Vue.component('x-textarea', x_textarea);
+        Vue.component('x-button', XButton);
+        Vue.component('qrcode', qrcode);
+        Vue.component('alert', alert);
+        Vue.component('x-input', XInput);
+        Vue.component('confirm', Confirm);
+        Vue.component('scroller', scroller);
+
+        wx.config(jssdkconfig);
+
+        console.log(x_textarea);
+        var localId = null;
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                value: "{php echo $_W['siteurl']}",
+                fgColor: '#000000',
+                percent1: 10,
+                percent2: {php echo ($order['status']/4)*100},
+                strokeColor2: '#04BE02',
+                user:{php echo json_encode($user)},
+                runner:{php echo json_encode($runner)},
+                count: 3,
+                order:{php echo json_encode($order)},
+                recive:{php echo json_encode($recive)},
+                show:false,
+                container:"{php echo $_W['container']}",
+                tasks_log:{php echo json_encode($tasks_log['list'])},
+                tasklog:{content:'',taskid:"{php echo $_GPC['id']}"},
+                voicing:false,
+                showqr:false,
+                show_password:false,
+                password:{
+                    value:'',taskid:"{php echo $_GPC['id']}" 
+                },
+                role:"{php echo $role}", 
+                yanshishow:false,
+                yanshidata:{value:'',taskid:"{php echo $_GPC['id']}"},
+                shangjinshow:false,
+                shangjindata:{value:'',taskid:"{php echo $_GPC['id']}"},
+                edit_url:"{php echo $edit_url}",
+                showMap:false,
+                showMapLocation:false,
+                showMain:true,
+                demo1:'刷新留言',
+                data3:6,
+                desc:'',
+                user_star:{php echo json_encode($user_star)},
+                recive_star:{php echo json_encode($recive_star)},
+            },
+            ready:function(){
+                $('#app').show();
+                $('#loadingToast').hide();
+                window.addEventListener('message', function(event) {
+                    var loc = event.data;
+                    if (loc && loc.module == 'locationPicker') {
+                        loc.taskid = "{php echo $_GPC['id']}";
+                        $.post("{php echo $this->createMobileUrl('updatelocation')}",loc,function(data){
+                            if(data.status == 1){
+                                window.location.href = "{php echo $_W['siteurl']}";
+                            }else{
+                                window.location.href = "{php echo $_W['siteurl']}";
+                            }
+                        },'json');
+                    }
+                }, false);
+            },
+            methods:{
+                giveUp:function(){
+                    core.ok("您确定要放弃订单么？放弃订单会降低您的信誉度哦，信誉度太低的话，您将无法接单！",function(){
+                        core.post("runner_giveup",{reciveid:vm.recive.id},function(data){
+                            if(data.result == 0){
+                                core.ok(data.message,function(){
+                                    window.location.href = "{php echo $_W['siteurl']}";
+                                },function(){
+                                    window.location.href = "{php echo $_W['siteurl']}";
+                                });
+                            }else if(data.result == -1){
+                                core.ok(data.message,function(){
+                                    window.location.href = "{php echo $_W['siteurl']}";
+                                },function(){
+                                    window.location.href = "{php echo $_W['siteurl']}";
+                                });
+                            }else{
+                                core.cancel(data.message);
+                            }
+                        });
+                    });
+                },
+                updateTimeline:function(){
+                    vm.demo1 = '刷新留言';
+                    core.post("{php echo $_W['siteurl']}&act=tasks_log",{},function(data){
+                        vm.tasks_log = data;
+                    });
+                },
+                getQrcode:function(){
+                    window.location.href = "{php echo $this->createMobileUrl('manage_qr',array('id'=>$_GPC['id']))}";
+                },
+                postStartRunner:function(){
+                    var data = {};
+                    data.taskid = "{php echo $_GPC['id']}";
+                    data.star = vm.data3;
+                    data.desc = vm.desc;
+                    $.post("{php echo $this->createMobileUrl('star')}",data,function(data){
+                        core.cancel(data.message,function(){
+                            window.location.href = "{php echo $_W['siteurl']}";
+                        });
+                        setTimeout(function(){
+                            window.location.href = "{php echo $_W['siteurl']}";
+                        },1000);
+                    },'json');
+
+                },
+                openMap:function(){
+                    window.location.href = "{php echo $this->createMobileUrl('detail',array('act'=>'guide','id'=>$id))}";
+                },
+                closeMapLocation:function(){
+                    vm.showMain = true;
+                    vm.showMapLocation = false;
+                },
+                //更新位置
+                updateLocation:function(){
+                    vm.showMap = true;
+                    vm.showMain = false;
+                },
+                cuiyicui:function(){
+                    if(vm.container != 'wechat'){
+                        vm.showqr = true;
+                        return '';
+                    }
+                    core.post("cuiyicui",{taskid:"{php echo $_GPC['id']}"},function(data){
+                        if(data.status == '1'){
+                            window.location.href = "{php echo $_W['siteurl']}";
+                        }else{
+                            core.cancel(data.message,function(){});
+                        }
+                    });
+                },
+                showShangJin:function(){
+                    if(vm.container != 'wechat'){
+                        vm.showqr = true;
+                        return '';
+                    }
+                    vm.shangjinshow = true;
+                },
+                //增加赏金后直接微信支付
+                shangjinConfirm:function(){
+                    if(vm.container != 'wechat'){
+                        vm.showqr = true;
+                        return '';
+                    }
+                    core.post("add_shangjin",vm.shangjindata,function(data){
+                        if(data.status == '1'){
+                            window.location.href = "{php echo $this->createMobileUrl('payaddshangjin')}&tid="+data.tid;
+                        }else{
+                            core.cancel(data.message,function(){});
+                        }
+                    });
+                },
+                //显示延长时间
+                showYanShi:function(){
+                    if(vm.container != 'wechat'){
+                        vm.showqr = true;
+                        return '';
+                    }
+                    vm.yanshishow = true;
+                },
+                //延长时间确认 后台发送数据延长时间
+                yanshiConfirm:function(){
+                    if(vm.container != 'wechat'){
+                        vm.showqr = true;
+                        return '';
+                    }
+                    core.post("add_time",vm.yanshidata,function(data){
+                        if(data.status == '1'){
+                            window.location.href = "{php echo $_W['siteurl']}";
+                        }else{
+                            core.cancel(data.message,function(){});
+                        }
+                    });
+                },
+                showPassword:function(){
+                    if(vm.container != 'wechat'){
+                        vm.showqr = true;
+                        return '';
+                    }
+                    vm.show_password = true;
+                },
+                deleteOrder:function(id){
+                    core.ok("您确定要删除此任务么？删除任务将清空一切活动相关数据！",function(){
+                        core.post('home_delete',{id:id},function(data){
+                            if(data.result == 0){
+                                core.ok(data.message,function(){
+                                    window.location.href = "{php echo $this->createMobileUrl('post')}";
+                                },function(){
+                                    window.location.href = "{php echo $this->createMobileUrl('post')}";
+                                });
+                                //window.location.href = "{php echo $this->createMobileUrl('tasks')}";
+                            }else{
+                                core.cancel(data.message,function(){});
+                            }
+                        });
+                    });
+                },
+                comfirmPassword:function(){
+                    var data = {};
+                    data.reciveid = vm.recive.id;
+                    data.code = vm.password.value;
+                    core.post("runner_finish",data,function(data){
+                        if(data.result == 1){
+                            core.ok(data.message,function(){
+                                window.location.href = "{php echo $_W['siteurl']}";
+                            },function(){
+                                window.location.href = "{php echo $_W['siteurl']}";
+                            });
+                        }else{
+                            core.cancel(data.message,function(){});
+                        }
+                    });
+                },
+                qrcode:function(){
+                    if(vm.container != 'wechat'){
+                        vm.showqr = true;
+                        return '';
+                    }
+                    wx.ready(function(){
+                        wx.scanQRCode({
+                            needResult: 1,
+                            scanType: ["qrCode","barCode"],
+                            success: function (res) {
+                                var result = res.resultStr;
+                                core.post('scanresult',{result:result},function(data){
+                                    if(data.status == 1){
+                                        core.ok(data.message,function(){
+                                            window.location.href = "{php echo $_W['siteurl']}";
+                                        },function(){
+                                            window.location.href = "{php echo $_W['siteurl']}";
+                                        });
+                                    }else{
+                                        core.cancel(data.message,function(){
+                                            window.location.href = "{php echo $_W['siteurl']}";
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    });
+                },
+                praise:function(item) {
+                    if (!item.has_praised) {
+                        item.like_num++
+                        item.has_praised = true
+                        console.log(JSON.stringify(item))
+                    }
+                },
+                postTasksLog:function(post){
+                    if(vm.container != 'wechat'){
+                        vm.showqr = true;
+                        return '';
+                    }
+                    vm.show = true;
+                },
+                onConfirm:function(){
+                    if(vm.container != 'wechat'){
+                        vm.showqr = true;
+                        return '';
+                    }
+                    core.post('taskslog',vm.tasklog,function(){
+                        window.location.href = "{php echo $_W['siteurl']}";
+                    });
+                },
+                play:function(){
+                    if(vm.container != 'wechat'){
+                        vm.showqr = true;
+                        return '';
+                    }
+                    vm.voicing = true;
+                    wx.ready(function(){
+                        if(core.empty(localId)){
+                            wx.downloadVoice({
+                                serverId: vm.order.media_id,
+                                isShowProgressTips: 1,
+                                success: function (res) {
+                                    localId = res.localId;
+                                    //播放
+                                    wx.playVoice({
+                                        localId: localId
+                                    });
+                                    //清除定时器
+                                    wx.onVoicePlayEnd({
+                                        success:function(){
+                                            vm.voicing = false;
+                                        }
+                                    });
+                                }
+                            });
+                        }else{
+                            wx.playVoice({
+                                localId: localId
+                            });
+                            //清除定时器
+                            wx.onVoicePlayEnd({
+                                success:function(){
+                                    vm.voicing = false;
+                                }
+                            });
+                        }
+                    });
+                },
+                playend:function(){
+                    if(vm.container != 'wechat'){
+                        vm.showqr = true;
+                        return '';
+                    }
+                    vm.voicing = false;
+                    wx.ready(function(){
+                        if(!core.empty(localId)){
+                            wx.pauseVoice({
+                                localId:localId
+                            });
+                        }
+                    });
+                },
+                receiveOrder:function(id){
+                    if(vm.container != 'wechat'){
+                        vm.showqr = true;
+                        return '';
+                    }
+                    core.post('check',{act:'runner'},function(data){
+                        if(data.status == 0){
+                            core.post('reciveorder',{id:id},function(data){
+                                if(data.success == 0){
+                                    core.ok(data.message,function(){
+                                        window.location.reload();
+                                    });
+                                }else{
+                                    core.cancel(data.message,function(){
+                                        window.location.href = "{php echo $this->createMobileUrl('tasks')}";
+                                    });
+                                }
+                            });
+                        }else if(data.status == 1){
+                            //余额不足
+                            core.ok(data.message,function(){
+                                window.location.href = data.url;
+                            },function(){
+                                window.location.href = data.url;
+                            });
+                        }else{
+                            core.ok(data.message,function(){
+                                window.location.href = data.url;
+                            },function(){
+                                window.location.href = data.url;
+                            });
+                        }
+                    });
+                },
+                goBack:function(){
+                    window.history.go(-1);
+                }
+            }
+        });
+        console.log(vm.$data.order.detail);
+    });
+</script>
+{template 'default/vux/footer'}

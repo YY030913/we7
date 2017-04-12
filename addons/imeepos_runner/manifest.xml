@@ -1,0 +1,861 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.goodziyuan.com" versionCode="0.6">
+	<application setting="true">
+		<name><![CDATA[人人快递]]></name>
+		<identifie><![CDATA[imeepos_runner]]></identifie>
+		<version><![CDATA[9.8.1]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[人人快递，实时听单抢单，发布任务，卫星实时定位，快递进度实时查询，佣金，认证服务等等]]></ability>
+		<description><![CDATA[人人快递，实时听单抢单，发布任务，卫星实时定位，快递进度实时查询，佣金，认证服务等等]]></description>
+		<author><![CDATA[好资源站长论坛]]></author>
+		<url><![CDATA[http://www.goodziyuan.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+			<message type="text" />
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+		<card embed="true" />
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="实时听单" do="index" state="" direct="false" />
+			<entry title="发布任务" do="post" state="" direct="false" />
+			<entry title="会员中心" do="home" state="" direct="false" />
+			<entry title="首页入口" do="index" state="" direct="false" />
+			<entry title="任务大厅" do="tasks" state="" direct="true" />
+		</cover>
+		<menu>
+			<entry title="任务管理" do="task" state="" direct="false" />
+			<entry title="认证管理" do="v" state="" direct="false" />
+			<entry title="插件管理" do="plugin_list" state="" direct="false" />	
+			<entry title="快递监控" do="runner" state="" direct="false" />
+		</menu>
+	</bindings>
+	<install><![CDATA[
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner3_address` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT '0',
+  `openid` varchar(64) DEFAULT '',
+  `lat` varchar(32) DEFAULT '',
+  `lng` varchar(32) DEFAULT '',
+  `poiaddress` varchar(320) DEFAULT '',
+  `poiname` varchar(128) DEFAULT '',
+  `cityname` varchar(128) DEFAULT '',
+  `detail` varchar(320) DEFAULT '',
+  `realname` varchar(32) DEFAULT '',
+  `mobile` varchar(32) DEFAULT '',
+  `create_at` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8  ;
+
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner3_adv` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT '0',
+  `title` varchar(64) DEFAULT '',
+  `image` varchar(300) DEFAULT '',
+  `time` int(11) DEFAULT '0',
+  `link` varchar(320) DEFAULT '',
+  `status` tinyint(2) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8  ;
+
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner3_buy` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT '0',
+  `openid` varchar(64) DEFAULT '',
+  `freight` float(10,2) DEFAULT '0.00',
+  `title` varchar(132) DEFAULT '',
+  `buyprovince` varchar(32) DEFAULT '',
+  `buycity` varchar(32) DEFAULT '',
+  `province` varchar(32) DEFAULT '',
+  `city` varchar(32) DEFAULT '',
+  `address` varchar(132) DEFAULT '',
+  `receivelon` varchar(32) DEFAULT '',
+  `receivelat` varchar(32) DEFAULT '',
+  `expectedtime` int(11) DEFAULT '0',
+  `buyaddress` varchar(132) DEFAULT '',
+  `sendlon` varchar(32) DEFAULT '',
+  `sendlat` varchar(32) DEFAULT '',
+  `other` varchar(320) DEFAULT '',
+  `distance` int(11) DEFAULT '0',
+  `taskid` int(11) DEFAULT '0',
+  `limit_time` int(11) DEFAULT '0',
+  `receiveaddress` varchar(132) DEFAULT '',
+  `receivedetail` varchar(320) DEFAULT NULL,
+  `receivemobile` varchar(32) DEFAULT NULL,
+  `message` varchar(640) DEFAULT NULL,
+  `receiverealname` varchar(32) DEFAULT NULL,
+  `dianfu` tinyint(2) DEFAULT NULL,
+  `goodscost` decimal(10,2) DEFAULT NULL,
+  `goodstitle` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
+
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner3_citys` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT NULL,
+  `title` varchar(64) DEFAULT '',
+  `lat` varchar(32) DEFAULT '',
+  `lng` varchar(32) DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8  ;
+
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner3_code` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mobile` varchar(32) DEFAULT '',
+  `code` varchar(32) DEFAULT '',
+  `time` int(11) DEFAULT '0',
+  `content` varchar(320) DEFAULT '',
+  `uniacid` int(11) DEFAULT '0',
+  `openid` varchar(64) DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner3_detail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT '0',
+  `taskid` int(11) DEFAULT '0',
+  `goodsweight` float(10,2) DEFAULT '0.00',
+  `goodscost` float(10,2) DEFAULT '0.00',
+  `goodsname` varchar(64) DEFAULT '',
+  `sendprovince` varchar(32) DEFAULT '',
+  `sendcity` varchar(32) DEFAULT '',
+  `sendaddress` varchar(132) DEFAULT '',
+  `receiveprovince` varchar(32) DEFAULT '',
+  `receivecity` varchar(32) DEFAULT '',
+  `receiveaddress` varchar(132) DEFAULT '',
+  `pickupdate` int(11) DEFAULT '0',
+  `sendlon` varchar(64) DEFAULT '',
+  `sendlat` varchar(64) DEFAULT '',
+  `receivelon` varchar(64) DEFAULT '',
+  `receivelat` varchar(64) DEFAULT '',
+  `distance` int(11) DEFAULT '0',
+  `dataTimeValue` int(11) DEFAULT '0',
+  `time` tinyint(2) DEFAULT '0',
+  `base_fee` float(10,2) DEFAULT '0.00',
+  `fee` float(10,2) DEFAULT '0.00',
+  `total` float(10,2) DEFAULT '0.00',
+  `small_money` float(10,2) DEFAULT '0.00',
+  `senddetail` varchar(64) DEFAULT '',
+  `receivedetail` varchar(320) DEFAULT '',
+  `receivemobile` varchar(32) DEFAULT '',
+  `receiverealname` varchar(32) DEFAULT '',
+  `message` varchar(640) DEFAULT '',
+  `images` varchar(1000) DEFAULT NULL,
+  `float_distance` float(10,2) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8  ;
+
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner3_idauth` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT '0',
+  `cardno` varchar(32) DEFAULT '',
+  `code` int(11) DEFAULT '0',
+  `birthday` varchar(32) DEFAULT '',
+  `sex` varchar(32) DEFAULT '',
+  `name` varchar(32) DEFAULT '',
+  `address` varchar(64) DEFAULT '',
+  `openid` varchar(64) DEFAULT '',
+  `uid` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner3_image` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT NULL,
+  `src` varchar(300) DEFAULT NULL,
+  `code` varchar(64) DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8  ;
+
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner3_listenlog` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT '0',
+  `openid` varchar(64) DEFAULT '',
+  `create_time` int(11) DEFAULT '0',
+  `taskid` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner3_member` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uid` int(11) unsigned NOT NULL,
+  `uniacid` int(11) unsigned NOT NULL,
+  `status` tinyint(2) unsigned NOT NULL,
+  `groupid` int(11) unsigned NOT NULL,
+  `time` int(11) DEFAULT NULL,
+  `openid` varchar(64) DEFAULT NULL,
+  `online` tinyint(2) DEFAULT '0',
+  `nickname` varchar(32) DEFAULT '',
+  `avatar` varchar(320) DEFAULT NULL,
+  `gender` tinyint(2) DEFAULT '0',
+  `city` varchar(32) DEFAULT '',
+  `provice` varchar(32) DEFAULT '',
+  `realname` varchar(32) DEFAULT '',
+  `mobile` varchar(32) DEFAULT '',
+  `xinyu` int(11) DEFAULT '0',
+  `isrunner` tinyint(2) DEFAULT '0',
+  `card_image1` varchar(320) DEFAULT '',
+  `card_image2` varchar(320) DEFAULT '',
+  `cardnum` varchar(64) DEFAULT '',
+  `lat` varchar(64) DEFAULT '',
+  `lng` varchar(64) DEFAULT '',
+  `forbid` tinyint(4) DEFAULT '0',
+  `oauth_code` varchar(64) DEFAULT '',
+  `level_id` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8  ;
+
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner3_message` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT '0',
+  `create_time` int(11) DEFAULT '0',
+  `status` tinyint(2) DEFAULT '0',
+  `title` varchar(320) DEFAULT '',
+  `link` varchar(320) DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8  ;
+
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner3_moneylog` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT '0',
+  `reciveid` int(11) DEFAULT '0',
+  `create_time` int(11) DEFAULT '0',
+  `fee` float(10,2) DEFAULT '0.00',
+  `openid` varchar(64) DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
+
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner3_navs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT '0',
+  `title` varchar(32) DEFAULT '',
+  `link` varchar(320) DEFAULT '',
+  `icon_on` varchar(320) DEFAULT '',
+  `icon_off` varchar(320) DEFAULT '',
+  `create_time` int(11) DEFAULT '0',
+  `ido` varchar(32) DEFAULT '',
+  `displayorder` int(11) DEFAULT '0',
+  `position` varchar(32) DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner3_paylog` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT '0',
+  `tid` varchar(64) DEFAULT '',
+  `time` int(11) DEFAULT '0',
+  `setting` text,
+  `status` tinyint(2) DEFAULT '0',
+  `openid` varchar(64) DEFAULT '',
+  `fee` float(10,2) DEFAULT '0.00',
+  `type` varchar(32) DEFAULT '',
+  `taskid` int(10) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner3_recive` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT '0',
+  `openid` varchar(64) DEFAULT '',
+  `taskid` int(11) DEFAULT '0',
+  `create_time` int(11) DEFAULT '0',
+  `fee` float(10,2) DEFAULT '0.00',
+  `update_time` int(11) DEFAULT '0',
+  `status` tinyint(2) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner3_setting` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT '0',
+  `code` varchar(32) DEFAULT '',
+  `value` text,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
+
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner3_star` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT '0',
+  `taskid` int(11) DEFAULT '0',
+  `from_openid` varchar(64) DEFAULT '',
+  `to_openid` varchar(64) DEFAULT '',
+  `star` int(11) DEFAULT '0',
+  `type` tinyint(4) DEFAULT '0',
+  `content` varchar(1000) DEFAULT '',
+  `create_time` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8  ;
+
+
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner3_tasks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT '0',
+  `status` tinyint(2) DEFAULT '1',
+  `create_time` int(11) DEFAULT '0',
+  `cityid` int(11) DEFAULT '0',
+  `media_id` varchar(132) DEFAULT '',
+  `openid` varchar(64) DEFAULT '',
+  `desc` text,
+  `update_time` int(11) DEFAULT '0',
+  `code` text,
+  `qrcode` text,
+  `city` varchar(32) DEFAULT '',
+  `type` tinyint(4) DEFAULT '0',
+  `total` float(10,2) DEFAULT '0.00',
+  `small_money` float(10,2) DEFAULT '0.00',
+  `limit_time` int(11) DEFAULT '0',
+  `address` varchar(320) DEFAULT '',
+  `read_num` int(11) DEFAULT '0',
+  `share_num` int(11) DEFAULT '0',
+  `listen_num` int(11) DEFAULT '0',
+  `message` varchar(320) DEFAULT '',
+  `dianfu` tinyint(2) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8  ;
+
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner3_tasks_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT '0',
+  `taskid` int(11) DEFAULT '0',
+  `openid` varchar(64) DEFAULT '',
+  `content` varchar(1000) DEFAULT '',
+  `create_time` int(11) DEFAULT '0',
+  `lat` varchar(32) DEFAULT '',
+  `lng` varchar(32) DEFAULT '',
+  `status` tinyint(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_adv` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) unsigned NOT NULL,
+  `module` varchar(32) NOT NULL,
+  `starttime` int(11) unsigned NOT NULL,
+  `endtime` int(11) unsigned NOT NULL,
+  `displayorder` int(11) unsigned NOT NULL,
+  `title` varchar(132) NOT NULL,
+  `link` varchar(132) NOT NULL,
+  `image` varchar(132) NOT NULL,
+  `status` tinyint(2) unsigned NOT NULL,
+  `isfull` tinyint(2) NOT NULL,
+  `pid` int(11) unsigned NOT NULL,
+  `images` text NOT NULL,
+  `set` text NOT NULL,
+  `month` float(6,2) unsigned NOT NULL,
+  `postion` varchar(32) NOT NULL,
+  `content` text,
+  `uid` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_apply_certify` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) DEFAULT NULL,
+  `uniacid` int(11) DEFAULT NULL,
+  `time` int(11) DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
+  `state` tinyint(4) NOT NULL,
+  `certify_id` int(11) DEFAULT NULL,
+  `created_at` int(11) NOT NULL,
+  `updated_at` int(11) NOT NULL,
+  `delete_at` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_apply_service` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `service_type_id` int(11) NOT NULL,
+  `state` tinyint(4) NOT NULL,
+  `note` varchar(255) NOT NULL,
+  `created_at` int(11) NOT NULL,
+  `updated_at` int(11) NOT NULL,
+  `delete_at` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_awards` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT NULL,
+  `condition` int(11) DEFAULT NULL,
+  `value` decimal(10,2) DEFAULT NULL,
+  `type` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_certify` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT NULL,
+  `name` varchar(60) DEFAULT NULL,
+  `ename` varchar(60) DEFAULT NULL,
+  `is_valid` tinyint(2) DEFAULT NULL,
+  `time` int(11) DEFAULT NULL,
+  `icon` varchar(200) DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
+  `timelong` int(4) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_UNIACID` (`uniacid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_class` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) unsigned NOT NULL,
+  `title` varchar(32) NOT NULL,
+  `icon` varchar(132) NOT NULL,
+  `desc` varchar(132) NOT NULL,
+  `time` int(11) unsigned NOT NULL,
+  `status` tinyint(2) unsigned NOT NULL,
+  `module` varchar(32) NOT NULL,
+  `set` text NOT NULL,
+  `link` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_father` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT NULL,
+  `openid` varchar(32) DEFAULT NULL,
+  `fid` int(11) DEFAULT NULL,
+  `time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_feedback` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT NULL,
+  `uid` int(11) DEFAULT NULL,
+  `content` text,
+  `time` int(11) DEFAULT NULL,
+  `status` tinyint(2) DEFAULT NULL,
+  `nickname` varchar(60) DEFAULT NULL,
+  `mobile` varchar(60) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_gonggao` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) unsigned NOT NULL,
+  `module` varchar(32) NOT NULL,
+  `title` varchar(132) NOT NULL,
+  `link` varchar(132) NOT NULL,
+  `status` tinyint(2) unsigned NOT NULL,
+  `starttime` int(11) unsigned NOT NULL,
+  `endtime` int(11) unsigned NOT NULL,
+  `content` text NOT NULL,
+  `tag` varchar(300) NOT NULL,
+  `time` int(11) unsigned NOT NULL,
+  `displayorder` int(11) unsigned NOT NULL,
+  `num` int(11) unsigned NOT NULL,
+  `desc` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT NULL,
+  `openid` varchar(255) DEFAULT NULL,
+  `type` tinyint(3) DEFAULT NULL,
+  `logno` varchar(255) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `createtime` int(11) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `money` decimal(10,2) DEFAULT NULL,
+  `rechargetype` varchar(255) DEFAULT NULL,
+  `transid` varchar(64) DEFAULT NULL,
+  `zeng` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_uniacid` (`uniacid`),
+  KEY `idx_openid` (`openid`),
+  KEY `idx_type` (`type`),
+  KEY `idx_createtime` (`createtime`),
+  KEY `idx_status` (`status`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_markets` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT NULL,
+  `title` varchar(60) DEFAULT NULL,
+  `condition` int(11) DEFAULT NULL,
+  `value` decimal(10,2) DEFAULT NULL,
+  `type` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_member` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uid` int(11) unsigned NOT NULL,
+  `uniacid` int(11) unsigned NOT NULL,
+  `status` tinyint(2) unsigned NOT NULL,
+  `groupid` int(11) unsigned NOT NULL,
+  `fid` int(11) DEFAULT NULL,
+  `credit_red` decimal(10,2) DEFAULT NULL,
+  `credit_deposit` decimal(10,2) DEFAULT NULL,
+  `is_runner` tinyint(2) DEFAULT NULL,
+  `time` int(11) DEFAULT NULL,
+  `credit_runner` int(11) unsigned NOT NULL,
+  `credit_member` int(11) unsigned NOT NULL,
+  `openid` varchar(64) DEFAULT NULL,
+  `qr` varchar(200) DEFAULT NULL,
+  `scan` tinyint(2) DEFAULT NULL,
+  `online` tinyint(2) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_member_level` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT NULL,
+  `title` varchar(60) DEFAULT NULL,
+  `desc` text,
+  `startnum` int(11) DEFAULT NULL,
+  `ionc` varchar(200) DEFAULT NULL,
+  `level` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_member_paylog` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `groupid` int(11) unsigned NOT NULL,
+  `fee` float(8,2) unsigned NOT NULL,
+  `title` varchar(132) NOT NULL,
+  `createtime` int(11) unsigned NOT NULL,
+  `status` tinyint(2) unsigned NOT NULL,
+  `transid` varchar(64) NOT NULL,
+  `ordersn` varchar(64) NOT NULL,
+  `uniacid` int(11) unsigned NOT NULL,
+  `uid` int(11) unsigned NOT NULL,
+  `runnerid` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_member_profile` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT NULL,
+  `uid` int(11) DEFAULT NULL,
+  `realname` varchar(60) DEFAULT NULL,
+  `age` int(6) DEFAULT NULL,
+  `tools` varchar(300) DEFAULT NULL,
+  `diverpic` varchar(300) DEFAULT NULL,
+  `cardpic1` varchar(300) DEFAULT NULL,
+  `cardpic2` varchar(300) DEFAULT NULL,
+  `createtime` int(11) DEFAULT NULL,
+  `latitude` varchar(32) NOT NULL,
+  `longitude` varchar(32) DEFAULT NULL,
+  `openid` varchar(64) DEFAULT NULL,
+  `mobile` varchar(32) DEFAULT NULL,
+  `wechat` varchar(64) DEFAULT NULL,
+  `cardnum` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_message` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT '0',
+  `fopenid` varchar(64) DEFAULT '',
+  `topenid` varchar(64) DEFAULT '',
+  `content` varchar(300) DEFAULT '',
+  `status` tinyint(2) DEFAULT '0',
+  `createtime` int(11) DEFAULT '0',
+  `readtime` int(11) DEFAULT '0',
+  `replytime` int(11) DEFAULT '0',
+  `replayid` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_msg_template` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `title` varchar(500) NOT NULL,
+  `tpl_id` varchar(100) NOT NULL,
+  `template` text NOT NULL,
+  `tags` varchar(1000) NOT NULL,
+  `set` text NOT NULL,
+  `type` varchar(32) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_UNIACID` (`uniacid`),
+  KEY `IDX_TYPE` (`type`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_msg_template_data` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(52) NOT NULL,
+  `set` text NOT NULL,
+  `uniacid` int(11) unsigned NOT NULL,
+  `tpl_id` varchar(124) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_my_certify` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) DEFAULT NULL,
+  `uniacid` int(11) DEFAULT NULL,
+  `certify_id` int(11) DEFAULT NULL,
+  `time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_my_services` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT NULL,
+  `uid` int(11) DEFAULT NULL,
+  `services_id` int(11) DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
+  `created_at` int(11) DEFAULT NULL,
+  `update_at` int(11) DEFAULT NULL,
+  `delete_at` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_nav` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) unsigned NOT NULL,
+  `title` varchar(32) NOT NULL,
+  `icon` varchar(132) NOT NULL,
+  `link` varchar(132) NOT NULL,
+  `time` int(11) unsigned NOT NULL,
+  `module` varchar(32) NOT NULL,
+  `type` varchar(32) NOT NULL,
+  `displayorder` int(11) unsigned NOT NULL,
+  `postion` varchar(32) NOT NULL,
+  `status` tinyint(2) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_page` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT NULL,
+  `datas` text,
+  `savetime` int(11) DEFAULT NULL,
+  `pagetype` tinyint(6) DEFAULT NULL,
+  `pageinfo` text,
+  `pagename` varchar(64) DEFAULT NULL,
+  `keyword` varchar(32) DEFAULT NULL,
+  `createtime` int(11) DEFAULT NULL,
+  `setdefault` tinyint(2) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_paylog` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT NULL,
+  `openid` varchar(40) DEFAULT NULL,
+  `tid` varchar(64) DEFAULT NULL,
+  `fee` decimal(10,2) DEFAULT NULL,
+  `status` tinyint(2) DEFAULT NULL,
+  `type` tinyint(2) DEFAULT NULL,
+  `time` int(11) DEFAULT NULL,
+  `actiontype` tinyint(2) DEFAULT NULL,
+  `title` varchar(200) DEFAULT NULL,
+  `uid` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_UNIACID` (`uniacid`),
+  KEY `IDX_TID` (`tid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_rule` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT NULL,
+  `rid` int(11) DEFAULT NULL,
+  `title` varchar(60) DEFAULT NULL,
+  `content` text,
+  `img` varchar(300) DEFAULT NULL,
+  `url` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_runner` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT NULL,
+  `uid` int(11) DEFAULT NULL,
+  `time` int(11) DEFAULT NULL,
+  `status` tinyint(2) DEFAULT NULL,
+  `desc` text,
+  `groupid` int(11) DEFAULT NULL,
+  `isonline` tinyint(2) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_runner_level` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT NULL,
+  `title` varchar(60) DEFAULT NULL,
+  `desc` text,
+  `startnum` int(11) DEFAULT NULL,
+  `ionc` varchar(200) DEFAULT NULL,
+  `level` int(11) DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
+  `isdefault` tinyint(2) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_services` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT NULL,
+  `name` varchar(60) DEFAULT NULL,
+  `desc` text,
+  `price` decimal(10,2) DEFAULT NULL,
+  `imgurl` varchar(255) DEFAULT NULL,
+  `state` tinyint(4) DEFAULT NULL,
+  `usort` int(11) DEFAULT NULL,
+  `create_ar` int(11) DEFAULT NULL,
+  `updated_at` int(11) DEFAULT NULL,
+  `tumelong` int(4) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_settings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT NULL,
+  `invitecode` text,
+  `set` text NOT NULL,
+  `about` text NOT NULL,
+  `seo` text NOT NULL,
+  `share` text NOT NULL,
+  `themes` text NOT NULL,
+  `tasks` text NOT NULL,
+  `juhe` text NOT NULL,
+  `template_message` text NOT NULL,
+  `widthdraw` text NOT NULL,
+  `renren` text NOT NULL,
+  `renren_city` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_shop` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT '0',
+  `cid` int(11) DEFAULT '0',
+  `title` varchar(64) DEFAULT '',
+  `desc` varchar(300) DEFAULT '',
+  `content` text,
+  `mobile` varchar(32) DEFAULT '',
+  `wechat` varchar(32) DEFAULT '',
+  `createtime` int(11) DEFAULT '0',
+  `image` varchar(200) DEFAULT '',
+  `thumbs` text,
+  `status` tinyint(2) DEFAULT '0',
+  `displayorder` int(11) DEFAULT '0',
+  `icon` varchar(200) DEFAULT '',
+  `uid` int(11) DEFAULT '0',
+  `opentime` varchar(300) DEFAULT '',
+  `address` varchar(300) DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_shop_class` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT '0',
+  `title` varchar(64) DEFAULT '',
+  `icon` varchar(200) DEFAULT '',
+  `time` int(11) DEFAULT '0',
+  `desc` varchar(300) DEFAULT '',
+  `fid` int(11) DEFAULT '0',
+  `setting` text,
+  `displayorder` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_shop_goods` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT '0',
+  `cid` int(11) DEFAULT '0',
+  `title` varchar(64) DEFAULT '',
+  `desc` varchar(300) DEFAULT '',
+  `image` varchar(200) DEFAULT '',
+  `thumbs` text,
+  `createtime` int(11) DEFAULT '0',
+  `fee` decimal(10,2) DEFAULT '0.00',
+  `shopid` int(11) DEFAULT '0',
+  `status` tinyint(2) DEFAULT '0',
+  `address` varchar(300) DEFAULT NULL,
+  `displayorder` int(11) DEFAULT NULL,
+  `opentime` varchar(255) DEFAULT NULL,
+  `endtime` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_sms` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT NULL,
+  `code` varchar(10) DEFAULT NULL,
+  `time` int(11) DEFAULT NULL,
+  `openid` varchar(64) DEFAULT NULL,
+  `mobile` varchar(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_tasks` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) unsigned NOT NULL,
+  `uid` int(11) unsigned NOT NULL,
+  `oauth_openid` varchar(64) NOT NULL,
+  `openid` varchar(64) NOT NULL,
+  `desc` varchar(132) NOT NULL,
+  `cid` int(11) unsigned NOT NULL,
+  `fee` float(11,2) NOT NULL,
+  `nickname` varchar(32) NOT NULL,
+  `realname` varchar(32) NOT NULL,
+  `mobile` varchar(32) NOT NULL,
+  `status` tinyint(2) unsigned NOT NULL,
+  `module` varchar(32) NOT NULL,
+  `createtime` int(11) unsigned NOT NULL,
+  `transid` varchar(64) NOT NULL,
+  `displayorder` int(11) unsigned NOT NULL,
+  `ordersn` varchar(64) NOT NULL,
+  `startlat` double NOT NULL,
+  `startlng` double NOT NULL,
+  `endlat` double NOT NULL,
+  `endlng` double NOT NULL,
+  `startaddress` varchar(132) NOT NULL,
+  `endaddress` varchar(132) NOT NULL,
+  `look_num` int(11) DEFAULT NULL,
+  `share_num` int(11) DEFAULT NULL,
+  `sheng_num` int(11) DEFAULT NULL,
+  `zhong_num` int(11) DEFAULT NULL,
+  `jing_num` int(11) DEFAULT NULL,
+  `total_num` int(11) DEFAULT NULL,
+  `thumbs` text,
+  `postrealname` varchar(32) NOT NULL,
+  `postmobile` varchar(32) NOT NULL,
+  `recivemobile` varchar(32) DEFAULT NULL,
+  `reciverealname` varchar(32) DEFAULT NULL,
+  `starttime` varchar(32) DEFAULT NULL,
+  `endtime` varchar(32) DEFAULT NULL,
+  `peoplelimit` int(3) DEFAULT NULL,
+  `lessfee` decimal(11,2) DEFAULT NULL,
+  `kglimit` decimal(5,2) DEFAULT NULL,
+  `unitname` varchar(32) DEFAULT NULL,
+  `timelimit` decimal(6,2) DEFAULT NULL,
+  `addresslimit` decimal(6,2) DEFAULT NULL,
+  `totalfee` float(10,2) DEFAULT NULL,
+  `limitgender` tinyint(2) DEFAULT NULL,
+  `setting` text,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_tasks_comment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `taskid` int(11) DEFAULT '0',
+  `uniacid` int(11) DEFAULT '0',
+  `title` varchar(200) DEFAULT '',
+  `ratting1` int(11) DEFAULT '0',
+  `ratting2` int(11) DEFAULT '0',
+  `ratting3` int(11) DEFAULT '0',
+  `fuid` int(11) DEFAULT '0',
+  `tuid` int(11) DEFAULT '0',
+  `time` int(11) DEFAULT '0',
+  `desc` text,
+  `type` tinyint(4) DEFAULT '0',
+  `reciveid` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_tasks_recive` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `from_uniacid` int(32) unsigned NOT NULL,
+  `to_uniacid` int(11) unsigned NOT NULL,
+  `from_uid` int(11) unsigned NOT NULL,
+  `to_uid` int(11) unsigned NOT NULL,
+  `from_openid` varchar(64) NOT NULL,
+  `to_openid` varchar(64) NOT NULL,
+  `taskid` int(11) unsigned NOT NULL,
+  `status` tinyint(2) unsigned NOT NULL,
+  `time` int(11) unsigned NOT NULL,
+  `reciveid` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_tasks_recive_active` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT '0',
+  `uid` int(11) DEFAULT '0',
+  `reciveid` int(11) DEFAULT '0',
+  `taskid` int(11) DEFAULT '0',
+  `openid` varchar(64) DEFAULT '',
+  `lat` varchar(64) DEFAULT '',
+  `lng` varchar(64) DEFAULT '',
+  `address` varchar(128) DEFAULT '',
+  `time` int(11) DEFAULT '0',
+  `desc` varchar(200) DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_imeepos_runner_users_invitecode` (
+  `user_id` int(10) unsigned NOT NULL,
+  `invite_code` char(16) NOT NULL,
+  `invite_counts` int(10) unsigned NOT NULL,
+  `created_at` int(10) unsigned NOT NULL,
+  `updated_at` int(10) unsigned NOT NULL,
+  `uniacid` int(10) unsigned NOT NULL,
+  UNIQUE KEY `invite_code` (`invite_code`),
+  UNIQUE KEY `user_id_2` (`user_id`),
+  KEY `user_id` (`user_id`),
+  KEY `invite_code_2` (`invite_code`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+]]></install>
+	<uninstall><![CDATA[uninstall.php]]></uninstall>
+	<upgrade><![CDATA[update.php]]></upgrade>
+</manifest>

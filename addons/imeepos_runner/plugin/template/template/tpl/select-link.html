@@ -1,0 +1,106 @@
+<div id="floating-link" class="modal fade" tabindex="-1" style="z-index:99999">
+			<div class="modal-dialog" style='width: 920px;'>
+				<div class="modal-content">
+					<div class="modal-header">
+						<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+						<h3>选择链接</h3></div>
+					<div class="modal-body">
+						<ul class="nav nav-tabs">
+							<li id="fe-tab-link-nav-1" class="active"><a href="javascript:switchtab('fe-tab-link',1);">快递页面</a></li>
+							<li id="fe-tab-link-nav-2"><a href="javascript:switchtab('fe-tab-link',2);">服务分类</a></li>
+							<li id="fe-tab-link-nav-3"><a href="javascript:switchtab('fe-tab-link',3);">任务分类</a></li>
+							<li id="fe-tab-link-nav-6"><a href="javascript:switchtab('fe-tab-link',6);">商户页面</a></li>
+							<li id="fe-tab-link-nav-7"><a href="javascript:switchtab('fe-tab-link',7);">系统连接</a></li>
+							<li id="fe-tab-link-nav-4"><a href="javascript:switchtab('fe-tab-link',4);">个人中心项目</a></li>
+							<li id="fe-tab-link-nav-5"><a href="javascript:switchtab('fe-tab-link',5);">快递中心项目</a></li>
+						</ul>
+						
+						<div>
+							<div class="fe-tab-link" id="fe-tab-link-1" style="display: block;">
+								<div class="page-header">
+									<h4><i class="fa fa-folder-open-o"></i> 快递页面链接</h4>
+								</div>
+								<div id="fe-tab-link-li-1" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('index')}')">任务大厅</div>
+								<div id="fe-tab-link-li-2" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('user')}')">个人中心</div>
+								<div id="fe-tab-link-li-2" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('map')}')">附近地图</div>
+								<div id="fe-tab-link-li-2" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('runner')}')">快递中心</div>
+								<div id="fe-tab-link-li-3" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('service')}')">服务大厅</div>
+								<div id="fe-tab-link-li-3" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('task',array('act'=>'add'))}')">发布任务</div>
+								<div id="fe-tab-link-li-3" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('message')}')">消息</div>
+								<div id="fe-tab-link-li-4" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('service',array('act'=>'search'))}')">搜索服务</div>
+								<div id="fe-tab-link-li-5" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('task',array('act'=>'search'))}')" >搜索任务</div>
+								<div id="fe-tab-link-li-6" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('jifei')}')">计费规则</div>
+								{if $isrealtimeorder}
+								<div id="fe-tab-link-li-6" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobilePluginUrl('realtimeorder/renren_delivergoods')}')">帮我送</div>
+								<div id="fe-tab-link-li-6" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobilePluginUrl('realtimeorder/renren_buygoods')}')">帮我买</div>
+								{/if}
+							</div>
+							
+							<div class="fe-tab-link" id="fe-tab-link-2">
+								{loop $shopCategorys $category} 
+									<div class="fe-tab-link-line">
+										<div class="fe-tab-link-sub"><a href="javascript:;" ng-click="chooseLink('{php echo $this->createMobileUrl('shop',array('act'=>'class','cid'=>$category['id']))}')">选择</a></div>
+										<div class="fe-tab-link-text">
+											{$category['title']}
+										</div>
+									</div>
+								{/loop}
+							</div>
+							
+							<div class="fe-tab-link" id="fe-tab-link-6">
+								<div id="fe-tab-link-li-1" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('shop',array('act'=>'post'))}')">商户申请</div>
+								<div id="fe-tab-link-li-2" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('shop',array('act'=>'edit'))}')">商户资料修改</div>
+								<div id="fe-tab-link-li-2" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('shop',array('act'=>'manage'))}')">店铺管理</div>
+								<div id="fe-tab-link-li-3" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('shop',array('act'=>'goods'))}')">店铺服务管理</div>
+								<div id="fe-tab-link-li-3" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('shop',array('act'=>'add_goods'))}')">发布新服务</div>
+								<div id="fe-tab-link-li-3" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('shop',array('act'=>'message'))}')">店铺消息</div>
+								<div id="fe-tab-link-li-4" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('shop',array('act'=>'log'))}')">店铺统计</div>
+								<div id="fe-tab-link-li-4" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('shop',array('act'=>'order'))}')">订单管理</div>
+							</div>
+							
+							<div class="fe-tab-link" id="fe-tab-link-3">
+								{loop $categorys $category} 
+									<div class="fe-tab-link-line">
+										<div class="fe-tab-link-sub"><a href="javascript:;" ng-click="chooseLink('{php echo $this->createMobileUrl('task',array('act'=>'class','cid'=>$category['id']))}')">选择</a></div>
+										<div class="fe-tab-link-text">
+											{$category['title']}
+										</div>
+									</div>
+								{/loop}
+							</div>
+
+							<div class="fe-tab-link" id="fe-tab-link-4">
+								<div id="fe-tab-link-li-1" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('user',array('act'=>'mypost'))}')">我的任务</div>
+								
+								<div id="fe-tab-link-li-2" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('user',array('act'=>'info'))}')">会员资料</div>
+								<div id="fe-tab-link-li-2" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('user',array('act'=>'real'))}')">会员实名认证</div>
+								<div id="fe-tab-link-li-2" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('user',array('act'=>'money'))}')">我的账户</div>
+								<div id="fe-tab-link-li-2" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('user',array('act'=>'moneylog'))}')">充值记录</div>
+								<div id="fe-tab-link-li-2" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('user',array('act'=>'widthdraw'))}')">提现</div>
+								<div id="fe-tab-link-li-2" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('user',array('act'=>'widthdrawlog'))}')">提现记录</div>
+								<div id="fe-tab-link-li-2" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('user',array('act'=>'aboutus'))}')">关于我们</div>
+								<div id="fe-tab-link-li-6" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('guide')}')">导航页</div>
+								<div id="fe-tab-link-li-6" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('user',array('act'=>'feedback'))}')">留言反馈</div>
+							</div>
+							
+							<div class="fe-tab-link" id="fe-tab-link-5">
+								<div id="fe-tab-link-li-2" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('runner',array('act'=>'myorder'))}')">我的订单</div>
+								<div id="fe-tab-link-li-1" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('runner')}')">我的快递</div>
+								<div id="fe-tab-link-li-1" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('runner',array('act'=>'log'))}')">评价记录</div>
+								<div id="fe-tab-link-li-2" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('runner',array('act'=>'info'))}')">快递资料</div>
+								<div id="fe-tab-link-li-2" class="btn btn-default" ng-click="chooseLink('{php echo $this->createMobileUrl('runner',array('act'=>'vip'))}')">快递认证</div>
+							</div>
+
+							<div class="fe-tab-link" id="fe-tab-link-7">
+								<div id="fe-tab-link-li-2" class="btn btn-default" ng-click="chooseLink('{php echo murl('mc')}')">系统会员中心</div>
+								<div id="fe-tab-link-li-2" class="btn btn-default" ng-click="chooseLink('{php echo murl('entry',array('do'=>'pay','m'=>'recharge'))}')">系统充值</div>
+								<div id="fe-tab-link-li-2" class="btn btn-default" ng-click="chooseLink('{php echo murl('mc/bond',array('do'=>'credits','credittype'=>'credit2'))}')">消费记录</div>
+
+								<div id="fe-tab-link-li-2" class="btn btn-default" ng-click="chooseLink('{php echo murl('home',array('t'=>$_W['uniacid']))}')">微站首页</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer"><a href="#" class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</a></div>
+				</div>
+			</div>
+		</div>

@@ -1,0 +1,148 @@
+<style>
+	.weui_icon_area img{
+		width:120px;
+		height:120px;
+		border-radius: 60px;
+	}
+</style>
+<div class="page slideIn msg">
+    <div class="weui_msg">
+        <div class="weui_icon_area">
+        	<img src="{php echo $user['avatar']}" alt="" />
+        </div>
+        <div class="weui_text_area">
+            <h2 class="weui_msg_title">{$user['nickname']}</h2>
+            <p class="weui_msg_desc">
+            	{$order['desc']}
+            </p>
+        </div>
+        <div class="weui_opr_area">
+            <p class="weui_btn_area">
+            	{if $order['status'] == 1}
+            		<a href="javascript:;" class="weui_btn weui_btn_primary" data-id="{$order['id']}" id="reciveOrder">立即接单</a>
+            	{else}
+                	<a href="javascript:;" class="weui_btn weui_btn_default" >已被抢</a>
+                {/if}
+                <a href="javascript:;" id="voice" data-id="{$order['media_id']}" class="weui_btn weui_btn_warn">立即播放</a>
+                <a href="javascript:;" class="weui_btn weui_btn_default">返回</a>
+            </p>
+        </div>
+    </div>
+</div>
+<script>
+require(['jquery','core','weixin','js/tool'],function($,core,wx,R){
+	wx.config(jssdkconfig);
+	$('#footer').show();
+
+	var localId = null;
+	$('.weui_btn_default').click(function(){
+		wx.ready(function(){
+			wx.stopVoice({
+				localId:localId
+			});
+			R.hideVoice();
+		});
+		wx.onVoicePlayEnd({
+			success: function (res) {
+				var localId = res.localId;
+				R.hideVoice();
+			}
+		});
+		setTimeout(function(){
+			window.history.go(-1);
+		},500);
+	});
+
+	var voicing = false;
+	$('#voice').click(function(){
+		var media_id = $(this).data('id');
+		wx.ready(function(){
+			if(core.empty(localId)){
+				wx.downloadVoice({
+				    serverId: media_id,
+				    isShowProgressTips: 1,
+				    success: function (res) {
+				        localId = res.localId;
+				        //播放
+						R.showVoice('语音播放中');
+				        wx.playVoice({
+				            localId: localId
+				        });
+				        //清除定时器
+				        wx.onVoicePlayEnd({
+				        	success:function(){
+				        		voicing = false;
+								R.hideVoice();
+				        	}
+				        });
+				    },
+				    fail:function(){
+				    	voicing = false;
+		        	}
+				});
+			}else{
+				R.showVoice('语音播放中');
+				wx.playVoice({
+		            localId: localId
+		        });
+		        //清除定时器
+		        wx.onVoicePlayEnd({
+		        	success:function(){
+		        		voicing = false;
+						R.hideVoice();
+		        	}
+		        });
+			}
+		});
+	});
+	$('#reciveOrder').click(function(){
+		var __this = $(this);
+		core.post('check',{act:'runner'},function(data){
+			if(data.status == 0){
+				core.post('reciveorder',{id:__this.data('id')},function(data){
+					if(data.success == 0){
+						core.ok(data.message,function(){
+							$.pjax({
+								url:"{php echo $this->createMobileUrl('recive')}&id="+data.id,
+								container:"#pjax-container"
+							});
+						});
+					}else{
+						core.cancel(data.message,function(){
+							
+						});
+					}
+					
+				});
+			}else if(data.status == 1){
+				//余额不足
+				core.ok(data.message,function(){
+					$.pjax({
+						url:""+data.url,
+						container:'#pjax-container'
+					});
+				},function(){
+					$.pjax({
+						url:""+data.url,
+						container:'#pjax-container'
+					});
+				});
+			}else{
+				core.ok(data.message,function(){
+					$.pjax({
+						url:""+data.url,
+						container:'#pjax-container'
+					});
+				},function(){
+					$.pjax({
+						url:""+data.url,
+						container:'#pjax-container'
+					});
+				});
+			}
+		});
+		
+	});
+});
+</script>
+{template 'default/common/share'}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.goodziyuan.com" versionCode="0.6">	
+    <application setting="false">
+        <name><![CDATA[端午狂吃]]></name>
+        <identifie><![CDATA[yg_zongzi]]></identifie>
+        <version><![CDATA[4.2]]></version>
+        <type><![CDATA[wdlgame]]></type>
+        <ability><![CDATA[一口气吃多少个粽子]]></ability>
+        <description><![CDATA[一口气吃多少个粽子]]></description>
+		<author><![CDATA[好资源)]]></author>
+		<url><![CDATA[http://www.goodziyuan.com]]></url>
+    </application>
+    <platform>
+        <subscribes>
+        </subscribes>
+        <handles>
+            <message type="text" />
+        </handles>
+        <rule embed="false" />
+    </platform>
+    <bindings>
+        <cover>
+            <entry title="粽子入口" do="import" />
+        </cover>
+    </bindings>
+	
+    <install><![CDATA[
+        
+	  ]]></install>
+	  
+    <uninstall><![CDATA[]]></uninstall>
+    <upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

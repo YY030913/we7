@@ -1,0 +1,206 @@
+﻿{template 'common/header'}
+
+<link rel="stylesheet" href="../addons/wuhao_wactivity/template/mobile/css/style.css" />
+{loop $data_matches_new $index $item}
+
+<HR style="border:3 double #987cb9" width="100%" color=#987cb9 SIZE=3>
+
+<div class="container">
+	<form class="form-horizontal" action="" method="POST">
+		<div class="form-group">
+			<h2 style="text-align:center">{$item[0]['title']}</h2>
+		</div>
+		<!-- <div class="form-group" style="margin-top:30px;">
+		    <label for="title" class="col-xs-3 col-md-1">活动标题</label>
+		    <div class="col-xs-9">
+		    	<input type="text" class="form-control" name="title" id="title" value="{$item[0]['title']}" readOnly="true">
+		    </div>
+		</div> -->
+		<div class="form-group">
+		    <label for="time" class="col-xs-3 col-md-1">活动时间</label>
+		    <div class="col-xs-9">
+		    	<input type="text" class="form-control" name="time" id="time" value="{$item['time']}" readOnly="true">
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="time1" class="col-xs-3 col-md-1">报名截止时间</label>
+		    <div class="col-xs-9">
+		    	<input type="text" class="form-control" name="time1" id="time1" value="{$item['time1']}" readOnly="true">
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="timeqiandao" class="col-xs-3 col-md-1">签到开始时间</label>
+		    <div class="col-xs-9">
+		    	<input type="text" class="form-control" name="timeqiandao" id="timeqiandao" value="{$item['timeqiandao']}" readOnly="true">
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="timeqiandao1" class="col-xs-3 col-md-1">签到截止时间</label>
+		    <div class="col-xs-9">
+		    	<input type="text" class="form-control" name="timeqiandao1" id="timeqiandao1" value="{$item['timeqiandao1']}" readOnly="true">
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="place" class="col-xs-3 col-md-1">活动地点</label>
+		    <div class="col-xs-9">
+		    	<input type="text" class="form-control" name="place" id="place" value="{$item[0]['place']}" readOnly="true">
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="peoplenum" class="col-xs-3 col-md-1">活动人数</label>
+		    <div class="col-xs-9">
+		    	<input type="text" class="form-control" name="peoplenum" id="peoplenum" value="{$item[0]['peoplenum']}" readOnly="true">
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="price" class="col-xs-3 col-md-1">活动费用</label>
+		    <div class="col-xs-9">
+		    	<input type="text" class="form-control" name="price" id="price" value="{$item[0]['price']}" readOnly="true">
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="content" class="col-xs-3 col-md-1">具体内容</label>
+		    <div class="col-xs-9">	
+		    	<div contenteditable="true" class="t_area">{$item[0]['content']}</div>		    	
+		    	<!-- <textarea style="width:100%" name="content" readOnly="true">{$item[0]['content']}</textarea> -->
+		    </div>
+		</div>
+
+		<div class="form-group">	 	  	
+		  	<input type="hidden" name="matchid" id="matchid{$index}" value="{$item[0]['matchid']}">
+		  	<input type="hidden" name="buttoncancel" id="buttoncancel{$index}" value="{$item['buttoncancel']}">		  	
+		  	<div class="col-xs-4 col-md-2">
+		  		<input type="submit" name="baomingstatus1" id="baomingstatus{$index}" class="button_huodong" style="width:120px;height:50px;" value="报名">		  		
+		  	</div>  
+		  	<div class="col-xs-4 col-md-2">
+		  		<input type="button" name="baominginfo" id="baominginfo{$index}" class="button_huodong" style="width:120px;height:50px;" value="报名详细信息">		  		 		
+		  	</div>
+		  	<!-- <div class="col-xs-4 col-md-2">  	
+		  		<input type="submit" name="baomingstatus2" class="btn btn-default" style="width:120px;height:50px;" value="请假">		  		
+		  	</div>    
+		  	<div class="col-xs-4 col-md-2">	
+		  		<input type="submit" name="baomingstatus3" class="btn btn-default" style="width:120px;height:50px;" value="待定">		  		
+		  	</div>  -->
+		  	<input type="hidden" value="{$_W['token']}" name="token">	
+		</div>	
+
+
+		<div class="form-group">		   	
+		   	<label for="baomingnum" class="col-xs-6 col-md-3">报名总人数 {$item['baomingnum']}人</label>		   		
+		</div>
+
+
+		<div class="form-group">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th class="col-xs-2 col-md-1">
+						群组
+						</th>
+						<th class="col-xs-2 col-md-1">
+						人数
+						</th>
+						<th class="col-xs-8 col-md-5">
+						详细列表
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					{loop $data_total_group[$index] $index_group $item_group}					
+						<tr>
+							<td class="col-xs-2 col-md-1">
+								{$item_group['groupname']}								
+							</td>
+							<td class="col-xs-2 col-md-1">
+								<input type="text" style="width:100%;border:none;" name="baomingnum{$index_group}" value="{$item_group['baomingnum']}">		
+							</td>
+							<td class="col-xs-8 col-md-5" style="word-wrap:break-word;">							    
+							    {$item_group['baominglistmyself']} 							    	
+						    </td>
+					    </tr>					
+					{/loop}	
+				</tbody>
+			</table>	
+		</div>
+
+
+
+		<!-- <div class="form-group">
+		   	<div class="col-xs-4 col-md-2">		       		
+		   		<input style= "border:none;" type="text" name="baomingnum" value="报名人数 {$item['baomingnum']}" readOnly="true">
+		   	</div>
+		   	<div class="col-xs-4 col-md-2">		      		
+		  		<input style= "border:none;" type="text" name="qingjianum" value="请假人数 {$item['qingjianum']}" readOnly="true">
+		  	</div>
+		  	<div class="col-xs-4 col-md-2">		      		
+		  		<input style= "border:none;" type="text" name="daidingnum" value="待定人数 {$item['daidingnum']}" readOnly="true">	       
+		  	</div>
+		</div>
+		<div class="form-group">
+		  	<div class="col-xs-4 col-md-2">
+		  		<textarea style= "width:100%;border:none;" rows="{$item['baomingnum']}" name="baominglist" readOnly="true">{$item['baominglist']}</textarea>
+		  	</div>
+		  	<div class="col-xs-4 col-md-2">
+		  		<textarea style= "width:100%;border:none;" rows="{$item['qingjianum']}" name="qingjialist" readOnly="true">{$item['qingjialist']}</textarea>
+		  	</div>
+		  	<div class="col-xs-4 col-md-2">
+		  		<textarea style= "width:100%;border:none;" rows="{$item['daidingnum']}" name="daidinglist" readOnly="true">{$item['daidinglist']}</textarea>
+		  	</div>
+		</div> -->
+			
+	</form>
+</div>
+{/loop}
+<script type="text/javascript">	
+  	
+  	  	
+
+  	
+  	$("#baominginfo0").click(function(){
+  		var matchid=document.getElementById("matchid0").value;
+  		console.log(matchid);
+  		window.location.href="{php echo $this->createMobileUrl('getbaominginfo')}"+"&matchid="+matchid;
+  	});
+  	$("#baominginfo1").click(function(){
+  		var matchid=document.getElementById("matchid1").value;
+  		console.log(matchid);
+  		window.location.href="{php echo $this->createMobileUrl('getbaominginfo')}"+"&matchid="+matchid;
+  	});
+  	$("#baominginfo2").click(function(){
+  		var matchid=document.getElementById("matchid2").value;
+  		console.log(matchid);
+  		window.location.href="{php echo $this->createMobileUrl('getbaominginfo')}"+"&matchid="+matchid;
+  	});
+  	
+  	
+
+  	$(document).ready(function(){
+  		var buttoncancel0=document.getElementById("buttoncancel0").value;  		
+  		console.log(buttoncancel0);  		
+  		if(buttoncancel0 == 1){
+  			$("#baomingstatus0").attr("disabled", true);
+  		}else{
+  			$("#baomingstatus0").attr("disabled", false);
+  		}
+
+  		var buttoncancel1=document.getElementById("buttoncancel1").value;  		
+  		console.log(buttoncancel1);  		
+  		if(buttoncancel1 == 1){
+  			$("#baomingstatus1").attr("disabled", true);
+  		}else{
+  			$("#baomingstatus1").attr("disabled", false);
+  		}
+
+  		var buttoncancel2=document.getElementById("buttoncancel2").value;  		
+  		console.log(buttoncancel2);  		
+  		if(buttoncancel2 == 1){
+  			$("#baomingstatus2").attr("disabled", true);
+  		}else{
+  			$("#baomingstatus2").attr("disabled", false);
+  		}
+  	});
+
+
+
+</script>
+{template 'common/footer'}

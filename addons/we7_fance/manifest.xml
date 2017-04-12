@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.goodziyuan.com" versionCode="0.6">
+    <application setting="false">
+        <name><![CDATA[微信打印系统]]></name>
+        <identifie><![CDATA[we7_fance]]></identifie>
+        <version><![CDATA[4.2]]></version>
+        <type><![CDATA[activity]]></type>
+        <ability><![CDATA[关注后发送照片即可打印照片]]></ability>
+        <description><![CDATA[关注后发送照片即可打印照片]]></description>
+		<author><![CDATA[好资源)]]></author>
+		<url><![CDATA[http://www.goodziyuan.com]]></url>
+    </application>
+    <platform>
+        <subscribes>
+        </subscribes>
+        <handles>
+            <message type="text" />
+        </handles>
+        <rule embed="true" />
+    </platform>
+    <bindings>
+ 
+    </bindings>
+	
+    <install><![CDATA[
+
+        
+	  ]]></install>
+	  
+    <uninstall><![CDATA[]]></uninstall>
+    <upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

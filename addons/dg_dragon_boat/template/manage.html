@@ -1,0 +1,55 @@
+{template 'common/header'}
+<div class="main">
+	<ul class="nav nav-tabs">
+		<li{if $_GPC['do'] == 'manage' || $_GPC['do'] == '' } class="active"{/if}><a href="{php echo $this->createWebUrl('manage');}">管理中心</a></li>
+		<li{if $_GPC['do'] == 'post'} class="active"{/if}><a href="{php echo url('platform/reply/post',array('m'=>'dg_dragon_boat'));}">添加活动</a></li>
+	</ul> 
+	<div class="panel panel-default">
+		<div class="panel-body table-responsive">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th class='with-checkbox' style="width:50px;"></th>
+					<th style="width:150px;">活动名称</th>
+					<th style="width:180px;">开始时间/结束时间</th>
+					<th style="width:100px;">活动状态</th>
+					<th style="width:250px;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $row}
+				<tr>
+					<td class="with-checkbox">
+						<input type="checkbox" name="check" value="{$row['id']}"></td>	 <td>{$row['name']} </td>
+					<td>{$row['starttime']}<br>
+						{$row['endtime']}</td>
+					<td>{$row['status']}</td>
+					<td>
+                        <a class="btn btn-default" data-toggle="tooltip" data-placement="top" href="{php echo url('platform/reply/post',array('m'=>'dg_dragon_boat','rid'=>$row['id']));}" title="编辑"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-default" data-toggle="tooltip" data-placement="top" href="{php echo $this->createWebUrl('record',array('rid'=>$row['id']))}" onclick="" title="参与记录"><i class="fa fa-bar-chart"></i></a>
+                        {if $lzreply['status']==2 }
+                        <a class="btn btn-default" title="开始活动" data-placement="top" href="#" onclick="drop_confirm('您确定要开始吗,设置中途可以随时修改!', '{php echo $this->createWebUrl('hdcontrol',array('rid'=>$row['id'],'status'=>1))}');"><i class="fa fa-play"></i></a>
+                       	{/if}
+                       	{if $lzreply['status']==1}
+                        <a class="btn btn-default" title="结束活动" data-placement="top" href="#" onclick="drop_confirm('您确定要暂停吗,设置中途可以随时修改!', '{php echo $this->createWebUrl('hdcontrol',array('rid'=>$row['id'],'status'=>2))}');"><i class="fa fa-stop"></i></a>
+                        {/if}
+                        <a class="btn btn-default" data-toggle="tooltip" data-placement="top" href="#" onclick="drop_confirm('您确定要删除吗?', '{php echo $this->createWebUrl('delete',array('rid'=>$row['id']))}');" title="删除"><i class="fa fa-times"></i></a>
+                  	</td>
+				</tr>
+				{/loop}
+				
+			</tbody>
+		</table>
+	</div>
+	</div>
+	{$pager}
+</div>
+
+<script>
+function drop_confirm(msg, url){
+    if(confirm(msg)){
+        window.location = url;
+    }
+}
+</script>
+{template 'common/footer'}

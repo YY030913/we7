@@ -1,0 +1,66 @@
+{template 'common/header'}
+{template 'web/task/navs'}
+<style>
+    .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {overflow: visible !important;}
+    .dropdown-menu{min-width:4em;}
+    .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {white-space: normal !important;overflow: visible !important;}
+    .dropdown{display:inline-block !important;}
+    .account-stat-num > div {width: 25%;float: left;font-size: 16px;text-align: center;}
+    .account-stat-num > div span {display: block;font-size: 30px;font-weight: bold;}
+</style>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        支付记录
+    </div>
+    <div class="panel-body">
+        <table st-table="items" class="table table-striped table-condensed" style="display:auto;">
+            <thead>
+            <tr>
+                <th style="width:12em;">订单编号</th>
+                <th style="width:6em;">金额</th>
+                <th style="width:8em;">类型</th>
+                <th style="width:12em;">时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {loop $list['list'] $li}
+            <tr>
+                <td>{$li['tid']}</td>
+                <td>
+                    <label class="label label-info">{$li['fee']}元</label>
+                </td>
+                <td>
+                    <label class="label label-danger">
+                        {if $li['type']=='wechat'}
+                        微信支付
+                        {else if $li['type']=='alipay'}
+                        支付宝支付
+                        {else if $li['type']=='credit'}
+                        余额支付
+                        {else if $li['type']=='delivery'}
+                        货到付款
+                        {else if $li['type']=='unionpay'}
+                        银联支付
+                        {else if $li['type']=='baifubao'}
+                        百度钱包支付
+                        {else}
+                        未知
+                        {/if}
+                    </label>
+                </td>
+                <td>
+                    <label class="label label-success">{php echo date('Y-m-d H:i',$li['create_time'])}</label>
+                </td>
+                <td>
+                    <a href="{php echo $this->createWebUrl('tasks_paylog',array('act'=>'delete','id'=>$li['id']))}" class="btn btn-danger">删除</a>
+                </td>
+            </tr>
+            {/loop}
+            </tbody>
+        </table>
+        {php echo $list['pager']}
+    </div>
+</div>
+{template 'common/footer'}

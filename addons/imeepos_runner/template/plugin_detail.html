@@ -1,0 +1,41 @@
+{template 'common/header'}
+<div class="clearfix welcome-container">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			{$title}
+		</div>
+		<div class="panel-body">
+			{if $entries['menu']}
+			<div class="page-header">
+				<h4>服务项目</h4>
+			</div>
+			<div class="shortcut clearfix">
+				{loop $entries['menu'] $menu}
+				<a href="{$menu['url']}" title="{$menu['title']}">
+					<i class="{$menu['icon']}"></i>
+					<span>{$menu['title']}</span>
+				</a>
+				{/loop}
+			</div>
+			{/if}
+			{if $entries['menu2']}
+			<div class="page-header">
+				<h4>营销管理</h4>
+			</div>
+			<div class="shortcut clearfix">
+				{loop $entries['menu2'] $menu}
+				<a href="{$menu['url']}" title="{$menu['title']}">
+					<i class="{$menu['icon']}"></i>
+					<span>{$menu['title']}</span>
+				</a>
+				{/loop}
+			</div>
+			{/if}
+		</div>
+		
+		<div class="panel-footer">
+			
+		</div>
+	</div>
+</div>
+{template 'common/footer'}

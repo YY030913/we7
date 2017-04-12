@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.goodziyuan.com" versionCode="0.6">
+    <application setting="false">
+        <name><![CDATA[猜美女明星]]></name>
+        <identifie><![CDATA[guess_girl]]></identifie>
+        <version><![CDATA[4.2]]></version>
+        <type><![CDATA[wdlgame]]></type>
+        <ability><![CDATA[猜美女明星赢奖品]]></ability>
+        <description><![CDATA[猜美女明星或者自己上传指定人物照片]]></description>
+		<author><![CDATA[好资源)]]></author>
+		<url><![CDATA[http://www.goodziyuan.com]]></url>
+    </application>
+    <platform>
+        <subscribes>
+        </subscribes>
+        <handles>
+            <message type="text" />
+        </handles>
+        <rule embed="true" />
+    </platform>
+    <bindings>
+        <cover>
+            <entry title="游戏入口" do="play" />
+        </cover>
+    </bindings>
+    <install><![CDATA[
+        
+	  ]]></install>
+	  
+    <uninstall><![CDATA[]]></uninstall>
+    <upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

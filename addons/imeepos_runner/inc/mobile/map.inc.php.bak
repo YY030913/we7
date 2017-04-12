@@ -1,0 +1,18 @@
+<?php 
+global $_W,$_GPC;
+include MODULE_ROOT.'/inc/mobile/__init.php';
+
+$_pjax = trim($_GPC['_pjax']);
+
+
+$sql = "SELECT * FROM ".tablename('imeepos_runner3_member')." WHERE uniacid=:uniacid AND isrunner = 1 AND lat <> '' AND lng <> '' ";
+$params = array(':uniacid'=>$_W['uniacid']);
+$runner = pdo_fetchall($sql,$params);
+
+$template_content = $template.'/map/index';
+
+if($_W['isajax']){
+	
+}else{
+	include $this->template($template.'/index');
+}

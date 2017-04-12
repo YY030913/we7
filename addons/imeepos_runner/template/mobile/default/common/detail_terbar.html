@@ -1,0 +1,57 @@
+<link href="{$_W['siteroot']}app/resource/css/font-awesome.min.css" rel="stylesheet">
+<style>
+    .weui_mask, .weui_mask_transition, .weui_mask_transparent{
+        z-index: 9 !important;}
+    .page{
+        margin-bottom:44px;
+    }
+    .tab-item {
+        padding-top: 6px;
+        color: #5d2f18;
+    }
+    .active{
+        color:#04BE02 !important;
+    }
+    .tab-item .icon {
+        height: auto;
+        margin-bottom: 3px;
+    }
+    .h44{
+        height:44px;
+    }
+</style>
+<div class="h44"></div>
+<div class="tabs tabs-icon-top tabs-light" v-if="order.status == 2" style="position: fixed;bottom: 0px;right:0px;left:0px;margin:0px;padding:0px;border:none;">
+    <a v-if="role == 'runner'" style="color: #5d2f18;height:auto;" href="tel:{{user.mobile}}" class="tab-item">
+        <i style="font-size: 2em;height: auto;" class="icon ion-ios-telephone"></i>
+        <span>电话沟通</span>
+    </a>
+    <a v-if="role == 'owener'" style="color: #5d2f18;height:auto;" href="tel:{{runner.mobile}}" class="tab-item ">
+        <i style="font-size: 2em;height: auto;" class="icon ion-ios-telephone"></i>
+        <span>电话沟通</span>
+    </a>
+    <a v-if="role == 'runner'" style="color: #5d2f18;height:auto;" href="javascript:;" @click="updateLocation()" class="tab-item ">
+        <i style="font-size: 2em;" class="icon ion-ios-paw"></i>
+        <span>更新位置</span>
+    </a>
+    <a v-if="role == 'owener'" style="color: #5d2f18;height:auto;" href="javascript:;" @click="cuiyicui()" class="tab-item ">
+        <i style="font-size: 2em;" class="icon ion-ios-bell"></i>
+        <span>催一催</span>
+    </a>
+    <a v-if="role == 'runner'" style="color: #5d2f18;height:auto;" href="javascript:;" @click="qrcode()" class="tab-item ">
+        <i style="font-size: 2em;" class="icon ion-qr-scanner"></i>
+        <span>扫码核销</span>
+    </a>
+    <a v-if="role == 'owener'" style="color: #5d2f18;height:auto;" href="javascript:;" @click="getQrcode()" class="tab-item ">
+        <i style="font-size: 2em;" class="icon ion-image"></i>
+        <span>二维码</span>
+    </a>
+    <a v-if="role == 'runner'" style="color: #5d2f18;height:auto;" href="javascript:;" @click="showPassword()" class="tab-item ">
+        <i style="font-size: 2em;" class="icon ion-android-contact"></i>
+        <span>手工核销</span>
+    </a>
+    <a v-if="role == 'runner'" style="color: #5d2f18;height:auto;" href="javascript:;" @click="giveUp()" class="tab-item ">
+        <i style="font-size: 2em;" class="icon ion-android-close"></i>
+        <span>放弃任务</span>
+    </a>
+</div>

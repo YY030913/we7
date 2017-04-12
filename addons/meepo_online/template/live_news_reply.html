@@ -1,0 +1,104 @@
+{template 'common/header'}
+{template 'nav'}
+{template 'list_nav'}
+<script src="{MODULE_URL}template/mobile/js/jquery-1.7.2.min.js"></script>
+<script>
+	function selectall(obj, name){
+		$('input[name="'+name+'[]"]:checkbox').each(function() {
+			$(this).attr("checked", $(obj).attr('checked') ? true : false);
+		});
+	}
+</script>
+<div class="panel panel-default">
+	<div class="panel-heading">筛选</div>
+	<div class="panel-body">
+		<form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+			<input type="hidden" name="c" value="site" />
+			<input type="hidden" name="a" value="entry" />
+			<input type="hidden" name="m" value="meepo_online" />
+			<input type="hidden" name="do" value="live_news_reply" />
+            
+            <input type="hidden" name="listid" value="{$listid}" />
+           <input type="hidden" name="newsid" value="{$newsid}" />
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">消息内容</label>
+				<div class="col-xs-12 col-sm-8 col-lg-8">
+					<input class="form-control" name="content" id="" type="text" value="{$_GPC['content']}" placeholder="请输入消息内容">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input class="btn btn-primary" id="" type="submit" value="搜索">
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<style>
+.cell{float:left;margin-left:10px;}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		图文消息评论管理<br><br>
+		<a class="btn btn-danger"  href="{php echo $this->createWebUrl('live_news_reply',array('op'=>'reset_pl','id'=>$row['id'],'listid'=>$listid,'newsid'=>$newsid))}" onclick="return confirm('清空将无法恢复，确认吗？');return false;">
+				清空所有评论
+	   </a>
+	</div>
+	<form action="" method="post">
+	<div class="panel-body">
+		<table  class="table table-striped">
+		
+			<thead>
+				<tr>
+					<th style="width:15%;">选择</th>
+					<th style="width:20%;">粉丝信息</th>
+					<th style="width:40%;">消息内容</th>
+					<th style="width:40%;">评论时间</th>
+					<th style="width:10%;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{loop $lists $row}
+				<tr>
+					<td><input type="checkbox" name="select[]" value="{$row['id']}" /></td>
+				
+					<td>
+					<div>
+						<img src="{$row['avatar']}" width=60px height=60px />
+						<div>
+						{$row['nickname']}
+						</div>
+					</div>
+					</td>
+					<td>
+					{php echo $this->emo($row['content']);}
+					</td>
+					
+					<td>
+						{php echo date("Y-m-d H:i:s",$row['createtime'])}
+					</td>
+					<td>
+						
+						<a class="btn btn-danger"  href="{php echo $this->createWebUrl('live_news_reply',array('op'=>'delete','id'=>$row['id'],'listid'=>$listid,'newsid'=>$newsid))}" onclick="return confirm('删除将无法恢复，确认吗？');return false;">
+							删除
+						</a>
+						
+					</td>
+				</tr>
+			{/loop}
+			<tr>
+			<td style="width:50px;" class="row-first"><input type="checkbox" onclick="selectall(this, 'select');" /></td>
+			<td colspan="4">
+				<input type="submit" name="del_some" value="删除" class="btn btn-danger" />			
+				<input type="hidden" name="token" value="{$_W['token']}" />
+								
+			</td>
+			</tr>
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+	</form>
+</div>
+{template 'common/footer'}

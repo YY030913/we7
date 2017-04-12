@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.goodziyuan.com" versionCode="0.6">
+	<application setting="true">
+		<name><![CDATA[活动管理平台]]></name>
+		<identifie><![CDATA[lonaking_activity]]></identifie>
+		<version><![CDATA[1.6]]></version>
+		<type><![CDATA[activity]]></type>
+		<ability><![CDATA[活动管理平台]]></ability>
+		<description><![CDATA[活动管理平台]]></description>
+		<author><![CDATA[好资源)]]></author>
+		<url><![CDATA[http://www.goodziyuan.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+			<message type="text" />
+			<message type="location" />
+			<message type="subscribe" />
+			<message type="unsubscribe" />
+			<message type="qr" />
+			<message type="click" />
+			<message type="view" />
+		</subscribes>
+		<handles>
+			<message type="location" />
+			<message type="link" />
+			<message type="subscribe" />
+			<message type="qr" />
+			<message type="click" />
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="活动引导" do="Index" state="" direct="false" />
+		</cover>
+		<menu>
+			<entry title="活动管理" do="ActivityManage" state="" direct="false" />
+			<entry title="报名记录" do="ActivityRecord" state="" direct="false" />
+		</menu>
+	</bindings>
+	<install><![CDATA[update.php]]></install>
+	<uninstall><![CDATA[remove.php]]></uninstall>
+	<upgrade><![CDATA[update.php]]></upgrade>
+</manifest>

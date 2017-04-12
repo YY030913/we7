@@ -1,0 +1,72 @@
+{template 'headers'}
+<style type="text/css">
+html,body{height:100%;background-color: transparent;}
+a{color:#666;}
+
+.am-g .am-avg-sm-3, .am-g .am-avg-sm-4 {text-align: center; transition: all .2s ease;padding:0 0 1rem;}
+.am-g .am-avg-sm-3 > li, .am-g .am-avg-sm-4 > li {padding:1rem .5rem;}
+.am-g .am-avg-sm-3 > li span, .am-g .am-avg-sm-4 > li span{display: block;margin:0.5rem 0 0;padding:0;color:#333;font-weight:300;}
+
+.am-slider{margin:-4rem 0 0;}
+.am-slider-default{height:100%;}
+.am-slider-default .am-slider-desc {background-color: transparent;color:#333;width:80%;left: 10%;height:100%;position: relative;top:10rem;}
+
+.am-slides {height:100%;display: block;}
+.am-slider .am-slides > li {min-height:50rem;width:100%;top:5rem;}
+.am-slider-title{width:100%;text-align:center;height:5rem;line-height:7rem;}
+.am-slider-more{position: relative;fixed;bottom:0;}
+.am-slider-default .am-direction-nav a {top:7.5rem;}
+.am-badge{font-size:0.5rem}
+
+.am-avg-sm-3{width:90%;margin:0 auto;}
+.am-avg-sm-3 li{float: left;display: block;border: solid 1px #e0e0e0;margin: 0 -1px -1px 0;z-index: 1;position: relative;}
+.am-brown {background-color:#f5f5f5}
+.am-grey {color:#bdbdbd;}
+.am-primary {color:#00bfa5;}
+</style>
+<div class="am-g" style="margin:0;padding-bottom:50px;">
+	<div class="am-u-sm-12">
+	{loop $dates $date}
+		<div style="margin:0 auto;">
+			<h2 class="am-slider-title">{$date} {php echo $weekarray[date("w",strtotime($date))]}</h2>
+
+<div class="am-g" style="background-color: #f2f2f2;padding:1rem 0;margin-bottom:1rem;">
+	<div class="am-u-sm-4"><span class="am-icon iconfont">&#xe622;</span> 选择时间</div>
+	<div class="am-u-sm-8 am-text-right am-text-sm"><i class="am-icon-circle am-primary"></i> 可预约 <span style="margin-left:1rem"><i class="am-icon-circle am-grey"></i> 已约满</span></div>
+</div>
+<div class="am-g">
+	<ul class="am-avg-sm-3 am-thumbnails">
+				{loop $timelist['times'] $time}
+				{php $datestr=$date.' '.$time['start'].'-'.$time['end']}
+					{if $time['number']<=$havs[$datestr]['rescount'] || strtotime("now")+3600>strtotime($date." ".$time['start'])}
+  <li class="am-brown">
+  <div>
+  <span class="am-text-sm"><i class="am-icon-circle am-grey"></i> {$time['start']}</span>
+  </div>
+  </li>
+					{else}
+  <li onclick="location.href='{php echo $this->createMobileUrl('dayu_yuyuepay',array('id' => $project['reid'],'datetime'=>base64_encode($datestr)))}'" class="am-primary">
+  <div>
+  <span class="am-text-sm"><i class="am-icon-circle am-primary"></i> {$time['start']}</span>
+  </div>
+  </li>
+					{/if}
+				{/loop}
+</ul>
+
+</div>
+		</div>
+	{/loop}
+	</div>
+</div>
+</div>
+          <nav data-am-widget="navbar" class="am-navbar am-cf" id="">
+            <ul class="am-navbar-nav">
+              <li>
+                <a href="{$link}" class="am-navbar-label iconfont am-text-center" style="font-weight:300;font-size:18px;">
+                   &#xe621; 选择其他日期
+                </a>
+              </li>
+            </ul>
+          </nav>
+{template 'footer'}

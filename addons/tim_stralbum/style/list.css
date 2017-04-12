@@ -1,0 +1,6 @@
+/*!
+ * Author: xinshw
+ * Date: 2014-04-02
+ */
+
+#list_cover{position:absolute;top:0;left:0;width:100%;height:100%;z-index:11;background-color:#000;opacity:0;display:none}#page_player{height:100%}.list_image_outer{position:relative;margin-top:.4em;width:100%;left:0}.list_image{position:relative;width:96%;left:2%}.list_image_player{position:absolute;top:0;width:100%;height:100%;z-index:12}#player_box{position:absolute;top:0;left:0;height:100%;width:100%;display:box;display:-webkit-box}.play_inner{position:relative;background:no-repeat center center}.play_cover{position:absolute;top:0;left:0;width:100%;height:100%;background-color:#000;opacity:0}.player_outer{position:absolute;top:0;height:100%;width:100%;background:no-repeat center center;background-size:contain;display:none}.player_scale{display:block!important;z-index:2}.player_noscale{display:block!important;z-index:1}#page_player{overflow:hidden;background-color:#000}#listCssFooterCss{height:24px;width:24px;position:absolute;top:0}

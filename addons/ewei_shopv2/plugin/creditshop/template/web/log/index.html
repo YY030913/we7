@@ -1,0 +1,145 @@
+{template '_header'}
+<div class="page-heading">
+	<h2>
+		{if $_GPC['type']=='0'}兑换{else}抽奖{/if}记录管理 <small>参与活动数:  <span class='text-danger'>{$total}</span></small>
+	</h2>
+</div>
+
+<form action="./index.php" method="get" class="form-horizontal table-search">
+	<input type="hidden" name="c" value="site" />
+	<input type="hidden" name="a" value="entry" />
+	<input type="hidden" name="m" value="ewei_shopv2" />
+	<input type="hidden" name="do" value="web" />
+	<input type="hidden" name="r" value="creditshop.log" />
+	<input type="hidden" name="type" value="{$_GPC['type']}" />
+	<div class="page-toolbar row m-b-sm m-t-sm">
+		<div class="col-sm-5">
+
+			<div class="btn-group btn-group-sm" style='float:left'>
+				<button class="btn btn-default btn-sm" type="button" data-toggle='refresh'><i class='fa fa-refresh'></i></button>
+			</div>
+			<div class='input-group input-group-sm'>
+				{php echo tpl_daterange('time', array('sm'=>true,'placeholder'=>'参与时间'),true);}
+			</div>
+
+		</div>
+
+		<div class="col-sm-7 pull-right">
+			<select name='status' class="form-control input-sm select-md" style="width:100px;">
+                          <option value='' {if $_GPC['status']==''}selected{/if}>状态</option>
+                          {if empty($type)}
+	                          <option value='2' {if $_GPC['status']=='2'}selected{/if}>未兑换</option>
+	                          <option value='3' {if $_GPC['status']=='3'}selected{/if} >已兑换</option>
+                          {else}
+	                          <option value='1' {if $_GPC['status']=='1'}selected{/if}>未中奖</option>
+	                          <option value='2' {if $_GPC['status']=='2'}selected{/if} >已中奖</option>
+	                          <option value='3' {if $_GPC['status']=='3'}selected{/if} >已兑换</option>
+                          {/if}
+                       </select>
+			<select name='searchfield' class='form-control  input-sm select-md' style="width:120px;">
+				<option value='member' {if $_GPC['searchfield']=='member'}selected{/if}>会员信息</option>
+				<option value='address' {if $_GPC['searchfield']=='address'}selected{/if}>收件人信息</option>
+				<option value='logno' {if $_GPC['searchfield']=='logno'}selected{/if}>活动编号</option>
+				<option value='eno' {if $_GPC['searchfield']=='eno'}selected{/if}>兑换码</option>
+				<option value='store' {if $_GPC['searchfield']=='store'}selected{/if}>兑换门店</option>
+				<option value='express' {if $_GPC['searchfield']=='express'}selected{/if}>快递单号</option>
+				<option value='goods' {if $_GPC['searchfield']=='goods'}selected{/if}>商品名称</option>
+			</select>
+			<div class="input-group">
+				<input type="text" class="form-control input-sm" name="keyword" value="{$_GPC['keyword']}" placeholder="请输入关键词" />
+				<span class="input-group-btn">
+					<button class="btn btn-sm btn-primary" type="submit"> 搜索</button>
+					{ifp 'creditshop.log.export'}
+						<button type="submit" name="export" value="1" class="btn btn-success btn-sm">导出</button>
+					{/if}
+				</span>
+			</div>
+
+		</div>
+	</div>
+
+</form>
+
+{if count($list)>0}
+
+<table class="table table-responsive">
+	<thead>
+		<tr>
+			<th style='width:190px;'>编号/商品</th>
+			<th style='width:100px;'>信息</th>
+			<th style='width:100px;'>粉丝</th>
+			<th style='width:100px;'>会员</th>
+			<th style='width:90px;'>消耗</th>
+			<th style='width:90px;'>状态</th>
+
+			<th style="">操作</th>
+		</tr>
+	</thead>
+	<tbody>
+		{loop $list $row}
+		<tr>
+			<td>{$row['logno']}<br/><img src="{php echo tomedia($row['thumb'])}" style='width:30px;height:30px;padding1px;border:1px solid #ccc' /> {$row['title']}</td>
+			<td style='line-height:22px;'>
+				{if $row['goodstype']==1}
+				<span class='label label-danger'>抽奖</span> {else}
+				<span class='label label-primary'>兑换</span> {/if}
+				<br/> 
+				{if $row['iscoupon']==0} 
+					{if $row['isverify']==1}
+						<span class='label label-warning' {if !empty($row[ 'storename'])}data-toggle='popover' data-placement='top' data-trigger='hover' data-content='{$row['storename']}' data-title='兑换门店' {/if}>线下兑换 {if !empty($row['storename'])}<i class='fa fa-question-circle'></i>{/if}</span>				{else}
+						<span class='label label-success'>快递配送</span> 
+					{/if} 
+				{else}
+					<span class='label label-danger'>优惠券</span> 
+				{/if}
+
+			</td>
+			<td>
+				<img src="{$row['avatar']}" style='width:30px;height:30px;padding1px;border:1px solid #ccc' /> {$row['nickname']}
+			</td>
+			<td>
+
+				{php echo empty($row['realname'])?$row['mrealname']:$row['realname']}<br /> {php echo empty($row['mobile'])?$row['mmobile']:$row['mobile']}
+			</td>
+			<td>{if $row['credit']>0}-{$row['credit']}积分<br/>{/if} {if $row['money']>0} -{$row['money']}现金 {/if}
+			</td>
+			<td style='line-height:22px;'>
+				{if empty($type)} {if $row['status']==2}
+				<span class='label label-success'>已兑换</span> {elseif $row['status']==3}
+				<span class='label label-danger'>已兑奖</span> {/if} {else} {if $row['status']==1}
+				<span class='label label-default'>未中奖</span> {elseif $row['status']==2}
+				<span class='label label-success'>已中奖</span> {elseif $row['status']==3}
+				<span class='label label-danger'>已兑奖</span> {/if} {/if}
+				<br/> {if $row['paytype']==-1}
+				<span class='label label-default'>无需支付</span> {else} {if $row['paytype']==0} {if $row['paystatus']==0}
+				<span class='label label-default'>余额未支付</span> {else}
+				<span class='label label-warning'>余额已支付</span> {/if} {elseif $row['paytype']==1} {if $row['paystatus']==0}
+				<span class='label label-default'>微信未支付</span> {else}
+				<span class='label label-warning'>微信已支付</span> {/if} {/if} {/if}
+				<br/> {if $row['dispatchstatus']==-1}
+				<span class='label label-default'>无需运费</span> {elseif $row['dispatchstatus']==0}
+				<span class='label label-default'>未支付运费</span> {elseif $row['dispatchstatus']==1}
+				<span class='label label-primary'>已支付运费</span> {/if}
+			</td>
+			<td>
+				{ifp 'creditshop.log.detail'}
+					<a class='btn btn-default btn-sm' href="{php echo webUrl('creditshop/log/detail',array('id' => $row['id'],'type'=>$row['goodstype']));}"><i class='fa fa-edit'></i> 详情</a>
+				{/if}
+				{ifp 'creditshop.log.exchange'} 
+					{if $row['canexchange']}
+						<a class='btn btn-default btn-sm' data-toggle='ajaxModal' href="{php echo webUrl('creditshop/log/exchange',array('id' => $row['id'],'type'=>$row['goodstype']));}"><i class='fa fa-exchange'></i> 兑换</a> 
+				{/if} 
+				{/if}
+			</td>
+		</tr>
+		{/loop}
+	</tbody>
+</table>
+{$pager} {else}
+<div class='panel panel-default'>
+	<div class='panel-body' style='text-align: center;padding:30px;'>
+		暂时没有任何{if $_GPC['type']=='0'}兑换{else}抽奖{/if}记录!
+	</div>
+	{/if}
+	</form>
+	{template '_footer'}

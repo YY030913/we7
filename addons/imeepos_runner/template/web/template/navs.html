@@ -1,0 +1,45 @@
+<ul class="nav nav-tabs">
+	<li {if $_GPC['do']=="setting" || empty($_GPC['do'])}class="active"{/if}>
+		<a href="./index.php?c=profile&a=module&do=setting&m=imeepos_runner">模板管理</a>
+	</li>
+	<li {if $_GPC['do']=="image_setting"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('image_setting')}">图片库设置</a>
+	</li>
+	<li {if $_GPC['do']=="divider_set"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('divider_set')}">帮我送设置</a>
+	</li>
+	<li {if $_GPC['do']=="buy_set"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('buy_set')}">帮我买设置</a>
+	</li>
+	<li {if $_GPC['do']=="help_set"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('help_set')}">帮帮忙设置</a>
+	</li>
+	<li {if $_GPC['do']=="v_set"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('v_set')}">快递设置</a>
+	</li>
+	<li {if $_GPC['do']=="runner_level"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('runner_level')}">信誉等级</a>
+	</li>
+	<li {if $_GPC['do']=="card_set"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('card_set')}">身份证核实接口</a>
+	</li>
+	<li {if $_GPC['do']=="sms_set"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('sms_set')}">阿里大鱼短信接口</a>
+	</li>
+	<li {if $_GPC['do']=="advs"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('advs')}">广告设置</a>
+	</li>
+	<li {if $_GPC['do']=="announcement"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('announcement')}">公告管理</a>
+	</li>
+
+	<li {if $_GPC['do']=="navs"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('navs')}">导航设置</a>
+	</li>
+	<li {if $_GPC['do']=="plugin"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('plugin',array('mp'=>'setting','mdo'=>'index'))}">公共设置</a>
+	</li>
+	<li {if $_GPC['do']=="share_set"}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('share_set')}">分享设置</a>
+	</li>
+</ul>

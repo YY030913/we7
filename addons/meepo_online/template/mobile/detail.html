@@ -1,0 +1,1824 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>{$list['title']}</title>
+{php echo register_jssdk(false);}
+<link type="text/css" rel="stylesheet" href="{MODULE_URL}template/mobile/css/global.css" />
+<link type="text/css" rel="stylesheet" href="{MODULE_URL}template/mobile/css/style.css" />
+<style>
+.gw_num .num{display: block;color:{$list['main_color']};float: left;text-align: center;width: 42px;font-style: normal;font-size: 14px;line-height: 26px;border: 0;}
+#reward-pay-box #reward-price-wrap .pay-btn {
+	position: absolute;
+	right: 8px;
+	width: 100px;
+	height: 30px;
+	border-radius: 2px;
+	line-height: 30px;
+	text-align: center;
+	background-color: {$list['main_color']};
+	font-size: 14px;
+	color: #fff
+}
+.tabs-link{
+	display:block; height:42px; line-height:42px; color:#fff; background-color:{$list['main_color']}; color:#fff; margin-top:10px; border-radius:5px; text-align:center;
+}
+.shang_icon,.gift_icon{
+	width: 40px;
+    height: 40px;
+    line-height: 40px;
+    position: relative;
+    text-align: center;
+    font-size: 40px;
+    position: fixed;
+    right: 10px;
+    z-index: 10;
+    color: {$list['main_color']};}
+#header{
+	border-bottom:2px solid {$list['main_color']};
+	background-size:100%;
+	background:url({if empty($list['top_bj'])}{MODULE_URL}template/mobile/images/header.png{else}{php echo tomedia($list['top_bj'])}{/if}); 
+}
+.live-info .live-btn-a{
+	border:1px solid {$list['main_color']};
+}
+.comment-span-em{
+	background-color:{$list['main_color']}; color:#fff; 
+}
+#tabs-h li.cur{
+	border-bottom:2px solid {$list['main_color']}
+}
+.swiper-pagination-bullet-active {
+    opacity: 1;
+    background:{$list['main_color']};
+}
+.swiper-pagination-bullet {
+    margin: 0 5px;
+}
+.live-info .live-btn-a,.comment-span-b,.comment-em,#tabs-h li.cur,.talk-user,.talk-praise .talk-font,.talk-write .talk-font,.talk-praise .talk-num,.talk-write .talk-num{
+	color:{$list['main_color']}; 
+}
+.gw_num i{display: block;height: 26px;width: 26px;float: left;color: {$list['main_color']};border-right: 1px solid #dbdbdb;text-align: center;cursor: pointer;font-style:normal;}
+#dt_review_box_button button { margin-top: 1px; width: 60px; height: 30px; overflow: hidden; font-size: 14px; background-color: {$list['main_color']}; border-radius: 5px; color: #FFF; cursor: pointer; border: none; float: right; }
+#shake-img{
+	width:100%; height:100%; background:#fff url({if empty($list['shake_bg_img'])}{MODULE_URL}template/mobile/images/shake-yes.gif{else}{php echo tomedia($list['shake_bg_img'])}{/if}) no-repeat center 20px; background-size:100%; overflow:hidden
+}
+.news_icon{font-size:12px;color:{$list['main_color']}}
+.head-menu{
+	float:right; margin-left:15px;padding:5px 0;
+}
+.notification {
+  position: fixed;
+  width: 100%;
+  min-height: 3.4rem;
+  top: -2rem;
+  padding-top: 2rem;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.85);
+  color: white;
+  font-size: .65rem;
+  -webkit-transform: translate3d(0, -100%, 0);
+          transform: translate3d(0, -100%, 0);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+.notification.notification-in {
+  -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+}
+.notification.touching {
+  -webkit-transition-duration: 0s;
+          transition-duration: 0s;
+}
+.notification .notification-inner {
+  padding: .4rem .6rem 1rem .6rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+}
+.notification .notification-content {
+  width: 100%;
+  margin: 0rem .4rem;
+}
+.notification .notification-title {
+  font-weight: bold;
+}
+.notification .notification-text {
+  line-height: 1;
+}
+.notification .notification-media {
+  height: 1rem;
+  width: 1rem;
+}
+.notification .notification-media img {
+  width: 100%;
+}
+.notification .notification-handle-bar {
+  position: absolute;
+  bottom: .2rem;
+  left: 50%;
+  -webkit-transform: translate3d(-50%, 0, 0);
+          transform: translate3d(-50%, 0, 0);
+  width: 2rem;
+  height: .3rem;
+  border-radius: .15rem;
+  background: white;
+  opacity: .5;
+}
+#no_start_advs_box img{width:100%}
+#end_advs_box img{width:100%}
+#live_advs_box img{width:100%}
+</style>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<!--<script src="{MODULE_URL}template/mobile/js/jquery.danmu.js"></script>-->
+<script type="text/javascript" src="{MODULE_URL}template/mobile/js/jquery.transit.min.js"></script>
+<script type="text/javascript" src="{MODULE_URL}template/mobile/js/animate.js"></script>
+<script type="text/javascript" src="{MODULE_URL}template/mobile/js/global.js"></script>
+<script type="text/javascript" src="{MODULE_URL}template/mobile/js/swiper.3.1.2.min.js"></script>
+<script type="text/javascript" src="{MODULE_URL}template/mobile/js/shake.js"></script>
+<script type="text/javascript" src="{MODULE_URL}template/mobile/js/jquery-weui.js"></script>
+<script type="text/javascript" src="{MODULE_URL}template/mobile/js/socket.io.js"></script>
+{if TIMESTAMP<$list['start_time']}
+<script src="{MODULE_URL}template/mobile/js/jquery.knob.min.js"></script>
+<script src="{MODULE_URL}template/mobile/js/jquery.ba-throttle-debounce.min.js"></script>
+<script src="{MODULE_URL}template/mobile/js/jquery.redcountdown.js"></script>
+{/if}
+<script>
+// JS全局变量
+var live_persons = {$list['live_persons']};
+var dashang_limit = {$list['dashang_limit']};
+var dashang_flower = {$list['dashang_flower']};//打赏提示
+var gift_flower = {$list['gift_flower']};//送礼提示
+var newjoin_flower = {$list['newjoin_flower']};//新加入提示
+var player_height = {$list['player_height']};
+var fans_info = {
+		'nickname':"{$user['nickname']}",
+		'avatar':"{$user['avatar']}",
+		'openid':"{$user['openid']}"
+};	
+var Timer;
+var newsTimer;
+var load_status = 1;
+var load_news_status = 1;
+var WinW=$(window).width(),WinH=$(window).height();
+var mobile_type = {if strpos($user_agent, 'MicroMessenger') === false}0{else}1{/if};
+</script>
+</head>
+<body>
+<input type="hidden" name="nick_name" id="nick_name" value="{$user['nickname']}">
+<input type="hidden" name="avatar" id="avatar" value="{$user['avatar']}">
+<input type="hidden" id="live_id" data-title="{$list['title']}" value="{$list['id']}">
+<input type="hidden" id="category_id" data-title="{$list['title']}" value="{$categoryid}">
+<input type="hidden" id="live_scale" value="16:9">
+<input type="hidden" id="wx_nick" value="{$user['nickname']}">
+<input type="hidden" id="page_time" value="{php echo time()}">
+<input type="hidden" id="wx_openid" value="{$user['openid']}">
+<input type="hidden" id="PageNum" value="1" date-reset="{$ping_nums}"/>
+<input type="hidden" id="NewsNum" value="1" date-reset="{$news_nums}"/>
+<input type="hidden" id="maxid" value="0" />
+<input type="hidden" id="shake_status" value="{if $list['shake_show']=='1' && empty($user['realname'])}0{else}1{/if}" />
+<!--微信提示图-->
+<!-- 红包音乐 -->
+<audio id="shake-yao" src="{MODULE_URL}template/mobile/music/yao.mp3" style="display: none;"></audio>
+<audio id="shake-kai" src="{MODULE_URL}template/mobile/music/kai.mp3" style="display: none;"></audio>
+<!-- End 红包音乐 -->
+<!----->
+<style>
+.countTitle,.count_down{float:left;}
+.countTitle{width:25%}
+.count_down{width:59%}
+#COUNT_DOWN{
+	position: absolute;
+    z-index:999;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    
+    background:#000;
+	height:36px;
+	}
+.count_down{margin-top:0px;}
+.countTitle {
+    display: inline-block;
+    padding: 0px 10px;
+	margin:6px 15px;
+    height: 24px;
+    line-height: 24px;
+    background-color: {$list['main_color']};
+    font-size: 12px;
+    color: #fff;
+    border-radius: 5px;
+    letter-spacing: 1px;
+}
+.redCountdownWrapper > div {height:30px !important;width:30px !important;margin:2px 10px !important}
+.danmu_control{margin-right:5px;}
+.loading_more_news{height:40px;line-height:40px;text-align:center}
+</style>
+<div id="COUNT_DOWN" style="{if TIMESTAMP>=$list['start_time']}display:none{/if}">
+<div class="countTitle">直播倒计时</div>
+<div class="count_down"></div>
+</div>
+<script >
+{if TIMESTAMP<$list['start_time']}
+$('.count_down').redCountdown({
+		end: "{$list['start_time']}",
+		now: "{php echo time()}",
+		labels: true,
+		labelsOptions: {
+			lang: {
+				days: '天',
+				hours: '时',
+				minutes: '分',
+				seconds: '秒'
+			},
+			style: 'font-size:10px; text-transform:uppercase;'
+		},
+		style: {
+			element: "",
+			textResponsive: .5,
+			daysElement: {
+				gauge: {
+					thickness: .1,
+					bgColor: "#fff",
+					fgColor: "{$list['main_color']}",
+				},
+				textCSS: 'font-size:10px;color:#fff;'
+			},
+			hoursElement: {
+				gauge: {
+					thickness: .1,
+					bgColor: "#fff",
+					fgColor: "{$list['main_color']}",
+				},
+				textCSS: 'font-size:10px;color:#fff;'
+			},
+			minutesElement: {
+				gauge: {
+					thickness: .1,
+					bgColor: "#fff",
+					fgColor: "{$list['main_color']}",
+				},
+				textCSS: 'font-size:10px;color:#fff;'
+			},
+			secondsElement: {
+				gauge: {
+					thickness: .1,
+					bgColor: "#fff",
+					fgColor: "{$list['main_color']}",
+				},
+				textCSS: 'font-size:10px;color:#fff;'
+			}
+			
+		},
+		onEndCallback: function() {  
+		  window.location.reload();
+		}
+	});
+{/if}	
+</script>
+<div id="header">
+	<div class="logo">
+		<div class="logo-div">
+			<img src="{php echo tomedia($list['live_logo'])}" class="logo-img" />
+		</div>
+	</div>
+	<div class="fr head-info">
+		<a class="head-user" href="{php echo $this->createMobileUrl('user')}"><img src="{$user['avatar']}" height="28"></a>
+		<a class="head-menu" href="{php echo $this->createMobileUrl('index')}"><i class="iconfont" style="font-size:14px;color:{$list['main_color']};font-size:26px;">&#xe659;</i></a>
+	</div>
+</div>
+<div id="danmu" style="width:100%;position: absolute;display:none"></div>
+<!--end dm-->
+<div id="wrap">
+{if TIMESTAMP<$list['start_time']}
+{if $list['no_start_type']=='4'}
+<div id="content" style="width:100%;">
+<div id="playBtn"></div>
+<video id="playVideo"  src="{php echo tomedia($list['no_start_local_media'])}" width="100%" webkit-playsinline="yes" x-webkit-airplay="allow" poster="{php echo tomedia($list['img'])}"     controls="controls"></video>
+</div>
+{elseif $list['no_start_type']=='3'}
+{php echo html_entity_decode($list['no_start_yt_iframe'])}
+{elseif $list['no_start_type']=='1'}
+<div id="player" style="width:100%;">
+    <script type="text/javascript" charset="utf-8" src="http://yuntv.letv.com/player/live/blive.js"></script>
+   <script type="text/javascript"> 
+        var player = new CloudLivePlayer();
+        player.init({activityId:"{$list['no_start_activity_id']}",pic:"{php echo tomedia($list['img'])}"});
+    </script>
+</div>
+{elseif $list['no_start_type']=='2'}
+<div id="player" style="width:100%;">
+	<script type="text/javascript" charset="utf-8" src="http://yuntv.letv.com/player/vod/bcloud.js"></script>
+    <script>
+        var player = new CloudVodPlayer();
+        player.init({uu:"{$list['no_start_activity_uu']}",vu:"{$list['no_start_activity_vu']}"{if !empty($list['no_start_activity_pu'])},pu:"{$list['no_start_activity_pu']}"{/if},pic:"{php echo tomedia($list['img'])}"});
+    </script>
+</div> 
+{elseif $list['no_start_type']=='5'}
+{php $no_start_advs = iunserializer($list['no_start_advs']);}
+<div id="player" style="width:100%;">
+	<div class="swiper-container" id="no_start_advs_box">
+		<div class="swiper-wrapper" >
+				{loop $no_start_advs $row}
+					<div class="swiper-slide">
+						<a href="{$row['live_nostart_url']}"><img src="{php echo tomedia($row['live_nostart_img'])}" /></a>
+					</div>
+				{/loop}
+		</div>
+		<div class="swiper-pagination" style="bottom:1px !important"></div>
+	</div>
+</div> 
+{/if}
+{elseif TIMESTAMP>$list['end_time']}
+{if $list['end_type']=='4'}
+<div id="content" style="width:100%;">
+<div id="playBtn"></div>
+<video id="playVideo" controls preload="auto" height=""  width="100%" webkit-playsinline="yes" x-webkit-airplay="allow" poster="{php echo tomedia($list['img'])}"><source src="{php echo tomedia($list['end_local_media'])}" type="video/mp4"></source></video>
+</div>
+{elseif $list['end_type']=='3'}
+{php echo html_entity_decode($list['end_yt_iframe'])}
+{elseif $list['end_type']=='1'}
+<div id="player" style="width:100%;">
+    <script type="text/javascript" charset="utf-8" src="http://yuntv.letv.com/player/live/blive.js"></script>
+   <script type="text/javascript"> 
+        var player = new CloudLivePlayer();
+        player.init({activityId:"{$list['end_activity_id']}",pic:"{php echo tomedia($list['img'])}"});
+    </script>
+</div>
+{elseif $list['end_type']=='2'}
+<div id="player" style="width:100%;">
+	<script type="text/javascript" charset="utf-8" src="http://yuntv.letv.com/player/vod/bcloud.js"></script>
+    <script>
+        var player = new CloudVodPlayer();
+        player.init({uu:"{$list['end_activity_uu']}",vu:"{$list['end_activity_vu']}"{if !empty($list['end_activity_pu'])},pu:"{$list['end_activity_pu']}"{/if},pic:"{php echo tomedia($list['img'])}"});
+    </script>
+</div> 
+{elseif $list['end_type']=='5'}
+{php $end_advs = iunserializer($list['end_advs']);}
+<div id="player" style="width:100%;">
+	<div class="swiper-container" id="end_advs_box">
+		<div class="swiper-wrapper" >
+				{loop $end_advs $key $row}
+					<div class="swiper-slide">
+						<a href="{$row['live_end_url']}"><img src="{php echo tomedia($row['live_end_img'])}" /></a>
+					</div>
+				{/loop}
+		</div>
+		<div class="swiper-pagination" style="bottom:1px !important"></div>
+	</div>
+</div> 
+{/if}
+{else}
+{if $list['type']=='4'}
+<div id="content" style="width:100%;">
+<div id="playBtn"></div>
+<video id="playVideo" controls preload="auto" height=""  width="100%" webkit-playsinline="yes" x-webkit-airplay="allow" poster="{php echo tomedia($list['img'])}"><source src="{php echo tomedia($list['local_media'])}" type="video/mp4"></source></video>
+</div>
+{elseif $list['type']=='3'}
+{php echo html_entity_decode($list['yt_iframe'])}
+{elseif $list['type']=='1'}
+<div id="player" style="width:100%;">
+    <script type="text/javascript" charset="utf-8" src="http://yuntv.letv.com/player/live/blive.js"></script>
+   <script type="text/javascript"> 
+        var player = new CloudLivePlayer();
+        player.init({activityId:"{$list['activity_id']}",pic:"{php echo tomedia($list['img'])}"});
+    </script>
+</div>
+{elseif $list['type']=='2'}
+<div id="player" style="width:100%;">
+	<script type="text/javascript" charset="utf-8" src="http://yuntv.letv.com/player/vod/bcloud.js"></script>
+    <script>
+        var player = new CloudVodPlayer();
+        player.init({uu:"{$list['activity_uu']}",vu:"{$list['activity_vu']}"{if !empty($list['activity_pu'])},pu:"{$list['activity_pu']}"{/if},pic:"{php echo tomedia($list['img'])}"});
+    </script>
+</div>
+{elseif $list['type']=='5'}
+{php $live_advs = iunserializer($list['live_advs']);}
+<div id="player" style="width:100%;">
+	<div class="swiper-container" id="live_advs_box">
+		<div class="swiper-wrapper" >
+				{loop $live_advs $row}
+					<div class="swiper-slide">
+						<a href="{$row['live_on_url']}"><img src="{php echo tomedia($row['live_on_img'])}" /></a>
+					</div>
+				{/loop}
+		</div>
+		<div class="swiper-pagination" style="bottom:1px !important"></div>
+	</div>
+</div> 
+{/if}
+{/if}
+</div>
+<div class="swiper-container" style="position:relative;background-color: #22292c;" id="advs_box">
+<div class="swiper-wrapper" >
+{php $advs = iunserializer($list['advs']);}
+{loop $advs $key $row}
+{php $adv_num = count($advs);}
+{if $row['adv_type']=='1'}
+    <div class="swiper-slide">
+		<div style="width:100%;height:35px;overflow:hidden;width:320px">
+			<div style="position: absolute;display: inline-block;width: 100%;padding-left: 10px;height: 35px;line-height:35px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;color:#fff">
+				<span>&nbsp;&nbsp;</span>
+				<a href="{$row['adv_url']}" style="font-size:12px;color:#fff">{$row['adv_text']}</a>
+			</div>
+		</div>
+	</div>
+{elseif $row['adv_type']=='2'}
+	<div class="swiper-slide"  style="height:35px">
+		<a href="{$row['adv_url']}">
+		<img class="banner-img" src="{php echo tomedia($row['adv_img'])}" height="35px" width="100%"></a>
+	</div>
+{/if}
+{/loop}
+</div>
+<div class="swiper-pagination" style="bottom:1px !important"></div>
+</div>
+<div class="live-info">
+	<div class="fl live-total" style="color:{$list['main_color']}">
+		<i class="iconfont">&#xe61e;</i>
+			<span id="banner_persons">{if !empty($see_user)}{$see_user}{else}0{/if}</span>
+			<span>&nbsp;&nbsp;</span>
+		<i class="iconfont">&#xe638;</i>
+		<span id="banner_pingluns">{php echo $ping_nums+$news_pl_nums}</span>
+	</div>
+	<div class="fr live-btn">
+		
+         <a href="javascript:;" class="live-btn-a danmu_control" style="display:none"><i class="iconfont" style="font-size:14px;" >&#xe65b;</i>弹幕</a>
+		{if $list['yuyue_show']=='1' && TIMESTAMP<$list['start_time']}<a  id="{if strpos($user_agent, 'MicroMessenger') === false}pc_yuyue{else}{if $list['put_mobile']=='0'}wechat_yuyue{else}{if !empty($check_yuyue)}wechat_yuyue{else}need_moible_yuyue{/if}{/if}{/if}" class="live-btn-a live-bespoke" style="margin-right:10px;"><i class="iconfont" style="font-size:14px;">&#xe71a;</i>预约观看</a>{/if}
+		<a href="{$gz_url}" class="live-btn-a live-follow" target="__blank"><i class="iconfont" style="font-size:14px;">&#xe613;</i>关注</a>
+		
+	</div>
+</div>
+
+<div id="tabs-h">
+		<ul style="width:100%">
+		{loop $menus $row}
+		{php $row['settings'] = iunserializer($row['settings']);}
+		<li class="tabs-h-comment tabs-h-{$row['id']}" data-num="{$row['id']}" data-m="{$row['type']}" data-h="{if $row['type']=='html'}{$row['settings']['iframe']}{/if}" >{$row['name']}</li>
+		{/loop}
+		</ul>
+</div>
+<div id="tabs">
+	<div id="tabs-c">
+	{loop $menus $row}
+	{php $row['settings'] = iunserializer($row['settings']);}
+	{if $row['type']=='comment'}
+		<div class="tabs-div tabs-c-{$row['id']}" data-num="{$row['id']}" data-m="comment" style="display:none;position:relative" id="comment_box">
+			<div id="comment-info">
+				<div class="fl comment-total">共<b id="comment-num">{php echo $ping_nums+$news_pl_nums}</b>条评论</div>
+				<div class="fr comment-operate">
+					<div onClick="praise();" class="fl comment-praise">
+						<i class="iconfont comment-i" style="font-size:22px;color:{$list['main_color']}">&#xe63f;</i>
+						<em class="comment-em">{$row['settings']['comment_zan']}</em>
+						<span class="comment-span"><i class="iconfont comment-span-b" style="font-size:12px;color:{$list['main_color']}">&#xf0123;</i><em class="comment-span-em" id="praise-num">{php echo $zan_nums+$news_zan_nums}</em></span>
+					</div>
+					
+				</div>
+			</div>
+			<div id="talk" style="overflow-y:scroll; -webkit-overflow-scrolling: touch;overflow-scrolling:touch;">
+				<ul id="comment">
+				{$comment_html}
+				</ul>
+				<div class="tt-msg-more">  
+					<div class="tt-msg-loading" style="display: none;"><i></i><span>加载中...</span></div> 
+					{if $ping_nums>8}
+					<div class="tt-msg-load-desc" ><a href="#">上拉加载更多</a></div>  
+					{elseif $ping_nums<=8}
+					<div class="tt-msg-load-desc" ><a href="#">没有更多了</a></div>  
+					{/if}
+				</div>
+			</div>
+		     
+				
+			<div id="review_box" style="position:absolute;bottom:0px;left:0;">
+							<div id="dt_review_box_main">
+							  <div id="dt_review_box_input"><input type="text" placeholder="请输入" id="dt_review_form_content" class="input" onpaste="return false" oncontextmenu="return false" oncopy="return false" oncut="return false" maxlength="200" onfocus="number_focus()"></div>
+							  <div id="dt_review_box_emo_button" ontouchstart=""><i class="iconfont" style="display:block;margin-top:2px;font-size:26px;color:{$list['main_color']}">&#xe6b1;</i></div>
+							  <div id="dt_review_box_button"><button id="dt_review_form_post" class="button_1_disabled" ontouchstart="" >发送</button></div>
+							  
+							  <div style="display: none;" id="dt_review_box_emo">
+								 
+							  </div>
+							  <div class="clear"></div>
+						 </div>
+			</div>
+			{if $list['gift_show']=='1'}
+			<i class="iconfont gift_icon" id="{if strpos($user_agent, 'MicroMessenger') === false}uc_gift{else}{if $can_pay==1}gift{else}oauth_gift{/if}{/if}">&#xe6a5;</i>
+			{/if}
+			{if $list['dashang_show']=='1'}
+			<i class="iconfont shang_icon" id="{if strpos($user_agent, 'MicroMessenger') === false}uc_gave{else}{if $can_pay==1}gave{else}oauth_gave{/if}{/if}" >&#xe620;</i>
+			{/if}
+			</div>
+	{elseif $row['type']=='content'}
+		<div class="tabs-div tabs-c-{$row['id']}" data-num="{$row['id']}" data-m="content" style="display:none">
+			<div class="tabs-content" id="content-cont">{php echo html_entity_decode($row['settings']['content']);}</div>
+		</div>
+	{elseif $row['type']=='button'}
+		<div class="tabs-div tabs-c-{$row['id']}" data-num="{$row['id']}" data-m="button" style="display:none">
+			{if !empty($row['settings']['button_name'])}
+			{loop $row['settings']['button_name'] $key $val}
+				<div class="padd">
+					<a href="{$row['settings']['button_url'][$key]}" class="tabs-link">{$row['settings']['button_name'][$key]}</a>
+				</div>
+			{/loop}
+			{/if}
+		</div>
+	{elseif $row['type']=="shake"}
+		<div class="tabs-div tabs-c-{$row['id']}" data-num="{$row['id']}" data-m="shake" data-shake="on" style="display:none" id="shake">
+			<div id="shake-img"></div>
+			<div id="shake-limit">{if $row['settings']['shake_times']-$had_shake_time >0}您还有<font style="color:{$list['main_color']}">{php echo ($row['settings']['shake_times']-$had_shake_time)}</font>次机会,摇到大奖！{else}<font style="color:{$list['main_color']}">您的摇一摇机会已经用完啦！</font>{/if}</div>
+		</div>
+	{elseif $row['type']=='html'}
+		<div class="tabs-div tabs-c-{$row['id']}" data-num="{$row['id']}" data-m="html" data-h="{$row['settings']['iframe']}" style="display:none"></div>
+	{elseif $row['type']=='news'}
+		<div class="tabs-div tabs-c-{$row['id']}" data-num="{$row['id']}" data-m="news"  style="display:none;">
+				<section class="cmnt_zone">
+				<ul class="list" id="cmntList">
+					  {if !empty($news)}
+					  {loop $news $news_row}
+					  <li class="item">
+						<a class="headImg"><img src="{php echo tomedia($row['settings']['host_img'])}"></a>
+						<div class="uInfo"><a class="nick"><font color=red>直播员</font>|{$row['settings']['host_name']}</a><div class="time">{php echo date("Y-m-d H:i:s",$news_row['createtime'])}</div></div>
+						<div class="content">{php echo $this->emo($news_row['content'])}</div>
+						{if $news_row['imgs']!='no_imgs'}
+						<ul class="one extras j_p_gallery"> 
+						{php $new_imgs = iunserializer($news_row['imgs']);}
+						{loop $new_imgs $rval}
+						  <li class="cell">     
+							<a href="javascript:;"><img class="j_fullppt"  alt="" src="{php echo tomedia($rval)}" data-src="{php echo tomedia($rval)}"></a>
+						  </li>
+						 {/loop}
+						</ul>
+						{/if}
+						<div class="addFun">
+						  <a class="comment" href="{php echo $this->createMobileUrl('news_reply',array('listid'=>$listid,'news_id'=>$news_row['id']))}"><i class="iconfont news_icon">&#xe638;</i>&nbsp;&nbsp;&nbsp;评论({if !empty($news_row['pl_nums'])}{$news_row['pl_nums']}{else}0{/if})</a>
+						  <a href="javascript:void(0);" class="share" onclick="news_zan({$news_row['id']})"><i class="iconfont news_icon" >&#xe63f;</i>&nbsp;&nbsp;&nbsp;赞(<font id="zan_{$news_row['id']}">{if !empty($news_row['zan_nums'])}{$news_row['zan_nums']}{else}0{/if}</font>)</a>
+						</div>
+					  </li>
+					  {/loop}
+					  {else}
+						<li style="text-align:Center;height:30px;line-height:30px;margin-top: 10px;">暂无直播内容</li>
+					  {/if}
+				</ul>
+				 {if !empty($news)}
+					<div class="news-msg-loading" style="display: none;height:40px;
+	line-height:40px;"><i></i><span>加载中...</span></div> 
+					<div class="loading_more_news" data-page='2'>点击加载更多</div>
+				 {/if}
+			  </section>
+		</div>
+		<!--news-->
+	{else}
+		<div>未知类型的菜单</div>
+	{/if}
+	{/loop}
+		
+	</div>
+</div>
+<div id="toast"></div>
+{if $list['dashang_show']=='1'}
+				<div id="dashang_box" style="width:100%;display: none;background-color: rgba(0,0,0,.7);">
+				<div class="dashang_bj"></div>
+				<div id="gave-box" style="bottom:0;z-index:11">
+				  <div id="gave-close" onClick="close_give();"></div>
+					  <div id="gave-text">
+						<p>
+						  <input type="text" class="gave-input" id="gave-money" onfocus="number_focus()" onblur="number_blur()" placeholder="请输入打赏金额({$list['dashang_limit']}~200)元" onkeyup="this.value=this.value.replace(/[^0-9.]/g,'')" /></p>
+						<p style="margin-top:15px;">
+						  <input type="text" class="gave-input" onfocus="number_focus()" onblur="number_blur()" id="gave-say" placeholder="加上您祝福的话(20字以内)" size="30" /></p>
+					  </div>
+					<div id="gave-sub" onClick="gave();"></div>
+				</div>
+				</div>
+				{/if}
+{if !empty($gifts) && $list['gift_show']=='1'}
+					<div id="reward-layer-box" style="display: none;width:100%;overflow:hidden">
+						<div id="reward-pay-box" style="position:absolute;left:0;">
+							<div id="reward-list-wrap" class="clearfix">
+								<div class="swiper-container" id="gifts_swiper">
+									<div class="swiper-wrapper">
+										{if !empty($gifts)}
+										{loop $gifts $key $row}
+											{if $key%4==0}
+												 <div class="swiper-slide">
+													<div class="reward-gift-wrap">
+													  <div class="reward-img-wrap {if $key=='0'}selected{/if}" onclick="change_gift('{$row['id']}','{$listid}')" id="gift_{$row['id']}" data-one="{$row['money']}" data-type="{$row['id']}">
+													  <img src="{php echo tomedia($row['img'])}" width=55 height=55 />
+													  </div>
+													  <p>{$row['name']}</p>
+													</div>
+												{if  ($key+1)==count($gifts)}</div>{/if}
+											{else}
+												 <div class="reward-gift-wrap">
+													  <div class="reward-img-wrap {if $key=='0'}selected{/if}" onclick="change_gift('{$row['id']}','{$listid}')" id="gift_{$row['id']}" data-one="{$row['money']}" data-type="{$row['id']}">
+													  <img src="{php echo tomedia($row['img'])}" width=55 height=55 />
+													  </div>
+													  <p>{$row['name']}</p>
+												 </div>
+												{if ($key+1)%4==0 || ($key+1)==count($gifts)}</div>{/if}
+												
+											{/if}
+										  {/loop}
+										{/if}	
+								</div>
+								</div>
+								<div class="swiper-pagination gift_page" style="position:static"></div>
+								<div id="reward-pay-close" onclick="close_gift_list()"></div>
+								 <i class="icon iconfont closeicon" onclick="close_gift_list()">&#xe62d;</i>
+							</div>
+							<div id="reward-price-wrap" style="height: 30px;padding: 10px 0 10px 0;">
+								<div class="num_div" style="margin:0 10px 0 10px;float:left">数量</div>
+								<div class="gw_num" style="float:left">
+									
+									<i class="iconfont jian">&#xe982;</i>
+									<input type="num" value="1" class="num" id="gift_number" oninput="number_change()"  onfocus="number_focus()" onblur="number_blur()" >
+									<i class="iconfont add">&#xe983;</i>
+								</div>
+								<div class="heji" style="margin-left:10px;float:left">合计</div>
+								<div class="price_div"style="float:left;color: #ff5f5f;">￥
+								<i id="total_price">{$gifts[0]['money']}</i>
+								</div>
+								<div class="pay-btn" onclick="gift_pay()" style="float:right">立即支付</div>
+							</div>
+							<div style="clear:both"></div>
+							<div id="reward-num-wrap" style="{if $list['gift_pay_detail']==0}display:none{/if};text-align:left;">
+								<p>
+								<span>共</span><span class="num" id="donateTimes">
+								{if empty($gifts_person)}0{else}{$gifts_person}{/if}</span><span>人参与</span>
+								</p>
+								{if !empty($gifts)}
+								{loop $gifts $row}
+								<div><img src="{php echo tomedia($row['img'])}"><span>&nbsp;</span><i class="num">{$row['name']}</i><span class="total"><span>累计数量&nbsp;</span><i class="num" id="send_{$row['id']}">
+								{if !empty($row['nums'])}{$row['nums']}{else}0{/if}</i><i class="line">|</i><i class="detail"><a href="{php echo $this->createMobileUrl('dashang_detail',array('gift_id'=>$row['id'],'categoryid'=>$categoryid,'listid'=>$listid))}" style="color:blue">明细</a></i></span>
+								</div>
+								{/loop}
+								{/if}
+							</div>
+						</div>
+					</div>
+				{/if}
+<!-- fire canvas-->
+<div class="colorful js_lhjColorRibbon hidden" style=""><img src="{MODULE_URL}template/mobile/images/colorful.png" alt=""></div>
+<div id="socket_img" class="info2"></div>
+<!--fire canvas-->
+<link type="text/css" rel="stylesheet" href="{MODULE_URL}template/mobile/rank/css/style-pop.css" />
+<!--pay box--->
+{if $list['need_pay']=='1' && $need_pay==1 && $list['pay_money']>0}
+<div id="pay_pop" class="pop">
+  		<div class="box">
+    		<h1>温馨提示</h1>
+    		<div class="inputqy">
+			  <h4 style="text-align:center;margin:10px 0 10px 0">本次直播需要支付<font color=red>{$list['pay_money']}</font>元才可观看</h4>
+            </div>
+            <div class="but_con">
+                <button class="button_yes" onClick="{if $can_pay==1}pay_look(){else}pay_oauth_look(){/if}">{if $can_pay==1}支付{else}去支付{/if}</button>
+            </div>
+        </div>
+</div>
+{/if}
+<!--pay_box-->
+<!---code box-->
+{if $list['need_pay']=='2' && $need_code==1}
+<div id="code_pop" class="pop">
+  		<div class="box">
+    		<h1>温馨提示</h1>
+    		<div class="inputqy">
+			  <input type="text" id="look_code" placeholder="请填入观看密码" />
+            </div>
+            <div class="but_con">
+                <button class="button_yes" onClick="code_look()">确定</button>
+            </div>
+        </div>
+</div>
+{/if}
+<!---code box--->
+<!---need input---->
+{if $list['need_pay']=='3' && $need_input=='1'}
+<div id="need_input_pop" class="pop">
+  		<div class="box">
+    		<h1>请填写以下资料</h1>
+			<div class="inputqy">
+    		{loop $need_input_arr $rval}
+				<input type="text" id="{$rval['code']}" placeholder="{$rval['placeholder']}" type="text" name="{$rval['code']}" />
+			{/loop}
+			</div>
+            <div class="but_con">
+                <button class="button_yes" onClick="input_need()">确定</button>
+            </div>
+        </div>
+</div>
+{/if}
+<!---need)input end-->
+<!--mobile put-->
+{if $list['put_mobile']=='1' && $list['yuyue_show']=='1'}
+<div id="sms_mobile_box" class="pop" style="display:none">
+  		<div class="box" style="top:35%">
+			<div id="reward-pay-close" onclick="close_sms_box()"></div>
+			<i class="icon iconfont closeicon" onclick="close_sms_box()">&#xe62d;</i>
+    		<h1>请填写预约资料</h1>
+    		<div class="inputqy">
+			  <input type="text" id="sms_mobile" placeholder="请输入你的手机号" type="num" maxlength="11" />
+			  {if $list['sms_mobile']=='1'}
+			  <input type="text" id="sms_code" placeholder="请输入手机验证码" style="width:70%;float:left" type="num" maxlength="5" />
+			  <button class="button_yes"  style="width:30%;float:left;margin: 5px auto;font-size:12px;" id="send_sms_button">发送验证码</button>
+			  {/if}
+			  <div class="tip" style="clear:both;color:red;font-size:12px;margin-left:5px;">预约直播、直播开始了可以及时提醒你哦!</div>
+            </div>
+            <div class="but_con">
+                <button class="button_yes" onClick="mobile_do()">确定</button>
+            </div>
+        </div>
+</div>
+<style>
+#sms_mobile_box #reward-pay-close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 0;
+	height: 0;
+	z-index:0;
+	border-top: 40px solid #ebecee;
+	border-left: 40px solid transparent
+}
+
+#sms_mobile_box #reward-pay-close:active {
+	border-top: 40px solid #e6e7e9
+}
+
+#sms_mobile_box .closeicon {
+	position: absolute;
+	top: 4px;
+	right: 4px;
+	z-index: 9999;
+	font-size:16px;
+	color: #4e4e4e;
+	
+}
+</style>
+<script>
+var sms_countdown=60; 
+var sms_timer;
+$("#send_sms_button").click(function(){
+    var button = $("#send_sms_button");
+	var mobile = $("#sms_mobile").val();
+	var telreg = /^1[3|4|5|7|8][0-9]\d{8}$|^\d{8}$/;
+	if(mobile.length==0){
+			_loading_toast._show('请先填写手机号码！');
+			return;
+	}else if(!telreg.test(mobile)){
+			_loading_toast._show('请填写正确的手机号码！');
+			return;
+	}else{  
+        button.attr("disabled", true);
+		button.css({"background-color":"gray","border":'1px solid gray'});
+        button.text("倒计时" + sms_countdown + "秒");  
+        sms_timer = window.setInterval(SetRemainTime, 1000);
+		var i = _meepoajax._querystring('i');
+		var j = _meepoajax._querystring('j');
+		var post_url = './index.php?i='+i+'&j='+j+'&c=entry&do=send_sms&m=meepo_online';
+		$.ajax({
+			type:'post',
+			url:post_url,
+			data:{'listid':$("#live_id").val(),'mobile':mobile},
+			dataType:"json",
+			success:function(json){	
+			  if(json.errno=='0'){
+					button.css({"background-color":"{$list['main_color']}","border":'1px solid {$list['main_color']}'}); 
+					button.html("已发送"); 
+					alert('短信发送成功、请注意查收');
+			  }else{
+					_loading_toast._show('短信验证码发送失败、请一分钟后重试');
+			  }
+			}
+		})
+    } 
+}) 
+//timer处理函数  
+function SetRemainTime() {  
+  var button = $("#send_sms_button");
+    if (sms_countdown == 0) {
+		button.css({"background-color":"{$list['main_color']}","border":'1px solid {$list['main_color']}'}); 
+        clearInterval(window.sms_timer);//停止计时器  
+        button.attr("disabled",false);  
+        button.html("发送验证码");  
+		sms_countdown = 60;
+    }  
+    else {  
+       sms_countdown--;  
+       button.text("倒计时"+sms_countdown+ "秒");  
+    }  
+}
+function mobile_do(){
+	var button = $("#send_sms_button");
+	var mobile = $("#sms_mobile").val();
+	var telreg = /^1[3|4|5|7|8][0-9]\d{8}$|^\d{8}$/;
+	if(mobile.length==0){
+			_loading_toast._show('请先填写手机号码！');
+			return;
+	}else if(!telreg.test(mobile)){
+			_loading_toast._show('请填写正确的手机号码！');
+			return;
+	}
+	var sms_code = $("#sms_code").val();
+	{if $list['sms_mobile']=='1'}
+		if(sms_code=='' || sms_code.length!=5){
+				_loading_toast._show('请填写正确的验证码！');
+				return;
+		}
+	{/if}
+	var i = _meepoajax._querystring('i');
+	var j = _meepoajax._querystring('j');
+	var post_url = './index.php?i='+i+'&j='+j+'&c=entry&do=yuyue&m=meepo_online';
+	$.ajax({
+			type:'post',
+			url:post_url,
+			data:{'listid':$("#live_id").val(),'mobile':mobile,'sms_code':sms_code},
+			dataType:"json",
+			success:function(json){
+			  clearInterval(window.sms_timer);//停止计时器  
+		      button.attr("disabled",false); 
+			  button.css({"background-color":"{$list['main_color']}","border":'1px solid {$list['main_color']}'}); 
+			  button.html("发送验证码"); 
+			  sms_countdown = 60;
+			  
+			  if(json.errno=='0' || json.errno=='-1'){
+				_loading_toast._show('预约成功');
+				$(".live-bespoke").hide();
+				$('#sms_mobile_box').hide();	
+			  }else{
+				_loading_toast._show(json.message);
+			  }
+			}
+	})
+
+}
+</script>
+{/if}
+<!--mobile_put-->
+<div id="meepo_pop" class="pop" style="display:none;">
+  		<div class="box">
+        	<b class="closeb" onClick="document.getElementById('meepo_pop').style.display='none';" ></b>
+    		<h1>填写领奖相关信息</h1>
+    		<div class="inputqy">
+			  <input type="text" id="realname" placeholder="请填入真实姓名" />
+			  <input type="text" id="mobile" placeholder="请填入手机号码" />
+			  <input type="text" id="address" placeholder="请填入详细地址" />
+             </div>
+            <div class="but_con">
+                <button class="button_yes" onClick="send_rm()">确定</button>
+            </div>
+        </div>
+</div>
+<!--中奖了-->
+<div id="zjlBox" class="pop" style="display:none;">
+  		<div class="box">
+        	<b class="closeb" onClick="close_zj()"></b>
+    		<h1>恭喜您！您中奖了！</h1>
+    		<div class="inputqy">
+      			<div class="jpimg"><img id="jpimg" src="" /></div>
+      			<div class="jptext">
+        			<p id="jpname"></p>
+      			</div>
+    		</div>
+            <div id="zjlbtn" class="but_con">
+      			<button class="button_yes"></button>
+    		</div>
+  		</div>
+</div>
+<!--未中奖-->
+<div id="mzjBox" class="pop" style="display:none;">
+  		<div class="box">
+    		<h1></h1>
+    		<div class="inputqy">
+      			<div class="jptext"><span class="ncz">很遗憾，没摇中任何奖品！</span></div>
+    		</div>
+    		<div class="but_con">
+      			<button class="button_yes" onClick="no_zj()">知道啦</button>
+    		</div>
+  		</div>
+</div>
+<div id="guanzhu_pop" class="pop" style="display:none;">
+  		<div class="box">
+        	<b class="closeb" onClick="close_gz()"></b>
+    		<h3 style="margin-top:30px;text-align:center">微信扫一扫关注才可以打赏和送礼物哦！</h3>
+    		<div class="inputqy">
+      			<div class="jpimg"><img id="jpimg" src="../attachment/qrcode_{$_W['uniacid']}.jpg" /></div>
+    		</div>
+  		</div>
+</div>
+<script>
+$(function(){	
+	resize();
+	var mySwiper = new Swiper ('#advs_box',{
+		loop: true,
+		pagination: '.swiper-pagination',
+		paginationClickable: true,
+		autoplay: 6000,
+		autoplayDisableOnInteraction: false,
+		
+	});
+	var mySwiper2 = new Swiper('#gifts_swiper',{
+		pagination: '.gift_page',
+		paginationClickable: true,
+		longSwipesRatio: 0.3,
+		touchRatio:1,
+		observer:true,//修改swiper自己或子元素时，自动初始化swiper
+		observeParents:true,//修改swiper的父元素时，自动初始化swiper
+	});
+	
+	{if TIMESTAMP<$list['end_time'] && TIMESTAMP>$list['start_time'] && $list['type']=='5'}
+			var mySwiper3 = new Swiper('#live_advs_box',{
+				loop: true,
+				pagination: '.swiper-pagination',
+				paginationClickable: true,
+				autoplay: 6000,
+				autoplayDisableOnInteraction: false,
+			});
+	{/if}
+	{if TIMESTAMP>$list['end_time'] && $list['end_type']=='5'}
+			var mySwiper3 = new Swiper('#end_advs_box',{
+				loop: true,
+				pagination: '.swiper-pagination',
+				paginationClickable: true,
+				autoplay: 6000,
+				autoplayDisableOnInteraction: false,
+			});
+	{/if}
+	{if TIMESTAMP<$list['start_time'] && $list['no_start_type']=='5'}
+			var mySwiper3 = new Swiper('#no_start_advs_box',{
+				loop: true,
+				pagination: '.swiper-pagination',
+				paginationClickable: true,
+				autoplay: 6000,
+				autoplayDisableOnInteraction: false,
+			});
+	{/if}
+	var t_length=$('#tabs-c .tabs-div').length;			
+	if(t_length>1){
+		$('#tabs-h li').removeClass('cur').eq(0).addClass('cur');
+		$('#tabs-c .tabs-div').hide().eq(0).show();
+		var tabCur=$('#tabs-h .cur');
+		var tabM=tabCur.attr('data-m');
+		var tabN=tabCur.attr('data-num');
+		var tabC=$('#tabs-c .tabs-c-'+tabN);
+		if(tabM=='html'){
+			tabC.html('<iframe width="100%" height="'+WinH+'" src="'+$('#tabs-h .cur').attr('data-h')+'" frameborder="no" marginheight="0" marginwidth="0" allowTransparency="true"></iframe>');
+		}else if(tabM=='comment'){
+			clear_Timer();
+			$('#PageNum').val('1');
+			Timer = setInterval(AutoLoad,5000); //1分钟执行一次
+		}else if(tabM=='news'){
+			clear_newsTimer();
+			$('#NewsNum').val('1');
+			newsTimer = setInterval(AutoLoad2,5000); //1分钟执行一次
+		}else if(tabM=='shake'){
+				$('#shake-yao')[0].play();
+				var shake=$('#shake');
+				$('html,body').animate({'scrollTop':shake.offset().top},500);				
+				shake.css({'width':WinW,'height':WinH});
+		}			
+	}else if(t_length==1){			
+		var tabDiv=$('#tabs-c .tabs-div');
+		$("#tabs-h li").addClass('cur');
+		var tabM=tabDiv.attr('data-m');
+		$('#tabs-c .tabs-div').show();	
+		if(tabM=='comment'){
+			clear_Timer();
+			$('#PageNum').val('1');
+			Timer = setInterval(AutoLoad,5000); //1分钟执行一次
+		}else if(tabM=='news'){
+			clear_newsTimer();
+			$('#NewsNum').val('1');
+			newsTimer = setInterval(AutoLoad2,5000); //1分钟执行一次
+		}else if(tabM=='html'){
+			$('#tabs-c .tabs-div').html('<iframe width="100%" height="'+WinH+'" src="'+tabDiv.attr('data-h')+'" frameborder="no" marginheight="0" marginwidth="0" allowTransparency="true"></iframe>');
+		}else if(tabM=='shake'){
+			$('#shake-yao')[0].play();
+			var shake=$('#shake');
+			$('html,body').animate({'scrollTop':shake.offset().top},500);				
+			shake.css({'width':WinW,'height':WinH});
+		}	
+	}
+	{if $list['shake_show']=='1'}
+	//注册摇一摇
+	var myShakeEvent = new Shake({
+        threshold: 15
+    });
+	
+	myShakeEvent.start();
+    window.addEventListener('shake', shakeEventDidOccur, false); 
+	{/if}
+	$('#playBtn').click(function(){
+		$(this).hide();
+		var videoPlay = document.getElementById("playVideo");		
+		videoPlay.play();
+	});
+	$('#talk').on('scroll',function(){
+		var $this =$(this),
+         viewH =$(this).height(),//可见高度
+         contentH =$(this).get(0).scrollHeight,//内容高度
+         scrollTop =$(this).scrollTop();//滚动高度
+         if(contentH - viewH - scrollTop <= 30 && load_status==1) { 
+			load_status=0;
+			$('.tt-msg-load-desc').hide();
+			$('.tt-msg-loading').show();
+			setTimeout("loadMore()",1600);
+		 }
+	});
+	//切换
+	$('#tabs-h li').click(function(){
+		var othis=$(this),index=othis.attr('data-num'),tabm=othis.attr('data-m'),cdiv=$('#tabs-c .tabs-c-'+index);
+		if(!othis.hasClass('cur')){
+			othis.addClass('cur').siblings().removeClass('cur');
+			$('#tabs-c .tabs-div').hide().filter('.tabs-c-'+index).show();			
+			if(tabm=='html' && cdiv.html().length==0){
+				cdiv.html('<iframe width="100%" height="'+$(window).height()+'" src="'+othis.attr('data-h')+'" frameborder="no" marginheight="0" marginwidth="0" allowTransparency="true"></iframe>');
+			}else if(tabm=='comment'){
+				clear_Timer();
+				clear_newsTimer();
+				Timer = setInterval(AutoLoad,5000); //1分钟执行一次
+			}else if(tabm=='news'){
+				clear_Timer();
+				clear_newsTimer();
+				$('#NewsNum').val('1');
+				newsTimer = setInterval(AutoLoad2,5000); //1分钟执行一次
+			}else if(tabm=='shake'){	
+				$('#shake-yao')[0].play();
+				var shake=$('#shake');
+				$('html,body').animate({'scrollTop':shake.offset().top},500);				
+				shake.css({'width':WinW,'height':WinH});
+			}
+		}
+	})
+	
+	$('#uc_gave,#uc_gift,#pc_yuyue').click(function(){
+			$("#guanzhu_pop").show();
+	});
+	$('#wechat_yuyue').click(function(){
+		var i = _meepoajax._querystring('i');
+		var j = _meepoajax._querystring('j');
+		var post_url = './index.php?i='+i+'&j='+j+'&c=entry&do=yuyue&m=meepo_online';
+		$.ajax({
+			type:'post',
+			url:post_url,
+			data:{'listid':$("#live_id").val()},
+			dataType:"json",
+			success:function(json){	
+			  _loading_toast._show(json.message);
+			}
+		})
+	});
+	$("#need_moible_yuyue").click(function(){
+		$('#sms_mobile_box').show();
+	});
+	$('#oauth_gave').click(function(){
+		window.location.href="{php echo $this->createMobileUrl('oauth_give',array('listid'=>$listid,'topenid'=>$openid))}";
+	});
+	$('#oauth_gift').click(function(){
+			window.location.href="{php echo $this->createMobileUrl('oauth_gift',array('listid'=>$listid,'topenid'=>$openid))}";
+	});
+	//打赏
+		$('#gave').click(function(){
+			$("#gave-box").css("top",$("#header").outerHeight() + $("#wrap").height()+$(".live-info").outerHeight()+$("#advs_box").height()+10);
+			$("body").animate({scrollTop: document.body.clientHeight},600);
+			$("#talk").animate({scrollTop:0},600);
+			$("#review_box").hide();
+			//talk_not_scroll();
+			$('#reward-layer-box').hide()
+			$("#dashang_box").show();
+		})
+		//gift
+		//打赏
+		$('#gift').click(function(){
+			$("#reward-pay-box").css("top",$("#header").outerHeight() + $("#wrap").height()+$(".live-info").outerHeight()+$("#advs_box").height());
+			$("body").animate({scrollTop: document.body.clientHeight},600);
+			$("#talk").animate({scrollTop:0},600);
+			$("#review_box").hide();
+			//talk_not_scroll();
+			$("#dashang_box").hide();
+			$('#reward-layer-box').show();
+		})
+		$('#dt_review_box_emo_button').click(function() {
+			_emo._show("dt_review_box_emo", function(index) {
+			  $("#dt_review_form_content").val($("#dt_review_form_content").val() + _emo._text[index]);
+			});
+		})
+		$("#dt_review_form_post").click(function(){
+			send_message();
+		});
+	  $(".add").click(function(){
+		  var n=$(this).prev().val();
+		  if(n=='' || isNaN(Number(n))){
+				n = 0;
+		  }
+		  var num=parseInt(n)+1;
+		  $(this).prev().val(num);
+		  $('#total_price').text(parseFloat($(".selected").attr("data-one")*num).toFixed(2));
+	  });
+			//减的效果
+	$(".jian").click(function(){
+		var n=$(this).next().val();
+		if(n=='' || isNaN(Number(n))){
+			n = 0;
+		}
+		var num=parseInt(n)-1;
+		$(this).next().val(num);
+		$('#total_price').text(parseFloat($(".selected").attr("data-one")*num).toFixed(2));
+	});
+	$(".loading_more_news").click(function(){
+		if(load_news_status==1){
+			load_news_status=0;
+			$(".news-msg-loading").show();
+			$(".loading_more_news").hide();
+			setTimeout("loadMore2()",1000);
+		}
+	});
+})
+function clear_Timer(){
+		clearInterval(Timer);
+}
+function clear_newsTimer(){
+	clearInterval(newsTimer);
+}
+function close_gz(){
+	$("#guanzhu_pop").hide();
+}
+function pay_oauth_look(){
+	window.location.href="{php echo $this->createMobileUrl('look_oauth_pay',array('listid'=>$listid,'topenid'=>$openid))}";
+}
+function close_sms_box(){
+	$("#sms_mobile_box").hide();
+}
+function input_need(){
+			var post_array = {};
+			post_array.listid = $("#live_id").val();
+			{loop $need_input_arr $rval}
+				var {$rval['code']} = $("#{$rval['code']}").val();
+				post_array.{$rval['code']} = {$rval['code']};
+				if({$rval['code']}==''){
+					 _loading_toast._show("{$rval['placeholder']}");
+					 return;
+				}
+			{/loop}
+			var i = _meepoajax._querystring('i');
+			var j = _meepoajax._querystring('j');
+			var post_url = './index.php?i='+i+'&j='+j+'&c=entry&do=post_input_need&m=meepo_online';
+			$.ajax({
+				type:'post',
+				url:post_url,
+				data:post_array,
+				dataType:"json",
+				success:function(json){	
+					 if(json.errno!='1'){
+					  _loading_toast._show(json.message);
+					 }else{
+						  $("#need_input_pop").hide();
+						_loading_toast._show('提交成功');
+					 }
+				}
+			})
+}
+function news_zan(id){
+	if("undefined"==id || ""==id){
+		_loading_toast._show('错误、请刷新重试');
+		return;
+	}
+	$.ajax({
+			type:"POST",
+			url:"{php echo $this->createMobileUrl('news_zan',array('listid'=>$listid))}",
+			data:{"news_id":id,'openid':$("#wx_openid").val()},
+			cache:false,
+			 dataType: 'JSON', 
+			success:function(data){
+				if(data.errno==0){
+					 $("#zan_"+id).text(parseInt($("#zan_"+id).text())+1);
+					_loading_toast._show('点赞成功');
+				}else{
+					_loading_toast._show(data.message);
+				}
+			}
+	});
+}
+</script>
+<script>
+    $(function () {
+	  window.SOCKET = new io("ws://{$settings['socket_url']}/");
+      SOCKET.on('connect', function () {
+        SOCKET.emit('join', fans_info);
+      });
+      SOCKET.on('msg', function (userName, msg) {
+        
+      });
+	  SOCKET.on('dashang', function (username, msg) {
+			var dashang_content = '<p class="name"><font color=red>'+username+'</font>送出<font color=red>'+msg.money+'元</font>红包啦！</p>';
+			if(dashang_flower==1){
+				var audio = new Audio();
+				audio.src = "{php echo tomedia($list['dashang_music'])}";
+				audio.play();
+			    $.notification({
+					  title: "温馨提示",
+					  text:dashang_content ,
+					  media: "<img src='../addons/meepo_online/template/mobile/images/redpack.png' style='width:24px;height:24px;border-radius:100%'/>",
+					  time:4000,
+					  data: ""
+				});
+				
+			}else if(dashang_flower==2){
+				$.notification({
+					  title: "温馨提示",
+					  text:dashang_content ,
+					  media: "<img src='../addons/meepo_online/template/mobile/images/redpack.png' style='width:24px;height:24px;border-radius:100%'/>",
+					  time:4000,
+					  data: "",
+				});
+			}		
+      });
+	  SOCKET.on('gift', function (username, msg) {
+			 var img_url = $('#gift_'+msg.type).find("img").attr('src');
+			  var dashang_content = '<p class="name"><font color=red>'+username+'</font>赠送<font color=red>'+msg.content+'</font>礼物啦、数量<font color=red>'+msg.gift_number+'</font></p>';
+			if(gift_flower==1){
+			  var audio = new Audio();
+			  audio.src = "{php echo tomedia($list['gift_music'])}";
+			  audio.play();
+			 
+			  $.notification({
+					title: "温馨提示",
+					text:dashang_content ,
+					media: '<img src="'+img_url+'" style="border-radius:100%" />',
+					time:4000,
+					data: ""
+			  });	
+			}else if(gift_flower==2){
+				$.notification({
+					title: "温馨提示",
+					text:dashang_content ,
+					media: '<img src="'+img_url+'" style="border-radius:100%" />',
+					time:4000,
+					data: ""
+			  });
+			}		
+      });
+      // 监听系统消息
+      SOCKET.on('sys', function (sysMsg, avatar) {
+		if(newjoin_flower==1){
+			var audio = new Audio();
+			audio.src = "{php echo tomedia($list['newjoin_music'])}";
+			audio.play();
+			$.notification({
+					  title: "温馨提示",
+					  text:sysMsg,
+					  media: '<img src="'+avatar+'" style="border-radius:100%" />',
+					  time:4000,
+					  data: "",
+					  
+			});
+		}else if(newjoin_flower==2){
+			$.notification({
+					  title: "温馨提示",
+					  text:sysMsg,
+					  media: '<img src="'+avatar+'" style="border-radius:100%" />',
+					  time:4000,
+					  data: "",
+					  
+			});
+		}
+      });
+      });
+
+</script>
+<script type="text/javascript">
+  wx.ready(function () {
+    var shareData = {
+    title: "{$list['share_title']}",
+    desc: "{$list['share_content']}",
+    link: "{php echo $_W['siteroot'].'app/'.$this->createMobileUrl('detail',array('categoryid'=>$categoryid,'listid'=>$listid,'fd'=>$list_user_id))}",
+    imgUrl: "{php echo tomedia($list['share_img'])}",
+  };
+  
+  //分享朋友
+  wx.onMenuShareAppMessage({
+       title: shareData.title,
+      desc: shareData.desc,
+      link: shareData.link,
+      imgUrl:shareData.imgUrl,
+      trigger: function (res) {
+      },
+      success: function (res) {
+        send_intergal();
+      },
+      cancel: function (res) {
+      },
+      fail: function (res) {
+        alert(JSON.stringify(res));
+      }
+    });
+ //朋友圈
+  wx.onMenuShareTimeline({
+      title: shareData.title+"---"+shareData.desc,
+      link: shareData.link,
+      imgUrl:shareData.imgUrl,
+      trigger: function (res) {
+      },
+      success: function (res) {
+          send_intergal();
+      },
+      cancel: function (res) {
+      },
+      fail: function (res) {
+        
+      }
+    });   
+    
+  });
+function send_intergal(){
+		$.ajax({
+			type:"POST",
+			url:"{php echo $this->createMobileUrl('shareajax',array('categoryid'=>$categoryid,'listid'=>$listid))}",
+			data:{},
+			cache:false,
+			success:function(data){
+				
+			}
+		});
+}
+$("body").on("click",'.cell',function () {
+	var newall = new Array();
+	var b = $(this).children("a").children("img").attr('src');
+	var allp = $(this).parent().children();//.length;
+	
+	for(var j=0;j<allp.length;j++){
+			newall[j]=allp.eq(j).children("a").children("img").attr('src');
+	}
+	
+	wx.previewImage({
+      current:b,
+      urls: newall
+	
+    });
+});111
+</script>
+<style>
+.cmnt_zone,.cmnt_zone ul{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0
+}
+
+section {
+	display: block
+}
+
+.cmnt_zone {
+	font-family: Microsoft YaHei,Helvetica Neue,Helvetica,Roboto,STHeiTi,Arial,sans-serif;
+	-ms-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+	font-size: 62.5%;
+	line-height: 1.5
+}
+
+.cmnt_zone {
+	font-size: 16px;
+	overflow-x: hidden;
+	min-width: 320px;
+	color: #1a1a1a;
+	background: #f9f9f9
+}
+
+.cmnt_zone a {
+	background: transparent;
+	text-decoration: none;
+	-webkit-tap-highlight-color: transparent;
+	color: #1a1a1a
+}
+
+.cmnt_zone a:active {
+	color: #3990e6;
+	outline: 0
+}
+
+
+.cmnt_zone ul{
+	
+	list-style: none outside none
+}
+
+
+
+.cmnt_zone img {
+	vertical-align: middle;
+	border: 0;
+	-ms-interpolation-mode: bicubic
+}
+.cmnt_zone .item {
+	position: relative;
+	padding-top: 15px;
+	border-bottom: 1px solid #ececec
+}
+
+.cmnt_zone .headImg {
+	position: absolute;
+	left: -40px;
+	width: 35px;
+	height: 35px;
+	border-radius: 50px
+}
+
+.cmnt_zone .uInfo {
+	width: 80%
+}
+
+.cmnt_zone .floor .uInfo {
+	width: 100%
+}
+
+.cmnt_zone .setTop {
+	position: absolute;
+	right: 0;
+	top: 17px;
+	padding: 0 5px;
+	line-height: 20px
+}
+
+.cmnt_zone .nick {
+	display: block;
+	line-height: 20px
+}
+
+.cmnt_zone .time {
+	line-height: 18px
+}
+
+.cmnt_zone .item .content {
+	margin-top: 5px;
+	line-height: 24px
+}
+
+.cmnt_zone .item .addFun a {
+	display: inline-block;
+	padding: 15px 18px 15px;
+	
+}
+
+.cmnt_zone .item .addFun a.comment {
+	background-position: 0 -114px
+}
+
+.cmnt_zone .item .addFun a.share {
+	position: absolute;
+	right: 0;
+	background-position: 0 -83px;
+	padding-right: 0
+}
+
+.cmnt_zone .item .extras {
+	position: relative;
+	margin-top: 10px;
+	max-width: 250px;
+	max-height: 300px;
+	overflow: hidden
+}
+
+.cmnt_zone .item .extras.pvideo {
+	width: auto
+}
+
+.cmnt_zone .item .extras .cell {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	float:left;
+	margin-right:10px;
+	margin-top:10px;
+}
+
+.cmnt_zone .item .extras .cell.video {
+	width: 100%
+}
+
+.cmnt_zone .item .extras .icon {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	line-height: 22px;
+	padding: 0 6px
+}
+
+.cmnt_zone .item .tall.extras .cell {
+	max-height: 180px;
+	overflow: hidden
+}
+
+.cmnt_zone .item .two.extras .cell {
+	width: 50%;
+	box-sizing: border-box;
+	width: 7rem;
+	height: 7rem;
+	vertical-align: middle
+}
+
+.cmnt_zone .item .two.extras .cell:nth-of-type(2n) {
+	padding-left: 3px
+}
+
+.cmnt_zone .item .two.extras .cell:nth-of-type(2n+1) {
+	padding-right: 3px
+}
+
+.cmnt_zone .item .nine.extras {
+	width: 250px
+}
+
+.cmnt_zone .item .nine.extras .cell {
+	box-sizing: border-box;
+	width: 72px;
+	height: 72px;
+	overflow: hidden
+}
+
+.cmnt_zone .item .nine.extras .cell:nth-of-type(3n+1) {
+	margin: 3px 3px 3px 0
+}
+
+.cmnt_zone .item .nine.extras .cell:nth-of-type(3n+2) {
+	margin: 3px
+}
+
+.cmnt_zone .item .nine.extras .cell:nth-of-type(3n) {
+	margin: 3px 0 3px 3px
+}
+
+.cmnt_zone .item .item_audio {
+	position: relative;
+	padding: 10px;
+	height: 24px
+}
+
+.cmnt_zone .item .audio {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	height: 24px;
+	width: 23px;
+	border: 1px solid #317ce2;
+	border-radius: 30px;
+	
+}
+
+.cmnt_zone .item .on .audio {
+	
+}
+
+.cmnt_zone .item .a_time {
+	position: relative;
+	height: 5px;
+	height: 2px;
+	margin: 11px 25px 11px 30px
+}
+
+.cmnt_zone .item .walked {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 0;
+	-webkit-transition: width ease .05s;
+	transition: width ease .05s
+}
+
+.cmnt_zone .item .a_note {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	width: 20px;
+	height: 24px;
+	
+}
+
+.cmnt_zone .item .on .a_note {
+	
+}
+
+.cmnt_zone .floor {
+	padding: 12px;
+	margin-top: 10px
+}
+
+.cmnt_zone .floor .uInfo {
+	position: relative
+}
+
+.cmnt_zone .floor span {
+	display: inline-block;
+	line-height: 22px
+}
+
+.cmnt_zone .floor .time {
+	position: absolute;
+	top: 0;
+	right: 0;
+	color: #444!important
+}
+
+.cmnt_zone .floor .content {
+	margin-top: 5px
+}
+
+.cmnt_zone .list a.item {
+	display: block
+}
+.cmnt_zone  .title {
+	height: 50px;
+	line-height: 25px;
+	overflow: hidden
+}
+
+.cmnt_zone  .cmnt {
+	float: right;
+	height: 15px;
+	line-height: 15px;
+	overflow: hidden
+}
+
+.cmnt_zone  .cmnt .icon {
+	display: inline-block;
+	width: 18px;
+	height: 15px;
+	vertical-align: bottom;
+	
+}
+
+
+.cmnt_zone .headImg img {
+	width: 100%;
+	border-radius: 50px
+}
+
+.cmnt_zone .extras img {
+	width:90px;
+	height:90px;
+	overflow: hidden
+}
+
+.cmnt_zone .two.extras .cell img {
+	width: 100%;
+	height: 100%
+}
+
+
+
+
+.cmnt_zone .list {
+	position: relative;
+	margin: 0 20px 1px 50px;
+}
+
+
+
+.cmnt_zone .nick,.cmnt_zone .time {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden
+}
+
+.news.list .title {
+	display: -webkit-box;
+	word-break: break-all;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden
+}
+
+
+
+
+
+.cmnt_zone .item,.news.list dl {
+	border-color: #ececec
+}
+
+
+
+.news.list dt {
+	background-color: #f4f4f4
+}
+
+.cmnt_zone .floor {
+	background-color: #f2f2f2
+}
+
+
+
+.cmnt_zone .setTop {
+	background-color: #f94040
+}
+
+.cmnt_zone .item .extras .icon {
+	background-color: rgba(0,0,0,0.6)
+}
+
+
+
+.cmnt_zone .item .item_audio {
+	background-color: #f4f4f4
+}
+
+.cmnt_zone .item .a_time {
+	background-color: #ccc
+}
+
+.cmnt_zone .item .walked {
+	background: -webkit-linear-gradient(left,#0f71f6,#0fc8f8)
+}
+
+.cmnt_zone .item .audio {
+	background-color: #fff
+}
+
+
+
+
+
+.cmnt_zone .item .nick,.cmnt_zone .item .content,.cmnt_zone .floor .time {
+	color: #444
+}
+
+.cmnt_zone .item .time,.cmnt_zone .item .addFun a,.news.list .cmnt{
+	color: #888
+}
+
+.cmnt_zone .setTop {
+	color: #FFF
+}
+
+
+
+.cmnt_zone .item .extras .icon {
+	color: #fffefe
+}
+
+
+
+.news.list .title {
+	color: #2f2f2f
+}
+
+
+
+.cmnt_zone .item .extras,.cmnt_zone .item .a_note {
+	font-size: 0
+}
+
+
+.cmnt_zone .item .content,.news.list .title {
+	font-size: 16px
+}
+
+.cmnt_zone .floor .content {
+	font-size: 15px
+}
+
+.cmnt_zone .item .nick,.cmnt_zone .floor .nick {
+	font-size: 14px
+}
+
+.cmnt_zone .item .extras .icon {
+	font-size: 13px
+}
+
+.cmnt_zone .setTop,.cmnt_zone .item .time,.cmnt_zone .item .addFun a,.cmnt_zone .floor .time {
+	font-size: 12px
+}
+
+.news.list .cmnt {
+	font-size: 10px
+}
+
+@media screen and (max-width:374px) {
+	.cmnt_zone .item .nine.extras .cell {
+		width: 72px;
+		height: 72px
+	}
+}
+
+@media screen and (min-width:375px) {
+	.cmnt_zone .item .nine.extras .cell {
+		width: 76px;
+		height: 76px
+	}
+}
+</style>
+<script type="text/javascript">
+</script> 
+</body>
+</html>

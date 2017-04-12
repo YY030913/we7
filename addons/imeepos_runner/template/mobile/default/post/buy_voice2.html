@@ -1,0 +1,300 @@
+<style type="text/css">
+        .veh-box .veh-col_01 dd textarea{width: 100%;border: 0 none;color: #8a8a8a;font-size: 14px;font-family: "Microsoft YaHei", Arial, Helvetica, sans-serif;}
+        .veh-box .veh-col_01 dd input{color: #8a8a8a;width: 95%;line-height: 1rem;background: #fff;}
+        .veh-box .veh-col_01 dd p[data-node="text"]{color: #A9A9A9;width: 95%;}
+        .veh-box .veh-col_01:last-child dd textarea{width: auto;border: 0 none;}
+        .sound{display: inline-block;width: 1.5rem;height: 1.5rem;background: url({MODULE_URL}public/images/sound.png) no-repeat;background-size: cover;margin-right: 0.25rem;}
+        .veh-box .arrow{background: url({MODULE_URL}public/images/arrow-left.png) no-repeat center right;display: inline-block;width: 0.8rem;height: 1.25rem;background-size: 62.5%;margin-right: 0.5rem;}
+        #choose-time{position: relative;}
+        #choose-time ul{position: absolute;top: 1.25rem;left: 0;width: 80%;background: #fff;border: 1px solid #ddd;z-index: 50;border-radius: 0.25rem;-webkit-border-radius: 0.25rem;max-height: 10rem;overflow-y: auto;}
+        #choose-time ul li{line-height: 1.5rem;text-indent: 1rem;border-bottom: 1px dashed #ddd;}
+        #choose-time ul li:last-child{border-bottom: 0 none;}
+        .toast-wrap-cover{padding: 0;width: 100%;max-width: 100%;}
+        .map {
+		    position: absolute;
+		    top: 0px;
+		    left: 0px;
+		    width: 100%;
+		    height: 100%;
+		    z-index: 1;
+		}
+		.map.active {
+			z-index:10 !important;
+		}
+		.map-bottom-box {
+		    position: fixed;
+		    bottom: 0;
+		    left: 0;
+		    width: 100%;
+		    background: #ddd;
+		    text-align: center;
+		    padding: 10px 0;
+		    z-index: 10;
+		}
+</style>
+<div class="wrapper">
+    <div class="hd">
+        <div class="fix-box border-r5">
+            <!-- 语音 start -->
+            <div class="bug-sound" style="border-bottom: 1px solid #eee;padding: 15px 30px;" id="voice" title="语音">
+                <div class="sound-model">
+                    <a href="javascript:;" id="playvoice"><img src="{MODULE_URL}public/images/play.png" style="width:1rem;height:1rem;"/><span id="voicetime"></span></a>
+                    <a href="javascript:;" node="delete"></a>
+                </div>
+            </div>
+            <div class="veh-box">
+                <dl class="veh-col_01">
+                    <dt>收货地：</dt>
+                    <dd class="textarea-col">
+                        <p name="receiveaddress" data-node="text">请选择收货地</p>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="fix-box border-r5 mt10">
+            <div class="veh-box" style="border-bottom: 1px solid #eee">
+                <dl class="veh-col_01">
+                    <dt>送达时间：</dt>
+                    <dd id="choose-time">
+                        <p name="expectedtime" id="expectedtime" readonly placeholder="不限" style="width: 85%;display: inline-block;height: 20px;line-height: 20px;">不限</p>
+                        <a href="javascript:;" class="arrow fr" id="expectedtime_a"></a>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+		
+        <div class="send-cost-price border-r5">
+            <div id="pricecon"></div>
+            <div class="price-info" id="priceinfo">
+                亲，加价会让自由快递人跑的更快哦！
+            </div>
+        </div>
+        <!-- 滑竿价格 end -->
+        <div class="bugGoodBottom mt10">
+            <a href="javascript:;" id="submit">立即发布</a>
+        </div>
+        <div class="h44"></div>
+        <div style="height:44px;"></div>
+    </div>
+</div>
+
+
+<!-- 选择地址 start -->
+<div id="sendGoodsAddress" style="display: none;position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: 100;">
+    <div class="sendGoodsAddress">
+        <div class="wrapper fix-map-location">
+            <div class="title" style="background: #ff9900;height: 30px;line-height: 30px;color: #fff;text-align: center;">
+                选取你的位置
+                <a href="javascript:;" id="mapClose" style="display: inline-block;color: #4E98DD;padding: 0 5px;" class="fr">关闭</a>
+            </div>
+            <div class="main">
+                <div class="search-map">
+                    <p><input type="text" class="hover" data-lon="" data-lat="" id="user-location" placeholder="住宅小区/大厦名称/标志建筑/街道门牌" /></p>
+                    <p><input type="text" id="user-room" placeholder="楼号、房间号" /></p>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="baidu-map map" id="showMap"></div>
+        <div id="searchResultPanel" style="display:none;"></div>
+        <div class="map-bottom-box" id="map-choose-seat">
+            <input type="button" value="确定"/>
+        </div>
+    </div>
+
+</div>
+<!-- 选择地址 end -->
+
+<!-- 收货地详细地址经纬度 -->
+<input type="hidden" name="receiveaddress" />
+<input type="hidden" name="receivelon" />
+<input type="hidden" name="receivelat" />
+
+<!-- 地图二级层 start -->
+<div id="choiceAddressList" style="display: none;position: absolute;top: 0;left: 0;height: 100%;width: 100%;z-index: 500;background: #E8E8E8;">
+    <div class="sendGoodsAddress">
+        <div class="wrapper fix-map-location">
+            <div class="title" style="background: #ff9900;height: 30px;line-height: 30px;color: #fff;text-align: center;position: relative;">
+                选取你的位置
+                <a href="javascript:;" id="closeAddress" style="display: inline-block;color: #4E98DD;padding: 0 8px;position: absolute;top: 0;right: 10px;">关闭</a>
+            </div>
+            <div class="main">
+                <div class="search-map">
+                    <p><input type="text" class="hover" data-lon="" data-lat="" id="choiceAddress" placeholder="住宅小区/大厦名称/标志建筑/街道门牌" /><button id="clear-user-info"></button></p>
+                </div>
+                <ul class="search-city-list" id="addrList">
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 地图二级层 end -->
+
+<!-- 缓存当前位置 -->
+<input type="hidden" data-curLon="" data-curLat name="curPosition" />
+<script>
+var map;
+require(['jquery','weixin','core','map','js/tool','js/template','js/index','js/convertor','js/pricerange','js/sendTimeList','js/ion.rangeSlider'],function($,wx,core,BMap,R){
+	
+	wx.config(jssdkconfig);
+	
+	map = new BMap.Map('showMap');
+	map.setDefaultCursor("default");
+    map.setDraggingCursor("pointer");
+	map.enableDragging();
+	map.enableInertialDragging(); 
+	
+	$('#footer').hide();
+	
+	var nodes = {
+	        voice: $('#voice'),
+	        //语音容器
+	        voicetime: $('#voicetime'),
+	        //语音时间
+	        play: $('#playvoice')//播放语音
+	    };
+	var voiceid = '';
+    //语音localId
+    var wxvoice = R.wxapiBridge;
+    var wxready = false;
+  	//检测wx.ready
+    var urldata = {};
+    var obj = {
+        sendtimelist: null ,
+        curprice: null 
+    };
+    
+  	//界面一般业务功能
+    function order() {
+        obj.sendtimelist = R.sendTimeList.bind({
+            elem: $('#expectedtime')
+        });
+        $('#expectedtime_a').on('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            obj.sendtimelist.show();
+        });
+        /**
+         * 滑竿加价  不公用  此处是计算50元区间
+         * **/
+        obj.curprice = R.pricerange({}, function(data) {
+            if (data.isnight == 'true') {
+                $('#priceinfo').html('亲，夜间发单购买' + data.start + '元起，加价会让自由快递人跑的更快哦！');
+            }
+        });
+    }
+  	
+  //事件绑定
+    function bindEvt() {
+        //绑定删除事件
+        nodes.voice.on('click', '[node="delete"]', function(e) {
+            e.preventDefault();
+            window.history.go(-1);
+        });
+        
+        $('#submit').bind('click', function(e) {
+            e.preventDefault();
+            if ($('input[name="receiveaddress"]').val() == '') {
+                R.alert('提示信息', '请选择收货地');
+                return;
+            }
+            voiceOrder();
+            //语音发布
+            function voiceOrder() {
+                R.showToast('正在努力发布中，请稍后', 1, 0, 0, false, false);
+                wx.uploadVoice({
+                    localId: voiceid,
+                    // 需要上传的音频的本地ID，由stopRecord接口获得
+                    isShowProgressTips: 0,
+                    // 默认为1，显示进度提示
+                    success: function(res) {
+                        if (res.serverId) {
+                            var serverId = res.serverId;
+                            // 返回音频的服务器端ID
+                            //这里面再写请求接口提交数据，成功后隐藏提示层
+                            core.post("agentpublishinordinary",{
+                                'freight': obj.curprice.getprice(),
+                                'title': $('#voice').attr('title'),
+                                'province': urldata.province,
+                                'city': urldata.city,
+                                'address': $('input[name="receiveaddress"]').val(),
+                                'voicetime': urldata.time,
+                                //语音时长  为空
+                                'expectedtime': obj.sendtimelist.gettime(),
+                                //期望送达时间
+                                'media_id_voice': serverId,
+                                //微信接口返回的音频资源ID
+                                'receivelon': $('input[name="receivelon"]').val(),
+                                'receivelat': $('input[name="receivelat"]').val(),
+                                'distance': ''//必传字段  没有为空
+                            },function(data){
+                            	R.hideToast();
+                            	alert(core.json_encode(data));
+                            	if(data.result == 0){
+                    				core.ok(data.message,function(){
+                    					window.location.href = "{php echo $this->createMobileUrl('paybuy')}&tid="+data.tid;
+                    				});
+                                }else{
+                                    R.alert('提示信息',data.msg);
+                                }
+                            });
+                        }
+                    },
+                    fail: function() {
+                        R.hideToast();
+                        R.alert('提示信息', '语音上传失败或已失效，请返回帮我买页面重新发布');
+                    }
+                });
+            }
+        
+        });
+    }
+    //语音模块
+    function voice() {
+        //语音播放事件
+        wx.ready(function() {
+            wxready = true;
+            nodes.playicon = nodes.play.find('img');
+            wx.onVoicePlayEnd({
+                complete: function() {
+                    nodes.play.data('play', 'stop');
+                    nodes.playicon.prop('src', '{MODULE_URL}public/images/play.png');
+                }
+            });
+            nodes.play.bind('touchend', function() {
+                if (nodes.play.data('play') == 'play') {
+                    return;
+                }
+                nodes.play.data('play', 'play');
+                nodes.playicon.prop('src', '{MODULE_URL}public/images/play.gif');
+                wx.playVoice({
+                    localId: voiceid
+                });
+            });
+        });
+    }
+    
+    function init() {
+        //解析url获取参数
+        var url = R.getUrlArgs();
+        if (url.has) {
+            var data = url.data;
+            urldata = data;
+            voiceid = data.voiceid;
+            nodes.voicetime.html(data.time + '秒');
+            voice();
+            order();
+            bindEvt();
+        } 
+        else {
+            R.showToast('无法取到录音数据,请返回上一页重新录音', 4, function() {
+                window.history.go(-1);
+            }, 2000, true, false);
+        }
+    };
+    init();
+});
+</script>
+{template 'default/common/share'}

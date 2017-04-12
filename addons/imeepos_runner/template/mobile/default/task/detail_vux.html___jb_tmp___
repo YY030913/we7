@@ -1,0 +1,608 @@
+{template 'default/vux/header'}
+<style>
+    .weui_mask, .weui_mask_transition, .weui_mask_transparent{
+        z-index: 9 !important;}
+</style>
+<link rel="stylesheet" href="{MODULE_URL}public/css/detail_vux.css?t={php echo time()}"/>
+<div id="loadingToast" style="display:block;" class="weui_loading_toast">
+    <div class="weui_mask_transparent"></div>
+    <div class="weui_toast">
+        <div class="weui_loading">
+            <div class="weui_loading_leaf weui_loading_leaf_0"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_1"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_2"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_3"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_4"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_5"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_6"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_7"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_8"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_9"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_10"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_11"></div>
+        </div>
+        <p class="weui_toast_content">加载中,请稍后!</p>
+    </div>
+</div>
+<div id="app" style="display:none;">
+    <!--头部导航 start-->
+    <div class="bar bar-header" v-show="showMain" style="position:fixed;top:0px;background-color: rgba(255, 255, 255, 0.8);">
+        <a class="button button-clear" href="{php echo $this->createMobileUrl('tasks')}">
+            <i class="icon ion-ios-arrow-back active"></i>
+            <span class="active">返回</span>
+        </a>
+        <h2 class="title">{$title}</h2>
+        <a href="javascript:;" class="button button-clear" v-if="order.status == 2" @click="postTasksLog(tasklog)">
+            <span class="active">进度留言</span>
+        </a>
+        <a href="{php echo $_W['siteurl']}" class="button button-clear" v-if="order.status == 1">
+            <span class="active">刷新</span>
+        </a>
+    </div>
+    <!--头部导航 end-->
+    <div class="msg" v-show="showMain" style="margin-top:44px;">
+        <div class="weui_msg">
+            <style>
+                .weui_icon_area svg{
+                    background-color: rgba(128, 128, 128, 0.75);
+                }
+            </style>
+            <div class="weui_icon_area">
+                <div style='width:100px;height:100px;margin:0 auto;'>
+                    <circle style="border-radius: 50%;background-image:url({{user.avatar}})" :percent="percent2" :stroke-width="6" :trail-width="6" :stroke-color="strokeColor2" trail-color="#ececec">
+                        <i @click="play(order)" v-show="!voicing" class="icon ion-ios-play" style="color: #fff;font-size: 3em;"></i>
+                        <i @click="playend(order)" v-show="voicing" class="icon ion-ios-pause" style="color: #fff;font-size: 3em;"></i>
+                    </circle>
+                </div>
+            </div>
+            <div style="clear:both"></div>
+            <div class="detail_user hdMan">
+                <div class="userPicA">
+                    <a href="" ontouchstart=""><img :src="user.avatar"></a>
+                </div>
+                <div class="hdman_r">
+                    <div class="yhName">
+                        <a href="" class="subinfo_name" id="subinfo_name" ontouchstart="" style="max-width: 103px;">{{user.nickname}}</a>
+                        <p class="fbTime">{{order.create_time}}</p>
+                    </div>
+                    <div class="dt_review_item_count">
+                        <a class="info_share" id="info_share" style="color: rgb(153, 153, 153);">分享 {{order.share_num}}+</a><span id="info_hits">阅读{{order.read_num}}</span>
+                    </div>
+                </div>
+                <input type="hidden" id="postUserId36" value="1146c">
+                <div id="maUrlcanvas" style="display:none;"><div id="canvasimage"></div></div>
+            </div>
+        </div>
+    </div>
+    <!--登录二维码-->
+    <alert style="z-index:999;" :show.sync="showqr" button-text="我知道了" title="请用微信扫码打开">
+        <qrcode :value="value" :fg-color="fgColor"></qrcode>
+    </alert>
+    <div class="page" v-if="order.status == 4 && showMain">
+        <cell title="任务评星">
+            <rater :value.sync="data3" slot="value" :max="6" active-color="#04BE02"></rater>
+        </cell>
+        <x-textarea :max="200" placeholder="请填写详细信息"></x-textarea>
+        <x-button type="primary">提交</x-button>
+    </div>
+    
+    <div class="page" v-if="order.status == 2 && showMain">
+        <confirm :show.sync="show" title="进度留言" cancel-text="取消" confirm-text="提交"  @on-confirm="onConfirm">
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <textarea class="weui_textarea" v-model="tasklog.content" placeholder="请输入评论" rows="3"></textarea>
+                        <div class="weui_textarea_counter"><span>0</span>/200</div>
+                    </div>
+                </div>
+            </div>
+        </confirm>
+        
+        <timeline v-if="tasks_log">
+            <timeline-item v-for="log in tasks_log">
+                <h4 class="recent">{{log.content}}</h4>
+                <p class="recent">{{log.create_time}}</p>
+            </timeline-item>
+        </timeline>
+        <div class="tabs tabs-icon-top tabs-light" style="border:none;z-index: 8;position: fixed;xbottom: 0px;left: 0px;right: 0px;">
+            <a v-if="role == 'runner'" href="tel:{{user.mobile}}" class="tab-item active">
+                <i class="icon ion-ios-telephone"></i>
+                <span>电话沟通</span>
+            </a>
+            <a v-if="role == 'owener'" href="tel:{{runner.mobile}}" class="tab-item active">
+                <i class="icon ion-ios-telephone"></i>
+                <span>电话沟通</span>
+            </a>
+            <a v-if="role == 'runner'" href="javascript:;" @click="updateLocation()" class="tab-item active">
+                <i class="icon ion-ios-paw"></i>
+                <span>更新位置</span>
+            </a>
+            <a v-if="role == 'owener'" href="javascript:;" @click="cuiyicui()" class="tab-item active">
+                <i class="icon ion-ios-bell"></i>
+                <span>催一催</span>
+            </a>
+            
+            <a v-if="role == 'runner'" href="javascript:;" @click="qrcode()" class="tab-item active">
+                <i class="icon ion-qr-scanner"></i>
+                <span>扫码核销</span>
+            </a>
+            <a v-if="role == 'owener'" href="javascript:;" @click="getQrcode()" class="tab-item active">
+                <i class="icon ion-image"></i>
+                <span>二维码</span>
+            </a>
+            <a v-if="role == 'runner'" href="javascript:;" @click="showPassword()" class="tab-item active">
+                <i class="icon ion-android-contact"></i>
+                <span>手工核销</span>
+            </a>
+        </div>
+    </div>
+    <div class="page" v-if="order.status == 1 && showMain">
+        <div class="tabs tabs-icon-top tabs-light" style="border:none;z-index: 8;position: fixed;xbottom: 0px;left: 0px;right: 0px;">
+            <a v-if="role == 'owener'" @click="deleteOrder(order.id)" href="javascript:;" class="tab-item active">
+                <i class="icon ion-android-close"></i>
+                <span>撤销任务</span>
+            </a>
+            <a v-if="role == 'owener'" @click="showYanShi()" href="javascript:;" class="tab-item active">
+                <i class="icon ion-android-alarm-clock"></i>
+                <span>任务延时</span>
+            </a>
+            <a v-if="role == 'owener'" @click="showShangJin()" href="javascript:;" class="tab-item active">
+                <i class="icon ion-android-locate"></i>
+                <span>增加赏金</span>
+            </a>
+            <a v-if="role == 'runner'" @click="receiveOrder(order.id)" href="javascript:;" class="tab-item active">
+                <i class="icon ion-ribbon-a"></i>
+                <span>立即抢单</span>
+            </a>
+            <a v-if="role == 'owener'" href="javascript:;" @click="getQrcode()" class="tab-item active">
+                <i class="icon ion-image"></i>
+                <span>二维码</span>
+            </a>
+        </div>
+        <group title="任务起点" v-if="order.detail.sendaddress">
+            <cell :title="order.detail.sendaddress" @click="openMap(order.detail.sendlat,order.detail.sendlng,order.detail.sendaddress)">点击查看</cell>
+        </group>
+        <group title="任务终点" v-if="order.detail.receiveaddress">
+            <cell :title="order.detail.receiveaddress" @click="openMap(order.detail.receivelat,order.detail.receivelon,order.detail.receiveaddress)">点击查看</cell>
+        </group>
+        <group title="地图导航" v-if="order.detail.distance_title">
+            <cell :title="order.detail.distance_title">立即导航</cell>
+        </group>
+        <group title="任务信息">
+            <cell title="名称" v-if="order.detail.goodsname">{{order.detail.goodsname}}</cell>
+            <cell title="重量" v-if="order.detail.goodsweight_title">{{order.detail.goodsweight_title}}KG</cell>
+            <cell title="价值" v-if="order.detail.goodscost_title">{{order.detail.goodscost_title}}元</cell>
+            <cell title="截止时间" v-if="order.detail.limit_time_title">{{order.detail.limit_time_title}}</cell>
+            <cell @click="receiveOrder(order.id)" title="任务赏金">{{order.total}}元</cell>
+        </group>
+        <group title="发单人信息">
+            <cell :title="user.nickname">{{order.create_time}}</cell>
+        </group>
+    </div>
+    <!-- 确认收货码 -->
+    <confirm :show.sync="show_password" title="请输入收获码" cancel-text="取消" confirm-text="提交" @on-confirm="comfirmPassword">
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input" v-model="password.value" type="number" pattern="[0-9]*" placeholder="请输入收获码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </confirm>
+    <!-- 任务延时 -->
+    <confirm :show.sync="yanshishow" title="任务延时" cancel-text="取消" confirm-text="提交"  @on-confirm="yanshiConfirm">
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" v-model="yanshidata.value" type="number" pattern="[0-9]*" placeholder="请输入延时时间,单位为小时">
+                </div>
+            </div>
+        </div>
+    </confirm>
+
+    <!-- 增加赏金 -->
+    <confirm :show.sync="shangjinshow" title="增加悬赏金额" cancel-text="取消" confirm-text="提交"  @on-confirm="shangjinConfirm">
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" v-model="shangjindata.value" type="number" pattern="[0-9]*" placeholder="请输入增加金额,单位为元">
+                </div>
+            </div>
+        </div>
+    </confirm>
+
+    <div class="page" v-if="showMap">
+        <iframe id="mapPage" width="100%" height="100%" v-if="showMap" style="position:absolute;display:block;" frameborder='0' src="http://apis.map.qq.com/tools/locpicker?search=1&type=1&key=4MHBZ-JVL35-WLMII-Q3NME-3Z2G2-PKBJJ&referer=myapp"></iframe>
+    </div>
+    <div class="page" v-show="showMapLocation">
+        <div class="bar bar-header" v-show="showMain" style="position:fixed;top:0px;background-color: rgba(255, 255, 255, 0.8);">
+            <a class="button button-clear" href="{php echo $this->createMobileUrl('tasks')}">
+                <i class="icon ion-ios-arrow-back active"></i>
+                <span class="active">返回</span>
+            </a>
+            <h2 class="title">{$title}</h2>
+            <a href="javascript:;" class="button button-clear" v-if="order.status == 2" @click="postTasksLog(tasklog)">
+                <span class="active">进度留言</span>
+            </a>
+            <a href="{php echo $_W['siteurl']}" class="button button-clear" v-if="order.status == 1">
+                <span class="active">关闭</span>
+            </a>
+        </div>
+        <iframe id="showMapLocation" width="100%" height="100%" style="position:absolute;display:block;" frameborder='0' src="{php echo $mapUrl}"></iframe>
+    </div>
+    
+</div>
+
+<script>
+    var localId = null;
+    var jssdkconfig = {php echo json_encode($_W['account']['jssdkconfig']);} || {};
+    // 是否启用调试
+    jssdkconfig.debug = false;
+    
+    jssdkconfig.jsApiList = [
+        'checkJsApi',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo',
+        'hideMenuItems',
+        'showMenuItems',
+        'hideAllNonBaseMenuItem',
+        'showAllNonBaseMenuItem',
+        'translateVoice',
+        'startRecord',
+        'stopRecord',
+        'onRecordEnd',
+        'playVoice',
+        'pauseVoice',
+        'stopVoice',
+        'uploadVoice',
+        'downloadVoice',
+        'chooseImage',
+        'previewImage',
+        'uploadImage',
+        'downloadImage',
+        'getNetworkType',
+        'openLocation',
+        'getLocation',
+        'hideOptionMenu',
+        'showOptionMenu',
+        'closeWindow',
+        'scanQRCode',
+        'chooseWXPay',
+        'openProductSpecificView',
+        'addCard',
+        'chooseCard',
+        'openCard'
+    ];
+    require([
+        'vue',
+        'jquery',
+        'libs/vux/components/circle/index',
+        'libs/vux/components/timeline/index',
+        'libs/vux/components/timeline-item/index',
+        'libs/vux/components/x-button/index',
+        'libs/vux/components/cell/index',
+        'libs/vux/components/group/index',
+        'libs/vux/components/rater/index',
+        'libs/vux/components/x-textarea/index',
+        'libs/vux/components/x-button/index',
+        'libs/vux/components/qrcode/index',
+        'libs/vux/components/alert/index',
+        'libs/vux/components/x-input/index',
+        'libs/vux/components/confirm/index',
+        'core','js/tool','weixin'
+    ],function(Vue,$,circle,timeline,timeline_item,x_button,cell,group,rater,x_textarea,XButton,qrcode,alert,XInput,Confirm,core,R,wx){
+        Vue.component('circle', circle);
+        Vue.component('timeline', timeline);
+        Vue.component('timeline-item', timeline_item);
+        Vue.component('x-button', x_button);
+        Vue.component('cell', cell);
+        Vue.component('group', group);
+        Vue.component('rater', rater);
+        Vue.component('x-textarea', x_textarea);
+        Vue.component('x-button', XButton);
+        Vue.component('qrcode', qrcode);
+        Vue.component('alert', alert);
+        Vue.component('x-input', XInput);
+        Vue.component('confirm', Confirm);
+
+        var localId = null;
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                value: "{php echo $_W['siteurl']}",
+                fgColor: '#000000',
+                percent1: 10,
+                percent2: {php echo ($order['status']/4)*100},
+                strokeColor2: '#04BE02',
+                user:{php echo json_encode($user)},
+                runner:{php echo json_encode($runner)},
+                count: 3,
+                order:{php echo json_encode($order)},
+                recive:{php echo json_encode($recive)},
+                show:false,
+                container:"{php echo $_W['container']}",
+                tasks_log:{php echo json_encode($tasks_log['list'])},
+                tasklog:{content:'',taskid:"{php echo $_GPC['id']}"},
+                voicing:false,
+                showqr:false,
+                show_password:false,
+                password:{
+                    value:'',taskid:"{php echo $_GPC['id']}" 
+                },
+                role:"{php echo $role}", 
+                yanshishow:false,
+                yanshidata:{value:'',taskid:"{php echo $_GPC['id']}"},
+                shangjinshow:false,
+                shangjindata:{value:'',taskid:"{php echo $_GPC['id']}"},
+                edit_url:"{php echo $edit_url}",
+                showMap:false,
+                showMapLocation:false,
+                showMain:true,
+            },
+            ready:function(){
+                $('#app').show();
+                $('#loadingToast').hide();
+                window.addEventListener('message', function(event) {
+                    var loc = event.data;
+                    if (loc && loc.module == 'locationPicker') {
+                        loc.taskid = "{php echo $_GPC['id']}";
+                        core.post('updatelocation',loc,function(data){
+                            if(data.status == 1){
+                                window.location.href = "{php echo $_W['siteurl']}";
+                            }else{
+                                window.location.href = "{php echo $_W['siteurl']}";
+                            }
+                        });
+                    }
+                }, false);
+            },
+            methods:{
+                getQrcode:function(){
+                    window.location.href = "{php echo $this->createMobileUrl('manage_qr',array('id'=>$_GPC['id']))}";
+                },
+                openMap:function(){
+                    vm.showMain = false;
+                    vm.showMapLocation = true;
+                },
+                //更新位置
+                updateLocation:function(){
+                    vm.$data.showMap = true;
+                },
+                cuiyicui:function(){
+                    if(vm.container != 'wechat'){
+                        vm.showqr = true;
+                        return '';
+                    }
+                    core.post("cuiyicui",{taskid:"{php echo $_GPC['id']}"},function(data){
+                        if(data.status == '1'){
+                            window.location.href = "{php echo $_W['siteurl']}";
+                        }else{
+                            core.cancel(data.message,function(){});
+                        }
+                    });
+                },
+                showShangJin:function(){
+                    if(vm.container != 'wechat'){
+                        vm.showqr = true;
+                        return '';
+                    }
+                    vm.shangjinshow = true;
+                },
+                //增加赏金后直接微信支付
+                shangjinConfirm:function(){
+                    if(vm.container != 'wechat'){
+                        vm.showqr = true;
+                        return '';
+                    }
+                    core.post("add_shangjin",vm.shangjindata,function(data){
+                        if(data.status == '1'){
+                            window.location.href = "{php echo $this->createMobileUrl('payaddshangjin')}&tid="+data.tid;
+                        }else{
+                            core.cancel(data.message,function(){});
+                        }
+                    });
+                },
+                //显示延长时间
+                showYanShi:function(){
+                    if(vm.container != 'wechat'){
+                        vm.showqr = true;
+                        return '';
+                    }
+                    vm.yanshishow = true;
+                },
+                //延长时间确认 后台发送数据延长时间
+                yanshiConfirm:function(){
+                    if(vm.container != 'wechat'){
+                        vm.showqr = true;
+                        return '';
+                    }
+                    core.post("add_time",vm.yanshidata,function(data){
+                        if(data.status == '1'){
+                            window.location.href = "{php echo $_W['siteurl']}";
+                        }else{
+                            core.cancel(data.message,function(){});
+                        }
+                    });
+                },
+                showPassword:function(){
+                    if(vm.container != 'wechat'){
+                        vm.showqr = true;
+                        return '';
+                    }
+                    vm.show_password = true;
+                },
+                deleteOrder:function(id){
+                    core.ok("您确定要删除此任务么？删除任务将清空一切活动相关数据！",function(){
+                        core.post('home_delete',{id:id},function(data){
+                            if(data.result == 0){
+                                window.location.href = "{php echo $_W['siteurl']}";
+                            }else{
+                                core.cancel(data.message,function(){});
+                            }
+                        });
+                    });
+                },
+                comfirmPassword:function(){
+                    var data = {};
+                    data.reciveid = vm.recive.id;
+                    data.code = vm.password;
+                    core.post("runner_finish",data,function(data){
+                        if(data.status == 1){
+                            core.ok(data.message,function(){
+                                window.location.href = "{php echo $_W['siteurl']}";
+                            });
+                        }else{
+                            core.cancel(data.message,function(){
+                                
+                            });
+                        }
+                    });
+                },
+                qrcode:function(){
+                    if(vm.container != 'wechat'){
+                        vm.showqr = true;
+                        return '';
+                    }
+                    wx.ready(function(){
+                        wx.scanQRCode({
+                            needResult: 1,
+                            scanType: ["qrCode","barCode"],
+                            success: function (res) {
+                                var result = res.resultStr;
+                                core.post('scanresult',{result:result},function(data){
+                                    if(data.status == 1){
+                                        core.ok(data.message,function(){
+                                            window.location.href = "{php echo $_W['siteurl']}";
+                                        });
+                                    }else{
+                                        core.cancel(data.message,function(){
+
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    });
+                },
+                praise:function(item) {
+                    if (!item.has_praised) {
+                        item.like_num++
+                        item.has_praised = true
+                        console.log(JSON.stringify(item))
+                    }
+                },
+                postTasksLog:function(post){
+                    if(vm.container != 'wechat'){
+                        vm.showqr = true;
+                        return '';
+                    }
+                    vm.show = true;
+                },
+                onConfirm:function(){
+                    if(vm.container != 'wechat'){
+                        vm.showqr = true;
+                        return '';
+                    }
+                    core.post('taskslog',vm.tasklog,function(){
+                        window.location.href = "{php echo $_W['siteurl']}";
+                    });
+                },
+                play:function(){
+                    if(vm.container != 'wechat'){
+                        vm.showqr = true;
+                        return '';
+                    }
+                    vm.voicing = true;
+                    wx.ready(function(){
+                        if(core.empty(localId)){
+                            wx.downloadVoice({
+                                serverId: vm.order.media_id,
+                                isShowProgressTips: 1,
+                                success: function (res) {
+                                    localId = res.localId;
+                                    //播放
+                                    wx.playVoice({
+                                        localId: localId
+                                    });
+                                    //清除定时器
+                                    wx.onVoicePlayEnd({
+                                        success:function(){
+                                            vm.voicing = false;
+                                        }
+                                    });
+                                }
+                            });
+                        }else{
+                            wx.playVoice({
+                                localId: localId
+                            });
+                            //清除定时器
+                            wx.onVoicePlayEnd({
+                                success:function(){
+                                    vm.voicing = false;
+                                }
+                            });
+                        }
+                    });
+                },
+
+                playend:function(){
+                    if(vm.container != 'wechat'){
+                        vm.showqr = true;
+                        return '';
+                    }
+                    vm.voicing = false;
+                    wx.ready(function(){
+                        if(!core.empty(localId)){
+                            wx.pauseVoice({
+                                localId:localId
+                            });
+                        }
+                    });
+                },
+                receiveOrder:function(id){
+                    if(vm.container != 'wechat'){
+                        vm.showqr = true;
+                        return '';
+                    }
+                    core.post('check',{act:'runner'},function(data){
+                        if(data.status == 0){
+                            core.post('reciveorder',{id:id},function(data){
+                                if(data.success == 0){
+                                    core.ok(data.message,function(){
+                                        window.location.reload();
+                                    });
+                                }else{
+                                    core.cancel(data.message,function(){
+                                        window.location.reload();
+                                    });
+                                }
+                            });
+                        }else if(data.status == 1){
+                            //余额不足
+                            core.ok(data.message,function(){
+                                window.location.href = data.url;
+                            },function(){
+                                window.location.href = data.url;
+                            });
+                        }else{
+                            core.ok(data.message,function(){
+                                window.location.href = data.url;
+                            },function(){
+                                window.location.href = data.url;
+                            });
+                        }
+                    });
+                },
+                goBack:function(){
+                    window.history.go(-1);
+                }
+            }
+        });
+    });
+</script>
+{template 'default/vux/footer'}

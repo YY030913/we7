@@ -1,0 +1,80 @@
+{template 'common/header'}
+{template 'plugin/navs'}
+{template 'navs'}
+
+<div class="" id="app" ng-controller="appCtrl">
+	<div class="panel panel-defautl">
+		<div class="panel-heading">
+		
+		</div>
+		
+		<div class="panel-body">
+		
+		</div>
+		
+		<div class="panel-footer">
+			<button class="btn btn-default" ng-click="addItem()">新增</button>
+		</div>
+	</div>
+	
+	<div id="user" class="modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+	                    ×
+	                </button>
+	                <h3>
+	                    报名表单
+	                </h3>
+	            </div>
+	            <div class="modal-body">
+	                <div class="media">
+	                    <div class="media-body">
+	                        <div class="checkbox"><label><input type="checkbox" ng-model="item.realname" ng-checked="" aria-label="">真实姓名</label></div>
+	                        <div class="checkbox"><label><input type="checkbox" ng-model="item.mobile" ng-checked="" aria-label="">手机号码</label></div>
+	                        <div class="checkbox"><label><input type="checkbox" ng-model="item.cardnum" checked="" aria-label="">身份证号</label></div>
+	                        <div class="checkbox"><label><input type="checkbox" ng-model="item.address" checked="" aria-label="">现居住地址</label></div>
+	                        <div class="checkbox"><label><input type="checkbox" ng-model="item.start_time" checked="" aria-label="">每天服务开始时间</label></div>
+	                        <div class="checkbox"><label><input type="checkbox" ng-model="item.end_time" checked="" aria-label="">每天服务结束时间</label></div>
+	                        <div class="checkbox"><label><input type="checkbox" ng-model="item.free_time" checked="" aria-label="">休息时间（周几）</label></div>
+	                        <div class="checkbox"><label><input type="checkbox" ng-model="item.skill" checked="" aria-label="">服务项目及技能</label></div>
+	                        <div class="checkbox"><label><input type="checkbox" ng-model="item.desc" checked="" aria-label="">服务简介</label></div>
+	                        <div class="checkbox"><label><input type="checkbox" ng-model="item.service_area" checked="" aria-label="">服务地区</label></div>
+	                        
+	                        <div class="checkbox"><label><input type="checkbox" ng-model="item.check_mobile" checked="" aria-label="">手机验证码</label></div>
+	                        <div class="checkbox"><label><input type="checkbox" ng-model="item.check_card" checked="" aria-label="">核对身份证</label></div>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="modal-footer">
+	                <button class="btn btn-primary sendmessage ">提交</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+</div>
+
+<script>
+require(['angular'],function(angular){
+	var app = angular.module('app',[]);
+	
+	$('#user .close').click(function(){
+		$('#user').hide();
+	});
+	
+	app.controller('appCtrl',function($scope){
+		$scope.fields = {php echo json_encode($fields)};
+		
+		$scope.addItem = function(){
+			$('#user').show();
+		}
+	});
+	
+	angular.bootstrap($('#app'),['app']);
+});
+</script>
+
+
+{template 'common/footer'}

@@ -1,0 +1,36 @@
+<div class="page">
+	<style>
+		.table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {overflow: visible !important;}
+		.dropdown-menu{min-width:4em;}
+		.table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {white-space: normal !important;overflow: visible !important;}
+		.dropdown{display:inline-block !important;}
+		.account-stat-num > div {width: 25%;float: left;font-size: 10px;text-align: center;}
+		.account-stat-num > div span {display: block;font-size: 14px;font-weight: bold;}
+	</style>
+	{template 'default/runner/header'}
+	<div style="clear:both;"></div>
+	<div class="weui_cells" style="margin-top:0px;">
+		{if !empty($list['list'])}
+		{loop $list['list'] $li}
+		<div class="weui_cell">
+			{php $member = M('member')->getInfo($li['openid'])}
+			<div class="weui_cell_hd"><img src="{$member['avatar']}" alt="" style="width:20px;margin-right:5px;display:block"></div>
+			<div class="weui_cell_bd weui_cell_primary">
+				<p>赏金：<span style="color:red;">{$li['fee']}</span></p>
+			</div>
+			<div class="weui_cell_ft">{php echo date('Y-m-d H:i',$li['create_time'])}</div>
+		</div>
+		{/loop}
+		{else}
+		<div class=list>
+			<div class="item item1">暂无记录</div>
+		</div>
+		{/if}
+	</div>
+</div>
+{template 'default/common/footerbar2'}
+<script>
+require(['jquery'],function(){
+	$('#footer').show();
+});
+</script>

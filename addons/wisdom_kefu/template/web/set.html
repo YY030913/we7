@@ -1,0 +1,189 @@
+{template 'common/header'}
+<style type="text/css">
+.hdline{color:blue;};
+.desc{color:#fff};
+.m-mnbox .apple, .m-mnbox .win{margin-top:16px;margin-top:24px;}
+.m-mnbox .android{margin-right: 24px;margin-top:24px;}
+.m-mnbox .more{margin-top: 24px;margin-top:24px;color:#fff;}
+.m-ft .cprt{margin-left:25px;}
+.m-ft .sep{display: inline-block;display: inline;}
+/*2016-05-31 lzf*/
+.l_switchBox{
+	clear: both;
+	overflow: hidden;
+}
+.l_switch_div{
+	clear: both;
+	height: 50px;
+	overflow: hidden;
+}
+.l_switch_text{
+	float: left;
+	width: 120px;
+	height: 50px;
+	line-height:50px;
+}
+.l_switch{
+	float:left;
+	width: 82px;
+	height: 30px;
+	position: relative;
+	text-align:center;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	overflow:hidden;
+	margin-top: 10px;
+}
+.l_switch_abs{
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 123px;
+}
+.l_switch_on{
+	float: left;
+	width: 41px;
+	height: 30px;
+	line-height: 30px;
+	border-radius:5px;
+	color: #fff;
+	background:#428bca;
+}
+.l_switch_blank{
+	float: left;
+	width: 41px;
+	height: 30px;
+	background:#dbdbdb;
+}
+.l_switch_off{
+	float: left;
+	width: 41px;
+	height: 30px;
+	line-height: 30px;
+	color: #fff;
+	background:#7b7b7b;
+}
+.l_switch.hover .l_switch_abs{
+	left: 0;
+	right: auto;
+}
+.l_kefu_hidden_text{
+	display: none;
+	position: fixed;
+	left: 50%;
+	top:50%;
+	margin:-25px 0 0 -100px; 
+	height: 50px;
+	line-height: 50px;
+	width: 200px;
+	text-align: center;
+	color: #fff;
+	background: rgba(0,0,0,.8);
+}
+
+</style>   
+<script type="text/javascript">
+		$(function(){
+			function close_k(){
+          		$(".l_kefu_hidden_text").css({"display":"none"});
+          	}
+          
+
+		  $(".l_switch_div").each(function(index, element) {
+			  $(this).find(".l_switch").click(function(){
+				var ss= $(this).find("input").attr("value");
+				
+				if(ss == 0){
+					$(this).addClass("hover");
+					$(this).find("input").attr("value",1);
+					$(".l_kefu_hidden_text").css({"display":"block"});
+					setTimeout(close_k,3000)
+				}else{
+					$(this).removeClass("hover");
+					$(this).find("input").attr("value",0)
+				}
+			})
+        })
+    })	 
+</script>
+ 	<div class="m-bd m-bd0 imgbg0 js-bd0">
+ 		 <div class="m-wrap"> 
+ 		 	<div class="box"> 
+ 	 		 <div class="box-inner"> 
+ 	 		 	<div class="col m-mnbox"> 
+ 	 		 		<h1 class="hdline"></h1> <p class="desc"><br></p>
+ 	 		 			 <div class="download min-width510"> 
+ 	 		 			 	<div class="qrcode1"> </div>
+ 		 			 		 <div class="in-download"> 
+
+ 		 			 		 	 <div class="l_switchBox">
+ 		 			 		 	 	<div class="l_switch_div">
+ 		 			 		 	 		<div class="l_switch_text">电脑版</div>
+ 		 			 		 	 		<div class="l_switch">
+ 		 			 		 	 			<div class="l_switch_abs">
+ 		 			 		 	 				<input type="hidden" value="0" />
+	 		 			 		 	 			<span class="l_switch_on">on</span>
+	 		 			 		 	 			<span class="l_switch_blank"></span>
+	 		 			 		 	 			<span class="l_switch_off">off</span>
+ 		 			 		 	 			</div>
+ 		 			 		 	 		</div>
+ 		 			 		 	 	</div>
+ 		 			 		 	 	
+ 		 			 		 	 	<div class="l_switch_div">
+ 		 			 		 	 		<div class="l_switch_text">Android</div>
+ 		 			 		 	 		<div class="l_switch">
+ 		 			 		 	 			<div class="l_switch_abs">
+ 		 			 		 	 				<input type="hidden" value="0" />
+	 		 			 		 	 			<span class="l_switch_on">on</span>
+	 		 			 		 	 			<span class="l_switch_blank"></span>
+	 		 			 		 	 			<span class="l_switch_off">off</span>
+ 		 			 		 	 			</div>
+ 		 			 		 	 		</div>
+ 		 			 		 	 	</div>
+
+ 		 			 		 	 	<div class="l_switch_div">
+ 		 			 		 	 		<div class="l_switch_text">IOS</div>
+ 		 			 		 	 		<div class="l_switch">
+ 		 			 		 	 			<div class="l_switch_abs">
+ 		 			 		 	 				<input type="hidden" value="0" />
+	 		 			 		 	 			<span class="l_switch_on">on</span>
+	 		 			 		 	 			<span class="l_switch_blank"></span>
+	 		 			 		 	 			<span class="l_switch_off">off</span>
+ 		 			 		 	 			</div>
+ 		 			 		 	 		</div>
+ 		 			 		 	 	</div>
+
+ 		 			 		 	 	<!-- <div class="l_switch_div">
+ 		 			 		 	 		<div class="l_switch_text">更多下载</div>
+ 		 			 		 	 		<div class="l_switch">
+ 		 			 		 	 			<div class="l_switch_abs">
+ 		 			 		 	 				<input type="hidden" value="0" />
+	 		 			 		 	 			<span class="l_switch_on">on</span>
+	 		 			 		 	 			<span class="l_switch_blank"></span>
+	 		 			 		 	 			<span class="l_switch_off">off</span>
+ 		 			 		 	 			</div>
+ 		 			 		 	 		</div>
+ 		 			 		 	 	</div> -->
+ 		 			 		 	 </div>
+
+			 		 	 	 </div> 
+	 		 	 	 </div>
+		 	 	</div>  
+ 	 		</div> 
+	 		</div>
+	 	</div> 	
+	</div> 
+	<div class="l_kefu_hidden_text" id="open_k">功能暂未开放,敬请期待.</div>
+<script type="text/javascript">
+	 // $(".l_switch_div").click(function () {
+  //         	$("#open_k").css('display','block');
+		// 	  $("#open_k").animate({width:300},"slow");
+  //         	function close_k(){
+  //         		$("#open_k").css('display','none');
+  //         	}
+  //         setTimeout(close_k,3000);
+          
+  //   });
+
+</script>
+{template 'common/footer'}

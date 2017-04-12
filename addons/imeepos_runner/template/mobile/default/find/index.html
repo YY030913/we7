@@ -1,0 +1,36 @@
+{template 'default/common/header1'}
+<style>
+    .tabs .tab-item .badge.badge-calm, .badge.badge-calm {
+        background-color: #04BE02 !important;
+        color: #fff;
+    }
+</style>
+
+<div class="container">
+    <div class="page">
+        <div class="bar bar-header">
+            <a href="{php echo $this->createMobileUrl('tasks')}" class="button button-clear active">
+                <i class="icon ion-ios-arrow-back"></i>返回
+            </a>
+            <h2 class="title">找快递</h2>
+        </div>
+        <div class="list" style="margin-top:44px;">
+            {loop $users $user}
+            <a class="item item-avatar" href="tel:{php echo $user['mobile']}">
+                <img src="{php echo $user['avatar']}" alt="">
+                <h2 class="title">{$user['nickname']}</h2>
+                <p>{$user['realname']}</p>
+                <i class="badge badge-calm">已实名</i>
+            </a>
+            {/loop}
+        </div>
+
+    </div>
+    <div class="page">
+        <div class=""></div>
+    </div>
+    <div class="page">
+
+    </div>
+</div>
+{template 'default/common/footer'}

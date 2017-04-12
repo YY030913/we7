@@ -1,0 +1,131 @@
+﻿{template 'common/header'}
+
+<ul class="nav nav-tabs">
+	<li  {if $op=='display'}class="active"{/if}><a href="{php echo $this->createWebUrl('yinyue', array('op'=>'display'));}">音频列表</a></li>
+	<li {if empty($id)&&$op=='edit'}class="active"{/if}><a href="{php echo $this->createWebUrl('yinyue', array('op'=>'edit'));}">添加音频</a></li>
+	{if !empty($id)}
+	<li class="active"><a href="{php echo $this->createWebUrl('yinyue', array('op'=>'edit', 'id'=>$id));}">编辑音频</a></li>
+	{/if}
+</ul>
+
+{if $op=="display"}
+<div class="panel panel-default">
+		<div class="panel-heading">音频列表</div>
+		<div class="panel-body">
+			<div class="table-responsive panel-body">
+				<table class="table table-hover" style="min-width: 300px;">
+					<thead class="navbar-inner">
+						<tr>
+							<th class="col-sm-1">排序</th>
+							<th class="col-sm-6">名称</th>
+							<th class="col-sm-2">图片</th>
+							
+							<th class="col-sm-1">状态</th>
+							<th class="col-sm-1">操作</th>
+					
+							
+						</tr>
+					</thead>
+					<tbody>
+						{loop $yy $goodsid $goods}
+						<tr>
+							<td><input type="text" name="disorder" value="{$goods['disorder']}" style="width:50px;"> </td>
+							
+							<td>{$goods['title']}</td>
+							<td><image src="{php echo tomedia($goods['pic']);}" style="max-width: 48px; max-height: 48px; border: 1px dotted gray"></td>
+							
+							
+							<td><a href="{php echo $this->createWebUrl('yinyue', array('op'=>'edit', 'id'=>$goods['id']));}" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="" data-original-title="编辑"><i class="fa fa-pencil"></i></a>
+								
+								
+								
+							</td>
+<td><a href="{php echo $this->createWebUrl('yinyue', array('op'=>'del', 'idd'=>$goods['id']));}" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="" data-original-title="删除"><i class="fa fa-times"></i></a></td>
+					
+						</tr>
+						{/loop}
+						{if empty($yy)}
+						<tr>
+							<td colspan="8">
+								尚未添加音频
+							</td>
+						</tr>
+						{/if}
+					</tbody>
+				</table>
+				{$pager}
+			</div>
+		</div>
+	</div>
+	{elseif $op=='edit'}
+	
+	<div class="main">
+	<form action="" method="post" class="form-horizontal form" id="form">
+		<div class="panel panel-default">
+			<div class="panel-heading">音频</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">标题</label>
+					<div class="col-xs-12 col-sm-8">
+						<input type="text" name="title" class="form-control" value="{$yy['title']}" />
+					</div>
+				</div>
+				
+				
+			
+				
+				
+				
+		
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">图片</label>
+					<div class="col-xs-12 col-sm-8">
+						{php echo tpl_form_field_image('pic', $yy['pic']);}
+					</div>
+					<span class="help-block">图片建议为180*180</span>
+				</div>
+			
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">详情</label>
+					<div class="col-xs-12 col-sm-8">
+						<div class="input-group">
+							{php echo tpl_ueditor('xq', $yy['xq']);}
+						</div>
+					</div>
+				</div>
+			
+			<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">音频地址</label>
+					<div class="col-xs-12 col-sm-8">
+						<input type="text" name="yinpin" class="form-control" value="{$yy['yinpin']}" />
+					</div>
+				</div>
+			
+			
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">状态</label>
+					<div class="col-xs-12 col-sm-8">
+						<label class="radio radio-inline">
+							<input type="radio" name="status" value="1" {if intval($yy['status']) != 2}checked="checked"{/if}> 显示
+						</label>
+						<label class="radio radio-inline">
+							<input type="radio" name="status" value="2" {if intval($yy['status']) == 2}checked="checked"{/if}> 隐藏
+						</label>
+					</div>
+				</div>
+		
+				<div class="form-group">
+					<div class="col-xs-12 col-sm-9 col-md-10 col-lg-10 col-sm-offset-3 col-md-offset-2 col-lg-offset-2">
+						<input type="hidden" name="id" value="{$yy['id']}" />
+						<input name="submit" type="submit" value="提交" class="btn btn-primary" />
+						<input type="hidden" name="token" value="{$_W['token']}" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+	
+	
+	
+	{/if}

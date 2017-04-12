@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.goodziyuan.com" versionCode="0.6">
+	<application setting="true">
+		<name><![CDATA[装逼神器管家]]></name>
+		<identifie><![CDATA[wdl_dbdzb]]></identifie>
+		<version><![CDATA[8.4.0]]></version>
+		<type><![CDATA[activity]]></type>
+		<ability><![CDATA[装逼神器管家，第八代装逼神器大合集，内置大量装备功能，更新功能不断添加中！]]></ability>
+		<description><![CDATA[装逼神器管家，第八代装逼神器大合集，内置大量装备功能，更新功能不断添加中！]]></description>
+		<author><![CDATA[好资源站长论坛]]></author>
+		<url><![CDATA[http://www.goodziyuan.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+			<message type="text" />
+			<message type="link" />
+			<message type="subscribe" />
+			<message type="unsubscribe" />
+			<message type="click" />
+			<message type="view" />
+		</subscribes>
+		<handles>
+			<message type="text" />
+			<message type="subscribe" />
+			<message type="click" />
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="装逼入口" do="play" state="" direct="false" />
+		</cover>
+	</bindings>
+	<install><![CDATA[]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+</manifest>

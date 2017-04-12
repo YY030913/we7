@@ -1,0 +1,33 @@
+<script type="text/javascript">
+wx = null;
+
+require(['jquery'],function($){
+	var $body = $('body');
+	var title = "{php echo $title}";
+	document.title = title;
+	var $iframe = $('<iframe></iframe>').on('load', function() {
+		setTimeout(function() {
+			$iframe.off('load').remove()
+		}, 0)
+	}).appendTo($body);
+});
+
+
+require(['jquery','core','weixin'],function($,core,wx){
+	wx.config(jssdkconfig);
+	var $_share = {php echo json_encode($share)};
+	
+	var sharedata = $_share;
+	
+	sharedata.success = function(){
+		
+	}
+	wx.ready(function () {
+		wx.onMenuShareAppMessage(sharedata);
+		wx.onMenuShareTimeline(sharedata);
+		wx.onMenuShareQQ(sharedata);
+		wx.onMenuShareWeibo(sharedata);
+	});
+	
+});
+</script>

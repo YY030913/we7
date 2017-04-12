@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.goodziyuan.com" versionCode="0.6">
+	<application setting="true">
+		<name><![CDATA[扫码收款/支付/抽红包]]></name>
+		<identifie><![CDATA[bm_payx]]></identifie>
+		<version><![CDATA[2.9]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[扫码收款&支付&抽红包&送卡券]]></ability>
+		<description><![CDATA[扫码收款&扫码支付&支付抽红包&支付送卡券，支持微信支付、支付宝支付、微赞余额支付。掌柜微信查帐单、核销支付记录，支付抽红包，支付送卡券。店员管理，可以统计每个店员的收银情况。]]></description>
+		<author><![CDATA[好资源)]]></author>
+		<url><![CDATA[http://www.goodziyuan.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+			<message type="text" />
+			<message type="image" />
+			<message type="link" />
+			<message type="subscribe" />
+			<message type="unsubscribe" />
+			<message type="qr" />
+			<message type="trace" />
+			<message type="click" />
+		</subscribes>
+		<handles>
+			<message type="image" />
+			<message type="subscribe" />
+			<message type="qr" />
+			<message type="click" />
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<rule>
+			<entry title="签到统计" do="record" state="" direct="false" />
+			<entry title="开始抽奖" do="play" state="" direct="false" />
+			<entry title="中奖记录" do="winner" state="" direct="false" />
+			<entry title="支付记录" do="payed" state="" direct="false" />
+			<entry title="红包设置" do="red" state="" direct="false" />
+			<entry title="卡券设置" do="card" state="" direct="false" />
+		</rule>
+		<menu>
+			<entry title="签到统计" do="record" state="" direct="false" />
+			<entry title="开始抽奖" do="play" state="" direct="false" />
+			<entry title="中奖记录" do="winner" state="" direct="false" />
+			<entry title="支付记录" do="payed" state="" direct="false" />
+			<entry title="红包设置" do="red" state="" direct="false" />
+			<entry title="卡券设置" do="card" state="" direct="false" />
+			<entry title="店员设置" do="employee" state="" direct="false" />
+		</menu>
+	</bindings>
+	<install><![CDATA[
+CREATE TABLE IF NOT EXISTS `ims_bm_payx_card` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `rid` int(11) NOT NULL DEFAULT '0',
+  `weid` int(11) DEFAULT NULL,
+  `cardline` int(10) NOT NULL DEFAULT '0',
+  `cardid` varchar(100) NOT NULL DEFAULT '',
+  `cardname` varchar(100) NOT NULL DEFAULT '',
+  `createtime` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_bm_payx_employee` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `rid` int(11) NOT NULL DEFAULT '0',
+  `weid` int(11) DEFAULT NULL,
+  `name` varchar(20) NOT NULL DEFAULT '',
+  `from_user` varchar(32) NOT NULL DEFAULT '',
+  `createtime` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_bm_payx_payed` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `rid` int(11) NOT NULL DEFAULT '0',
+  `fromuser` text NOT NULL,
+  `username` text NOT NULL,
+  `paytime` int(11) NOT NULL DEFAULT '0',
+  `qrmoney` float(10,2) DEFAULT '0.00',
+  `credit` int(11) NOT NULL DEFAULT '0',
+  `play_time` int(11) NOT NULL DEFAULT '0',
+  `avatar` varchar(500) NOT NULL DEFAULT '',
+  `status` tinyint(1) NOT NULL DEFAULT '0',
+  `dateline` int(10) unsigned NOT NULL DEFAULT '0',
+  `clientOrderId` varchar(50) NOT NULL,
+  `play_status` int(1) NOT NULL DEFAULT '0',
+  `red` float(10,2) DEFAULT '0.00',
+  `redtime` int(11) NOT NULL DEFAULT '0',
+  `redstatus` int(1) NOT NULL DEFAULT '0',
+  `redmemo` varchar(100) NOT NULL DEFAULT '',
+  `paycode` varchar(6) NOT NULL DEFAULT '',
+  `cardmemo` varchar(100) NOT NULL DEFAULT '',
+  `cardtime` int(11) NOT NULL DEFAULT '0',
+  `cardstatus` int(1) NOT NULL DEFAULT '0',
+  `getstatus` int(1) NOT NULL DEFAULT '0',
+  `gettime` int(11) NOT NULL DEFAULT '0',
+  `cardid` varchar(100) NOT NULL DEFAULT '',
+  `paytype` int(1) NOT NULL DEFAULT '0',
+  `name` varchar(20) NOT NULL DEFAULT '',
+  `from_user` varchar(32) NOT NULL DEFAULT '',
+  `usetime` int(10) unsigned NOT NULL DEFAULT '0',
+  `cardname` varchar(100) NOT NULL DEFAULT '',
+  `eid` int(11) NOT NULL DEFAULT '999999',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_bm_payx_record` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `rid` int(11) NOT NULL DEFAULT '0',
+  `fromuser` text NOT NULL,
+  `username` text NOT NULL,
+  `today_rank` int(11) NOT NULL DEFAULT '0',
+  `sign_time` int(11) NOT NULL DEFAULT '0',
+  `last_sign_time` int(11) NOT NULL DEFAULT '0',
+  `continue_sign_days` int(11) NOT NULL DEFAULT '0',
+  `maxcontinue_sign_days` int(11) NOT NULL DEFAULT '0',
+  `total_sign_num` int(11) NOT NULL DEFAULT '0',
+  `maxtotal_sign_num` int(11) NOT NULL DEFAULT '0',
+  `first_sign_days` int(11) NOT NULL DEFAULT '0',
+  `maxfirst_sign_days` int(11) NOT NULL DEFAULT '0',
+  `credit` int(11) NOT NULL DEFAULT '0',
+  `play_status` int(1) NOT NULL DEFAULT '0',
+  `play_time` int(11) NOT NULL DEFAULT '0',
+  `avatar` varchar(500) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_bm_payx_red` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `rid` int(11) NOT NULL DEFAULT '0',
+  `weid` int(11) DEFAULT NULL,
+  `redline` int(10) NOT NULL DEFAULT '0',
+  `redlow` int(10) NOT NULL DEFAULT '0',
+  `redhigh` int(10) NOT NULL DEFAULT '0',
+  `redrate` int(10) NOT NULL DEFAULT '0',
+  `createtime` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_bm_payx_reply` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `rid` int(10) unsigned NOT NULL DEFAULT '0',
+  `weid` int(11) NOT NULL,
+  `n` int(10) NOT NULL DEFAULT '0',
+  `desc` varchar(500) NOT NULL DEFAULT '',
+  `pictype` int(1) NOT NULL DEFAULT '0',
+  `picurl` varchar(100) NOT NULL DEFAULT '',
+  `urlx` varchar(100) NOT NULL DEFAULT '',
+  `title` varchar(100) NOT NULL DEFAULT '',
+  `starttime` datetime NOT NULL,
+  `endtime` datetime NOT NULL,
+  `qrcode` varchar(100) NOT NULL DEFAULT '',
+  `urly` varchar(100) NOT NULL DEFAULT '',
+  `url1` varchar(100) NOT NULL DEFAULT '',
+  `url2` varchar(100) NOT NULL DEFAULT '',
+  `memo1` varchar(100) NOT NULL DEFAULT '',
+  `memo2` varchar(100) NOT NULL DEFAULT '',
+  `play_times` int(10) NOT NULL DEFAULT '0',
+  `play_nums` int(10) NOT NULL DEFAULT '0',
+  `play_type` int(1) NOT NULL DEFAULT '0',
+  `qrtype` int(1) NOT NULL DEFAULT '0',
+  `qrmoney` float(10,2) DEFAULT '0.00',
+  `qrerrormemo` varchar(100) NOT NULL DEFAULT '',
+  `qrerrorurl` varchar(100) NOT NULL DEFAULT '',
+  `memo` varchar(100) NOT NULL DEFAULT '',
+  `qrinput` int(1) NOT NULL DEFAULT '0',
+  `logo` varchar(100) NOT NULL DEFAULT '',
+  `play_status` int(1) NOT NULL DEFAULT '0',
+  `templateid` varchar(100) NOT NULL DEFAULT '',
+  `awaremethod` varchar(100) NOT NULL DEFAULT '',
+  `awaretime` varchar(100) NOT NULL DEFAULT '',
+  `openid` varchar(100) NOT NULL DEFAULT '',
+  `templateid1` varchar(100) NOT NULL DEFAULT '',
+  `button` varchar(100) NOT NULL DEFAULT '',
+  `tel` varchar(100) NOT NULL DEFAULT '',
+  `red` int(1) NOT NULL DEFAULT '0',
+  `redline` int(10) NOT NULL DEFAULT '0',
+  `redlow` int(10) NOT NULL DEFAULT '0',
+  `redhigh` int(10) NOT NULL DEFAULT '0',
+  `redrate` int(10) NOT NULL DEFAULT '0',
+  `button1` varchar(100) NOT NULL DEFAULT '',
+  `card` int(1) NOT NULL DEFAULT '0',
+  `cardline` int(10) NOT NULL DEFAULT '0',
+  `cardid` varchar(100) NOT NULL DEFAULT '',
+  `cardname` varchar(100) NOT NULL DEFAULT '',
+  `openid1` varchar(100) NOT NULL DEFAULT '',
+  `headbg` varchar(100) NOT NULL DEFAULT '',
+  `product` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_bm_payx_winner` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `rid` int(10) unsigned NOT NULL DEFAULT '0',
+  `from_user` varchar(32) NOT NULL DEFAULT '',
+  `username` text NOT NULL,
+  `dateline` int(10) unsigned NOT NULL DEFAULT '0',
+  `ip` char(15) NOT NULL DEFAULT '',
+  `awardid` int(10) unsigned NOT NULL DEFAULT '0',
+  `awardname` varchar(255) NOT NULL DEFAULT '',
+  `status` tinyint(4) NOT NULL DEFAULT '0',
+  `avatar` varchar(500) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `rid` (`rid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+]]></install>
+	<uninstall><![CDATA[
+DROP TABLE IF EXISTS `ims_bm_payx_card`;
+DROP TABLE IF EXISTS `ims_bm_payx_employee`;
+DROP TABLE IF EXISTS `ims_bm_payx_payed`;
+DROP TABLE IF EXISTS `ims_bm_payx_record`;
+DROP TABLE IF EXISTS `ims_bm_payx_red`;
+DROP TABLE IF EXISTS `ims_bm_payx_reply`;
+DROP TABLE IF EXISTS `ims_bm_payx_winner`;
+]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+</manifest>

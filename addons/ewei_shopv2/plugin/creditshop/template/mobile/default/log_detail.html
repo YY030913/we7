@@ -1,0 +1,211 @@
+{template '_header'}
+<link rel="stylesheet" href="../addons/ewei_shopv2/plugin/creditshop/template/mobile/default/images/common.css" />
+<div class='fui-page  fui-page-current creditshop-detail-page'>
+		<div class="fui-header">
+				<div class="fui-header-left">
+						<a class="back"></a>
+				</div>
+				<div class="title">参与详情</div>
+				<div class="fui-header-right">
+					<a href="{php echo mobileUrl('creditshop')}" class="external" style="padding-left: 0; margin-left: 0;"><i class="icon icon-home"></i></a>
+				</div>
+		</div>
+		
+		<div class='fui-content navbar'>
+			
+			<a class="image" href="{php echo mobileUrl('creditshop/detail', array('id'=>$goods['id']))}">
+				<img src="{$goods['thumb']}" />
+			</a>
+			
+			<div class="fui-list-group nomargin">
+				<div class='fui-list align-start'>
+					<div class="fui-list-inner">
+						<div class="title overflow">
+							{if $goods['type']==1}<span class="fui-label fui-label-danger">抽奖</span>
+							{else}<span class="fui-label fui-label-warning">兑换</span>
+							{/if}{$goods['title']}
+						</div>
+						<div class="subtitle">参与时间: {php echo date('Y-m-d H:i:s', $log['createtime'])}  {if $goods['dispatch']>0}<span class="text-danger">邮费: {$goods['dispatch']}</span>{/if}</div>
+						{if $goods['isendtime']==1}
+							 <div class="subtitle">{if $goods['type'==1]}活动{else}使用{/if}有效期: 兑换之日起 至 {$goods['endtime_str']}</div>
+					 	 {/if}
+					</div>
+					<div class="fui-list-media align-start">
+						{if $goods['acttype']==0}
+							<p class="credit text-danger">{$goods['credit']}{$_W['shopset']['trade']['credittext']}+{$goods['money']}元</p>
+						{elseif $goods['acttype']==1}
+							<p class="credit text-danger">{$goods['credit']}{$_W['shopset']['trade']['credittext']}</p>
+						{elseif $goods['acttype']==2}
+							<p class="credit text-danger">{$goods['money']}元</p>
+						{else}
+							<div class="fui-label fui-label-danger">
+								免费{if $goods['type']==1}抽奖{else}兑换{/if}
+							</div>
+						{/if}
+						{if !empty($goods['price']) && $goods['price']>0}<p class="money">￥{$goods['price']}元</p>{/if}
+					</div>
+				</div>
+			</div>
+			
+{if $goods['goodstype']<1}
+			<div class="fui-cell-group">
+				<div class="fui-cell noactive info">
+			 		<div class="info-title">{if $goods['isverify']==0}收货信息{else}兑换信息{/if}<span class="text-danger">*</span></div>
+			 	</div>
+			 	
+			 	{if $goods['isverify']==0}
+				<div class="fui-cell" {if $log['addressid']==0} style="display: none;"{/if} id="carrier_realname">
+					<div class="fui-cell-label">真实姓名</div>
+					<a class="fui-cell-info" {if $log['addressid']==0}href="{php echo mobileUrl('member/address/selector')}"{/if}>
+						<input type="text" class="fui-input" placeholder="" id="carrier_realname" readonly value="{$address['realname']}" />
+					</a>
+				</div>
+				<div class="fui-cell" {if $log['addressid']==0} style="display: none;"{/if} id="carrier_mobile">
+					<div class="fui-cell-label">联系电话</div>
+					<a class="fui-cell-info"  {if $log['addressid']==0}href="{php echo mobileUrl('member/address/selector')}"{/if}>
+						<input type="tel" class="fui-input" placeholder="" id="carrier_mobile" readonly value="{$address['mobile']}" />
+					</a>
+				</div>
+				<div class="fui-cell ">
+					<div class="fui-cell-label ">收货地址</div>
+					<a class="fui-cell-info" {if $log['addressid']==0} href="{php echo mobileUrl('member/address/selector')}"{/if}>
+						<input type="text" class="fui-input" placeholder="点击选择收货地址" readonly id="address_select" value="{$address['province']}{$address['city']}{$address['area']}{$address['address']}" />
+					</a>
+				</div>
+				
+				{else}
+					<div class="fui-cell">
+						<div class="fui-cell-label">真实姓名</div>
+						<div class="fui-cell-info">
+							<input type="text" class="fui-input" placeholder="请输入联系人姓名" id="carrier_realname" value="{if empty($log['realname'])}{$member['realname']}{else}{$log['realname']}{/if}" {if !empty($log['realname'])}readonly{/if} />
+						</div>
+					</div>
+					<div class="fui-cell">
+						<div class="fui-cell-label">联系电话</div>
+						<div class="fui-cell-info">
+							<input type="tel" class="fui-input" placeholder="请输入联系人电话" id="carrier_mobile" value="{if empty($log['mobile'])}{$member['mobile']}{else}{$log['mobile']}{/if}" {if !empty($log['mobile'])}readonly{/if} />
+						</div>
+					</div>
+					 {if empty($store)} 
+						<div class="fui-cell ">
+							<div class="fui-cell-label ">兑换门店</div>
+							<a class="fui-cell-info" href="{php echo mobileUrl('store/selector', array('ids'=>$goods['storeids'], 'type'=>2))}">
+								<input type="text" class="fui-input" placeholder="点击选择" readonly id="address_select" />
+							</a>
+						</div>
+					{else}
+						<div  class="fui-list store-item" data-storeid="{$store['id']}" data-lng="{php echo floatval($store['lng'])}" data-lat="{php echo floatval($store['lat'])}">
+							<div class="fui-list-media">
+								<i class='icon icon-shop'></i>
+							</div>
+							<div class="fui-list-inner">
+								<div class="title"> <span class='storename'>{$store['storename']}</span></div>
+								<div class="text">
+									<span class='realname'>{$store['realname']}</span> <span class='mobile'>{$store['mobile']}</span>
+								</div>
+								<div class="text">
+									<span class='address'>{$store['address']}</span>
+								</div>
+								<div class="text location" style="color:green;display:none">正在计算距离...</div>
+							</div> 
+							<div class="fui-list-angle">
+								{if !empty($store['tel'])}<a href="tel:{$store['tel']}" class='external '><i class=' icon icon-phone' style='color:green'></i></a>{/if}
+								<a href="{php echo mobileUrl('store/map',array('id'=>$store['id']))}" class='external' ><i class='icon icon-location' style='color:#f90'></i></a>
+							</div>
+						</div> 
+					{/if}
+				{/if}
+			</div>
+{/if}
+			
+			{if !empty($goods['goodsdetail'])}
+				 <div class="fui-cell-group">
+				 	<div class="fui-cell noactive info">
+				 		<div class="info-title">商品描述</div>
+				 		<div class="info-text   content-block content-images">{$goods['goodsdetail']}</div>
+				 	</div>
+				 </div>
+			{/if}
+			
+			{if !empty($goods['detail'])}
+				 <div class="fui-cell-group">
+				 	<div class="fui-cell noactive info">
+				 		<div class="info-title">兑换流程</div>
+				 		<div class="info-text   content-block content-images">{$goods['detail']}</div>
+				 	</div>
+				 </div>
+			 {/if}
+			 
+			 {if !empty($goods['noticedetail'])}
+				 <div class="fui-cell-group">
+				 	<div class="fui-cell noactive info">
+				 		<div class="info-title">注意事项</div>
+				 		<div class="info-text   content-block content-images">{$goods['noticedetail']}</div>
+				 	</div>
+				 </div>
+			 {/if}
+			 
+			{if !empty($goods['subdetail'])}
+				 <div class="fui-cell-group">
+				 	<div class="fui-cell noactive info">
+				 		<div class="info-title">商家介绍</div>
+				 		<div class="info-text   content-block content-images">{$goods['subdetail']}</div>
+				 	</div>
+				 </div>
+			{/if}
+			<div class="fui-cell-group">
+				<div class="fui-cell noactive info">
+					<div class="info-title">重要说明</div>
+					<div class="info-text">
+						<p>1. 商品兑换流程请仔细参照商品详情页的"兑换流程"、"注意事项"与"使用时间"，除商品本身不能正常兑换外，商品一经兑换，一律不退还{$_W['shopset']['trade']['credittext']}。（如商品过期、兑换流程操作失误、仅限新用户兑换)</p>
+						<p>2. 活动由{$shop['name']}提供，与商品生产公司无关。</p>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		
+		<div class="fui-footer">
+			{if $goods['isverify']==0}
+				{if $log['dispatchstatus']==0}
+					{if $goods['isendtime']==1}
+						{if $goods['currenttime']>$goods['endtime']}
+							<div class="btn btn-disabled block">商品已过期</div>
+						{else}
+							{if $goods['dispatch']>0}
+								<div class="btn btn-warning block btn-1">支付运费</div>
+							{else}
+								<div class="btn btn-danger block btn-1">确认兑换</div>
+							{/if}
+						{/if}
+					{else}
+						{if $goods['dispatch']>0}
+							<div class="btn btn-warning block btn-1">支付运费</div>
+						{else}
+							<div class="btn btn-danger block btn-1">确认兑换</div>
+						{/if}
+					{/if}
+				{else}
+					<div class="btn btn-disabled block">已兑换</div>
+				{/if}
+			{else}
+				{if $log['storeid']!='0'}
+					{if $log['status']==3}
+							<div class="btn btn-disabled block">已完成线下兑换</div>
+					{else}
+							<div class="btn btn-danger block btn-2">点击进行线下兑换</div>
+					{/if}
+					
+				{else}
+					<div class="btn btn-danger block btn-1">确认兑换</div>
+				{/if}
+			{/if}
+		</div>
+		 {template 'creditshop/pop'}
+		<script language="javascript">
+		     require(['../addons/ewei_shopv2/plugin/creditshop/static/js/log_detail.js'],function(modal){ 
+		     	modal.init({goods: {php echo json_encode($goods)}, log: {php echo json_encode($log)}});
+		     });
+		</script>
+</div>
+{template '_footer'}

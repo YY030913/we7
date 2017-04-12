@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.goodziyuan.com" versionCode="0.6">
+	<application setting="false">
+		<name><![CDATA[火爆弹幕聊天室]]></name>
+		<identifie><![CDATA[shd_chat]]></identifie>
+		<version><![CDATA[1.3.3]]></version>
+		<type><![CDATA[wdlgame]]></type>
+		<ability><![CDATA[一起嗨]]></ability>
+		<description><![CDATA[一起嗨]]></description>
+		<author><![CDATA[好资源]]></author>
+		<url><![CDATA[http://www.goodziyuan.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<menu>
+			<entry title="聊天话题" do="topiclist" state="" direct="false" />
+			<entry title="清空聊天" do="clearmsg" state="" direct="false" />
+		</menu>
+	</bindings>
+	<install><![CDATA[
+CREATE TABLE IF NOT EXISTS `ims_shd_chat_fans` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `reply_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `from_user` varchar(50) NOT NULL DEFAULT '',
+  `uid` int(10) unsigned NOT NULL DEFAULT '0',
+  `todaynum` int(10) unsigned NOT NULL DEFAULT '0',
+  `totalnum` int(10) unsigned NOT NULL DEFAULT '0',
+  `last_time` int(10) unsigned NOT NULL DEFAULT '0',
+  `createtime` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_shd_chat_records` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `reply_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `fans_name` varchar(20) NOT NULL DEFAULT '',
+  `chat_time` int(10) unsigned NOT NULL DEFAULT '0',
+  `content` varchar(200) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_shd_chat_reply` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `rid` int(10) unsigned NOT NULL,
+  `uniacid` int(10) unsigned NOT NULL,
+  `title` varchar(200) NOT NULL,
+  `thumb` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `starttime` int(10) unsigned NOT NULL,
+  `endtime` int(10) unsigned NOT NULL,
+  `remark` varchar(255) NOT NULL,
+  `tips` varchar(255) NOT NULL,
+  `share_title` varchar(100) NOT NULL,
+  `share_url` varchar(255) NOT NULL,
+  `share_content` varchar(255) NOT NULL,
+  `createtime` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+</manifest>

@@ -1,0 +1,333 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+  <title>{$reply['title']}的账单！</title>
+  <link rel="stylesheet" type="text/css" href="../addons/bm_payx/template/img/menu.css" media="all">  
+</head>
+<body>
+<style type="text/css">
+body{
+	background: url('../img/tbg.jpg') no-repeat {$reply['backcolor']};
+}
+.icon{
+	font-family: 'icomoon';
+	color:#fff;
+	font-style: normal;
+}
+.icon-export:before{
+	content: '\e853';
+}
+.icon-menu:before{
+	content: '\e7ee';
+}
+.icon-spinner:before{
+	content: '\e65c';
+}
+.icon-arrow-right:before{
+	content: '\e912';
+}
+.turnBox{
+	background: #fff;
+	margin-top:5px;
+}
+.turnBox h2{
+	height:35px;
+	overflow: hidden;
+	line-height: 28px;
+	/*background: url('../addons/bm_payx/template/img/spa.png') 0 bottom no-repeat;*/
+	background-color:red;
+	background-size:400px 35px;
+	padding-top:10px;
+	font-size:20px;
+	font-weight: bold;
+	color:#fff;
+	padding-left:10px;
+	margin-bottom:10px;
+}
+.boxCon{
+	padding:10px;
+	line-height: 20px;
+}
+.rankMe{
+	height: 30px;
+	line-height: 30px;
+	overflow: hidden;
+	font-size:16px;
+	color:#330000;
+	font-weight: bold;
+	background: #e1ca8b;
+	padding-left:10px;
+}
+.rankMe span{
+	color:#c4201b;
+}
+.rank h2 i{
+	float: right;
+	margin-right:20px;
+	color:#c00;
+	font-size:16px;
+}
+
+table{
+	margin-left:-1px;
+	margin-top:10px;
+	width:100%;
+	font-size:12px;
+}
+table th{
+	background: #e4ddce;
+	height:29px;
+	border-left:1px solid #ccc;
+	border-bottom:1px solid #ccc;
+	font-weight: bold;
+}
+table th:first-child{
+	border-left:none;
+}
+table th:last-child{
+}
+table tr td{
+	height:29px;
+	border-left:1px solid #ccc;
+	text-align: center;
+	color:#333;
+}
+table tr td:first-child{
+	border-left:none;
+}
+table tr td:last-child{
+}
+table tr:nth-child(2n) td{
+	background: #f0eade;
+}
+table tr:nth-child(-n+3) td:first-child{
+	color:#c00;
+}
+.orange_linear {
+	background:#E8A80D;
+	color:#fff;
+	box-shadow:0px 7px 0px #cecece
+}
+.reg_btn {
+	width:40%;
+	text-align:center;
+	cursor:pointer;
+	margin-top:20px;
+	margin-bottom:20px;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-ms-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	box-sizing:border-box;
+	display:block;
+	font-size:16px;
+	min-height:40px;
+	line-height:20px;
+	padding:10px;
+	border-radius:10px
+}
+.slide-show-container
+{
+	width:100%;
+	position:relative;
+}
+
+.slide-show-container:after
+{
+	content:'';
+	width:100%;
+	height:6px;
+	position:absolute;
+	left:0;
+	bottom:0;
+	z-index:1050;
+	background:url(../images/sawtooth_bg.png) left bottom repeat-x;
+}
+</style>
+<script src="../addons/bm_payx/template/img/TouchSlide.1.1.js"></script>
+			<div id="focus" class="focus">
+				<div class="hd" style="display:none;">
+					<ul></ul>
+				</div>
+				<div class="bd">
+					<ul>							
+						{loop $slides $s}
+							<li><a href="{$s['url']}"><img width="100%" height="225px" data-pinit="registered" src="{$_W['attachurl']}{$s['hs_pic']}" /></a></li>
+						{/loop}
+					</ul>
+				</div>
+			</div>
+<script>
+$(function() {
+	new Swipe($('#banner_box')[0], {
+		speed:500,
+		auto:3000,
+		callback: function(){
+			var lis = $(this.element).next("ol").children();
+			lis.removeClass("on").eq(this.index).addClass("on");
+		}
+	});
+});
+</script>			
+<script type="text/javascript">
+	TouchSlide({
+		slideCell: "#focus",
+		titCell: ".hd ul", 
+		mainCell: ".bd ul",
+		effect: "leftLoop",
+		autoPlay: true,
+		autoPage: true, 
+		switchLoad: "_src" 
+	});
+</script>			
+{if $op=='detail'}
+<div id="normalG">
+    <div id="wrap">
+        <div class="turnBox rank">
+            <h2>{$reply['title']}的收银单<i class="icon icon-repeat"></i></h2>
+			<div class="rankMe">共收到<span class="rankNUMS">{$totalsuccess}</span>笔付款，总额<span class="rankNUMS">{$totalsuccessmoney}</span>元</div>
+			<!--div class="rankMe">共送出<span class="rankNUMS">{$totalredsuccess}</span>个红包，总额<span class="rankNUMS">{$totalredsuccessmoney}</span>元</div-->
+            <div class="boxCon">
+                <div class="rankList">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th style="width:30%;text-align:center;">客人昵称</th>
+                            <th style="width:30%;text-align:center;">付款时间</th>
+                            <th style="width:10%;text-align:center;">付款金额</th>
+                            <th style="width:10%;text-align:center;">红包金额</th>
+                            <th style="width:20%;text-align:center;">卡券状态</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+						{loop $list $row}
+							{php $i++;}
+							<tr>
+								{if empty($row['username'])}
+									{if empty($row['fromuser'])}
+										<td>{$row['c']}</td>
+									{else}
+										<td>{$row['fromuser']}</td>
+									{/if}
+								{else}
+									<td>{$row['username']}</td>
+								{/if}
+								<td>{php echo date("Y-m-d H:i:s" , $row['paytime'] );}</td>
+								<td>{$row['qrmoney']}</td>
+								<td>{$row['red']}</td>
+								<td>
+								{if empty($row['cardid'])}
+									无
+								{elseif ($row['cardstatus']==0)}
+									成功
+								{else}
+									失败								
+								{/if}
+								</td>
+							</tr>
+						{/loop}
+						</tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{elseif $op=='day'}
+<div id="normalG">
+    <div id="wrap">
+        <div class="turnBox rank">
+            <h2>{$reply['title']}的日报<i class="icon icon-repeat"></i></h2>
+			<div class="rankMe">共收到<span class="rankNUMS">{$totalsuccess}</span>笔付款，总额<span class="rankNUMS">{$totalsuccessmoney}</span>元</div>
+			<!--div class="rankMe">共送出<span class="rankNUMS">{$totalredsuccess}</span>个红包，总额<span class="rankNUMS">{$totalredsuccessmoney}</span>元</div-->
+            <div class="boxCon">
+                <div class="rankList">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th style="width:20%;text-align:center;">日期</th>
+                            <th style="width:10%;text-align:center;">单数</th>
+                            <th style="width:10%;text-align:center;">金额</th>
+                            <th style="width:20%;text-align:center;">红包</th>
+                            <th style="width:20%;text-align:center;">明细</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+						{loop $list $row}
+							{php $i++;}
+							<tr>
+								<td>{$row['day']}</td>
+								<td>{$row['c']}</td>
+								<td>{$row['q']}</td>
+								<td>{$row['r']}</td>
+								<td><a href="{php echo $this->createMobileUrl('payed',array('rid' => $rid , 'op' => 'detail' , 'day' => $row['day']))}">查看</a></td>
+							</tr>
+						{/loop}
+						</tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{elseif $op=='month'}
+<div id="normalG">
+    <div id="wrap">
+        <div class="turnBox rank">
+            <h2>{$reply['title']}的月报<i class="icon icon-repeat"></i></h2>
+			<div class="rankMe">共收到<span class="rankNUMS">{$totalsuccess}</span>笔付款，总额<span class="rankNUMS">{$totalsuccessmoney}</span>元</div>
+			<!--div class="rankMe">共送出<span class="rankNUMS">{$totalredsuccess}</span>个红包，总额<span class="rankNUMS">{$totalredsuccessmoney}</span>元</div-->
+            <div class="boxCon">
+                <div class="rankList">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th style="width:30%;text-align:center;">月份</th>
+                            <th style="width:10%;text-align:center;">单数</th>
+                            <th style="width:20%;text-align:center;">金额(元)</th>
+                            <th style="width:20%;text-align:center;">红包(元)</th>
+                            <th style="width:20%;text-align:center;">明细</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+						{loop $list $row}
+							{php $i++;}
+							<tr>
+								<td>{$row['month']}</td>
+								<td>{$row['c']}</td>
+								<td>{$row['q']}</td>
+								<td>{$row['r']}</td>
+								<td><a href="{php echo $this->createMobileUrl('payed',array('rid' => $rid , 'op' => 'day' , 'month' => $row['month']))}">查看</a></td>
+							</tr>
+						{/loop}
+						</tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/if}
+<div class="nav4">
+	<nav>
+		<div id="nav4_ul" class="nav_4">
+			<ul class="box">
+				<li>
+					<a href="{php echo $this->createMobileUrl('payed',array('rid' => $rid , 'op' => 'month'))}" class=""><span>月度汇总</span></a>
+				</li>
+				<li>
+					<a href="{php echo $this->createMobileUrl('payed',array('rid' => $rid , 'op' => 'day'))}" class=""><span>日报表</span></a>
+				</li>
+				<li>
+					<a href="{php echo $this->createMobileUrl('payed',array('rid' => $rid , 'op' => 'detail'))}" class=""><span>账单明细</span></a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<div id="nav4_masklayer" class="masklayer_div">&nbsp;</div>
+</div>
+</body>
+</html>

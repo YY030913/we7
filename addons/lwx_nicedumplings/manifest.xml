@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.goodziyuan.com" versionCode="0.7">
+	<application setting="false">
+		<name><![CDATA[包粽子送祝福]]></name>
+		<identifie><![CDATA[lwx_nicedumplings]]></identifie>
+		<version><![CDATA[4.0.1]]></version>
+		<type><![CDATA[activity]]></type>
+		<ability><![CDATA[来包粽子咯，包粽子送祝福]]></ability>
+		<description><![CDATA[包粽子送祝福，邀请好友一起包粽子]]></description>
+		<author><![CDATA[好资源)]]></author>
+		<url><![CDATA[http://www.goodziyuan.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+			<message type="text" />
+			<message type="image" />
+
+		</subscribes>
+		<handles>
+			<message type="text" />
+			<message type="image" />
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="入口设置" do="list" state="" direct="true" />
+		</cover>
+		<menu>
+			<entry title="分享设置" do="shareSet" state="" direct="false" />
+		</menu>
+	</bindings>
+	<install><![CDATA[
+CREATE TABLE IF NOT EXISTS `ims_lwx_addwish` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `weid` int(10) NOT NULL COMMENT '公众号id',
+  `openid` varchar(100) DEFAULT NULL COMMENT '当前粉丝openid',
+  `content` varchar(500) NOT NULL COMMENT '祝福语',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_lwx_shareset` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `title` varchar(50) NOT NULL COMMENT '分享标题',
+  `thumb` varchar(100) NOT NULL COMMENT '分享图片',
+  `desc` varchar(100) DEFAULT NULL COMMENT '分享描述',
+  `okalert` varchar(20) NOT NULL DEFAULT '分享成功' COMMENT '成功分享提示语',
+  `chalealert` varchar(20) NOT NULL DEFAULT '取消分享' COMMENT '取消分享提示语',
+  `weid` int(10) DEFAULT NULL COMMENT '公众号id',
+  `iffollow` int(2) DEFAULT '1' COMMENT '是否强制关注 1不需要 2需要',
+  `followurl` varchar(120) DEFAULT NULL COMMENT '关注链接',
+  `authinfo` varchar(50) DEFAULT NULL COMMENT '版权信息',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+]]></install>
+	<uninstall><![CDATA[
+DROP TABLE IF EXISTS `ims_lwx_addwish`;
+DROP TABLE IF EXISTS `ims_lwx_shareset`;
+]]></uninstall>
+	<upgrade><![CDATA[update.php]]></upgrade>
+</manifest>

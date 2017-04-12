@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=7,chrome=1">
+	<title>{$reply['title']}--扫码支付</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+	<meta content="telephone=no" name="format-detection" />
+	<link rel="stylesheet" href="../addons/bm_payx/template/img/global.css"/>
+<style>
+	.uc-index .user-center {
+		width: 100%;
+		position: relative;
+		display: block;
+		overflow: hidden
+	}
+
+	.uc-index .user-center img.bg {
+		width: 100%;
+		height: 139px;
+	}
+
+	.uc-index .user-center .return {
+		position: absolute;
+		width: 60px;
+		height: 18px;
+		left: 10px;
+		top: 12px
+	}
+
+	.uc-index .user-center .return .arrows-left {
+		text-indent: 10px;
+		width: 60px;
+		color: #36c;
+		font-size: 1.6rem;
+		line-height: 20px
+	}
+
+	.uc-index .user-center .return .arrows-left i {
+		left: 0;
+		margin-left: auto;
+		width: 10px;
+		height: 10px;
+		border-right: 2px solid #36c;
+		border-top: 2px solid #36c
+	}
+
+	.uc-index .user-center .card {
+		width: auto;
+		height: 28px;
+		position: absolute;
+		right: 0;
+		top: 12px;
+		display: table
+	}
+
+	.uc-index .user-center .card.checkded div.btn-card a {
+		overflow: hidden;
+		background-image: url(http://image.bitautoimg.com/uimg/mbt2014/cheyitong/images/public.png);
+		background-size: 250px auto;
+		background-repeat: no-repeat;
+		width: 14px;
+		height: 9px;
+		background-position: -74px -36px;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin-left: -7px;
+		margin-top: -4px
+	}
+
+	.uc-index .user-center .card div {
+		display: table-cell
+	}
+
+	.uc-index .user-center .card div.icon {
+		width: 23px;
+		border-top-left-radius: 14px;
+		border-bottom-left-radius: 14px;
+		background-color: #fff;
+		background-image: url(http://image.bitautoimg.com/uimg/mbt2014/cheyitong/images/public.png);
+		background-repeat: no-repeat;
+		background-size: 250px auto;
+		background-position: -31px -27px
+	}
+
+	.uc-index .user-center .card div.number {
+		width: auto;
+		background-color: #fff;
+		line-height: 28px;
+		height: 28px;
+		padding: 0 3px 0 1px;
+		text-align: left;
+		font-size: 1.2rem;
+		color: #f93;
+		position: relative
+	}
+
+	.uc-index .user-center .card div.number i {
+		position: absolute;
+		font-size: 1.6rem;
+		color: #ff901d;
+		width: 100%;
+		text-align: center;
+		top: -10px;
+		font-weight: bold;
+		opacity: 0
+	}
+
+	.uc-index .user-center .card div.btn-card {
+		width: 40px;
+		background-color: #ff901d;
+		position: relative;
+		line-height: 28px
+	}
+
+	.uc-index .user-center .card div.btn-card a {
+		width: 100%;
+		color: #fff;
+		text-align: center;
+		font-size: 1.2rem;
+		display: block;
+		font-weight: bold
+	}
+
+	.uc-index .user-center .content {
+		width: 240px;
+		height: 150px;
+		position: absolute;
+		z-index: 2;
+		left: 50%;
+		top: 50%;
+		margin-left: -120px;
+		margin-top: -80px
+	}
+
+	.uc-index .user-center .content .face-box {
+		width: 97px;
+		height: 97px;
+		position: relative;
+		display: block;
+		margin: 5px auto
+	}
+
+	.uc-index .user-center .content h3 {
+		text-align: center;
+		font-size: 1.8rem;
+		color: #000;
+		margin-top: 0px
+	}
+
+	.uc-index .user-center .content .cols-2 {
+		margin: 10px auto
+	}
+
+	.uc-index .user-center .content .cols-2 div {
+		font-size: 1.2rem;
+		color: #333
+	}
+
+	.uc-index .user-center .content .cols-2 div:first-child {
+		text-align: right
+	}
+
+	.uc-index .user-center .content .cols-2 div:last-child {
+		text-align: left;
+		padding-left: 10px
+	}
+
+	.uc-index .user-center .content .face-box .circle {
+		width: 23px;
+		height: 23px;
+		position: absolute;
+		border-radius: 50%;
+		background-color: #ff901d;
+		right: 5px;
+		bottom: 5px
+	}
+
+	.uc-index .user-center .content .face-box .circle i {
+		background-image: url(http://image.bitautoimg.com/uimg/mbt2014/cheyitong/images/public.png);
+		background-repeat: no-repeat;
+		background-size: 250px auto;
+		background-position: 0 -1px;
+		width: 14px;
+		height: 11px;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		margin-left: -7px;
+		margin-top: -5px
+	}
+
+	.uc-index .user-center .content .face-box .img-box {
+		width: 97px;
+		height: 97px;
+		border: 4px solid #fff;
+		border-radius: 50%;
+		box-sizing: border-box;
+		box-shadow: 0 0 5px rgba(0,0,0,0.3)
+	}
+
+	.uc-index .user-center .content .face-box img {
+		width: 88px;
+		height: 88px;
+		/*border-radius: 50%*/
+	}
+
+	.uc-index .user-center .user-center-bottom {
+		width: 100%;
+		height: 53px;
+		background-color: rgba(0,0,0,0.5);
+		position: absolute;
+		bottom: 4px;
+		left: 0
+	}
+
+	.uc-index .user-center .user-center-bottom ul {
+		width: 100%;
+		list-style: none;
+		display: table
+	}
+
+	.uc-index .user-center .user-center-bottom ul li {
+		width: 33.33%;
+		display: table-cell
+	}
+
+	.uc-index .user-center .user-center-bottom ul li a {
+		width: 100%;
+		height: 34px;
+		border-left: 1px solid #94918d;
+		display: block;
+		margin: 10px 0;
+		box-sizing: border-box;
+		text-align: center
+	}
+
+	.uc-index .user-center .user-center-bottom ul li:first-child a {
+		border-left: none
+	}
+
+	.uc-index .user-center .user-center-bottom ul li h5 {
+		font-size: 1.8rem;
+		color: #fff;
+		display: block
+	}
+
+	.uc-index .user-center .user-center-bottom ul li em {
+		font-size: 1.2rem;
+		color: #fff;
+		font-style: normal;
+		display: block;
+		margin-top: 2px
+	}
+
+	.uc-index .user-center .card.animation {
+		-webkit-transition: 300ms all ease-in;
+		-moz-transition: 300ms all ease-in;
+		-o-transition: 300ms all ease-in;
+		-ms-transition: 300ms all ease-in;
+		transition: 300ms all ease-in
+	}
+
+	.uc-index .user-center .card.checkded {
+		-webkit-transform: translateX(36px);
+		transform: translateX(36px);
+		-moz-transform: translateX(36px);
+		-ms-transform: translateX(36px);
+		-o-transform: translateX(36px)
+	}
+
+	.uc-index .user-center .card div.number.animation i {
+		-webkit-transition: 800ms all ease-in;
+		-moz-transition: 800ms all ease-in;
+		-o-transition: 800ms all ease-in;
+		-ms-transition: 800ms all ease-in;
+		transition: 800ms all ease-in;
+		-webkit-transform: translateY(0);
+		-moz-transform: translateY(0);
+		-ms-transform: translateY(0);
+		-o-transform: translateY(0);
+		transform: translateY(0)
+	}
+
+	.uc-index .user-center .card div.number.fly i {
+		-webkit-transform: translateY(-9px);
+		-moz-transform: translateY(-9px);
+		-ms-transform: translateY(-9px);
+		-o-transform: translateY(-9px);
+		transform: translateY(-9px);
+		font-size: 1.6rem;
+		opacity: 1
+	}
+
+	.uc-index .user-center-information ul li a i {
+		width: 31px;
+		height: 29px;
+		background-image: url(http://image.bitautoimg.com/uimg/mbt2014/cheyitong/images/public.png);
+		background-repeat: no-repeat;
+		background-size: 250px auto;
+		margin: 0 auto;
+		display: block
+	}
+
+	.user-center-information ul li a i.message {
+		background-position: -20px 2px;
+		position: relative
+	}
+
+	.user-center-information ul li a i.message em {
+		width: 11px;
+		height: 11px;
+		border-radius: 50%;
+		background-color: #f83d30;
+		position: absolute;
+		right: -5px;
+		top: 0
+	}
+
+	.user-center-information ul li a i.bbs {
+		background-position: -57px 0
+	}
+
+	.user-center-information ul li a i.ask {
+		background-position: -94px 0
+	}
+
+	.user-center-information ul li a i.favorites {
+		background-position: -204px -1px
+	}
+
+	.user-center-information ul li a i.cars {
+		background-position: -132px -1px
+	}
+
+	.user-center-information ul li a i.setting {
+		background-position: -167px -1px
+	}
+
+	.user-center-information ul li a i.conserve {
+		background-position: -1px -26px;
+		width: 31px;
+		height: 31px
+	}
+
+	.user-center-information ul li a i.buy {
+		background-position: -206px -32px
+	}
+
+	.user-center-information ul li a i.coupon {
+		background-position: -206px -62px
+	}
+
+	.user-center-information ul li a i.buycar {
+		background-position: -206px -130px
+	}
+</style>	
+</head>
+<body>
+	<div class="mbt-page">
+		<div class="uc-index">
+			<div class="user-center">
+				{if !empty($reply['headbg'])}
+				<img src="{$_W['attachurl']}/{$reply['headbg']}" class="bg" alt="">
+				{else}
+				<img src="" class="bg" alt="">
+				{/if}
+				<!--div class="content">
+					<div class="face-box">
+						<div style="margin-top:16px;">
+						<div class="img-box">
+							<img src="{$_W['attachurl']}/{$reply['logo']}" alt="{$reply['title']}">
+						</div>
+					</div>
+					<h3>{$reply['title']}</h3>
+				</div-->
+			</div>
+		</div>
+	</div>
+	<div class="wrapper">
+		<!--header>
+		<img class="logo" style="padding-top:0px;" src="{$_W['attachurl']}/{$reply['logo']}">
+			<p>请在下方输入订单金额</p>
+		</header-->
+		<form method="post" id="Form" action="">
+			<article>
+				<div class="inner">
+					<input type="hidden" name="op" id="op" value="post">
+					<div class="money">
+						{if $reply['qrinput'] == 1}
+						<input type="text" name="qrmoney" id="qrmoney" value=""/>
+						{else}
+						<input type="text" name="qrmoney" id="qrmoney" value="" readonly="readonly"/>
+						{/if}
+					</div>
+					<table class="num" cellpadding="0" cellspacing="0">
+						<tr>
+							<td>1</td>
+							<td>2</td>
+							<td>3</td>
+						</tr>
+						<tr>
+							<td>4</td>
+							<td>5</td>
+							<td>6</td>
+						</tr>
+						<tr>
+							<td>7</td>
+							<td>8</td>
+							<td>9</td>
+						</tr>
+						<tr>
+							<td>.</td>
+							<td>0</td>
+							<td>←</td>
+						</tr>
+					</table>
+				</div>
+			</article>
+			<!--a href="#" class="comBtn disabled">微信支付</a-->
+			<!--button type="submit" id="submit" class="reg_btn orange_linear">立即支付</button-->
+			<!--button type="submit" id="submit" class="comBtn disabled">{$reply['button']}</button-->
+			<input type="submit" name="submit" id="submit" value="{$reply['button']}" class="comBtn disabled">
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</form>
+	</div>
+	<script src="../addons/bm_payx/template/img/zepto.min.js"></script>
+	<script src="../addons/bm_payx/template/img/s.js"></script>
+<center><div style="font-size:16px;margin-top:10px;">&copy; {$_W['account']['name']} 版权所有</center>	
+</body>
+</html>

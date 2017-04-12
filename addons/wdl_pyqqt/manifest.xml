@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.goodziyuan.com" versionCode="0.6,0.7">
+	<application setting="true">
+		<name><![CDATA[朋友圈乞讨]]></name>
+		<identifie><![CDATA[wdl_pyqqt]]></identifie>
+		<version><![CDATA[1.0]]></version>
+		<type><![CDATA[activity]]></type>
+		<ability><![CDATA[发送乞讨页面给朋友，在你当乞丐的时候有多少人在乎你！]]></ability>
+		<description><![CDATA[发送乞讨页面给朋友，在你当乞丐的时候有多少人在乎你！]]></description>
+		<author><![CDATA[好资源)]]></author>
+		<url><![CDATA[http://www.goodziyuan.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+			<message type="image" />
+			<message type="voice" />
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="首页入口" do="index" state="" direct="false" />
+		</cover>
+		<menu>
+			<entry title="支付管理" do="pay" state="" direct="false" />
+			<entry title="提现管理" do="withdraw" state="" direct="false" />
+		</menu>
+	</bindings>
+	<install><![CDATA[
+CREATE TABLE IF NOT EXISTS `ims_wdl_pyqqt_pay` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+  `uniacid` int(10) NOT NULL COMMENT '公众号标识',
+  `origin` varchar(255) NOT NULL COMMENT '发起人',
+  `want` varchar(255) NOT NULL COMMENT '支付人',
+  `orderid` int(15) NOT NULL COMMENT '订单号',
+  `price` float NOT NULL COMMENT '支付金额',
+  `add_time` int(10) NOT NULL COMMENT '支付时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='支付记录表';
+CREATE TABLE IF NOT EXISTS `ims_wdl_pyqqt_withdraw` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+  `uniacid` int(10) NOT NULL COMMENT '公众号标识',
+  `openid` varchar(50) NOT NULL COMMENT '提现用户',
+  `money` float NOT NULL COMMENT '提现金额',
+  `discount` float NOT NULL COMMENT '提现手续费折扣',
+  `fee` float NOT NULL COMMENT '手续费',
+  `income` float NOT NULL COMMENT '扣手续费后的收入',
+  `status` tinyint(1) NOT NULL COMMENT '状态（0：提现中，1：已到账，2：已驳回',
+  `pay_type` tinyint(1) DEFAULT NULL COMMENT '提现方式（1：企业付款，2：现金红包）',
+  `ctime` int(10) NOT NULL COMMENT '提现申请时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='提现表';
+]]></install>
+	<uninstall><![CDATA[DROP TABLE IF EXISTS `ims_wdl_pyqqt_pay`;
+DROP TABLE IF EXISTS `ims_wdl_pyqqt_withdraw`;
+]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+</manifest>

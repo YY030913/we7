@@ -1,0 +1,26 @@
+<div class="page">
+	<div class="hd">
+		<div class="list">
+			{loop $orders $order}
+			<a class="item item-avatar" data-pjax href="{php echo $this->createMobileUrl('detail',array('id'=>$order['id']))}">
+				<img src="{$order['user']['avatar']}" alt="{$order['user']['nickname']}" />
+				<h2 class="title">{$order['user']['nickname']}</h2>
+				<p style="white-space: normal;color:gray;">{$order['text']}</p>
+				<span>{$order['create_time']}</span>
+				<p>城市：{$order['city']}</p>
+				{if $order['status'] == 1}
+				<i class="badge badge-assertive" style="margin-top: -10px;">等待中</i>
+				{else}
+				<i class="badge badge-stable" style="margin-top: -10px;">已被抢</i>
+				{/if}
+			</a>
+			{/loop}
+		</div>
+	</div>
+</div>
+<script>
+require(['jquery'],function(){
+	$('#footer').show();
+});
+</script>
+{template 'default/common/share'}

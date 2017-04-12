@@ -1,0 +1,25 @@
+ <div class="form-group">
+                <label class="col-sm-2 control-label">分销订单商品详情</label>
+                <div class="col-sm-9 col-xs-12">
+                	{ifp 'commission.set.edit'}
+                	<label class="radio-inline"><input type="radio"  name="data[openorderdetail]" value="0" {if empty($data['openorderdetail'])} checked="checked"{/if} /> 关闭</label>
+                    <label class="radio-inline"><input type="radio"  name="data[openorderdetail]" value="1" {if $data['openorderdetail'] ==1} checked="checked"{/if} /> 显示</label>
+                    {else}
+                    	{if empty($data['openorderdetail'])}关闭{else}显示{/if}
+                    {/if}
+                    <span class="help-block">分销订单是否显示商品详情</span>
+                </div> 
+           </div>
+	   <div class="form-group">
+                <label class="col-sm-2 control-label">分销订单购买者详情</label>
+                <div class="col-sm-9 col-xs-12">
+                	{ifp 'commission.set.edit'}
+                	<label class="radio-inline"><input type="radio"  name="data[openorderbuyer]" value="0" {if empty($data['openorderbuyer'])} checked="checked"{/if} /> 关闭</label>
+                    <label class="radio-inline"><input type="radio"  name="data[openorderbuyer]" value="1" {if $data['openorderbuyer'] ==1} checked="checked"{/if} /> 显示</label>
+                    {else}
+                    	{if empty($data['openorderbuyer'])}关闭{else}显示{/if}
+                    {/if}
+                    <span class="help-block">分销订单是否显示购买者</span>
+                </div> 
+           </div>
+            

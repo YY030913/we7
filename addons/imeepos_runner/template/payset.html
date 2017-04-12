@@ -1,0 +1,73 @@
+{template 'common/header'}
+{template 'web/template/navs'}
+<div class="panel panel-default" id="app">
+    <div class="panel-heading">
+        提现设置
+    </div>
+    <div class="panel-body">
+        <div class='alert alert-info'>
+            在开启以下支付方式前，请到 <a href='{php echo url('profile/payment')}'>支付选项</a> 去设置好参数。
+        </div>
+        <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" >
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">CERT证书文件</label>
+                <div class="col-sm-9 col-xs-12">
+                    <input type="hidden" name="pay[weixin_cert]" value="{$set['pay']['weixin_cert']}"/>
+                    <input type="file" name="weixin_cert_file" class="form-control" />
+                    <span class="help-block">
+                        {if !empty($set['pay']['weixin_cert'])}
+                            <span class='label label-success'>已上传</span>
+                        {else}
+                            <span class='label label-danger'>未上传</span>
+                        {/if}
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">KEY密钥文件</label>
+                <div class="col-sm-9 col-xs-12">
+                    <input type="hidden" name="pay[weixin_key]" value="{$set['pay']['weixin_key']}"/>
+                    <input type="file" name="weixin_key_file" class="form-control" />
+                    <span class="help-block">
+                        {if !empty($set['pay']['weixin_key'])}
+                            <span class='label label-success'>已上传</span>
+                        {else}
+                            <span class='label label-danger'>未上传</span>
+                        {/if}
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">ROOT文件</label>
+                <div class="col-sm-9 col-xs-12">
+                    <input type="hidden" name="pay[weixin_root]" value="{$set['pay']['weixin_root']}"/>
+                    <input type="file" name="weixin_root_file" class="form-control" />
+                    <span class="help-block">
+                        {if !empty($set['pay']['weixin_root'])}
+                            <span class='label label-success'>已上传</span>
+                        {else}
+                            <span class='label label-danger'>未上传</span>
+                        {/if}
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                <div class="col-sm-9 col-xs-12">
+                    <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1"  />
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    require(['angular'],function(angular){
+        var app = angular.module('app',[]);
+        app.controller('appCtrl',function($scope){
+
+        });
+        angular.bootstrap($('app'),['app']);
+    });
+</script>
+{template 'common/footer'}

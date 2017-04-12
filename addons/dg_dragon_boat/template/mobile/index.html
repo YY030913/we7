@@ -1,0 +1,184 @@
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta charset="utf-8">
+<link rel="stylesheet" href="{MODULE_URL}resource/css/style.css" />
+<script type="text/javascript" src="{MODULE_URL}resource/js/jquery-2.1.4.min.js" ></script>
+{php echo register_jssdk();}
+<title>端午节赛龙舟</title>
+</head>
+<body>
+<div class="content">
+<div class="main">
+	<!--我要参赛-->
+	<div class="home">
+		<div class="zhongzi"></div>
+		<div class="txt"></div>
+		<div class="yeziL"></div>
+		<div class="yeziR"></div>
+		<div class="guang"></div>
+		{if $istomy==0}
+			<div class="btn join" id="my">
+			<h2>我的龙舟</h2>
+       		<p>共有  {$playerNum}  艘龙舟</p>
+       		</div>
+       	{/if}
+      	{if $istomy==1}
+      		<div class="btn join"  id="go">
+       		<h2>我要参赛</h2>
+       		<p>共有  {$playerNum}  艘龙舟</p>
+       		</div>
+      	{/if}
+		<div class="activity"><span>活动介绍</span></div>
+	</div>
+	<!--选龙舟-->
+	<div class="xuanLongzhou">
+		<h2>选择龙舟</h2>
+		<ul id="lzul">
+			<li class="active">
+				<img src="{MODULE_URL}resource/images/ql.png" height="100%">
+				<span><i></i></span>
+			</li>
+			<li>
+				<img src="{MODULE_URL}resource/images/tlz.png" height="100%">
+				<span><i></i></span>
+			</li>
+			<li>
+				<img src="{MODULE_URL}resource/images/hl.png" height="100%">
+				<span><i></i></span>
+			</li>
+		</ul>
+       	<div class="btn" onclick="begin()"><a href="javaScript:;">开始赛龙舟</a></div>
+	</div>
+</div>
+
+</div>
+<div class="copyright"><a href="{$qylink}" class="logo" style="background-image:url(http://{$_SERVER['HTTP_HOST']}/attachment/{$qylogo})">{$qyname}</a></div>
+
+<!--广告-->
+<div class="homeAd">
+	<div class="close"></div>
+	<a href="{$gglink}"><img src="http://{$_SERVER['HTTP_HOST']}/attachment/{$ggimg}" width="100%" height="100%" ></a>
+</div>
+
+<!--完善信息-->
+<div class="imInfo" style="display:none;" id="imInfo">
+	<div class="box">
+		<h2>完善个人信息</h2>
+		<div class="txt">联系信息作为活动获奖后领奖凭证。请据实填写！</div>
+		<ul>
+			<li><input type="text" placeholder="请输入姓名" id="name"></li>
+			<li style=" margin-top:10px;"><input type="tel" placeholder="请输入手机号码" id="phone"></li>
+		</ul>
+		<div class="btn"><a href="javascript:;" onclick="setuserinfo()">填写完毕，赛龙舟去</a></div>
+	</div>
+</div>
+
+<!--活动介绍 start-->
+<div class="popup" style="display:none ;">
+	<div class="bg"></div>
+	<div class="pcontent">
+		<div class="tit f16">
+			<div class="close fr"></div>
+			<h2 class="f16">活动介绍</h2>
+		</div>
+		<div class="txtBox">
+		   {$gamegzjp}
+		</div>
+	</div>
+</div>
+
+<!--活动介绍 end-->
+
+<script>
+	$(function(){
+		
+		//弹出广告关闭
+		$(".homeAd .close").click(function(){
+			$(".homeAd").hide(0);
+		})
+		
+		setTimeout(function(){
+			$(".homeAd").hide(0);
+		},5000)
+		
+		//我要参赛
+		$("#go").click(function(){
+			var iscaiji="{$iscaiji}";
+			if(iscaiji==1){
+				$("#imInfo").show();
+			}else{
+				$(".main").addClass("active");
+			}
+		})
+		//我的龙舟
+		$("#my").click(function(){
+			var url="<?php echo $this->createMobileUrl('boating') ?>&rid={$rid}&boatIndex={$boatIndex}";
+			window.location.href=url;
+		})
+		//活动规则
+		$(".activity span").click(function(){
+			$(".popup").show(0);
+		})
+		$(".popup .close").click(function(){
+			$(".popup").hide(0);
+		})
+		
+		//选择龙舟
+		$(".xuanLongzhou ul li").click(function(){
+			$(this).addClass("active").siblings().removeClass("active");
+		})
+	})
+	function begin(){
+		 var index=0;
+		 var liarr=document.getElementById("lzul").getElementsByTagName("li");
+		 for(var i=0;i<liarr.length;i++){
+			 if(liarr[i].getAttribute("class")=="active"){
+				 index=i;
+			 }
+		 }
+		 var url="{php echo $this->createMobileUrl('boating',array('isbegin'=>0))}";
+		 var rid='{$rid}';
+		 window.location.href = url+'&rid='+rid+'&boatIndex='+(index+1);
+	}
+	//信息采集
+	function setuserinfo(){
+		var name=$("#name").val();
+		var phone=$("#phone").val();
+		var reg = /^0?1[3|4|5|8][0-9]\d{8}$/;
+		if (reg.test(phone)) {
+			$("#phone").removeClass("error");
+			$.ajax({ type:'post',
+				 data:{'name':name, 'phone':phone,"rid":{$rid}}, 
+				 url:"{php echo $this->createMobileUrl('userinfo')}",
+				 dataType:'json',
+				 success:function(data){
+				 	if(data.sucess == 1){
+				 		$("#imInfo").hide();
+				 		$(".main").addClass("active");
+				 	}
+					else{
+						alert('信息录入失败');
+					}
+				}
+			})
+		}else{
+			$("#phone").addClass("error");
+		}
+	}
+	//分享
+	wx.ready(function(){
+	   sharedata = {
+	       title: "{$sharetitle} ",
+	       desc: "{$sharecontent}",
+	       link: "{$sharelink}",
+	       imgUrl: "{$shareimg}"
+		}; 
+		wx.onMenuShareAppMessage(sharedata);//分享给朋友
+		wx.onMenuShareTimeline(sharedata);//分享到朋友圈
+		wx.hideOptionMenu();//显示右上角按钮
+	});
+</script>
+</body>
+</html>

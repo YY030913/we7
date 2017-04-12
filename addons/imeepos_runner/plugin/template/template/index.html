@@ -1,0 +1,124 @@
+{template 'common/header'}
+{template 'plugin/navs'}
+<style>
+	.template .item{position:relative;display:block;float:left;border:1px #ddd solid;border-radius:5px;background-color:#fff;padding:5px;width:190px;margin:0 20px 20px 0; overflow:hidden;}
+	.template .title{margin:5px auto;line-height:2em;}
+	.template .title a{text-decoration:none;}
+	.template .item img{width:178px;height:270px; cursor:pointer;}
+	.template .active.item-style img, .template .item-style:hover img{width:178px;height:270px;border:3px #009cd6 solid;padding:1px; }
+	.template .title .fa{display:none}
+	.template .active .fa.fa-check{display:inline-block;position:absolute;bottom:33px;right:6px;color:#FFF;background:#009CD6;padding:5px;font-size:14px;border-radius:0 0 6px 0;}
+	.template .fa.fa-times{cursor:pointer;display:inline-block;position:absolute;top:10px;right:6px;color:#D9534F;background:#ffffff;padding:5px;font-size:14px;text-decoration:none;}
+	.template .fa.fa-times:hover{color:red;}
+	.template .item-bg{width:100%; height:342px; background:#000; position:absolute; z-index:1; opacity:0.5; margin:-5px 0 0 -5px;}
+	.template .item-build-div1{position:absolute; z-index:2; margin:-5px 10px 0 5px; width:168px;}
+	.template .item-build-div2{text-align:center; line-height:30px; padding-top:150px;}
+</style>
+<div class="clearfix template" ng-controller="appCtrl" id="app">
+
+{template 'tpl/addTemplateModel'}
+{template 'tpl/editTemplateModel'}
+
+<div class="panel panel-default" >
+	<div class="panel-heading">
+		模板管理
+	</div>
+	<div class="panel-body">
+		<div ng-repeat="it in items" class="item item-style">
+			<div class="title">
+				<div style="overflow:hidden; height:28px;">{{it.title}}</div>
+				<a href="">
+					<img ng-src="{{it.image}}"/>
+				</a>
+			</div>
+			<div class="btn-group  btn-group-justified">
+				<a ng-click="edit(it)" class="btn btn-default btn-xs">设计风格</a>
+				<a ng-click="copy(it)" class="btn btn-default btn-xs">复制风格</a>
+				<a ng-click="del(it)" class="btn btn-default btn-xs">删除</a>
+			</div>
+		</div>
+	</div>
+	
+	<div class="panel-footer">
+		<button class="btn btn-default" ng-click="addItem(item)">新增模板</button>
+	</div>
+</div>
+</div>
+<script src="{MODULE_URL}public/libs/angular.min.js"></script>
+<script>
+var app = angular.module('app',[]);
+
+var url = "{php echo $this->createWebUrl('plugin',array('mp'=>'template','mdo'=>'template'))}";
+var addurl = "{php echo $this->createWebUrl('plugin',array('mp'=>'template','mdo'=>'template','mact'=>'add'))}";
+var deleteurl = "{php echo $this->createWebUrl('plugin',array('mp'=>'template','mdo'=>'template','mact'=>'delete'))}";
+
+app.controller('appCtrl',function($scope,$http){
+	$scope.items = {php echo json_encode($items)};
+	$scope.item = {php echo json_encode($edit)};
+	
+	$scope.showImageDialog = function(item){
+		item.image = item.image || '';
+		require(['jquery', 'util'], function($, util) {
+			util.image('', function(data) {
+				item.image = data['url'];
+				$http.post(url,item).success(function(data){});
+			});
+		});
+	}
+	$scope.copy = function(it){
+		$scope.item = it;
+		$('#user').show();
+	}
+	
+	$scope.edit = function(it){
+		if(it.code == 'default'){
+			$scope.item = it;
+			$('#edit').show();
+		}else{
+			window.location.href = "{php echo $this->createWebUrl('plugin',array('mp'=>'template','mdo'=>'design'))}&code="+it.code;
+		}
+	}
+	
+	$scope.del = function(it){
+		if(confirm('您确定要删除这个模板么？')){
+			$http.post(deleteurl,it).success(function(){
+				angular.forEach($scope.items,function(item,index,items){
+					if(item.code == it.code){
+						$scope.items.splice(index,1);
+					}
+				});
+			});
+		}
+	}
+	
+	$scope.addItem = function(){
+		$scope.item = $scope.item || {title:'',code:'',image:''};
+		$('#user').show();
+	}
+	
+	$scope.closeModel = function(){
+		$('.modal').hide();
+	}
+	
+	$scope.postData = function(item){
+		$http.post(addurl,item).success(function(data){
+			var isedit = false;
+			angular.forEach($scope.items,function(i,index){
+				var item = data.data;
+				if(item.code = i.code){
+					$scope.items[index] = item;
+					isedit = true;
+				}
+			});
+			if(!isedit){
+				$scope.items = $scope.items.concat(data.data);
+			}
+			$scope.closeModel();
+		});
+	}
+});
+
+angular.bootstrap($('#app'),['app']);
+</script>
+
+{template 'common/footer'}

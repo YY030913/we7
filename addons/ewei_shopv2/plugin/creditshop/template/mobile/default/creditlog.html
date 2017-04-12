@@ -1,0 +1,63 @@
+{template '_header'}
+<link rel="stylesheet" href="../addons/ewei_shopv2/plugin/creditshop/template/mobile/default/images/common.css" />
+<div class='fui-page fui-page-current creditshop-creditlog-page'>
+		<div class="fui-header">
+				<div class="fui-header-left">
+						<a class="back"></a>
+				</div>
+				<div class="title">我的{$_W['shopset']['trade']['credittext']}</div>
+				<div class="fui-header-right"></div>
+		</div>
+		
+		<div class='fui-content navbar'>
+			<div class="fui-cell-group">
+				<div class="fui-cell">
+					<div class="fui-cell-icon"><i class="icon icon-jifen"></i></div>
+					<div class="fui-cell-text"><p>我的{$_W['shopset']['trade']['credittext']}: {$credit}</p></div>
+					 {if !empty($this->set['crediturl'])}
+					 	<a href="{php echo $this->set['crediturl']}" class="external">
+					 		<div class="fui-cell-remark">{$_W['shopset']['trade']['credittext']}说明</div>
+					 	</a>
+					{/if}
+		 	 	</div>
+			 </div>
+		 
+		 	<div class="fui-message fui-message-popup in content-empty" style="display: none; margin: 0; padding: 0; position: relative;">
+				<div class="icon ">
+					<i class="icon icon-information"></i>
+				</div>
+				<div class="content">未找到{$_W['shopset']['trade']['credittext']}记录~</div>
+			</div>
+		
+			<div class="fui-list-group noborder nomargin container"></div>
+	    	<div class='infinite-loading' style="text-align: center; color: #666;">
+	    		<span class='fui-preloader'></span>
+	    		<span class='text'> 正在加载...</span>
+	    	</div>			
+		</div>
+		<script id='tpl_creditshop_creditlog_list' type='text/html'>
+				<%each list as item%>
+						<div class="fui-list">
+								<div class="fui-list-inner">
+										<div class="title">
+												<%if item.type==1%>
+														<span class="fui-label fui-label-danger">抽奖</span>
+												<%else%>
+														<span class="fui-label fui-label-warning">兑换</span>
+												<%/if%>
+												<%item.title%>
+										</div>
+										<div class="subtitle"><%item.createtime%></div>
+								</div>
+								<div class="fui-list-angle text-danger">-<%item.credit%></div>
+						</div>
+				<%/each%>
+		</script>
+		<script language="javascript">
+		require(['../addons/ewei_shopv2/plugin/creditshop/static/js/creditlog.js'],function(modal){
+			modal.init();
+		});
+	</script>
+</div>
+{php $this->footerMenus()}
+{template '_footer'}

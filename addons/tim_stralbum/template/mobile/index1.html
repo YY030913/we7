@@ -1,0 +1,89 @@
+<!doctype html>
+<html>11
+<head>
+    <meta http-equiv="Content-Type" content="text/html">
+    <meta name="viewport"
+          content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="format-detection" content="telephone=no">
+    <meta charset="utf-8">
+    <meta name="Author" content="xinsw"/>
+    <title></title>
+    <link rel="stylesheet" href="../addons/tim_stralbum/style/style.css">
+    <link rel="apple-touch-icon" href="../addons/tim_stralbum/style/image/logo.png"/>
+    <link rel="shortcut icon" href="../addons/tim_stralbum/style/image/logo.png"/>
+</head>
+<body>
+<div id="page">
+    <div id="page_start" class="pagemode">
+        <img class="logo_image" src="../addons/tim_stralbum/style/image/logo.png">
+
+        <div class="site_cn_title"><span>微相册</span></div>
+        <div class="site_en_title"><span>THE CLOUD SHADOW</span></div>
+        <div class="site_sub_title"><span>个性化手机相册</span></div>
+    </div>
+
+</div>
+<div id="load_area" class="fixed">
+    <div class="load_bg_area"><img class="load_image" src="../addons/tim_stralbum/style/image/loading.png"/>&nbsp;&nbsp;努力加载中...</div>
+</div>
+<div id="info_dialog_outer" class="fixed"></div>
+<!--菜单 -->
+<div class="menu_button fixed display_none" style="z-index: 21; line-height: 2.5em;"><span>菜单</span></div>
+<div class="menu_button fixed display_none"><img src="../addons/tim_stralbum/style/image/icon0.png"/>
+
+    <div class="menu_text"><span>主页</span></div>
+</div>
+<div class="menu_button fixed display_none"><img src="../addons/tim_stralbum/style/image/icon1.png"/>
+
+    <div class="menu_text"><span>播放</span></div>
+</div>
+<div class="menu_button fixed display_none"><img src="../addons/tim_stralbum/style/image/icon2.png"/>
+    <div class="menu_text"><span>下载</span></div>
+</div>
+<div class="menu_button fixed display_none"><img src="../addons/tim_stralbum/style/image/icon3.png"/>
+
+    <div class="menu_text"><span>更多</span></div>
+</div>
+
+<!--更多 -->
+<div id="menu_more_outer" class="fixed">
+    <div id="menu_more_left"></div>
+    <div id="menu_more_content">
+        <div class="menu_more_bg"></div>
+    </div>
+</div>
+
+<!--分享-->
+<div id="share_outer" class="fixed">
+    <div class="share_bg"></div>
+    <div class="share_inner">
+        <div class="share_title"><span>分享</span></div>
+        <div class="share_type_outer"></div>
+        <div class="share_cancel_outer">
+            <div class="share_cancel"><span>取消</span></div>
+        </div>
+    </div>
+</div>
+<audio id="myaudio" loop style="display: none;" src=""></audio>
+<script>
+	var mydata = {
+		host: "{$_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&m=tim_stralbum",
+	};
+</script>
+<script src="../addons/tim_stralbum/style/config.js"></script>
+<script>
+    var myApp = {    //single page 全局变量
+        appName: "",
+        titleName:"",
+        downloadurl:""
+    };
+
+    seajs.use("../addons/tim_stralbum/style/script/app/index/enter", function (enter) {
+        document.getElementsByTagName("title")[0].innerText=company_name;
+        enter.init()
+    });
+</script>
+</body>
+</html>
